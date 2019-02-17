@@ -6,14 +6,22 @@
 class TableModel : public QAbstractTableModel
 {
     Q_OBJECT
+    enum ColumnNames {
+        Date = Qt::DisplayRole,
+        BankIncome,
+        CashIncome,
+        BankExpenses,
+        CashExpenses,
+        Observations
+    };
     void init();
-    QString computeActualAmount(const QString &amount, int currencyIndex,
-                                const QString &rate);
+    QString computeActualAmount(qreal amount, int currencyIndex, qreal rate);
     const QStringList _tableHeader;
     QStringList _typeModel;
     const QStringList _currencyModel;
     const QString _fileName;
     QList<QStringList> _readData;
+    Q_PROPERTY(QStringList tableHeader MEMBER _tableHeader CONSTANT)
     Q_PROPERTY(QStringList currencyModel MEMBER _currencyModel CONSTANT)
     Q_PROPERTY(QStringList typeModel MEMBER _typeModel CONSTANT)
 public:
@@ -25,9 +33,7 @@ public:
         return _tableHeader.size();
     }
     QVariant data(const QModelIndex &index, int role) const override;
-    QHash<int, QByteArray> roleNames() const override {
-        return { { Qt::DisplayRole, "display" } };
-    }
-    Q_INVOKABLE bool add(const QString &date, int typeIndex, const QString &amount,
-                         int currencyIndex, const QString &rate, const QString &obs);
+    QHash<int, QByteArray> roleNames() const override;
+    Q_INVOKABLE bool add(const QString &date, int typeIndex, qreal amount,
+                         int currencyIndex, qreal rate, const QString &obs);
 };

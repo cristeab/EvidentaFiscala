@@ -143,8 +143,11 @@ ApplicationWindow {
                 obsField.focus = true
                 return
             }
-            if (tableModel.add(dateField.text, typeCombo.currentIndex, amountField.text,
-                           currencyCombo.currentIndex, rateField.text, obsField.text)) {
+            var locale = Qt.locale()
+            var amount = Number.fromLocaleString(locale, amountField.text)
+            var rate = Number.fromLocaleString(locale, rateField.text)
+            if (tableModel.add(dateField.text, typeCombo.currentIndex, amount,
+                           currencyCombo.currentIndex, rate, obsField.text)) {
                 dateField.text = ""
                 typeCombo.currentIndex = 0
                 amountField.text = ""
@@ -158,6 +161,7 @@ ApplicationWindow {
     }
 
     TableView {
+        id: tableView
         anchors {
             top: okButton.bottom
             topMargin: props.verticalMargin
@@ -169,11 +173,38 @@ ApplicationWindow {
             bottomMargin: props.verticalMargin
         }
         model: tableModel
-        delegate: Rectangle {
-            implicitWidth: 100
-            implicitHeight: 50
-            Text {
-                text: display
+        delegate: Row {
+            id: tableRow
+            readonly property var modelName: [date, bankIncome, cashIncome,
+                                              bankExpenses, cashExpenses, observations]
+            Repeater {
+                model: tableModel.tableHeader.length
+                delegate: Label {
+                    id: rowLabel
+                    width: tableView.width/tableModel.tableHeader.length
+                    text: tableRow.modelName[index]
+                    elide: Text.ElideRight
+                    clip: true
+                    MouseArea {
+                        anchors.fill: parent
+                        hoverEnabled: true
+                        onEntered: {
+                            if (rowLabel.truncated) {
+                                rowLabelTooltip.visible = true
+                            }
+                        }
+                        onExited: {
+                            if (rowLabel.truncated) {
+                                rowLabelTooltip.visible = false
+                            }
+                        }
+                    }
+                    ToolTip {
+                        id: rowLabelTooltip
+                        visible: false
+                        text: rowLabel.text
+                    }
+                }
             }
         }
     }
