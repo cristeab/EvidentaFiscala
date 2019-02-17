@@ -53,8 +53,7 @@ ApplicationWindow {
             left: dateField.right
             leftMargin: props.horizontalMargin
         }
-        model: ["Venituri prin Banca", "Venituri Lichide", "Cheltuieli prin Banca",
-            "Cheltuieli Lichide"]
+        model: tableModel.typeModel
         currentIndex: 0
     }
 
@@ -80,7 +79,7 @@ ApplicationWindow {
             left: amountField.right
             leftMargin: props.horizontalMargin
         }
-        model: ["RON", "$", "EUR"]
+        model: tableModel.currencyModel
         currentIndex: 0
     }
 
@@ -116,7 +115,7 @@ ApplicationWindow {
 
     Button {
         id: okButton
-        text: qsTr("OK")
+        text: qsTr("ADD")
         anchors {
             top: obsField.bottom
             topMargin: props.verticalMargin
@@ -136,6 +135,18 @@ ApplicationWindow {
             if (rateField.visible && ("" === rateField.text)) {
                 errMsg.show(qsTr("Rata de schimb trebuie specificata"))
                 rateField.focus = true
+                return
+            }
+            if (!tableModel.add(dateField.text, typeCombo.currentIndex, amountField.text,
+                           currencyCombo.currentIndex, rateField.text, obsField.text)) {
+                dateField.text = ""
+                typeCombo.currentIndex = 0
+                amountField.text = ""
+                currencyCombo.currentIndex = 0
+                rateField.text = ""
+                obsField.text = ""
+            } else {
+                errMsg.show(qsTr("Cannot add row"))
             }
         }
     }
@@ -150,6 +161,14 @@ ApplicationWindow {
             rightMargin: props.horizontalMargin
             bottom: parent.bottom
             bottomMargin: props.verticalMargin
+        }
+        model: tableModel
+        delegate: Rectangle {
+            implicitWidth: 100
+            implicitHeight: 50
+            Text {
+                text: display
+            }
         }
     }
 
