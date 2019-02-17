@@ -19,8 +19,9 @@ class TableModel : public QAbstractTableModel
     const QStringList _tableHeader;
     QStringList _typeModel;
     const QStringList _currencyModel;
-    const QString _fileName;
+    QString _fileName;
     QList<QStringList> _readData;
+    const QString _csvSeparator;
     Q_PROPERTY(QStringList tableHeader MEMBER _tableHeader CONSTANT)
     Q_PROPERTY(QStringList currencyModel MEMBER _currencyModel CONSTANT)
     Q_PROPERTY(QStringList typeModel MEMBER _typeModel CONSTANT)

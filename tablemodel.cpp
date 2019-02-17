@@ -7,15 +7,18 @@
 #include <QFile>
 #include <QTimer>
 #include <QDebug>
+#include <QDate>
 
 TableModel::TableModel() : _tableHeader({"Data", "Venituri prin Banca", "Venituri Lichide",
                                         "Cheltuieli prin Banca", "Cheltuieli Lichide",
                                         "Observatii"}),
                            _currencyModel({"RON", "$", "EUR"}),
-                           _fileName(QStandardPaths::writableLocation(QStandardPaths::DocumentsLocation) + "/PFA/ledger_pfa_2019.csv")
+                           _csvSeparator(QString(";"))
 {
     setObjectName("tableModel");
     _typeModel = _tableHeader.mid(1, 4);
+    _fileName = QStandardPaths::writableLocation(QStandardPaths::DocumentsLocation) +
+            QString("/PFA/ledger_pfa_%1.csv").arg(QDate::currentDate().year());
     QTimer::singleShot(0, this, &TableModel::init);
 }
 
@@ -24,10 +27,10 @@ void TableModel::init()
     if (!QFile::exists(_fileName)) {
         QtCSV::StringData strData;
         strData.addRow(_tableHeader);
-        QtCSV::Writer::write(_fileName, strData);
+        QtCSV::Writer::write(_fileName, strData, _csvSeparator);
     }
     emit layoutAboutToBeChanged();
-    _readData = QtCSV::Reader::readToList(_fileName);
+    _readData = QtCSV::Reader::readToList(_fileName, _csvSeparator);
     if (!_readData.isEmpty() && (_readData.at(0).size() != _tableHeader.size())) {
         qCritical() << "Number of columns don't match expected format";
         _readData.clear();
@@ -106,7 +109,7 @@ bool TableModel::add(const QString &date, int typeIndex, qreal amount,
     row << obs + obsSuffix;
     QtCSV::StringData strData;
     strData.addRow(row);
-    const bool rc = QtCSV::Writer::write(_fileName, strData, QString(","), QString("\""),
+    const bool rc = QtCSV::Writer::write(_fileName, strData, _csvSeparator, QString("\""),
                                 QtCSV::Writer::APPEND);
     if (rc) {
         emit layoutAboutToBeChanged();
