@@ -33,6 +33,24 @@ void TableModel::init()
     }
 }
 
+QString TableModel::computeActualAmount(const QString &amount, int currencyIndex,
+                            const QString &rate)
+{
+    QString out;
+    if (0 != currencyIndex) {
+        bool ok = false;
+        const double actualAmount = amount.toDouble(&ok) * rate.toDouble(&ok);
+        if (ok) {
+            out = _currencyModel.at(0) + "\t" + QString::number(actualAmount, 'f', 2);
+        } else {
+            qCritical() << "Cannot convert to" << _typeModel.at(0);
+        }
+    } else {
+        out = _currencyModel.at(0) + "\t" + amount;
+    }
+    return out;
+}
+
 QVariant TableModel::data(const QModelIndex &index, int /*role*/) const
 {
     const int row = index.row();
@@ -54,31 +72,20 @@ bool TableModel::add(const QString &date, int typeIndex, const QString &amount,
     row << date;
     for (int i = 0; i < _typeModel.size(); ++i) {
         if (typeIndex == i) {
-            //compute actual amount
-            if (0 != currencyIndex) {
-                bool ok = false;
-                const double actualAmount = amount.toDouble(&ok) * rate.toDouble(&ok);
-                if (ok) {
-                    row << _typeModel.at(0) + "\t" + QString::number(actualAmount, 'f', 2);
-                } else {
-                    qCritical() << "Cannot convert to" << _typeModel.at(0);
-                    row << "";
-                }
-            } else {
-                row << _typeModel.at(0) + "\t" + amount;
-            }
+            row << computeActualAmount(amount, currencyIndex, rate);
         } else {
             row << "";
         }
     }
     QString obsSuffix;
     if (0 != currencyIndex) {
-        obsSuffix = QString(" (%1 = %2").arg(_typeModel.at(currencyIndex)).arg(_typeModel.at(0));
+        obsSuffix = QString(" (%1 = %2").arg(_currencyModel.at(currencyIndex)).arg(rate);
     }
     row << obs + obsSuffix;
     qDebug() << "Inserting" << row;
     QtCSV::StringData strData;
     strData.addRow(row);
+    qDebug() << "Writing" << _fileName;
     return QtCSV::Writer::write(_fileName, strData, QString(","), QString("\""),
                                 QtCSV::Writer::APPEND);
 }

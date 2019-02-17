@@ -33,6 +33,7 @@ ApplicationWindow {
     }
     Old.Calendar {
         id: calendar
+        z: 10
         visible: false
         anchors {
             top: dateField.bottom
@@ -137,7 +138,12 @@ ApplicationWindow {
                 rateField.focus = true
                 return
             }
-            if (!tableModel.add(dateField.text, typeCombo.currentIndex, amountField.text,
+            if ("" === obsField.text) {
+                errMsg.show(qsTr("Observatiile trebuie specificate"))
+                obsField.focus = true
+                return
+            }
+            if (tableModel.add(dateField.text, typeCombo.currentIndex, amountField.text,
                            currencyCombo.currentIndex, rateField.text, obsField.text)) {
                 dateField.text = ""
                 typeCombo.currentIndex = 0

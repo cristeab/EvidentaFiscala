@@ -7,6 +7,8 @@ class TableModel : public QAbstractTableModel
 {
     Q_OBJECT
     void init();
+    QString computeActualAmount(const QString &amount, int currencyIndex,
+                                const QString &rate);
     const QStringList _tableHeader;
     QStringList _typeModel;
     const QStringList _currencyModel;
