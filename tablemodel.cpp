@@ -53,7 +53,7 @@ QString TableModel::computeActualAmount(qreal amount, int currencyIndex, qreal r
 
 QString TableModel::toString(qreal num)
 {
-    return QLocale().toString(num, 'f', 2);
+    return QLocale().toString(num, 'f', 4);
 }
 
 QVariant TableModel::data(const QModelIndex &index, int role) const

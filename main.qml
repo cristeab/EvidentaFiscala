@@ -68,7 +68,7 @@ ApplicationWindow {
         horizontalAlignment: Text.AlignHCenter
         placeholderText: qsTr("Suma")
         validator: DoubleValidator {
-            decimals: 2
+            decimals: 4
             notation: DoubleValidator.StandardNotation
         }
     }
@@ -95,7 +95,7 @@ ApplicationWindow {
         horizontalAlignment: Text.AlignHCenter
         placeholderText: qsTr("Rata de Schimb")
         validator: DoubleValidator {
-            decimals: 2
+            decimals: 4
             notation: DoubleValidator.StandardNotation
         }
     }
