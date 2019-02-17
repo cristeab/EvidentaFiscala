@@ -16,6 +16,7 @@ class TableModel : public QAbstractTableModel
     };
     void init();
     QString computeActualAmount(qreal amount, int currencyIndex, qreal rate);
+    QString toString(qreal num);
     const QStringList _tableHeader;
     QStringList _typeModel;
     const QStringList _currencyModel;

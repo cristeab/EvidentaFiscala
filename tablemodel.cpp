@@ -44,7 +44,12 @@ QString TableModel::computeActualAmount(qreal amount, int currencyIndex, qreal r
     if (0 != currencyIndex) {
         actualAmount *= rate;
     }
-    return QString::number(actualAmount, 'f', 2) + " " + _currencyModel.at(0);
+    return toString(actualAmount) + " " + _currencyModel.at(0);
+}
+
+QString TableModel::toString(qreal num)
+{
+    return QLocale().toString(num, 'f', 2);
 }
 
 QVariant TableModel::data(const QModelIndex &index, int role) const
@@ -104,7 +109,7 @@ bool TableModel::add(const QString &date, int typeIndex, qreal amount,
     }
     QString obsSuffix;
     if (0 != currencyIndex) {
-        obsSuffix = QString(" (1%1 = %2 %3)").arg(_currencyModel.at(currencyIndex)).arg(QString::number(rate, 'f', 2)).arg(_currencyModel.at(0));
+        obsSuffix = QString(" (1%1 = %2 %3)").arg(_currencyModel.at(currencyIndex)).arg(toString(rate)).arg(_currencyModel.at(0));
     }
     row << obs + obsSuffix;
     QtCSV::StringData strData;
