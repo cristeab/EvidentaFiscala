@@ -15,6 +15,13 @@ link_directories(${PROJECT_SOURCE_DIR}/../qtcsv_install/lib)
 
 file(GLOB SRCS *.cpp)
 
-add_executable(${PROJECT_NAME} "${SRCS}" "qml.qrc")
+add_executable(${PROJECT_NAME} MACOSX_BUNDLE "${SRCS}" "qml.qrc"
+    "${CMAKE_SOURCE_DIR}/img/${PROJECT_NAME}.icns")
 target_compile_definitions(${PROJECT_NAME} PRIVATE $<$<OR:$<CONFIG:Debug>,$<CONFIG:RelWithDebInfo>>:QT_QML_DEBUG>)
 target_link_libraries(${PROJECT_NAME} PRIVATE Qt5::Core Qt5::Quick -lqtcsv)
+
+if (CMAKE_BUILD_TYPE MATCHES "^[Rr]elease")
+    add_definitions(-DRELEASE_FOLDER)
+    add_custom_target(pack COMMAND ${CMAKE_PREFIX_PATH}/bin/macdeployqt ${CMAKE_PROJECT_NAME}.app -qmldir=${CMAKE_SOURCE_DIR} -no-strip -dmg)
+    include(CPack)
+endif()

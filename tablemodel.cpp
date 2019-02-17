@@ -17,8 +17,12 @@ TableModel::TableModel() : _tableHeader({"Data", "Venituri prin Banca", "Venitur
 {
     setObjectName("tableModel");
     _typeModel = _tableHeader.mid(1, 4);
+#ifdef RELEASE_FOLDER
     _fileName = QStandardPaths::writableLocation(QStandardPaths::DocumentsLocation) +
             QString("/PFA/ledger_pfa_%1.csv").arg(QDate::currentDate().year());
+#else
+    _fileName = QString("ledger_pfa_%1.csv").arg(QDate::currentDate().year());
+#endif
     QTimer::singleShot(0, this, &TableModel::init);
 }
 
