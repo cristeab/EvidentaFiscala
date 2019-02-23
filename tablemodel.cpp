@@ -8,10 +8,11 @@
 #include <QTimer>
 #include <QDebug>
 #include <QDate>
+#include <QCoreApplication>
 
 TableModel::TableModel() : _tableHeader({"Data", "Venituri prin Banca", "Venituri Lichide",
                                         "Cheltuieli prin Banca", "Cheltuieli Lichide",
-                                        "Observatii"}),
+                                        "Numar Factura", "Observatii"}),
                            _currencyModel({"RON", "$", "EUR"}),
                            _csvSeparator(QString(";"))
 {
@@ -21,7 +22,7 @@ TableModel::TableModel() : _tableHeader({"Data", "Venituri prin Banca", "Venitur
     _fileName = QStandardPaths::writableLocation(QStandardPaths::DocumentsLocation) +
             QString("/PFA/ledger_pfa_%1.csv").arg(QDate::currentDate().year());
 #else
-    _fileName = QString("ledger_pfa_%1.csv").arg(QDate::currentDate().year());
+    _fileName = qApp->applicationDirPath() + QString("/ledger_pfa_%1.csv").arg(QDate::currentDate().year());
 #endif
     QTimer::singleShot(0, this, &TableModel::init);
 }
@@ -31,12 +32,17 @@ void TableModel::init()
     if (!QFile::exists(_fileName)) {
         QtCSV::StringData strData;
         strData.addRow(_tableHeader);
-        QtCSV::Writer::write(_fileName, strData, _csvSeparator);
+        if (!QtCSV::Writer::write(_fileName, strData, _csvSeparator)) {
+            qCritical() << "Cannot create file";
+            emit error("Fisierul CSV nu poate fi creat", true);
+            return;
+        }
     }
     emit layoutAboutToBeChanged();
     _readData = QtCSV::Reader::readToList(_fileName, _csvSeparator);
     if (!_readData.isEmpty() && (_readData.at(0).size() != _tableHeader.size())) {
         qCritical() << "Number of columns don't match expected format";
+        emit error("Fisierul CSV are un numar de coloane diferit de cel asteptat", true);
         _readData.clear();
     }
     emit layoutChanged();
@@ -96,6 +102,7 @@ QHash<int, QByteArray> TableModel::roleNames() const
              { TableModel::CashIncome, "cashIncome" },
              { TableModel::BankExpenses, "bankExpenses" },
              { TableModel::CashExpenses, "cashExpenses" },
+             { TableModel::InvoiceNumber, "invoiceNumber" },
              { TableModel::Observations, "observations" } };
 }
 
@@ -111,9 +118,20 @@ bool TableModel::add(const QString &date, int typeIndex, qreal amount,
             row << "";
         }
     }
+    //generate invoice number
+    if (0 != currencyIndex) {
+        //2 invoice numbers (ro and en)
+        row << QString("%1, %2").arg(_invoiceNumber + 1, _invoiceNumber + 2);
+        _invoiceNumber += 2;
+    } else {
+        //1 invoice number
+        row << QString("%1").arg(_invoiceNumber + 1);
+        _invoiceNumber += 1;
+    }
+    //observations
     QString obsSuffix;
     if (0 != currencyIndex) {
-        obsSuffix = QString(" (1%1 = %2 %3)").arg(_currencyModel.at(currencyIndex)).arg(toString(rate)).arg(_currencyModel.at(0));
+        obsSuffix = QString("%1 @ 1%2 = %3 %4)").arg(amount).arg(_currencyModel.at(currencyIndex)).arg(toString(rate)).arg(_currencyModel.at(0));
     }
     row << obs + obsSuffix;
     QtCSV::StringData strData;
@@ -126,4 +144,22 @@ bool TableModel::add(const QString &date, int typeIndex, qreal amount,
         emit layoutChanged();
     }
     return rc;
+}
+
+void TableModel::initInvoiceNumber()
+{
+    for (const auto &row: _readData) {
+        const int rowLen = row.size();
+        if ((rowLen == _tableHeader.size()) && (2 < rowLen)) {
+            const QString invNo = row.at(rowLen-2);
+            const auto tok = invNo.split(",");
+            bool ok = false;
+            for (int n = 0; n < tok.size(); ++n) {
+                const uint32_t curInvNo = tok.at(n).toUInt(&ok);
+                if (ok && curInvNo > _invoiceNumber) {
+                    _invoiceNumber = curInvNo;
+                }
+            }
+        }
+    }
 }

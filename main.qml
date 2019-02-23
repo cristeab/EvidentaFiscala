@@ -176,7 +176,8 @@ ApplicationWindow {
         delegate: Row {
             id: tableRow
             readonly property var modelName: [date, bankIncome, cashIncome,
-                                              bankExpenses, cashExpenses, observations]
+                                              bankExpenses, cashExpenses,
+                                              invoiceNumber, observations]
             Repeater {
                 model: tableModel.tableHeader.length
                 delegate: Label {
@@ -209,13 +210,26 @@ ApplicationWindow {
         }
     }
 
+    Connections {
+        target: tableModel
+        onError: {
+            errMsg.isFatal = fatal
+            errMsg.show(msg)
+        }
+    }
     Dialog {
         id: errMsg
+        property bool isFatal: false
         function show(msg) {
             errMsgLabel.text = msg
             visible = true
         }
-        onAccepted: visible = false
+        onAccepted: {
+            visible = false
+            if (isFatal) {
+                Qt.quit()
+            }
+        }
         visible: false
         width: parent.width/2
         height: parent.height/2
@@ -227,6 +241,8 @@ ApplicationWindow {
         Label {
             id: errMsgLabel
             anchors.fill: parent
+            clip: true
+            wrapMode: Text.WordWrap
         }
     }
 }

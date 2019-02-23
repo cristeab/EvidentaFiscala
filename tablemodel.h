@@ -12,11 +12,14 @@ class TableModel : public QAbstractTableModel
         CashIncome,
         BankExpenses,
         CashExpenses,
+        InvoiceNumber,
         Observations
     };
     void init();
     QString computeActualAmount(qreal amount, int currencyIndex, qreal rate);
     QString toString(qreal num);
+    void initInvoiceNumber();
+    uint32_t _invoiceNumber = 0;
     const QStringList _tableHeader;
     QStringList _typeModel;
     const QStringList _currencyModel;
@@ -38,4 +41,6 @@ public:
     QHash<int, QByteArray> roleNames() const override;
     Q_INVOKABLE bool add(const QString &date, int typeIndex, qreal amount,
                          int currencyIndex, qreal rate, const QString &obs);
+signals:
+    void error(const QString &msg, bool fatal = false);
 };
