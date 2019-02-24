@@ -58,6 +58,7 @@ void TableModel::init()
     }
     emit layoutChanged();
     initInvoiceNumber();
+    initIncomeCourves();
 }
 
 QString TableModel::computeActualAmount(qreal amount, int currencyIndex, qreal rate)
