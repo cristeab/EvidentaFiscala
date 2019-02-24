@@ -294,14 +294,6 @@ void TableModel::updateXAxis(const QDateTime &val)
     }
 }
 
-void TableModel::setXAxisTickCount(int val)
-{
-    if (_xAxisTickCount != val) {
-        _xAxisTickCount = val;
-        emit xAxisTickCountChanged();
-    }
-}
-
 void TableModel::setYAxisMin(qreal val)
 {
     if (!qFuzzyCompare(val, _yAxisMin)) {
@@ -359,7 +351,6 @@ void TableModel::resetCurves()
             appendToCurve(NET_INCOME_CURVE, timeVal,
                           monthlyData.income - monthlyData.expense);
         }
-        setXAxisTickCount(_monthlyData.size());
         qInfo() << "Found" << _monthlyData.size() << "points";
     }
 }

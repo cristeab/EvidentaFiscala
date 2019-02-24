@@ -65,7 +65,6 @@ private:
     void setXAxisMin(const QDateTime &val);
     void setXAxisMax(const QDateTime &val);
     void updateXAxis(const QDateTime &val);
-    void setXAxisTickCount(int val);
     void setYAxisMin(qreal val);
     void setYAxisMax(qreal val);
     void updateYAxis(qreal amount);
