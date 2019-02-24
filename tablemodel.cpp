@@ -17,7 +17,8 @@ TableModel::TableModel() : _tableHeader({"Data", "Venituri prin Banca", "Venitur
                                         "Cheltuieli prin Banca", "Cheltuieli Lichide",
                                         "Numar Factura", "Observatii"}),
                            _currencyModel({"RON", "$", "EUR"}),
-                           _csvSeparator(QString(";"))
+                           _csvSeparator(";"),
+                           _dateFormat("dd/MM/yyyy")
 {
     setObjectName("tableModel");
 
@@ -45,7 +46,6 @@ void TableModel::init()
             return;
         }
     }
-    emit layoutAboutToBeChanged();
     _readData = QtCSV::Reader::readToList(_fileName, _csvSeparator);
     if (!_readData.isEmpty()) {
         const auto& actTableHeader = _readData.at(0);
@@ -61,7 +61,6 @@ void TableModel::init()
             }
         }
     }
-    emit layoutChanged();
     initInvoiceNumber();
     initIncomeCourves();
 }
@@ -172,9 +171,7 @@ bool TableModel::add(const QString &date, int typeIndex, qreal amount,
     const bool rc = QtCSV::Writer::write(_fileName, strData, _csvSeparator, QString("\""),
                                 QtCSV::Writer::APPEND);
     if (rc) {
-        emit layoutAboutToBeChanged();
         _readData.append(row);
-        emit layoutChanged();
         updateIncomeCourves(row);
     }
     return rc;
@@ -208,7 +205,7 @@ void TableModel::setChartSeries(int index, QtCharts::QAbstractSeries *series)
 bool TableModel::parseRow(const QStringList &row, QDateTime &key, qreal &income,
                           qreal &expense)
 {
-    const QDate date = QDate::fromString(row.at(0), "dd/MM/yyyy");
+    const QDate date = QDate::fromString(row.at(0), _dateFormat);
     if (!date.isValid()) {
         qWarning() << "Invalid date, skipping row" << row;
         return false;
@@ -232,6 +229,21 @@ bool TableModel::parseRow(const QStringList &row, QDateTime &key, qreal &income,
     return true;
 }
 
+void TableModel::sortRows()
+{
+    auto compareRows = [&](const QStringList &left, const QStringList &right) {
+        const QDate dateLeft = QDate::fromString(left.at(0), _dateFormat);
+        const QDate dateRight = QDate::fromString(right.at(0), _dateFormat);
+        return dateLeft > dateRight;
+    };
+    if (1 < _readData.size()) {
+        emit layoutAboutToBeChanged();
+        //skip table header
+        qSort(++_readData.begin(), _readData.end(), compareRows);
+        emit layoutChanged();
+    }
+}
+
 void TableModel::initIncomeCourves()
 {
     QDateTime key;
@@ -247,6 +259,7 @@ void TableModel::initIncomeCourves()
         _monthlyData[key].expense += expense;
         updateXAxis(key);
     }
+    sortRows();
     resetCurves();
 }
 
@@ -261,6 +274,7 @@ void TableModel::updateIncomeCourves(const QStringList &row)
     _monthlyData[key].income += income;
     _monthlyData[key].expense += expense;
     updateXAxis(key);
+    sortRows();
     resetCurves();
 }
 

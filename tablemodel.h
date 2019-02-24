@@ -60,6 +60,7 @@ private:
     void initInvoiceNumber();
     bool parseRow(const QStringList &row, QDateTime &key, qreal &income,
                   qreal &expense);
+    void sortRows();
     void initIncomeCourves();
     void updateIncomeCourves(const QStringList &row);
     void setXAxisMin(const QDateTime &val);
@@ -91,4 +92,5 @@ private:
         qreal expense = 0;
     };
     QMap<QDateTime, MonthlyData> _monthlyData;
+    const QString _dateFormat;
 };
