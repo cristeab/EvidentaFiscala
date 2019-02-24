@@ -32,6 +32,7 @@ ApplicationWindow {
         }
     }
     SwipeView {
+        interactive: false
         anchors {
             top: bar.bottom
             topMargin: props.verticalMargin

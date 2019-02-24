@@ -297,6 +297,9 @@ void TableModel::updateIncomeCourves(const QStringList &row)
     QMapIterator<int,MonthlyData> i(_monthlyData);
     while (i.hasNext()) {
         i.next();
+        if (i.key() == key) {
+            break;
+        }
         ++currentIndex;
     }
 
