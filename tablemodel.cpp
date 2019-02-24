@@ -9,6 +9,7 @@
 #include <QDebug>
 #include <QDate>
 #include <QCoreApplication>
+#include <QtCharts/QXYSeries>
 
 TableModel::TableModel() : _tableHeader({"Data", "Venituri prin Banca", "Venituri Lichide",
                                         "Cheltuieli prin Banca", "Cheltuieli Lichide",
@@ -40,12 +41,22 @@ void TableModel::init()
     }
     emit layoutAboutToBeChanged();
     _readData = QtCSV::Reader::readToList(_fileName, _csvSeparator);
-    if (!_readData.isEmpty() && (_readData.at(0).size() != _tableHeader.size())) {
-        qCritical() << "Number of columns don't match expected format";
-        emit error("Fisierul CSV are un numar de coloane diferit de cel asteptat", true);
-        _readData.clear();
+    if (!_readData.isEmpty()) {
+        const auto& actTableHeader = _readData.at(0);
+        if (actTableHeader.size() != _tableHeader.size()) {
+            emit error("Fisierul CSV are un numar de coloane diferit de cel asteptat", true);
+            return;
+        }
+        //check column names
+        for (int i = 0; i < _tableHeader.size(); ++i) {
+            if (_tableHeader.at(i) != actTableHeader.at(i)) {
+                emit error("Fisierul CSV nu are coloanele asteptate", true);
+                return;
+            }
+        }
     }
     emit layoutChanged();
+    initInvoiceNumber();
 }
 
 QString TableModel::computeActualAmount(qreal amount, int currencyIndex, qreal rate)
@@ -86,11 +97,15 @@ QVariant TableModel::data(const QModelIndex &index, int role) const
     case TableModel::CashExpenses:
         col = 4;
         break;
-    case TableModel::Observations:
+    case TableModel::InvoiceNumber:
         col = 5;
         break;
-    default:
+    case TableModel::Observations:
+        col = 6;
         break;
+    default:
+        qCritical() << "Unknown role";
+        return QVariant();
     }
     return rowData.at(col);
 }
@@ -121,7 +136,7 @@ bool TableModel::add(const QString &date, int typeIndex, qreal amount,
     //generate invoice number
     if (0 != currencyIndex) {
         //2 invoice numbers (ro and en)
-        row << QString("%1, %2").arg(_invoiceNumber + 1, _invoiceNumber + 2);
+        row << QString("%1, %2").arg(_invoiceNumber + 1).arg(_invoiceNumber + 2);
         _invoiceNumber += 2;
     } else {
         //1 invoice number
@@ -131,7 +146,7 @@ bool TableModel::add(const QString &date, int typeIndex, qreal amount,
     //observations
     QString obsSuffix;
     if (0 != currencyIndex) {
-        obsSuffix = QString("%1 @ 1%2 = %3 %4)").arg(amount).arg(_currencyModel.at(currencyIndex)).arg(toString(rate)).arg(_currencyModel.at(0));
+        obsSuffix = QString(" (%1 %2 @ 1 %2 = %3 %4)").arg(amount).arg(_currencyModel.at(currencyIndex)).arg(toString(rate)).arg(_currencyModel.at(0));
     }
     row << obs + obsSuffix;
     QtCSV::StringData strData;
@@ -150,7 +165,7 @@ void TableModel::initInvoiceNumber()
 {
     for (const auto &row: _readData) {
         const int rowLen = row.size();
-        if ((rowLen == _tableHeader.size()) && (2 < rowLen)) {
+        if (2 < rowLen) {
             const QString invNo = row.at(rowLen-2);
             const auto tok = invNo.split(",");
             bool ok = false;
@@ -160,6 +175,69 @@ void TableModel::initInvoiceNumber()
                     _invoiceNumber = curInvNo;
                 }
             }
+        }
+    }
+}
+
+void TableModel::setChartSeries(int index, QtCharts::QAbstractSeries *series)
+{
+    if (0 <= index && COURVE_COUNT > index) {
+        _chartSeries[index] = series;
+    }
+}
+
+void TableModel::initIncomeCourves()
+{
+    struct MonthlyData {
+        MonthlyData(double i, double e) : income(i), expense(e) {}
+        MonthlyData() = default;
+        double income = 0;
+        double expense = 0;
+    };
+
+    QMap<int, MonthlyData> monthlyData;
+    for (const auto &row: _readData) {
+        const int rowLen = row.size();
+        if (4 < rowLen) {
+            const QDate date = QDate::fromString(row.at(0), "dd/MM/yyyy");
+            if (!date.isValid()) {
+                continue;
+            }
+            const int key = date.year() + date.month();
+            double income = 0;
+            double expense = 0;
+            for (int i = 0; i < 4; ++i) {
+                const QString val = row.at(i + 1);
+                const auto tok = val.split(" ");
+                bool ok = false;
+                const double amount = tok.at(0).toDouble(&ok);
+                if (ok) {
+                    if (2 > i) {
+                        income += amount;
+                    } else {
+                        expense += amount;
+                    }
+                }
+            }
+            monthlyData[key] = MonthlyData(income, expense);
+        }
+    }
+
+    if (!monthlyData.isEmpty()) {
+        qInfo() << "Found" << monthlyData.size() << "points";
+        QtCharts::QXYSeries *grossIncomeSeries = static_cast<QtCharts::QXYSeries *>(_chartSeries[GROSS_INCOME_COURVE]);
+        QtCharts::QXYSeries *expenseSeries = static_cast<QtCharts::QXYSeries *>(_chartSeries[EXPENSE_COURVE]);
+        QtCharts::QXYSeries *netIncomeSeries = static_cast<QtCharts::QXYSeries *>(_chartSeries[NET_INCOME_COURVE]);
+
+        QMapIterator<int,MonthlyData> i(monthlyData);
+        int currentIndex = 0;
+        while (i.hasNext()) {
+            i.next();
+            const MonthlyData &monthlyData = i.value();
+            grossIncomeSeries->append(currentIndex, monthlyData.income);
+            expenseSeries->append(currentIndex, monthlyData.expense);
+            netIncomeSeries->append(currentIndex, monthlyData.income - monthlyData.expense);
+            ++currentIndex;
         }
     }
 }

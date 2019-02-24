@@ -10,6 +10,8 @@ int main(int argc, char *argv[])
     QGuiApplication app(argc, argv);
     qSetMessagePattern("%{appname} [%{threadid}] [%{type}] %{message} (%{file}:%{line})");
 
+    qmlRegisterType<TableModel>("TableModel", 1, 0, "TableModel");
+
     QQmlApplicationEngine engine;
 
     QQmlContext *context = engine.rootContext();
