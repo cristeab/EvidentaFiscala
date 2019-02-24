@@ -232,19 +232,18 @@ bool TableModel::parseRow(const QStringList &row, QDateTime &key, qreal &income,
 
 void TableModel::initIncomeCourves()
 {
+    QDateTime key;
+    qreal income = 0;
+    qreal expense = 0;
+    //skip header
     for (int i = 1; i < _readData.size(); ++i) {
         const auto &row = _readData.at(i);
-        const int rowLen = row.size();
-        if (4 < rowLen) {
-            QDateTime key;
-            qreal income = 0;
-            qreal expense = 0;
-            if (!parseRow(row, key, income, expense)) {
-                continue;
-            }
-            _monthlyData[key] = MonthlyData(income, expense);
-            updateXAxis(key);
+        if (!parseRow(row, key, income, expense)) {
+            continue;
         }
+        _monthlyData[key].income += income;
+        _monthlyData[key].expense += expense;
+        updateXAxis(key);
     }
 
     //clear graph
@@ -258,6 +257,7 @@ void TableModel::initIncomeCourves()
         _chartSeries[NET_INCOME_CURVE]->clear();
     }
 
+    //update curves
     if (!_monthlyData.isEmpty()) {
         QMapIterator<QDateTime,MonthlyData> i(_monthlyData);
         auto appendToCurve = [&](int curveIndex, qint64 timeVal, qreal amount) {
@@ -301,7 +301,7 @@ void TableModel::updateIncomeCourves(const QStringList &row)
             if (hasKey) {
                 for (int i = 0; i < _chartSeries[curveIndex]->count(); ++i) {
                     const auto &pt = _chartSeries[curveIndex]->at(i);
-                    if (pt.x() == timeVal) {
+                    if (qFuzzyCompare(pt.x(), timeVal)) {
                         _chartSeries[curveIndex]->replace(i, pt.x(), pt.y() + amount);
                         break;
                     }
