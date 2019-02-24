@@ -202,7 +202,7 @@ void TableModel::setChartSeries(int index, QtCharts::QAbstractSeries *series)
     }
 }
 
-bool TableModel::parseRow(const QStringList &row, int &key, qreal &income,
+bool TableModel::parseRow(const QStringList &row, QDateTime &key, qreal &income,
                           qreal &expense)
 {
     const QDate date = QDate::fromString(row.at(0), "dd/MM/yyyy");
@@ -210,7 +210,8 @@ bool TableModel::parseRow(const QStringList &row, int &key, qreal &income,
         qWarning() << "Invalid date, skipping row" << row;
         return false;
     }
-    key = date.year() + date.month();
+    qDebug() << date;
+    key = QDateTime(QDate(date.year(), date.month(), 1));
     income = 0;
     expense = 0;
     for (int i = 0; i < 4; ++i) {
@@ -235,13 +236,14 @@ void TableModel::initIncomeCourves()
         const auto &row = _readData.at(i);
         const int rowLen = row.size();
         if (4 < rowLen) {
-            int key = 0;
+            QDateTime key;
             qreal income = 0;
             qreal expense = 0;
             if (!parseRow(row, key, income, expense)) {
                 continue;
             }
             _monthlyData[key] = MonthlyData(income, expense);
+            updateXAxis(key);
         }
     }
 
@@ -257,14 +259,11 @@ void TableModel::initIncomeCourves()
     }
 
     if (!_monthlyData.isEmpty()) {
-        QMapIterator<int,MonthlyData> i(_monthlyData);
-        int currentIndex = 0;
-        auto appendToCurve = [&](int curveIndex, qreal amount) {
+        QMapIterator<QDateTime,MonthlyData> i(_monthlyData);
+        auto appendToCurve = [&](int curveIndex, qint64 timeVal, qreal amount) {
             if (nullptr != _chartSeries[curveIndex]) {
-                _chartSeries[curveIndex]->append(static_cast<qreal>(currentIndex),
+                _chartSeries[curveIndex]->append(static_cast<qreal>(timeVal),
                                                  static_cast<qreal>(amount));
-                qDebug() << "Append to curve" << curveIndex << "at index" <<
-                            currentIndex << amount;
                 updateYAxis(amount);
             } else {
                 qWarning() << "Invalid curve" << curveIndex;
@@ -272,77 +271,86 @@ void TableModel::initIncomeCourves()
         };
         while (i.hasNext()) {
             i.next();
+            const qint64 timeVal = i.key().toMSecsSinceEpoch();
             const MonthlyData &monthlyData = i.value();
-            appendToCurve(GROSS_INCOME_CURVE, monthlyData.income);
-            appendToCurve(EXPENSE_CURVE, monthlyData.expense);
-            appendToCurve(NET_INCOME_CURVE,
+            appendToCurve(GROSS_INCOME_CURVE, timeVal, monthlyData.income);
+            appendToCurve(EXPENSE_CURVE, timeVal, monthlyData.expense);
+            appendToCurve(NET_INCOME_CURVE, timeVal,
                           monthlyData.income - monthlyData.expense);
-            ++currentIndex;
         }
-        setXAxisMax(currentIndex - 1);
-        qInfo() << "Found" << currentIndex << "points";
+        qInfo() << "Found" << _monthlyData.size() << "points";
     }
 }
 
 void TableModel::updateIncomeCourves(const QStringList &row)
 {
-    int key = 0;
+    QDateTime key;
     qreal income = 0;
     qreal expense = 0;
     if (!parseRow(row, key, income, expense)) {
         return;
     }
+    const auto hasKey = _monthlyData.contains(key);
     _monthlyData[key].income += income;
     _monthlyData[key].expense += expense;
-
-    //compute index for the key
-    int currentIndex = 0;
-    QMapIterator<int,MonthlyData> i(_monthlyData);
-    while (i.hasNext()) {
-        i.next();
-        if (i.key() == key) {
-            break;
-        }
-        ++currentIndex;
-    }
+    updateXAxis(key);
 
     //update curves
-    auto updateCurve = [&](int curveIndex, qreal amount) {
+    auto updateCurve = [&](int curveIndex, qint64 timeVal, qreal amount) {
         if (nullptr != _chartSeries[curveIndex]) {
-            const int len = _chartSeries[curveIndex]->count();
-            if ((0 <= currentIndex) && (len > currentIndex)) {
-                const auto &pt = _chartSeries[curveIndex]->at(currentIndex);
-                _chartSeries[curveIndex]->replace(currentIndex, pt.x(),
-                                                  pt.y() + amount);
-                qDebug() << "Replace in curve" << curveIndex << "at index" <<
-                            currentIndex << amount;
-            } else if (len == currentIndex) {
-                _chartSeries[curveIndex]->append(static_cast<qreal>(currentIndex),
-                                                 static_cast<qreal>(amount));
-                qDebug() << "Append to curve" << curveIndex << "at index" <<
-                            currentIndex << amount;
+            if (hasKey) {
+                for (int i = 0; i < _chartSeries[curveIndex]->count(); ++i) {
+                    const auto &pt = _chartSeries[curveIndex]->at(i);
+                    if (pt.x() == timeVal) {
+                        _chartSeries[curveIndex]->replace(i, pt.x(), pt.y() + amount);
+                        break;
+                    }
+                }
             } else {
-                qWarning() << "Cannot insert into curve" << currentIndex;
+                _chartSeries[curveIndex]->append(timeVal,
+                                                 static_cast<qreal>(amount));
             }
             updateYAxis(amount);
         } else {
             qWarning() << "Invalid curve" << curveIndex;
         }
     };
-    updateCurve(GROSS_INCOME_CURVE, _monthlyData[key].income);
-    updateCurve(EXPENSE_CURVE, _monthlyData[key].expense);
-    updateCurve(NET_INCOME_CURVE,
+    const qint64 timeVal = key.toMSecsSinceEpoch();
+    updateCurve(GROSS_INCOME_CURVE, timeVal, _monthlyData[key].income);
+    updateCurve(EXPENSE_CURVE, timeVal, _monthlyData[key].expense);
+    updateCurve(NET_INCOME_CURVE, timeVal,
                   _monthlyData[key].income - _monthlyData[key].expense);
-    if (nullptr != _chartSeries[GROSS_INCOME_CURVE]) {
-        setXAxisMax(_chartSeries[GROSS_INCOME_CURVE]->count() - 1);
+}
+
+void TableModel::setXAxisMin(const QDateTime &val)
+{
+    if (val != _xAxisMin) {
+        _xAxisMin = val;
+        emit xAxisMinChanged();
     }
 }
 
-void TableModel::setXAxisMax(qreal val)
+void TableModel::setXAxisMax(const QDateTime &val)
 {
-    if (!qFuzzyCompare(val, _xAxisMax)) {
+    if (val != _xAxisMax) {
         _xAxisMax = val;
         emit xAxisMaxChanged();
+    }
+}
+
+void TableModel::updateXAxis(const QDateTime &val)
+{
+    if (!_xAxisMin.isValid()) {
+        _xAxisMin = val;
+    }
+    if (!_xAxisMax.isValid()) {
+        _xAxisMax = val;
+    }
+    if (_xAxisMin > val) {
+        setXAxisMin(val);
+    }
+    if (_xAxisMax < val) {
+        setXAxisMax(val);
     }
 }
 

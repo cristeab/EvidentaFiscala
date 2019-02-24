@@ -2,6 +2,7 @@
 
 #include <QAbstractTableModel>
 #include <QStringList>
+#include <QDateTime>
 
 namespace QtCharts {
     class QAbstractSeries;
@@ -14,8 +15,8 @@ class TableModel : public QAbstractTableModel
     Q_PROPERTY(QStringList tableHeader MEMBER _tableHeader CONSTANT)
     Q_PROPERTY(QStringList currencyModel MEMBER _currencyModel CONSTANT)
     Q_PROPERTY(QStringList typeModel MEMBER _typeModel CONSTANT)
-    Q_PROPERTY(qreal xAxisMin MEMBER _xAxisMin NOTIFY xAxisMinChanged)
-    Q_PROPERTY(qreal xAxisMax MEMBER _xAxisMax NOTIFY xAxisMaxChanged)
+    Q_PROPERTY(QDateTime xAxisMin MEMBER _xAxisMin NOTIFY xAxisMinChanged)
+    Q_PROPERTY(QDateTime xAxisMax MEMBER _xAxisMax NOTIFY xAxisMaxChanged)
     Q_PROPERTY(qreal yAxisMin MEMBER _yAxisMin NOTIFY yAxisMinChanged)
     Q_PROPERTY(qreal yAxisMax MEMBER _yAxisMax NOTIFY yAxisMaxChanged)
 public:
@@ -55,11 +56,13 @@ private:
     static QString toString(qreal num);
     static qreal fromString(const QString &num);
     void initInvoiceNumber();
-    bool parseRow(const QStringList &row, int &key, qreal &income,
+    bool parseRow(const QStringList &row, QDateTime &key, qreal &income,
                   qreal &expense);
     void initIncomeCourves();
     void updateIncomeCourves(const QStringList &row);
-    void setXAxisMax(qreal val);
+    void setXAxisMin(const QDateTime &val);
+    void setXAxisMax(const QDateTime &val);
+    void updateXAxis(const QDateTime &val);
     void setYAxisMin(qreal val);
     void setYAxisMax(qreal val);
     void updateYAxis(qreal amount);
@@ -73,8 +76,8 @@ private:
     QList<QStringList> _readData;
     const QString _csvSeparator;
     QtCharts::QXYSeries *_chartSeries[CURVE_COUNT];
-    qreal _xAxisMin = 0;
-    qreal _xAxisMax = 1;
+    QDateTime _xAxisMin;
+    QDateTime _xAxisMax;
     qreal _yAxisMin = 0;
     qreal _yAxisMax = 1;
     struct MonthlyData {
@@ -83,5 +86,5 @@ private:
         qreal income = 0;
         qreal expense = 0;
     };
-    QMap<int, MonthlyData> _monthlyData;
+    QMap<QDateTime, MonthlyData> _monthlyData;
 };

@@ -6,8 +6,10 @@ ChartView {
     antialiasing: true
     theme: ChartView.ChartThemeDark
     legend.alignment: Qt.AlignBottom
-    ValueAxis {
+    DateTimeAxis {
         id: axisX
+        format: "MMM yyyy"
+        tickCount: 5
         min: tableModel.xAxisMin
         max: tableModel.xAxisMax
     }
