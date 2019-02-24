@@ -26,6 +26,9 @@ TableModel::TableModel() : _tableHeader({"Data", "Venituri prin Banca", "Venitur
 #else
     _fileName = qApp->applicationDirPath() + QString("/ledger_pfa_%1.csv").arg(QDate::currentDate().year());
 #endif
+    for (int i = 0; i < CURVE_COUNT; ++i) {
+        _chartSeries[i] = nullptr;
+    }
     QTimer::singleShot(0, this, &TableModel::init);
 }
 
@@ -159,6 +162,7 @@ bool TableModel::add(const QString &date, int typeIndex, qreal amount,
         emit layoutAboutToBeChanged();
         _readData.append(row);
         emit layoutChanged();
+        updateIncomeCourves(row);
     }
     return rc;
 }
@@ -183,63 +187,130 @@ void TableModel::initInvoiceNumber()
 
 void TableModel::setChartSeries(int index, QtCharts::QAbstractSeries *series)
 {
-    if (0 <= index && COURVE_COUNT > index) {
-        _chartSeries[index] = series;
+    if (0 <= index && CURVE_COUNT > index) {
+        _chartSeries[index] = static_cast<QtCharts::QXYSeries *>(series);
     }
+}
+
+bool TableModel::parseRow(const QStringList &row, int &key, double &income,
+                          double &expense)
+{
+    const QDate date = QDate::fromString(row.at(0), "dd/MM/yyyy");
+    if (!date.isValid()) {
+        return false;
+    }
+    key = date.year() + date.month();
+    income = 0;
+    expense = 0;
+    for (int i = 0; i < 4; ++i) {
+        const QString val = row.at(i + 1);
+        const auto tok = val.split(" ");
+        bool ok = false;
+        const double amount = tok.at(0).toDouble(&ok);
+        if (ok) {
+            if (2 > i) {
+                income += amount;
+            } else {
+                expense += amount;
+            }
+        }
+    }
+    return true;
 }
 
 void TableModel::initIncomeCourves()
 {
-    struct MonthlyData {
-        MonthlyData(double i, double e) : income(i), expense(e) {}
-        MonthlyData() = default;
-        double income = 0;
-        double expense = 0;
-    };
-
-    QMap<int, MonthlyData> monthlyData;
     for (const auto &row: _readData) {
         const int rowLen = row.size();
         if (4 < rowLen) {
-            const QDate date = QDate::fromString(row.at(0), "dd/MM/yyyy");
-            if (!date.isValid()) {
-                continue;
-            }
-            const int key = date.year() + date.month();
+            int key = 0;
             double income = 0;
             double expense = 0;
-            for (int i = 0; i < 4; ++i) {
-                const QString val = row.at(i + 1);
-                const auto tok = val.split(" ");
-                bool ok = false;
-                const double amount = tok.at(0).toDouble(&ok);
-                if (ok) {
-                    if (2 > i) {
-                        income += amount;
-                    } else {
-                        expense += amount;
-                    }
-                }
+            if (!parseRow(row, key, income, expense)) {
+                continue;
             }
-            monthlyData[key] = MonthlyData(income, expense);
+            _monthlyData[key] = MonthlyData(income, expense);
         }
     }
 
-    if (!monthlyData.isEmpty()) {
-        qInfo() << "Found" << monthlyData.size() << "points";
-        QtCharts::QXYSeries *grossIncomeSeries = static_cast<QtCharts::QXYSeries *>(_chartSeries[GROSS_INCOME_COURVE]);
-        QtCharts::QXYSeries *expenseSeries = static_cast<QtCharts::QXYSeries *>(_chartSeries[EXPENSE_COURVE]);
-        QtCharts::QXYSeries *netIncomeSeries = static_cast<QtCharts::QXYSeries *>(_chartSeries[NET_INCOME_COURVE]);
+    //clear graph
+    if (nullptr != _chartSeries[GROSS_INCOME_CURVE]) {
+        _chartSeries[GROSS_INCOME_CURVE]->clear();
+    }
+    if (nullptr != _chartSeries[EXPENSE_CURVE]) {
+        _chartSeries[EXPENSE_CURVE]->clear();
+    }
+    if (nullptr != _chartSeries[NET_INCOME_CURVE]) {
+        _chartSeries[NET_INCOME_CURVE]->clear();
+    }
 
-        QMapIterator<int,MonthlyData> i(monthlyData);
+    if (!_monthlyData.isEmpty()) {
+        QMapIterator<int,MonthlyData> i(_monthlyData);
         int currentIndex = 0;
+        auto appendToCurve = [&](int curveIndex, double amount) {
+            if (nullptr != _chartSeries[curveIndex]) {
+                _chartSeries[curveIndex]->append(currentIndex, amount);
+            }
+        };
         while (i.hasNext()) {
             i.next();
             const MonthlyData &monthlyData = i.value();
-            grossIncomeSeries->append(currentIndex, monthlyData.income);
-            expenseSeries->append(currentIndex, monthlyData.expense);
-            netIncomeSeries->append(currentIndex, monthlyData.income - monthlyData.expense);
+            appendToCurve(GROSS_INCOME_CURVE, monthlyData.income);
+            appendToCurve(EXPENSE_CURVE, monthlyData.expense);
+            appendToCurve(NET_INCOME_CURVE,
+                          monthlyData.income - monthlyData.expense);
             ++currentIndex;
         }
+        setXAxisMax(currentIndex - 1);
+        qInfo() << "Found" << currentIndex << "points";
+    }
+}
+
+void TableModel::updateIncomeCourves(const QStringList &row)
+{
+    int key = 0;
+    double income = 0;
+    double expense = 0;
+    if (!parseRow(row, key, income, expense)) {
+        return;
+    }
+    _monthlyData[key].income += income;
+    _monthlyData[key].expense += expense;
+
+    //compute index for the key
+    int currentIndex = 0;
+    QMapIterator<int,MonthlyData> i(_monthlyData);
+    while (i.hasNext()) {
+        i.next();
+        ++currentIndex;
+    }
+
+    //update curves
+    auto updateCurve = [&](int curveIndex, double amount) {
+        if (nullptr != _chartSeries[curveIndex]) {
+            const int len = _chartSeries[curveIndex]->count();
+            if (len <= currentIndex) {
+                _chartSeries[curveIndex]->append(currentIndex, amount);
+            } else {
+                const auto &pt = _chartSeries[curveIndex]->at(currentIndex);
+                _chartSeries[curveIndex]->replace(currentIndex, pt.x(),
+                                                  pt.y() + amount);
+            }
+        }
+    };
+    updateCurve(GROSS_INCOME_CURVE, _monthlyData[key].income);
+    updateCurve(EXPENSE_CURVE, _monthlyData[key].expense);
+    updateCurve(NET_INCOME_CURVE,
+                  _monthlyData[key].income - _monthlyData[key].expense);
+    if (nullptr != _chartSeries[GROSS_INCOME_CURVE]) {
+        setXAxisMax(_chartSeries[GROSS_INCOME_CURVE]->count() - 1);
+    }
+}
+
+void TableModel::setXAxisMax(int val)
+{
+    if (val != _xAxisMax) {
+        _xAxisMax = val;
+        emit xAxisMaxChanged();
     }
 }
