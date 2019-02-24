@@ -17,6 +17,7 @@ class TableModel : public QAbstractTableModel
     Q_PROPERTY(QStringList typeModel MEMBER _typeModel CONSTANT)
     Q_PROPERTY(QDateTime xAxisMin MEMBER _xAxisMin NOTIFY xAxisMinChanged)
     Q_PROPERTY(QDateTime xAxisMax MEMBER _xAxisMax NOTIFY xAxisMaxChanged)
+    Q_PROPERTY(int xAxisTickCount MEMBER _xAxisTickCount NOTIFY xAxisTickCountChanged)
     Q_PROPERTY(qreal yAxisMin MEMBER _yAxisMin NOTIFY yAxisMinChanged)
     Q_PROPERTY(qreal yAxisMax MEMBER _yAxisMax NOTIFY yAxisMaxChanged)
 public:
@@ -39,6 +40,7 @@ signals:
     void error(const QString &msg, bool fatal = false);
     void xAxisMinChanged();
     void xAxisMaxChanged();
+    void xAxisTickCountChanged();
     void yAxisMinChanged();
     void yAxisMaxChanged();
 private:
@@ -63,9 +65,11 @@ private:
     void setXAxisMin(const QDateTime &val);
     void setXAxisMax(const QDateTime &val);
     void updateXAxis(const QDateTime &val);
+    void setXAxisTickCount(int val);
     void setYAxisMin(qreal val);
     void setYAxisMax(qreal val);
     void updateYAxis(qreal amount);
+    void resetCurves();
 
     const static QLocale _locale;
     uint32_t _invoiceNumber = 0;
@@ -78,6 +82,7 @@ private:
     QtCharts::QXYSeries *_chartSeries[CURVE_COUNT];
     QDateTime _xAxisMin;
     QDateTime _xAxisMax;
+    int _xAxisTickCount = 0;
     qreal _yAxisMin = 0;
     qreal _yAxisMax = 1;
     struct MonthlyData {

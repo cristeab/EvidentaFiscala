@@ -11,6 +11,7 @@ ChartView {
         format: "MMM yyyy"
         min: tableModel.xAxisMin
         max: tableModel.xAxisMax
+        //tickCount: 4
     }
     ValueAxis {
         id: axisY

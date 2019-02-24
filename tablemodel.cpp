@@ -209,7 +209,7 @@ bool TableModel::parseRow(const QStringList &row, QDateTime &key, qreal &income,
         qWarning() << "Invalid date, skipping row" << row;
         return false;
     }
-    key = QDateTime(QDate(date.year(), date.month(), 1));
+    key = QDateTime(QDate(date.year(), date.month(), 15));//middle of the month
     income = 0;
     expense = 0;
     for (int i = 0; i < 4; ++i) {
@@ -243,41 +243,7 @@ void TableModel::initIncomeCourves()
         _monthlyData[key].expense += expense;
         updateXAxis(key);
     }
-
-    //clear graph
-    if (nullptr != _chartSeries[GROSS_INCOME_CURVE]) {
-        _chartSeries[GROSS_INCOME_CURVE]->clear();
-    }
-    if (nullptr != _chartSeries[EXPENSE_CURVE]) {
-        _chartSeries[EXPENSE_CURVE]->clear();
-    }
-    if (nullptr != _chartSeries[NET_INCOME_CURVE]) {
-        _chartSeries[NET_INCOME_CURVE]->clear();
-    }
-
-    //update curves
-    if (!_monthlyData.isEmpty()) {
-        QMapIterator<QDateTime,MonthlyData> i(_monthlyData);
-        auto appendToCurve = [&](int curveIndex, qint64 timeVal, qreal amount) {
-            if (nullptr != _chartSeries[curveIndex]) {
-                _chartSeries[curveIndex]->append(static_cast<qreal>(timeVal),
-                                                 static_cast<qreal>(amount));
-                updateYAxis(amount);
-            } else {
-                qWarning() << "Invalid curve" << curveIndex;
-            }
-        };
-        while (i.hasNext()) {
-            i.next();
-            const qint64 timeVal = i.key().toMSecsSinceEpoch();
-            const MonthlyData &monthlyData = i.value();
-            appendToCurve(GROSS_INCOME_CURVE, timeVal, monthlyData.income);
-            appendToCurve(EXPENSE_CURVE, timeVal, monthlyData.expense);
-            appendToCurve(NET_INCOME_CURVE, timeVal,
-                          monthlyData.income - monthlyData.expense);
-        }
-        qInfo() << "Found" << _monthlyData.size() << "points";
-    }
+    resetCurves();
 }
 
 void TableModel::updateIncomeCourves(const QStringList &row)
@@ -288,36 +254,10 @@ void TableModel::updateIncomeCourves(const QStringList &row)
     if (!parseRow(row, key, income, expense)) {
         return;
     }
-    const auto hasKey = _monthlyData.contains(key);
     _monthlyData[key].income += income;
     _monthlyData[key].expense += expense;
     updateXAxis(key);
-
-    //update curves
-    auto updateCurve = [&](int curveIndex, qint64 timeVal, qreal amount) {
-        if (nullptr != _chartSeries[curveIndex]) {
-            if (hasKey) {
-                for (int i = 0; i < _chartSeries[curveIndex]->count(); ++i) {
-                    const auto &pt = _chartSeries[curveIndex]->at(i);
-                    if (qFuzzyCompare(pt.x(), timeVal)) {
-                        _chartSeries[curveIndex]->replace(i, pt.x(), pt.y() + amount);
-                        break;
-                    }
-                }
-            } else {
-                _chartSeries[curveIndex]->append(timeVal,
-                                                 static_cast<qreal>(amount));
-            }
-            updateYAxis(amount);
-        } else {
-            qWarning() << "Invalid curve" << curveIndex;
-        }
-    };
-    const qint64 timeVal = key.toMSecsSinceEpoch();
-    updateCurve(GROSS_INCOME_CURVE, timeVal, _monthlyData[key].income);
-    updateCurve(EXPENSE_CURVE, timeVal, _monthlyData[key].expense);
-    updateCurve(NET_INCOME_CURVE, timeVal,
-                  _monthlyData[key].income - _monthlyData[key].expense);
+    resetCurves();
 }
 
 void TableModel::setXAxisMin(const QDateTime &val)
@@ -354,6 +294,14 @@ void TableModel::updateXAxis(const QDateTime &val)
     }
 }
 
+void TableModel::setXAxisTickCount(int val)
+{
+    if (_xAxisTickCount != val) {
+        _xAxisTickCount = val;
+        emit xAxisTickCountChanged();
+    }
+}
+
 void TableModel::setYAxisMin(qreal val)
 {
     if (!qFuzzyCompare(val, _yAxisMin)) {
@@ -377,5 +325,41 @@ void TableModel::updateYAxis(qreal amount)
     }
     if (_yAxisMax < amount) {
         setYAxisMax(amount);
+    }
+}
+
+void TableModel::resetCurves()
+{
+    if (nullptr != _chartSeries[GROSS_INCOME_CURVE]) {
+        _chartSeries[GROSS_INCOME_CURVE]->clear();
+    }
+    if (nullptr != _chartSeries[EXPENSE_CURVE]) {
+        _chartSeries[EXPENSE_CURVE]->clear();
+    }
+    if (nullptr != _chartSeries[NET_INCOME_CURVE]) {
+        _chartSeries[NET_INCOME_CURVE]->clear();
+    }
+    if (!_monthlyData.isEmpty()) {
+        QMapIterator<QDateTime,MonthlyData> i(_monthlyData);
+        auto appendToCurve = [&](int curveIndex, qint64 timeVal, qreal amount) {
+            if (nullptr != _chartSeries[curveIndex]) {
+                _chartSeries[curveIndex]->append(static_cast<qreal>(timeVal),
+                                                 static_cast<qreal>(amount));
+                updateYAxis(amount);
+            } else {
+                qWarning() << "Invalid curve" << curveIndex;
+            }
+        };
+        while (i.hasNext()) {
+            i.next();
+            const qint64 timeVal = i.key().toMSecsSinceEpoch();
+            const MonthlyData &monthlyData = i.value();
+            appendToCurve(GROSS_INCOME_CURVE, timeVal, monthlyData.income);
+            appendToCurve(EXPENSE_CURVE, timeVal, monthlyData.expense);
+            appendToCurve(NET_INCOME_CURVE, timeVal,
+                          monthlyData.income - monthlyData.expense);
+        }
+        setXAxisTickCount(_monthlyData.size());
+        qInfo() << "Found" << _monthlyData.size() << "points";
     }
 }
