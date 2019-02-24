@@ -1,5 +1,5 @@
 #include "tablemodel.h"
-#include <QGuiApplication>
+#include <QApplication>
 #include <QQmlApplicationEngine>
 #include <QQmlContext>
 
@@ -7,12 +7,11 @@ int main(int argc, char *argv[])
 {
     QCoreApplication::setAttribute(Qt::AA_EnableHighDpiScaling);
 
-    QGuiApplication app(argc, argv);
+    QApplication app(argc, argv);
     qSetMessagePattern("%{appname} [%{threadid}] [%{type}] %{message} (%{file}:%{line})");
 
-    qmlRegisterType<TableModel>("TableModel", 1, 0, "TableModel");
-
     QQmlApplicationEngine engine;
+    qmlRegisterType<TableModel>("TableModel", 1, 0, "TableModel");
 
     QQmlContext *context = engine.rootContext();
     if (nullptr != context) {

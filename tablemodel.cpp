@@ -18,6 +18,7 @@ TableModel::TableModel() : _tableHeader({"Data", "Venituri prin Banca", "Venitur
                            _csvSeparator(QString(";"))
 {
     setObjectName("tableModel");
+
     _typeModel = _tableHeader.mid(1, 4);
 #ifdef RELEASE_FOLDER
     _fileName = QStandardPaths::writableLocation(QStandardPaths::DocumentsLocation) +
@@ -155,7 +156,7 @@ bool TableModel::add(const QString &date, int typeIndex, qreal amount,
                                 QtCSV::Writer::APPEND);
     if (rc) {
         emit layoutAboutToBeChanged();
-        _readData.insert(1, row);//first row is the header
+        _readData.append(row);
         emit layoutChanged();
     }
     return rc;
