@@ -147,15 +147,19 @@ bool TableModel::add(const QString &date, int typeIndex, qreal amount,
             row << "";
         }
     }
-    //generate invoice number
-    if (0 != currencyIndex) {
-        //2 invoice numbers (ro and en)
-        row << QString("%1, %2").arg(_invoiceNumber + 1).arg(_invoiceNumber + 2);
-        _invoiceNumber += 2;
+    //generate invoice number only for income
+    if ((0 == typeIndex) || (1 == typeIndex)) {
+        if (0 != currencyIndex) {
+            //2 invoice numbers (ro and en)
+            row << QString("%1, %2").arg(_invoiceNumber + 1).arg(_invoiceNumber + 2);
+            _invoiceNumber += 2;
+        } else {
+            //1 invoice number
+            row << QString("%1").arg(_invoiceNumber + 1);
+            _invoiceNumber += 1;
+        }
     } else {
-        //1 invoice number
-        row << QString("%1").arg(_invoiceNumber + 1);
-        _invoiceNumber += 1;
+        row << "";
     }
     //observations
     QString obsSuffix;
