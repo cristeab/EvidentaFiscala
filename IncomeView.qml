@@ -30,9 +30,9 @@ Item {
             axisX: axisX
         }
         Component.onCompleted: {
-            tableModel.setChartSeries(TableModel.GROSS_INCOME_COURVE, grossIncomeLineSeries)
-            tableModel.setChartSeries(TableModel.EXPENSE_COURVE, expenseLineSeries)
-            tableModel.setChartSeries(TableModel.NET_INCOME_COURVE, netIncomeLineSeries)
+            tableModel.setChartSeries(TableModel.GROSS_INCOME_CURVE, grossIncomeLineSeries)
+            tableModel.setChartSeries(TableModel.EXPENSE_CURVE, expenseLineSeries)
+            tableModel.setChartSeries(TableModel.NET_INCOME_CURVE, netIncomeLineSeries)
         }
     }
 }

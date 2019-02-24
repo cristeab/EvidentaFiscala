@@ -11,6 +11,8 @@
 #include <QCoreApplication>
 #include <QtCharts/QXYSeries>
 
+const QLocale TableModel::_locale;
+
 TableModel::TableModel() : _tableHeader({"Data", "Venituri prin Banca", "Venituri Lichide",
                                         "Cheltuieli prin Banca", "Cheltuieli Lichide",
                                         "Numar Factura", "Observatii"}),
@@ -75,7 +77,14 @@ QString TableModel::computeActualAmount(qreal amount, int currencyIndex, qreal r
 
 QString TableModel::toString(qreal num)
 {
-    return QLocale().toString(num, 'f', 4);
+    return _locale.toString(num, 'f', 4);
+}
+
+qreal TableModel::fromString(const QString &num)
+{
+    bool ok = false;
+    const qreal d = _locale.toDouble(num, &ok);
+    return ok?d:0;
 }
 
 QVariant TableModel::data(const QModelIndex &index, int role) const
@@ -197,6 +206,7 @@ bool TableModel::parseRow(const QStringList &row, int &key, double &income,
 {
     const QDate date = QDate::fromString(row.at(0), "dd/MM/yyyy");
     if (!date.isValid()) {
+        qWarning() << "Invalid date, skipping row" << row;
         return false;
     }
     key = date.year() + date.month();
@@ -204,15 +214,15 @@ bool TableModel::parseRow(const QStringList &row, int &key, double &income,
     expense = 0;
     for (int i = 0; i < 4; ++i) {
         const QString val = row.at(i + 1);
+        if (val.isEmpty()) {
+            continue;
+        }
         const auto tok = val.split(" ");
-        bool ok = false;
-        const double amount = tok.at(0).toDouble(&ok);
-        if (ok) {
-            if (2 > i) {
-                income += amount;
-            } else {
-                expense += amount;
-            }
+        const double amount = fromString(tok.at(0));
+        if (2 > i) {
+            income += amount;
+        } else {
+            expense += amount;
         }
     }
     return true;
@@ -220,7 +230,8 @@ bool TableModel::parseRow(const QStringList &row, int &key, double &income,
 
 void TableModel::initIncomeCourves()
 {
-    for (const auto &row: _readData) {
+    for (int i = 1; i < _readData.size(); ++i) {
+        const auto &row = _readData.at(i);
         const int rowLen = row.size();
         if (4 < rowLen) {
             int key = 0;
@@ -250,6 +261,10 @@ void TableModel::initIncomeCourves()
         auto appendToCurve = [&](int curveIndex, double amount) {
             if (nullptr != _chartSeries[curveIndex]) {
                 _chartSeries[curveIndex]->append(currentIndex, amount);
+                qDebug() << "Append to curve" << curveIndex << "at index" <<
+                            currentIndex << amount;
+            } else {
+                qWarning() << "Invalid curve" << curveIndex;
             }
         };
         while (i.hasNext()) {
@@ -289,13 +304,17 @@ void TableModel::updateIncomeCourves(const QStringList &row)
     auto updateCurve = [&](int curveIndex, double amount) {
         if (nullptr != _chartSeries[curveIndex]) {
             const int len = _chartSeries[curveIndex]->count();
-            if (len <= currentIndex) {
-                _chartSeries[curveIndex]->append(currentIndex, amount);
-            } else {
+            if ((0 <= currentIndex) && (len > currentIndex)) {
                 const auto &pt = _chartSeries[curveIndex]->at(currentIndex);
                 _chartSeries[curveIndex]->replace(currentIndex, pt.x(),
                                                   pt.y() + amount);
+            } else if (len == currentIndex) {
+                _chartSeries[curveIndex]->append(currentIndex, amount);
+            } else {
+                qWarning() << "Cannot insert into curve" << currentIndex;
             }
+        } else {
+            qWarning() << "Invalid curve" << curveIndex;
         }
     };
     updateCurve(GROSS_INCOME_CURVE, _monthlyData[key].income);

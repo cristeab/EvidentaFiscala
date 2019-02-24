@@ -48,7 +48,8 @@ private:
     };
     void init();
     QString computeActualAmount(qreal amount, int currencyIndex, qreal rate);
-    QString toString(qreal num);
+    static QString toString(qreal num);
+    static qreal fromString(const QString &num);
     void initInvoiceNumber();
     bool parseRow(const QStringList &row, int &key, double &income,
                   double &expense);
@@ -56,6 +57,7 @@ private:
     void updateIncomeCourves(const QStringList &row);
     void setXAxisMax(int val);
 
+    const static QLocale _locale;
     uint32_t _invoiceNumber = 0;
     const QStringList _tableHeader;
     QStringList _typeModel;

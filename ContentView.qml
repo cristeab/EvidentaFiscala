@@ -160,6 +160,8 @@ Item {
         }
         model: tableModel
         rowSpacing: 5
+        clip: true
+        interactive: false
         delegate: Row {
             id: tableRow
             readonly property var modelName: [date, bankIncome, cashIncome,
