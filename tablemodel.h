@@ -14,8 +14,10 @@ class TableModel : public QAbstractTableModel
     Q_PROPERTY(QStringList tableHeader MEMBER _tableHeader CONSTANT)
     Q_PROPERTY(QStringList currencyModel MEMBER _currencyModel CONSTANT)
     Q_PROPERTY(QStringList typeModel MEMBER _typeModel CONSTANT)
-    Q_PROPERTY(int xAxisMin MEMBER _xAxisMin NOTIFY xAxisMinChanged)
-    Q_PROPERTY(int xAxisMax MEMBER _xAxisMax NOTIFY xAxisMaxChanged)
+    Q_PROPERTY(qreal xAxisMin MEMBER _xAxisMin NOTIFY xAxisMinChanged)
+    Q_PROPERTY(qreal xAxisMax MEMBER _xAxisMax NOTIFY xAxisMaxChanged)
+    Q_PROPERTY(qreal yAxisMin MEMBER _yAxisMin NOTIFY yAxisMinChanged)
+    Q_PROPERTY(qreal yAxisMax MEMBER _yAxisMax NOTIFY yAxisMaxChanged)
 public:
     enum CourveType { GROSS_INCOME_CURVE = 0, EXPENSE_CURVE, NET_INCOME_CURVE,
                     CURVE_COUNT };
@@ -36,6 +38,8 @@ signals:
     void error(const QString &msg, bool fatal = false);
     void xAxisMinChanged();
     void xAxisMaxChanged();
+    void yAxisMinChanged();
+    void yAxisMaxChanged();
 private:
     enum ColumnNames {
         Date = Qt::DisplayRole,
@@ -51,11 +55,14 @@ private:
     static QString toString(qreal num);
     static qreal fromString(const QString &num);
     void initInvoiceNumber();
-    bool parseRow(const QStringList &row, int &key, double &income,
-                  double &expense);
+    bool parseRow(const QStringList &row, int &key, qreal &income,
+                  qreal &expense);
     void initIncomeCourves();
     void updateIncomeCourves(const QStringList &row);
-    void setXAxisMax(int val);
+    void setXAxisMax(qreal val);
+    void setYAxisMin(qreal val);
+    void setYAxisMax(qreal val);
+    void updateYAxis(qreal amount);
 
     const static QLocale _locale;
     uint32_t _invoiceNumber = 0;
@@ -66,13 +73,15 @@ private:
     QList<QStringList> _readData;
     const QString _csvSeparator;
     QtCharts::QXYSeries *_chartSeries[CURVE_COUNT];
-    int _xAxisMin = 0;
-    int _xAxisMax = 1;
+    qreal _xAxisMin = 0;
+    qreal _xAxisMax = 1;
+    qreal _yAxisMin = 0;
+    qreal _yAxisMax = 1;
     struct MonthlyData {
-        MonthlyData(double i, double e) : income(i), expense(e) {}
+        MonthlyData(qreal i, qreal e) : income(i), expense(e) {}
         MonthlyData() = default;
-        double income = 0;
-        double expense = 0;
+        qreal income = 0;
+        qreal expense = 0;
     };
     QMap<int, MonthlyData> _monthlyData;
 };

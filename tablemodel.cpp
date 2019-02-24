@@ -198,11 +198,12 @@ void TableModel::setChartSeries(int index, QtCharts::QAbstractSeries *series)
 {
     if (0 <= index && CURVE_COUNT > index) {
         _chartSeries[index] = static_cast<QtCharts::QXYSeries *>(series);
+        qDebug() << "Add curve" << index;
     }
 }
 
-bool TableModel::parseRow(const QStringList &row, int &key, double &income,
-                          double &expense)
+bool TableModel::parseRow(const QStringList &row, int &key, qreal &income,
+                          qreal &expense)
 {
     const QDate date = QDate::fromString(row.at(0), "dd/MM/yyyy");
     if (!date.isValid()) {
@@ -218,7 +219,7 @@ bool TableModel::parseRow(const QStringList &row, int &key, double &income,
             continue;
         }
         const auto tok = val.split(" ");
-        const double amount = fromString(tok.at(0));
+        const qreal amount = fromString(tok.at(0));
         if (2 > i) {
             income += amount;
         } else {
@@ -235,8 +236,8 @@ void TableModel::initIncomeCourves()
         const int rowLen = row.size();
         if (4 < rowLen) {
             int key = 0;
-            double income = 0;
-            double expense = 0;
+            qreal income = 0;
+            qreal expense = 0;
             if (!parseRow(row, key, income, expense)) {
                 continue;
             }
@@ -258,11 +259,13 @@ void TableModel::initIncomeCourves()
     if (!_monthlyData.isEmpty()) {
         QMapIterator<int,MonthlyData> i(_monthlyData);
         int currentIndex = 0;
-        auto appendToCurve = [&](int curveIndex, double amount) {
+        auto appendToCurve = [&](int curveIndex, qreal amount) {
             if (nullptr != _chartSeries[curveIndex]) {
-                _chartSeries[curveIndex]->append(currentIndex, amount);
+                _chartSeries[curveIndex]->append(static_cast<qreal>(currentIndex),
+                                                 static_cast<qreal>(amount));
                 qDebug() << "Append to curve" << curveIndex << "at index" <<
                             currentIndex << amount;
+                updateYAxis(amount);
             } else {
                 qWarning() << "Invalid curve" << curveIndex;
             }
@@ -284,8 +287,8 @@ void TableModel::initIncomeCourves()
 void TableModel::updateIncomeCourves(const QStringList &row)
 {
     int key = 0;
-    double income = 0;
-    double expense = 0;
+    qreal income = 0;
+    qreal expense = 0;
     if (!parseRow(row, key, income, expense)) {
         return;
     }
@@ -304,18 +307,24 @@ void TableModel::updateIncomeCourves(const QStringList &row)
     }
 
     //update curves
-    auto updateCurve = [&](int curveIndex, double amount) {
+    auto updateCurve = [&](int curveIndex, qreal amount) {
         if (nullptr != _chartSeries[curveIndex]) {
             const int len = _chartSeries[curveIndex]->count();
             if ((0 <= currentIndex) && (len > currentIndex)) {
                 const auto &pt = _chartSeries[curveIndex]->at(currentIndex);
                 _chartSeries[curveIndex]->replace(currentIndex, pt.x(),
                                                   pt.y() + amount);
+                qDebug() << "Replace in curve" << curveIndex << "at index" <<
+                            currentIndex << amount;
             } else if (len == currentIndex) {
-                _chartSeries[curveIndex]->append(currentIndex, amount);
+                _chartSeries[curveIndex]->append(static_cast<qreal>(currentIndex),
+                                                 static_cast<qreal>(amount));
+                qDebug() << "Append to curve" << curveIndex << "at index" <<
+                            currentIndex << amount;
             } else {
                 qWarning() << "Cannot insert into curve" << currentIndex;
             }
+            updateYAxis(amount);
         } else {
             qWarning() << "Invalid curve" << curveIndex;
         }
@@ -329,10 +338,36 @@ void TableModel::updateIncomeCourves(const QStringList &row)
     }
 }
 
-void TableModel::setXAxisMax(int val)
+void TableModel::setXAxisMax(qreal val)
 {
-    if (val != _xAxisMax) {
+    if (!qFuzzyCompare(val, _xAxisMax)) {
         _xAxisMax = val;
         emit xAxisMaxChanged();
+    }
+}
+
+void TableModel::setYAxisMin(qreal val)
+{
+    if (!qFuzzyCompare(val, _yAxisMin)) {
+        _yAxisMin = val;
+        emit yAxisMinChanged();
+    }
+}
+
+void TableModel::setYAxisMax(qreal val)
+{
+    if (!qFuzzyCompare(val, _yAxisMax)) {
+        _yAxisMax = val;
+        emit yAxisMaxChanged();
+    }
+}
+
+void TableModel::updateYAxis(qreal amount)
+{
+    if (_yAxisMin > amount) {
+        setYAxisMin(amount);
+    }
+    if (_yAxisMax < amount) {
+        setYAxisMax(amount);
     }
 }
