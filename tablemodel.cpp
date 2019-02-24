@@ -198,7 +198,6 @@ void TableModel::setChartSeries(int index, QtCharts::QAbstractSeries *series)
 {
     if (0 <= index && CURVE_COUNT > index) {
         _chartSeries[index] = static_cast<QtCharts::QXYSeries *>(series);
-        qDebug() << "Add curve" << index;
     }
 }
 
@@ -210,7 +209,6 @@ bool TableModel::parseRow(const QStringList &row, QDateTime &key, qreal &income,
         qWarning() << "Invalid date, skipping row" << row;
         return false;
     }
-    qDebug() << date;
     key = QDateTime(QDate(date.year(), date.month(), 1));
     income = 0;
     expense = 0;
@@ -340,17 +338,19 @@ void TableModel::setXAxisMax(const QDateTime &val)
 
 void TableModel::updateXAxis(const QDateTime &val)
 {
-    if (!_xAxisMin.isValid()) {
+    if (_xAxisMin.isValid()) {
+        if (_xAxisMin > val) {
+            setXAxisMin(val);
+        }
+    } else {
         _xAxisMin = val;
     }
-    if (!_xAxisMax.isValid()) {
+    if (_xAxisMax.isValid()) {
+        if (_xAxisMax < val) {
+            setXAxisMax(val);
+        }
+    } else {
         _xAxisMax = val;
-    }
-    if (_xAxisMin > val) {
-        setXAxisMin(val);
-    }
-    if (_xAxisMax < val) {
-        setXAxisMax(val);
     }
 }
 

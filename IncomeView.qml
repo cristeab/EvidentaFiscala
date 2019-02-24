@@ -9,7 +9,6 @@ ChartView {
     DateTimeAxis {
         id: axisX
         format: "MMM yyyy"
-        tickCount: 5
         min: tableModel.xAxisMin
         max: tableModel.xAxisMax
     }
