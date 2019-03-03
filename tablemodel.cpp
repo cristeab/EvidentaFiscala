@@ -301,14 +301,14 @@ void TableModel::updateXAxis(const QDateTime &val)
             setXAxisMin(val);
         }
     } else {
-        _xAxisMin = val;
+        setXAxisMin(val);
     }
     if (_xAxisMax.isValid()) {
         if (_xAxisMax < val) {
             setXAxisMax(val);
         }
     } else {
-        _xAxisMax = val;
+        setXAxisMax(val);
     }
 }
 
