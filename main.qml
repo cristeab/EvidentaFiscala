@@ -5,6 +5,8 @@ import QtQuick.Controls 2.5
 ApplicationWindow {
     visible: true
     width: tableTab.winWidth
+    maximumWidth: width
+    minimumWidth: width
     height: 600
     title: qsTr("Evidenta Fiscala")
 
@@ -86,5 +88,12 @@ ApplicationWindow {
             clip: true
             wrapMode: Text.WordWrap
         }
+    }
+
+    footer: Label {
+        id: footerLabel
+        width: parent.width
+        text: tableModel.fileName
+        horizontalAlignment: Text.AlignRight
     }
 }

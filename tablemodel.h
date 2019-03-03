@@ -20,6 +20,7 @@ class TableModel : public QAbstractTableModel
     Q_PROPERTY(int xAxisTickCount MEMBER _xAxisTickCount NOTIFY xAxisTickCountChanged)
     Q_PROPERTY(qreal yAxisMin MEMBER _yAxisMin NOTIFY yAxisMinChanged)
     Q_PROPERTY(qreal yAxisMax MEMBER _yAxisMax NOTIFY yAxisMaxChanged)
+    Q_PROPERTY(QString fileName MEMBER _fileName NOTIFY fileNameChanged)
 public:
     enum CourveType { GROSS_INCOME_CURVE = 0, EXPENSE_CURVE, NET_INCOME_CURVE,
                     CURVE_COUNT };
@@ -43,6 +44,7 @@ signals:
     void xAxisTickCountChanged();
     void yAxisMinChanged();
     void yAxisMaxChanged();
+    void fileNameChanged();
 private:
     enum ColumnNames {
         Date = Qt::DisplayRole,
@@ -70,6 +72,7 @@ private:
     void setYAxisMax(qreal val);
     void updateYAxis(qreal amount);
     void resetCurves();
+    void setFileName(const QString &fn);
 
     const static QLocale _locale;
     uint32_t _invoiceNumber = 0;

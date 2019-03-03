@@ -24,10 +24,10 @@ TableModel::TableModel() : _tableHeader({"Data", "Venituri prin Banca", "Venitur
 
     _typeModel = _tableHeader.mid(1, 4);
 #ifdef RELEASE_FOLDER
-    _fileName = QStandardPaths::writableLocation(QStandardPaths::DocumentsLocation) +
-            QString("/PFA/ledger_pfa_%1.csv").arg(QDate::currentDate().year());
+    setFileName(QStandardPaths::writableLocation(QStandardPaths::DocumentsLocation) +
+            QString("/PFA/ledger_pfa_%1.csv").arg(QDate::currentDate().year()));
 #else
-    _fileName = qApp->applicationDirPath() + QString("/ledger_pfa_%1.csv").arg(QDate::currentDate().year());
+    setFileName(qApp->applicationDirPath() + QString("/ledger_pfa_%1.csv").arg(QDate::currentDate().year()));
 #endif
     for (int i = 0; i < CURVE_COUNT; ++i) {
         _chartSeries[i] = nullptr;
@@ -370,5 +370,13 @@ void TableModel::resetCurves()
                           monthlyData.income - monthlyData.expense);
         }
         qInfo() << "Found" << _monthlyData.size() << "points";
+    }
+}
+
+void TableModel::setFileName(const QString &fn)
+{
+    if (_fileName != fn) {
+        _fileName = fn;
+        emit fileNameChanged();
     }
 }

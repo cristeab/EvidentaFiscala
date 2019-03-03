@@ -165,8 +165,7 @@ Item {
         delegate: Row {
             id: tableRow
             readonly property var modelName: [date, bankIncome, cashIncome,
-                bankExpenses, cashExpenses,
-                invoiceNumber, observations]
+                bankExpenses, cashExpenses, invoiceNumber, observations]
             Repeater {
                 model: tableModel.tableHeader.length
                 delegate: Label {
