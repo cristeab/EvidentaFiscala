@@ -17,7 +17,9 @@ ChartView {
         id: axisY
         min: tableModel.yAxisMin
         max: tableModel.yAxisMax
+        titleText: "RON"
     }
+
     LineSeries {
         id: grossIncomeLineSeries
         name: "Gross Income"
