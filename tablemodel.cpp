@@ -369,6 +369,7 @@ void TableModel::resetCurves()
             appendToCurve(NET_INCOME_CURVE, timeVal,
                           monthlyData.income - monthlyData.expense);
         }
+        setXAxisTickCount(_monthlyData.size());
         qInfo() << "Found" << _monthlyData.size() << "points";
     }
 }
@@ -378,5 +379,13 @@ void TableModel::setFileName(const QString &fn)
     if (_fileName != fn) {
         _fileName = fn;
         emit fileNameChanged();
+    }
+}
+
+void TableModel::setXAxisTickCount(int count)
+{
+    if ((_xAxisTickCount != count) && (1 < count)) {
+        _xAxisTickCount = count;
+        emit xAxisTickCountChanged();
     }
 }

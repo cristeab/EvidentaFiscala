@@ -73,6 +73,7 @@ private:
     void updateYAxis(qreal amount);
     void resetCurves();
     void setFileName(const QString &fn);
+    void setXAxisTickCount(int count);
 
     const static QLocale _locale;
     uint32_t _invoiceNumber = 0;
@@ -85,7 +86,7 @@ private:
     QtCharts::QXYSeries *_chartSeries[CURVE_COUNT];
     QDateTime _xAxisMin;
     QDateTime _xAxisMax;
-    int _xAxisTickCount = 0;
+    int _xAxisTickCount = 2;
     qreal _yAxisMin = 0;
     qreal _yAxisMax = 1;
     struct MonthlyData {
