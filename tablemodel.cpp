@@ -10,6 +10,7 @@
 #include <QDate>
 #include <QCoreApplication>
 #include <QtCharts/QXYSeries>
+#include <QRegularExpression>
 
 const QLocale TableModel::_locale;
 
@@ -18,7 +19,7 @@ TableModel::TableModel() : _tableHeader({"Data", "Venituri prin Banca", "Venitur
                                         "Numar Factura", "Observatii"}),
                            _currencyModel({"RON", "$", "EUR"}),
                            _csvSeparator(";"),
-                           _dateFormat("dd/MM/yyyy")
+                           _dateFormats({"dd/MM/yyyy", "dd.MM.yyyy"})
 {
     setObjectName("tableModel");
 
@@ -77,13 +78,6 @@ QString TableModel::computeActualAmount(qreal amount, int currencyIndex, qreal r
 QString TableModel::toString(qreal num)
 {
     return _locale.toString(num, 'f', 4);
-}
-
-qreal TableModel::fromString(const QString &num)
-{
-    bool ok = false;
-    const qreal d = _locale.toDouble(num, &ok);
-    return ok?d:0;
 }
 
 QVariant TableModel::data(const QModelIndex &index, int role) const
@@ -172,7 +166,7 @@ bool TableModel::add(const QString &date, int typeIndex, qreal amount,
                                 QtCSV::Writer::APPEND);
     if (rc) {
         _readData.append(row);
-        updateIncomeCourves(row);
+        updateIncomeCourves(_readData.size() - 1);
     }
     return rc;
 }
@@ -202,10 +196,23 @@ void TableModel::setChartSeries(int index, QtCharts::QAbstractSeries *series)
     }
 }
 
-bool TableModel::parseRow(const QStringList &row, QDateTime &key, qreal &income,
+bool TableModel::parseRow(int rowIndex, QDateTime &key, qreal &income,
                           qreal &expense)
 {
-    const QDate date = QDate::fromString(row.at(0), _dateFormat);
+    const auto &row = _readData.at(rowIndex);
+    QDate date;
+    for (int i = 0; i < _dateFormats.size(); ++i) {
+        date = QDate::fromString(row.at(0), _dateFormats.at(i));
+        if (date.isValid()) {
+            if (0 < i) {
+                //update date to match default format
+                QStringList newRow(row);
+                newRow.replace(0, date.toString(_dateFormats.at(0)));
+                _readData.replace(rowIndex, newRow);
+            }
+            break;
+        }
+    }
     if (!date.isValid()) {
         qWarning() << "Invalid date, skipping row" << row;
         return false;
@@ -218,12 +225,27 @@ bool TableModel::parseRow(const QStringList &row, QDateTime &key, qreal &income,
         if (val.isEmpty()) {
             continue;
         }
-        const auto tok = val.split(" ");
-        const qreal amount = fromString(tok.at(0));
-        if (2 > i) {
-            income += amount;
+
+        static QRegularExpression re("RON\\h*(.+)", QRegularExpression::CaseInsensitiveOption);
+        auto match = re.match(val);
+        if (match.hasMatch()) {
+            bool ok = false;
+            const qreal amount = _locale.toDouble(match.captured(1), &ok);
+            if (ok) {
+                if (2 > i) {
+                    income += amount;
+                } else {
+                    expense += amount;
+                }
+                //update amount to match default format
+                QStringList newRow(row);
+                newRow.replace(i + 1, "RON " + toString(amount));
+                _readData.replace(rowIndex, newRow);
+            } else {
+                qWarning() << "Cannot convert amount" << match.captured(1);
+            }
         } else {
-            expense += amount;
+            qWarning() << "Cannot match" << val;
         }
     }
     return true;
@@ -232,8 +254,8 @@ bool TableModel::parseRow(const QStringList &row, QDateTime &key, qreal &income,
 void TableModel::sortRows()
 {
     auto compareRows = [&](const QStringList &left, const QStringList &right) {
-        const QDate dateLeft = QDate::fromString(left.at(0), _dateFormat);
-        const QDate dateRight = QDate::fromString(right.at(0), _dateFormat);
+        const QDate dateLeft = QDate::fromString(left.at(0), _dateFormats.at(0));
+        const QDate dateRight = QDate::fromString(right.at(0), _dateFormats.at(0));
         return dateLeft > dateRight;
     };
     if (1 < _readData.size()) {
@@ -251,8 +273,7 @@ void TableModel::initIncomeCourves()
     qreal expense = 0;
     //skip header
     for (int i = 1; i < _readData.size(); ++i) {
-        const auto &row = _readData.at(i);
-        if (!parseRow(row, key, income, expense)) {
+        if (!parseRow(i, key, income, expense)) {
             continue;
         }
         _monthlyData[key].income += income;
@@ -263,12 +284,12 @@ void TableModel::initIncomeCourves()
     resetCurves();
 }
 
-void TableModel::updateIncomeCourves(const QStringList &row)
+void TableModel::updateIncomeCourves(int rowIndex)
 {
     QDateTime key;
     qreal income = 0;
     qreal expense = 0;
-    if (!parseRow(row, key, income, expense)) {
+    if (!parseRow(rowIndex, key, income, expense)) {
         return;
     }
     _monthlyData[key].income += income;

@@ -58,13 +58,12 @@ private:
     void init();
     QString computeActualAmount(qreal amount, int currencyIndex, qreal rate);
     static QString toString(qreal num);
-    static qreal fromString(const QString &num);
     void initInvoiceNumber();
-    bool parseRow(const QStringList &row, QDateTime &key, qreal &income,
+    bool parseRow(int rowIndex, QDateTime &key, qreal &income,
                   qreal &expense);
     void sortRows();
     void initIncomeCourves();
-    void updateIncomeCourves(const QStringList &row);
+    void updateIncomeCourves(int rowIndex);
     void setXAxisMin(const QDateTime &val);
     void setXAxisMax(const QDateTime &val);
     void updateXAxis(const QDateTime &val);
@@ -96,5 +95,5 @@ private:
         qreal expense = 0;
     };
     QMap<QDateTime, MonthlyData> _monthlyData;
-    const QString _dateFormat;
+    const QStringList _dateFormats;
 };
