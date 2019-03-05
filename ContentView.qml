@@ -161,7 +161,8 @@ Item {
         model: tableModel
         rowSpacing: 5
         clip: true
-        interactive: false
+        interactive: true
+        flickableDirection: Flickable.VerticalFlick
         delegate: Row {
             id: tableRow
             readonly property var modelName: [date, bankIncome, cashIncome,
