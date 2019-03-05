@@ -73,6 +73,7 @@ private:
     void resetCurves();
     void setFileName(const QString &fn);
     void setXAxisTickCount(int count);
+    bool ensureLastCharIsNewLine();
 
     const static QLocale _locale;
     uint32_t _invoiceNumber = 0;

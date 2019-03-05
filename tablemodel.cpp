@@ -162,7 +162,11 @@ bool TableModel::add(const QString &date, int typeIndex, qreal amount,
     row << obs + obsSuffix;
     QtCSV::StringData strData;
     strData.addRow(row);
-    const bool rc = QtCSV::Writer::write(_fileName, strData, _csvSeparator, QString("\""),
+    bool rc = ensureLastCharIsNewLine();
+    if (!rc) {
+        return false;
+    }
+    rc = QtCSV::Writer::write(_fileName, strData, _csvSeparator, QString("\""),
                                 QtCSV::Writer::APPEND);
     if (rc) {
         _readData.append(row);
@@ -409,4 +413,34 @@ void TableModel::setXAxisTickCount(int count)
         _xAxisTickCount = count;
         emit xAxisTickCountChanged();
     }
+}
+
+bool TableModel::ensureLastCharIsNewLine()
+{
+    bool rc = false;
+    QFile file(_fileName);
+    if (file.open(QIODevice::ReadWrite | QIODevice::Text)) {
+        const qint64 fileSize = file.size();
+        file.seek(fileSize-1);
+        char ch;
+        if (file.getChar(&ch)) {
+            if ('\n' != ch) {//only preOSX can have line ending a CR, ignore this case
+                file.seek(fileSize);
+                rc = file.putChar('\n');
+                if (rc) {
+                    qInfo() << "Put LF at the end of the file";
+                } else {
+                    qWarning() << "Cannot putChar" << file.errorString();
+                }
+            } else {
+                qInfo() << "Found LF at the end of the file";
+                rc = true;
+            }
+        } else {
+            qWarning() << "Cannot getChar" << file.errorString();
+        }
+    } else {
+        qWarning() << "Cannot open" << file.errorString();
+    }
+    return rc;
 }
