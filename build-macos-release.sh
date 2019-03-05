@@ -12,8 +12,8 @@ mkdir build
 cd build
 
 cmake .. -DCMAKE_BUILD_TYPE=Release -DCMAKE_PREFIX_PATH=$HOME/Qt/$QT_VER/clang_64
-make
-make pack
+make -j
+make -j pack
 
 cd ..
 mv build/EvidentaFiscala.dmg build/EvidentaFiscala-$MAJOR_VERSION.$MINOR_VERSION.dmg
