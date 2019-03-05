@@ -22,24 +22,30 @@ ChartView {
 
     LineSeries {
         id: grossIncomeLineSeries
-        name: "Gross Income"
+        name: "Venit Brut"
         color: "#16c5f0"
         axisX: axisX
         axisY: axisY
+        style: Qt.DashDotLine
+        width: 2
     }
     LineSeries {
         id: expenseLineSeries
-        name: "Expenses"
+        name: "Cheltuieli"
         color: "#b416e7"
         axisX: axisX
         axisY: axisY
+        style: Qt.SolidLine
+        width: 2
     }
     LineSeries {
         id: netIncomeLineSeries
-        name: "Net Income"
+        name: "Venit Net"
         color: "#21f15e"
         axisX: axisX
         axisY: axisY
+        style: Qt.SolidLine
+        width: 2
     }
     Component.onCompleted: {
         tableModel.setChartSeries(TableModel.GROSS_INCOME_CURVE, grossIncomeLineSeries)

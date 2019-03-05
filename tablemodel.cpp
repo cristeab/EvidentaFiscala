@@ -72,7 +72,7 @@ QString TableModel::computeActualAmount(qreal amount, int currencyIndex, qreal r
     if (0 != currencyIndex) {
         actualAmount *= rate;
     }
-    return toString(actualAmount) + " " + _currencyModel.at(0);
+    return _currencyModel.at(0) + " " + toString(actualAmount);
 }
 
 QString TableModel::toString(qreal num)

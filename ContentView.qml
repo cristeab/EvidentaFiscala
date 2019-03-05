@@ -179,12 +179,12 @@ Item {
                         anchors.fill: parent
                         hoverEnabled: true
                         onEntered: {
-                            if (rowLabel.truncated) {
+                            if (("" !== rowLabel.text) && rowLabel.truncated) {
                                 rowLabelTooltip.visible = true
                             }
                         }
                         onExited: {
-                            if (rowLabel.truncated) {
+                            if (("" !== rowLabel.text) && rowLabel.truncated) {
                                 rowLabelTooltip.visible = false
                             }
                         }

@@ -27,10 +27,10 @@ ApplicationWindow {
             rightMargin: props.horizontalMargin
         }
         TabButton {
-            text: qsTr("Table")
+            text: qsTr("Tabel")
         }
         TabButton {
-            text: qsTr("Chart")
+            text: qsTr("Grafic")
         }
     }
     SwipeView {
