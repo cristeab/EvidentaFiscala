@@ -234,7 +234,9 @@ bool TableModel::parseRow(int rowIndex, QDateTime &key, qreal &income,
         auto match = re.match(val);
         if (match.hasMatch()) {
             bool ok = false;
-            const qreal amount = _locale.toDouble(match.captured(1), &ok);
+            QString amountStr = match.captured(1);
+            amountStr = amountStr.simplified().replace(" ", "");
+            const qreal amount = _locale.toDouble(amountStr, &ok);
             if (ok) {
                 if (2 > i) {
                     income += amount;
@@ -365,14 +367,10 @@ void TableModel::updateYAxis(qreal amount)
 
 void TableModel::resetCurves()
 {
-    if (nullptr != _chartSeries[GROSS_INCOME_CURVE]) {
-        _chartSeries[GROSS_INCOME_CURVE]->clear();
-    }
-    if (nullptr != _chartSeries[EXPENSE_CURVE]) {
-        _chartSeries[EXPENSE_CURVE]->clear();
-    }
-    if (nullptr != _chartSeries[NET_INCOME_CURVE]) {
-        _chartSeries[NET_INCOME_CURVE]->clear();
+    for (int i = 0; i < CURVE_COUNT; ++i) {
+        if (nullptr != _chartSeries[i]) {
+            _chartSeries[i]->clear();
+        }
     }
     if (!_monthlyData.isEmpty()) {
         QMapIterator<QDateTime,MonthlyData> i(_monthlyData);
@@ -395,6 +393,8 @@ void TableModel::resetCurves()
                           monthlyData.income - monthlyData.expense);
         }
         setXAxisTickCount(_monthlyData.size());
+        _chartSeries[THRESHOLD_CURVE]->append(_chartSeries[GROSS_INCOME_CURVE]->at(0).x(), THRESHOLD_VALUE);
+        _chartSeries[THRESHOLD_CURVE]->append(_chartSeries[GROSS_INCOME_CURVE]->at(_chartSeries[GROSS_INCOME_CURVE]->count() - 1).x(), THRESHOLD_VALUE);
         qInfo() << "Found" << _monthlyData.size() << "points";
     }
 }

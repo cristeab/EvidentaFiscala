@@ -23,7 +23,7 @@ class TableModel : public QAbstractTableModel
     Q_PROPERTY(QString fileName MEMBER _fileName NOTIFY fileNameChanged)
 public:
     enum CourveType { GROSS_INCOME_CURVE = 0, EXPENSE_CURVE, NET_INCOME_CURVE,
-                    CURVE_COUNT };
+                      THRESHOLD_CURVE, CURVE_COUNT };
     Q_ENUM(CourveType)
     TableModel();
     int rowCount(const QModelIndex & = QModelIndex()) const override {
@@ -55,6 +55,7 @@ private:
         InvoiceNumber,
         Observations
     };
+    enum { THRESHOLD_VALUE = 11000 };
     void init();
     QString computeActualAmount(qreal amount, int currencyIndex, qreal rate);
     static QString toString(qreal num);

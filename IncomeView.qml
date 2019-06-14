@@ -21,6 +21,16 @@ ChartView {
     }
 
     LineSeries {
+        id: threshold
+        name: "Threshold"
+        axisX: axisX
+        axisY: axisY
+        style: Qt.DashDotDotLine
+        color: "lightgray"
+        width: 1
+    }
+
+    LineSeries {
         id: grossIncomeLineSeries
         name: "Venit Brut"
         color: "#16c5f0"
@@ -51,5 +61,6 @@ ChartView {
         tableModel.setChartSeries(TableModel.GROSS_INCOME_CURVE, grossIncomeLineSeries)
         tableModel.setChartSeries(TableModel.EXPENSE_CURVE, expenseLineSeries)
         tableModel.setChartSeries(TableModel.NET_INCOME_CURVE, netIncomeLineSeries)
+        tableModel.setChartSeries(TableModel.THRESHOLD_CURVE, threshold)
     }
 }
