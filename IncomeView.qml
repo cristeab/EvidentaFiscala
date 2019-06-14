@@ -22,7 +22,6 @@ ChartView {
 
     LineSeries {
         id: threshold
-        name: "Threshold"
         axisX: axisX
         axisY: axisY
         style: Qt.DashDotDotLine

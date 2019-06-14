@@ -3,7 +3,8 @@ import QtQuick.Controls 2.5
 import QtQuick.Controls 1.4 as Old
 
 Item {
-    readonly property real winWidth: dateField.width + typeCombo.width + amountField.width + currencyCombo.width + rateField.width + 6 * props.horizontalMargin
+    readonly property real winWidth: dateField.width + typeCombo.width + amountField.width + currencyCombo.width + rateField.width + 8 * props.horizontalMargin
+    clip: true
     TextField {
         id: dateField
         anchors {
@@ -156,6 +157,7 @@ Item {
             topMargin: props.verticalMargin
             left: parent.left
             right: parent.right
+            rightMargin: props.horizontalMargin
             bottom: parent.bottom
         }
         model: tableModel
@@ -167,6 +169,7 @@ Item {
             id: tableRow
             readonly property var modelName: [date, bankIncome, cashIncome,
                 bankExpenses, cashExpenses, invoiceNumber, observations]
+            spacing: 0
             Repeater {
                 model: tableModel.tableHeader.length
                 delegate: Label {

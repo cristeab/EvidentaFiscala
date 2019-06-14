@@ -55,7 +55,7 @@ private:
         InvoiceNumber,
         Observations
     };
-    enum { THRESHOLD_VALUE = 11000 };
+    enum { THRESHOLD_VALUE = 11112 };
     void init();
     QString computeActualAmount(qreal amount, int currencyIndex, qreal rate);
     static QString toString(qreal num);
