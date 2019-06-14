@@ -95,5 +95,23 @@ ApplicationWindow {
         width: parent.width
         text: tableModel.fileName
         horizontalAlignment: Text.AlignRight
+        bottomPadding: 5
+        MouseArea {
+            id: control
+            property var prevCursorShape: null
+            anchors.fill: parent
+            hoverEnabled: true
+            onEntered: {
+                control.prevCursorShape = control.cursorShape
+                control.cursorShape = Qt.PointingHandCursor
+            }
+            onExited: {
+                if (null !== control.prevCursorShape) {
+                    control.cursorShape = control.prevCursorShape
+                    control.prevCursorShape = null
+                }
+            }
+            onClicked: Qt.openUrlExternally("file://"+ footerLabel.text)
+        }
     }
 }

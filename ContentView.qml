@@ -179,22 +179,13 @@ Item {
                     elide: Text.ElideRight
                     clip: true
                     MouseArea {
+                        id: rowLabelMouseArea
                         anchors.fill: parent
                         hoverEnabled: true
-                        onEntered: {
-                            if (("" !== rowLabel.text) && rowLabel.truncated) {
-                                rowLabelTooltip.visible = true
-                            }
-                        }
-                        onExited: {
-                            if (("" !== rowLabel.text) && rowLabel.truncated) {
-                                rowLabelTooltip.visible = false
-                            }
-                        }
                     }
                     ToolTip {
                         id: rowLabelTooltip
-                        visible: false
+                        visible: rowLabelMouseArea.containsMouse && ("" !== rowLabel.text) && rowLabel.truncated
                         text: rowLabel.text
                     }
                 }
