@@ -76,7 +76,7 @@ ApplicationWindow {
         }
         visible: false
         width: parent.width/2
-        height: parent.height/2
+        height: parent.height/3
         x: (parent.width - width)/2
         y: (parent.height - height)/2
         title: qsTr("Eroare")
