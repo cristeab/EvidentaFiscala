@@ -25,7 +25,7 @@ ApplicationWindow {
                 onTriggered: tableModel.generateRegistry()
             }
             MenuItem {
-                text: qsTr("Close")
+                text: qsTr("Inchide")
             }
         }
     }

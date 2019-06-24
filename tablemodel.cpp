@@ -11,6 +11,9 @@
 #include <QCoreApplication>
 #include <QtCharts/QXYSeries>
 #include <QRegularExpression>
+#include <QTextDocument>
+#include <QTextDocumentWriter>
+#include <QDesktopServices>
 
 const QLocale TableModel::_locale;
 
@@ -447,6 +450,9 @@ bool TableModel::ensureLastCharIsNewLine()
 
 void TableModel::generateRegistry()
 {
+    if (_monthlyData.isEmpty()) {
+        return;
+    }
     qreal totalIncome = 0;
     qreal totalExpense = 0;
     for (auto item: _monthlyData) {
@@ -456,4 +462,28 @@ void TableModel::generateRegistry()
     qInfo() << "Gross income" << totalIncome;
     qInfo() << "Expenses" << totalExpense;
     qInfo() << "Net income" << totalIncome - totalExpense;
+
+    //generate HTML document
+    const QString year = _monthlyData.keyBegin()->toString("yyyy");
+    QString content = "<br><p>Anul " + year + "</p>";
+    content += "<p>Rectificare</p>";
+    content += "<p>Activit&#259;&#355;i de consultan&#355;&#259; &#238;n tehnologia informa&#355;iei</p>";
+    content += "<br>";
+    content += "<table>";
+    content += "<tr><th>Nr. crt.</th><th>Elemente de calcul pentru stabilirea venitului net anual/pierderii nete anuale</th><th>Valoare<br>- lei -</th></tr>";
+    content += "<tr><td align=\"center\">1</td><td>&nbsp;Venit brut</td><td align=\"center\">" + toString(totalIncome) + "</td></tr>";
+    content += "<tr><td align=\"center\">2</td><td>&nbsp;Cheltuieli</td><td align=\"center\">" + toString(totalExpense) + "</td></tr>";
+    content += "</table>";
+    QTextDocument doc;
+    doc.setMetaInformation(QTextDocument::DocumentTitle, "Registru de Evidenta Fiscala");
+    doc.setHtml(content);
+    QTextDocumentWriter docWriter("RegistruEvidentaFiscala_"+year+".odt", "odf");
+    const bool rc = docWriter.write(&doc);
+    if (rc) {
+        QDesktopServices::openUrl("file://" + qApp->applicationDirPath() + "/" + docWriter.fileName());
+    } else {
+        const QString msg = "Cannot write to " + docWriter.fileName();
+        qCritical() << msg;
+        emit error(msg, false);
+    }
 }
