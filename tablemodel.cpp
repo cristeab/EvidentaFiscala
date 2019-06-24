@@ -17,7 +17,7 @@ const QLocale TableModel::_locale;
 TableModel::TableModel() : _tableHeader({"Data", "Venituri prin Banca", "Venituri Lichide",
                                         "Cheltuieli prin Banca", "Cheltuieli Lichide",
                                         "Numar Factura", "Observatii"}),
-                           _currencyModel({"RON", "$", "EUR"}),
+                           _currencyModel({"RON", "USD", "EUR"}),
                            _csvSeparator(";"),
                            _dateFormats({"dd/MM/yyyy", "dd.MM.yyyy"})
 {
