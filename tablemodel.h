@@ -37,6 +37,7 @@ public:
     Q_INVOKABLE bool add(const QString &date, int typeIndex, qreal amount,
                          int currencyIndex, qreal rate, const QString &obs);
     Q_INVOKABLE void setChartSeries(int index, QtCharts::QAbstractSeries *series);
+    Q_INVOKABLE void generateRegistry();
 signals:
     void error(const QString &msg, bool fatal = false);
     void xAxisMinChanged();

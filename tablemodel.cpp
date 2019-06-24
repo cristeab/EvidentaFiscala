@@ -267,7 +267,7 @@ void TableModel::sortRows()
     if (1 < _readData.size()) {
         emit layoutAboutToBeChanged();
         //skip table header
-        qSort(++_readData.begin(), _readData.end(), compareRows);
+        std::sort(++_readData.begin(), _readData.end(), compareRows);
         emit layoutChanged();
     }
 }
@@ -443,4 +443,17 @@ bool TableModel::ensureLastCharIsNewLine()
         qWarning() << "Cannot open" << file.errorString();
     }
     return rc;
+}
+
+void TableModel::generateRegistry()
+{
+    qreal totalIncome = 0;
+    qreal totalExpense = 0;
+    for (auto item: _monthlyData) {
+        totalIncome += item.income;
+        totalExpense += item.expense;
+    }
+    qInfo() << "Gross income" << totalIncome;
+    qInfo() << "Expenses" << totalExpense;
+    qInfo() << "Net income" << totalIncome - totalExpense;
 }

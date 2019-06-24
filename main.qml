@@ -10,6 +10,26 @@ ApplicationWindow {
     height: 600
     title: qsTr("Evidenta Fiscala")
 
+    menuBar: MenuBar {
+        Menu {
+            width: 320
+            title: qsTr("Fisier")
+            MenuItem {
+                text: qsTr("Deschide...")
+            }
+            MenuItem {
+                text: qsTr("Configurare...")
+            }
+            MenuItem {
+                text: qsTr("Generare Registru de Evidenta Fiscala")
+                onTriggered: tableModel.generateRegistry()
+            }
+            MenuItem {
+                text: qsTr("Close")
+            }
+        }
+    }
+
     QtObject {
         id: props
         readonly property real verticalMargin: 5
