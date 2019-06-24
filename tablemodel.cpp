@@ -14,6 +14,7 @@
 #include <QTextDocument>
 #include <QTextDocumentWriter>
 #include <QDesktopServices>
+#include <QFileInfo>
 
 const QLocale TableModel::_locale;
 
@@ -477,10 +478,11 @@ void TableModel::generateRegistry()
     QTextDocument doc;
     doc.setMetaInformation(QTextDocument::DocumentTitle, "Registru de Evidenta Fiscala");
     doc.setHtml(content);
-    QTextDocumentWriter docWriter("RegistruEvidentaFiscala_"+year+".odt", "odf");
+    const QString path = QFileInfo(_fileName).path();
+    QTextDocumentWriter docWriter(path + "/RegistruEvidentaFiscala_"+year+".odt", "odf");
     const bool rc = docWriter.write(&doc);
     if (rc) {
-        QDesktopServices::openUrl("file://" + qApp->applicationDirPath() + "/" + docWriter.fileName());
+        QDesktopServices::openUrl("file://" + docWriter.fileName());
     } else {
         const QString msg = "Cannot write to " + docWriter.fileName();
         qCritical() << msg;
