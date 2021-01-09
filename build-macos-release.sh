@@ -1,7 +1,7 @@
 #!/bin/bash
 
 QT_VER=5.15.2
-MAJOR_VERSION=0
+MAJOR_VERSION=1.0
 MINOR_VERSION=$(git rev-list --count HEAD)
 
 echo "QT version $QT_VER"

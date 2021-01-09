@@ -9,7 +9,7 @@ set(CMAKE_INCLUDE_CURRENT_DIR ON)
 set(CMAKE_AUTOMOC ON)
 set(CMAKE_AUTORCC ON)
 
-find_package(Qt5 COMPONENTS Core Quick Charts REQUIRED)
+find_package(Qt5 5.15 COMPONENTS Core Quick Charts REQUIRED)
 
 include_directories(${PROJECT_SOURCE_DIR}/../qtcsv_install/include)
 link_directories(${PROJECT_SOURCE_DIR}/../qtcsv_install/lib)
