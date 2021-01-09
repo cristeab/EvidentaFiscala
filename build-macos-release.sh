@@ -2,6 +2,7 @@
 
 QT_VER=5.15.2
 APP_NAME=EvidentaFiscala
+APP_IDENTIFIER="com.cristeab.finance"
 MAJOR_VERSION=1.0
 MINOR_VERSION=$(git rev-list --count HEAD)
 

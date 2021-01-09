@@ -19,14 +19,16 @@ file(GLOB SRCS *.cpp)
 add_executable(${PROJECT_NAME} MACOSX_BUNDLE "${SRCS}" "qml.qrc"
     "${CMAKE_SOURCE_DIR}/img/${PROJECT_NAME}.icns")
 set_source_files_properties ("${CMAKE_SOURCE_DIR}/img/${PROJECT_NAME}.icns"
-        PROPERTIES MACOSX_PACKAGE_LOCATION "Resources")
-    set_target_properties(${PROJECT_NAME} PROPERTIES
-        MACOSX_BUNDLE_INFO_STRING "Evidenta Fiscala"
-        MACOSX_BUNDLE_ICON_FILE "${PROJECT_NAME}.icns"
-        MACOSX_BUNDLE_BUNDLE_NAME "Evidenta Fiscala"
-        MACOSX_BUNDLE_SHORT_VERSION_STRING "${PROJECT_VERSION}"
-        MACOSX_BUNDLE_BUNDLE_VERSION "${PROJECT_VERSION}"
-        MACOSX_BUNDLE_COPYRIGHT "Copyright 2019, Bogdan Cristea. All rights reserved")
+    PROPERTIES MACOSX_PACKAGE_LOCATION "Resources")
+set_target_properties(${PROJECT_NAME} PROPERTIES
+    MACOSX_BUNDLE_GUI_IDENTIFIER "com.cristeab.finance"
+    MACOSX_BUNDLE_INFO_STRING "Evidenta Fiscala"
+    MACOSX_BUNDLE_ICON_FILE "${PROJECT_NAME}.icns"
+    MACOSX_BUNDLE_BUNDLE_NAME "Evidenta Fiscala"
+    MACOSX_BUNDLE_SHORT_VERSION_STRING "${PROJECT_VERSION}"
+    MACOSX_BUNDLE_BUNDLE_VERSION "${PROJECT_VERSION}"
+    MACOSX_BUNDLE_COPYRIGHT "Copyright 2019, Bogdan Cristea. All rights reserved"
+    MACOSX_BUNDLE_INFO_PLIST ${CMAKE_CURRENT_SOURCE_DIR}/Info.plist)
 
 target_compile_definitions(${PROJECT_NAME} PRIVATE $<$<OR:$<CONFIG:Debug>,$<CONFIG:RelWithDebInfo>>:QT_QML_DEBUG>)
 target_link_libraries(${PROJECT_NAME} PRIVATE Qt5::Core Qt5::Quick Qt5::Charts -lqtcsv)
