@@ -22,12 +22,12 @@ TableModel::TableModel() : _tableHeader({"Data", "Venituri prin Banca", "Venitur
                                         "Cheltuieli prin Banca", "Cheltuieli Lichide",
                                         "Numar Factura", "Observatii"}),
                            _currencyModel({"RON", "USD", "EUR"}),
+                           _typeModel(_tableHeader.mid(1, 4)),
                            _csvSeparator(";"),
                            _dateFormats({"dd/MM/yyyy", "dd.MM.yyyy"})
 {
     setObjectName("tableModel");
 
-    _typeModel = _tableHeader.mid(1, 4);
 #ifdef RELEASE_FOLDER
     setFileName(QStandardPaths::writableLocation(QStandardPaths::DocumentsLocation) +
             QString("/PFA/ledger_pfa_%1.csv").arg(QDate::currentDate().year()));
@@ -310,22 +310,6 @@ void TableModel::updateIncomeCourves(int rowIndex)
     resetCurves();
 }
 
-void TableModel::setXAxisMin(const QDateTime &val)
-{
-    if (val != _xAxisMin) {
-        _xAxisMin = val;
-        emit xAxisMinChanged();
-    }
-}
-
-void TableModel::setXAxisMax(const QDateTime &val)
-{
-    if (val != _xAxisMax) {
-        _xAxisMax = val;
-        emit xAxisMaxChanged();
-    }
-}
-
 void TableModel::updateXAxis(const QDateTime &val)
 {
     if (_xAxisMin.isValid()) {
@@ -341,22 +325,6 @@ void TableModel::updateXAxis(const QDateTime &val)
         }
     } else {
         setXAxisMax(val);
-    }
-}
-
-void TableModel::setYAxisMin(qreal val)
-{
-    if (!qFuzzyCompare(val, _yAxisMin)) {
-        _yAxisMin = val;
-        emit yAxisMinChanged();
-    }
-}
-
-void TableModel::setYAxisMax(qreal val)
-{
-    if (!qFuzzyCompare(val, _yAxisMax)) {
-        _yAxisMax = val;
-        emit yAxisMaxChanged();
     }
 }
 
@@ -401,22 +369,6 @@ void TableModel::resetCurves()
         _chartSeries[THRESHOLD_CURVE]->append(_chartSeries[GROSS_INCOME_CURVE]->at(0).x(), THRESHOLD_VALUE);
         _chartSeries[THRESHOLD_CURVE]->append(_chartSeries[GROSS_INCOME_CURVE]->at(_chartSeries[GROSS_INCOME_CURVE]->count() - 1).x(), THRESHOLD_VALUE);
         qInfo() << "Found" << _monthlyData.size() << "points";
-    }
-}
-
-void TableModel::setFileName(const QString &fn)
-{
-    if (_fileName != fn) {
-        _fileName = fn;
-        emit fileNameChanged();
-    }
-}
-
-void TableModel::setXAxisTickCount(int count)
-{
-    if ((_xAxisTickCount != count) && (1 < count)) {
-        _xAxisTickCount = count;
-        emit xAxisTickCountChanged();
     }
 }
 

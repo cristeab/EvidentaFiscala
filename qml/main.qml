@@ -1,6 +1,7 @@
 import QtQuick 2.12
 import QtQuick.Window 2.12
 import QtQuick.Controls 2.5
+import QtQuick.Dialogs 1.2
 
 ApplicationWindow {
     visible: true
@@ -16,6 +17,10 @@ ApplicationWindow {
             title: qsTr("Fisier")
             MenuItem {
                 text: qsTr("Deschide...")
+                onTriggered: {
+                    fileDialogComp.active = true
+                    fileDialogComp.item.visible = true
+                }
             }
             MenuItem {
                 text: qsTr("Configurare...")
@@ -74,6 +79,31 @@ ApplicationWindow {
         }
     }
 
+    footer: Label {
+        id: footerLabel
+        width: parent.width
+        text: tableModel.fileName
+        horizontalAlignment: Text.AlignRight
+        bottomPadding: 5
+        MouseArea {
+            id: control
+            property var prevCursorShape: null
+            anchors.fill: parent
+            hoverEnabled: true
+            onEntered: {
+                control.prevCursorShape = control.cursorShape
+                control.cursorShape = Qt.PointingHandCursor
+            }
+            onExited: {
+                if (null !== control.prevCursorShape) {
+                    control.cursorShape = control.prevCursorShape
+                    control.prevCursorShape = null
+                }
+            }
+            onClicked: Qt.openUrlExternally("file://"+ footerLabel.text)
+        }
+    }
+
     Connections {
         target: tableModel
         function onError(msg, fatal) {
@@ -110,28 +140,22 @@ ApplicationWindow {
         }
     }
 
-    footer: Label {
-        id: footerLabel
-        width: parent.width
-        text: tableModel.fileName
-        horizontalAlignment: Text.AlignRight
-        bottomPadding: 5
-        MouseArea {
-            id: control
-            property var prevCursorShape: null
-            anchors.fill: parent
-            hoverEnabled: true
-            onEntered: {
-                control.prevCursorShape = control.cursorShape
-                control.cursorShape = Qt.PointingHandCursor
+    Component {
+        id: fileDialogComp
+        FileDialog {
+            title: "Selectati fisier"
+            folder: shortcuts.home
+            onAccepted: {
+                console.log("You chose: " + fileDialog.fileUrls)
+                Qt.quit()
             }
-            onExited: {
-                if (null !== control.prevCursorShape) {
-                    control.cursorShape = control.prevCursorShape
-                    control.prevCursorShape = null
-                }
-            }
-            onClicked: Qt.openUrlExternally("file://"+ footerLabel.text)
+            Component.onCompleted: visible = true
         }
+    }
+    Loader {
+        id: fileDialogLoader
+        active: false
+        anchors.fill: parent
+        sourceComponent: fileDialogComp
     }
 }

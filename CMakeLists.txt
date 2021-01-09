@@ -5,19 +5,17 @@ project(EvidentaFiscala VERSION 1.0.0 LANGUAGES CXX)
 set(CMAKE_CXX_STANDARD 17)
 set(CMAKE_CXX_STANDARD_REQUIRED ON)
 
-set(CMAKE_INCLUDE_CURRENT_DIR ON)
 set(CMAKE_AUTOMOC ON)
 set(CMAKE_AUTORCC ON)
 
 find_package(Qt5 5.15 COMPONENTS Core Quick Charts REQUIRED)
 
-include_directories(${PROJECT_SOURCE_DIR}/../qtcsv_install/include)
-link_directories(${PROJECT_SOURCE_DIR}/../qtcsv_install/lib)
-
-file(GLOB SRCS *.cpp)
+file(GLOB SRCS src/*.cpp)
 
 add_executable(${PROJECT_NAME} MACOSX_BUNDLE "${SRCS}" "qml.qrc"
     "${CMAKE_SOURCE_DIR}/img/${PROJECT_NAME}.icns")
+target_include_directories(${PROJECT_NAME} PRIVATE src ${PROJECT_SOURCE_DIR}/../qtcsv_install/include)
+target_link_directories(${PROJECT_NAME} PRIVATE ${PROJECT_SOURCE_DIR}/../qtcsv_install/lib)
 set_source_files_properties ("${CMAKE_SOURCE_DIR}/img/${PROJECT_NAME}.icns"
     PROPERTIES MACOSX_PACKAGE_LOCATION "Resources")
 set_target_properties(${PROJECT_NAME} PROPERTIES

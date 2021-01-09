@@ -1,5 +1,6 @@
 #pragma once
 
+#include "qmlhelpers.h"
 #include <QAbstractTableModel>
 #include <QStringList>
 #include <QDateTime>
@@ -12,15 +13,15 @@ namespace QtCharts {
 class TableModel : public QAbstractTableModel
 {
     Q_OBJECT
-    Q_PROPERTY(QStringList tableHeader MEMBER _tableHeader CONSTANT)
-    Q_PROPERTY(QStringList currencyModel MEMBER _currencyModel CONSTANT)
-    Q_PROPERTY(QStringList typeModel MEMBER _typeModel CONSTANT)
-    Q_PROPERTY(QDateTime xAxisMin MEMBER _xAxisMin NOTIFY xAxisMinChanged)
-    Q_PROPERTY(QDateTime xAxisMax MEMBER _xAxisMax NOTIFY xAxisMaxChanged)
-    Q_PROPERTY(int xAxisTickCount MEMBER _xAxisTickCount NOTIFY xAxisTickCountChanged)
-    Q_PROPERTY(qreal yAxisMin MEMBER _yAxisMin NOTIFY yAxisMinChanged)
-    Q_PROPERTY(qreal yAxisMax MEMBER _yAxisMax NOTIFY yAxisMaxChanged)
-    Q_PROPERTY(QString fileName MEMBER _fileName NOTIFY fileNameChanged)
+    QML_CONSTANT_PROPERTY(QStringList, tableHeader, QStringList())
+    QML_CONSTANT_PROPERTY(QStringList, currencyModel, QStringList())
+    QML_CONSTANT_PROPERTY(QStringList, typeModel, QStringList())
+    QML_READABLE_PROPERTY(QDateTime, xAxisMin, setXAxisMin, QDateTime())
+    QML_READABLE_PROPERTY(QDateTime, xAxisMax, setXAxisMax, QDateTime())
+    QML_READABLE_PROPERTY(int, xAxisTickCount, setXAxisTickCount, 2)
+    QML_READABLE_PROPERTY(qreal, yAxisMin, setYAxisMin, 0)
+    QML_READABLE_PROPERTY(qreal, yAxisMax, setYAxisMax, 1)
+    QML_READABLE_PROPERTY(QString, fileName, setFileName, "")
 public:
     enum CourveType { GROSS_INCOME_CURVE = 0, EXPENSE_CURVE, NET_INCOME_CURVE,
                       THRESHOLD_CURVE, CURVE_COUNT };
@@ -40,12 +41,6 @@ public:
     Q_INVOKABLE void generateRegistry();
 signals:
     void error(const QString &msg, bool fatal = false);
-    void xAxisMinChanged();
-    void xAxisMaxChanged();
-    void xAxisTickCountChanged();
-    void yAxisMinChanged();
-    void yAxisMaxChanged();
-    void fileNameChanged();
 private:
     enum ColumnNames {
         Date = Qt::DisplayRole,
@@ -66,31 +61,16 @@ private:
     void sortRows();
     void initIncomeCourves();
     void updateIncomeCourves(int rowIndex);
-    void setXAxisMin(const QDateTime &val);
-    void setXAxisMax(const QDateTime &val);
     void updateXAxis(const QDateTime &val);
-    void setYAxisMin(qreal val);
-    void setYAxisMax(qreal val);
     void updateYAxis(qreal amount);
     void resetCurves();
-    void setFileName(const QString &fn);
-    void setXAxisTickCount(int count);
     bool ensureLastCharIsNewLine();
 
     const static QLocale _locale;
     uint32_t _invoiceNumber = 0;
-    const QStringList _tableHeader;
-    QStringList _typeModel;
-    const QStringList _currencyModel;
-    QString _fileName;
     QList<QStringList> _readData;
     const QString _csvSeparator;
     QtCharts::QXYSeries *_chartSeries[CURVE_COUNT];
-    QDateTime _xAxisMin;
-    QDateTime _xAxisMax;
-    int _xAxisTickCount = 2;
-    qreal _yAxisMin = 0;
-    qreal _yAxisMax = 1;
     struct MonthlyData {
         MonthlyData(qreal i, qreal e) : income(i), expense(e) {}
         MonthlyData() = default;

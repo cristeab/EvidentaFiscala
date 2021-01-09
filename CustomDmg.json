@@ -1,7 +1,7 @@
 {
   "title": "Install EvidentaFiscala",
   "icon": "img/EvidentaFiscala.icns",
-  "background": "dmgBackground.png",
+  "background": "img/dmgBackground.png",
   "icon-size": 70,
   "contents": [
       { "x": 152, "y": 172, "type": "file", "path": "build/EvidentaFiscala.app" },
