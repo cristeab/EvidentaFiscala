@@ -161,7 +161,8 @@ bool TableModel::add(const QString &date, int typeIndex, qreal amount,
     //observations
     QString obsSuffix;
     if (0 != currencyIndex) {
-        obsSuffix = QString(" (%1 %2 @ 1 %2 = %3 %4)").arg(amount).arg(_currencyModel.at(currencyIndex)).arg(toString(rate)).arg(_currencyModel.at(0));
+        obsSuffix = QString(" (%1 %2 @ 1 %2 = %3 %4)").arg(amount).arg(_currencyModel.at(currencyIndex),
+                                                                       toString(rate), _currencyModel.at(0));
     }
     row << obs + obsSuffix;
     QtCSV::StringData strData;
@@ -181,7 +182,7 @@ bool TableModel::add(const QString &date, int typeIndex, qreal amount,
 
 void TableModel::initInvoiceNumber()
 {
-    for (const auto &row: _readData) {
+    for (const auto &row: qAsConst(_readData)) {
         const int rowLen = row.size();
         if (2 < rowLen) {
             const QString invNo = row.at(rowLen-2);
@@ -456,7 +457,7 @@ void TableModel::generateRegistry()
     }
     qreal totalIncome = 0;
     qreal totalExpense = 0;
-    for (auto item: _monthlyData) {
+    for (const auto &item: qAsConst(_monthlyData)) {
         totalIncome += item.income;
         totalExpense += item.expense;
     }

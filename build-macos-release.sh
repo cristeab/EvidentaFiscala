@@ -1,6 +1,6 @@
 #!/bin/bash
 
-QT_VER=5.13.0
+QT_VER=5.15.2
 MAJOR_VERSION=0
 MINOR_VERSION=$(git rev-list --count HEAD)
 

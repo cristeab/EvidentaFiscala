@@ -76,7 +76,7 @@ ApplicationWindow {
 
     Connections {
         target: tableModel
-        onError: {
+        function onError(msg, fatal) {
             errMsg.isFatal = fatal
             errMsg.show(msg)
         }
