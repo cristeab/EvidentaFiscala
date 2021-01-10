@@ -102,36 +102,44 @@ ApplicationWindow {
     Connections {
         target: tableModel
         function onError(msg, fatal) {
-            errMsg.isFatal = fatal
-            errMsg.show(msg)
+            errMsgLoader.active = true
+            errMsgLoader.item.visible = true
+            errMsgLoader.item.isFatal = fatal
+            errMsgLoader.item.show(msg)
         }
     }
-    Dialog {
-        id: errMsg
-        property bool isFatal: false
-        function show(msg) {
-            errMsgLabel.text = msg
-            visible = true
-        }
-        onAccepted: {
-            visible = false
-            if (isFatal) {
-                Qt.quit()
+    Component {
+        id: errMsgComp
+        Dialog {
+            property bool isFatal: false
+            function show(msg) {
+                errMsgLabel.text = msg
+                visible = true
+            }
+            onAccepted: {
+                visible = false
+                if (isFatal) {
+                    Qt.quit()
+                }
+            }
+            visible: false
+            width: winApp.width/2
+            height: winApp.height/3
+            title: qsTr("Eroare")
+            standardButtons: Dialog.Ok
+            Label {
+                id: errMsgLabel
+                anchors.fill: parent
+                clip: true
+                wrapMode: Text.WordWrap
             }
         }
-        visible: false
-        width: winApp.width/2
-        height: winApp.height/3
-        x: (winApp.width - errMsg.width)/2
-        y: (winApp.height - errMsg.height)/2
-        title: qsTr("Eroare")
-        standardButtons: Dialog.Ok
-        Label {
-            id: errMsgLabel
-            anchors.fill: parent
-            clip: true
-            wrapMode: Text.WordWrap
-        }
+    }
+    Loader {
+        id: errMsgLoader
+        active: false
+        anchors.centerIn: parent
+        sourceComponent: errMsgComp
     }
 
     Component {
@@ -141,7 +149,6 @@ ApplicationWindow {
             folder: shortcuts.home
             onAccepted: {
                 console.log("You chose: " + fileDialog.fileUrls)
-                Qt.quit()
             }
             Component.onCompleted: visible = true
         }
@@ -149,7 +156,7 @@ ApplicationWindow {
     Loader {
         id: fileDialogLoader
         active: false
-        anchors.fill: parent
+        anchors.centerIn: parent
         sourceComponent: fileDialogComp
     }
 }
