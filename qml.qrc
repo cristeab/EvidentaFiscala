@@ -4,5 +4,7 @@
         <file>qml/main.qml</file>
         <file>qml/ContentView.qml</file>
         <file>qml/IncomeView.qml</file>
+        <file>qml/Theme.qml</file>
+        <file>qml/qmldir</file>
     </qresource>
 </RCC>

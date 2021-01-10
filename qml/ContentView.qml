@@ -3,15 +3,15 @@ import QtQuick.Controls 2.5
 import QtQuick.Controls 1.4 as Old
 
 Item {
-    readonly property real winWidth: dateField.width + typeCombo.width + amountField.width + currencyCombo.width + rateField.width + 8 * props.horizontalMargin
+    readonly property real winWidth: dateField.width + typeCombo.width + amountField.width + currencyCombo.width + rateField.width + 8 * Theme.horizontalMargin
     clip: true
     TextField {
         id: dateField
         anchors {
             top: parent.top
-            topMargin: props.verticalMargin
+            topMargin: Theme.verticalMargin
             left: parent.left
-            leftMargin: props.horizontalMargin
+            leftMargin: Theme.horizontalMargin
         }
         readOnly: true
         horizontalAlignment: Text.AlignHCenter
@@ -27,7 +27,7 @@ Item {
         visible: false
         anchors {
             top: dateField.bottom
-            topMargin: props.verticalMargin
+            topMargin: Theme.verticalMargin
             left: dateField.left
         }
         onClicked: {
@@ -42,7 +42,7 @@ Item {
         anchors {
             verticalCenter: dateField.verticalCenter
             left: dateField.right
-            leftMargin: props.horizontalMargin
+            leftMargin: Theme.horizontalMargin
         }
         model: tableModel.typeModel
         currentIndex: 0
@@ -53,7 +53,7 @@ Item {
         anchors {
             verticalCenter: typeCombo.verticalCenter
             left: typeCombo.right
-            leftMargin: props.horizontalMargin
+            leftMargin: Theme.horizontalMargin
         }
         horizontalAlignment: Text.AlignHCenter
         placeholderText: qsTr("Suma")
@@ -68,7 +68,7 @@ Item {
         anchors {
             verticalCenter: amountField.verticalCenter
             left: amountField.right
-            leftMargin: props.horizontalMargin
+            leftMargin: Theme.horizontalMargin
         }
         model: tableModel.currencyModel
         currentIndex: 0
@@ -80,7 +80,7 @@ Item {
         anchors {
             verticalCenter: currencyCombo.verticalCenter
             left: currencyCombo.right
-            leftMargin: props.horizontalMargin
+            leftMargin: Theme.horizontalMargin
         }
         horizontalAlignment: Text.AlignHCenter
         placeholderText: qsTr("Rata de Schimb")
@@ -94,11 +94,11 @@ Item {
         id: obsField
         anchors {
             top: dateField.bottom
-            topMargin: props.verticalMargin
+            topMargin: Theme.verticalMargin
             left: parent.left
-            leftMargin: props.horizontalMargin
+            leftMargin: Theme.horizontalMargin
             right: parent.right
-            rightMargin: props.horizontalMargin
+            rightMargin: Theme.horizontalMargin
         }
         height: 2*dateField.height
         placeholderText: qsTr("Observatii")
@@ -109,7 +109,7 @@ Item {
         text: qsTr("ADD")
         anchors {
             top: obsField.bottom
-            topMargin: props.verticalMargin
+            topMargin: Theme.verticalMargin
             horizontalCenter: parent.horizontalCenter
         }
         onClicked: {
@@ -154,10 +154,10 @@ Item {
         id: tableView
         anchors {
             top: okButton.bottom
-            topMargin: props.verticalMargin
+            topMargin: Theme.verticalMargin
             left: parent.left
             right: parent.right
-            rightMargin: props.horizontalMargin
+            rightMargin: Theme.horizontalMargin
             bottom: parent.bottom
         }
         model: tableModel

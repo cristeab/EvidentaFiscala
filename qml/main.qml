@@ -4,6 +4,7 @@ import QtQuick.Controls 2.5
 import QtQuick.Dialogs 1.2
 
 ApplicationWindow {
+    id: winApp
     visible: true
     width: tableTab.winWidth
     maximumWidth: width
@@ -35,21 +36,15 @@ ApplicationWindow {
         }
     }
 
-    QtObject {
-        id: props
-        readonly property real verticalMargin: 5
-        readonly property real horizontalMargin: 10
-    }
-
     TabBar {
         id: bar
         anchors {
             top: parent.top
-            topMargin: props.verticalMargin
+            topMargin: Theme.verticalMargin
             left: parent.left
-            leftMargin: props.horizontalMargin
+            leftMargin: Theme.horizontalMargin
             right: parent.right
-            rightMargin: props.horizontalMargin
+            rightMargin: Theme.horizontalMargin
         }
         TabButton {
             text: qsTr("Tabel")
@@ -62,13 +57,13 @@ ApplicationWindow {
         interactive: false
         anchors {
             top: bar.bottom
-            topMargin: props.verticalMargin
+            topMargin: Theme.verticalMargin
             left: parent.left
-            leftMargin: props.horizontalMargin
+            leftMargin: Theme.horizontalMargin
             right: parent.right
-            rightMargin: props.horizontalMargin
+            rightMargin: Theme.horizontalMargin
             bottom: parent.bottom
-            bottomMargin: props.verticalMargin
+            bottomMargin: Theme.verticalMargin
         }
         currentIndex: bar.currentIndex
         ContentView {
@@ -125,12 +120,11 @@ ApplicationWindow {
             }
         }
         visible: false
-        width: parent.width/2
-        height: parent.height/3
-        x: (parent.width - width)/2
-        y: (parent.height - height)/2
+        width: winApp.width/2
+        height: winApp.height/3
+        x: (winApp.width - width)/2
+        y: (winApp.height - height)/2
         title: qsTr("Eroare")
-        modal: true
         standardButtons: Dialog.Ok
         Label {
             id: errMsgLabel
