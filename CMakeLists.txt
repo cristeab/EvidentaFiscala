@@ -10,12 +10,21 @@ set(CMAKE_AUTORCC ON)
 
 find_package(Qt5 5.15 COMPONENTS Core Quick Charts REQUIRED)
 
+include(ExternalProject)
+ExternalProject_Add(qtcsv
+  GIT_REPOSITORY https://github.com/iamantony/qtcsv.git
+  GIT_TAG        v1.5
+  SOURCE_DIR    ${CMAKE_BINARY_DIR}/qtcsv_src
+  CMAKE_ARGS -DCMAKE_PREFIX_PATH=${CMAKE_PREFIX_PATH} -DBUILD_TESTS=OFF -DCMAKE_INSTALL_PREFIX=${CMAKE_BINARY_DIR}/qtcsv_install
+  STEP_TARGETS   build)
+
 file(GLOB SRCS src/*.cpp)
 
 add_executable(${PROJECT_NAME} MACOSX_BUNDLE "${SRCS}" "qml.qrc"
     "${CMAKE_SOURCE_DIR}/img/${PROJECT_NAME}.icns")
-target_include_directories(${PROJECT_NAME} PRIVATE src ${PROJECT_SOURCE_DIR}/../qtcsv_install/include)
-target_link_directories(${PROJECT_NAME} PRIVATE ${PROJECT_SOURCE_DIR}/../qtcsv_install/lib)
+add_dependencies(${PROJECT_NAME} qtcsv)
+target_include_directories(${PROJECT_NAME} PRIVATE src ${CMAKE_BINARY_DIR}/qtcsv_install/include)
+target_link_directories(${PROJECT_NAME} PRIVATE ${CMAKE_BINARY_DIR}/qtcsv_install/lib)
 set_source_files_properties ("${CMAKE_SOURCE_DIR}/img/${PROJECT_NAME}.icns"
     PROPERTIES MACOSX_PACKAGE_LOCATION "Resources")
 set_target_properties(${PROJECT_NAME} PROPERTIES
