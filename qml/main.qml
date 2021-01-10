@@ -122,8 +122,8 @@ ApplicationWindow {
         visible: false
         width: winApp.width/2
         height: winApp.height/3
-        x: (winApp.width - width)/2
-        y: (winApp.height - height)/2
+        x: (winApp.width - errMsg.width)/2
+        y: (winApp.height - errMsg.height)/2
         title: qsTr("Eroare")
         standardButtons: Dialog.Ok
         Label {
