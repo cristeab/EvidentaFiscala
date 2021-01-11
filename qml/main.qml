@@ -116,12 +116,7 @@ ApplicationWindow {
                 errMsgLabel.text = msg
                 visible = true
             }
-            onAccepted: {
-                visible = false
-                if (isFatal) {
-                    Qt.quit()
-                }
-            }
+            onAccepted: visible = false
             visible: false
             width: winApp.width/2
             height: winApp.height/3
@@ -129,7 +124,11 @@ ApplicationWindow {
             standardButtons: Dialog.Ok
             Label {
                 id: errMsgLabel
-                anchors.fill: parent
+                anchors {
+                    fill: parent
+                    margins: Theme.horizontalMargin
+                }
+                verticalAlignment: Text.AlignVCenter
                 clip: true
                 wrapMode: Text.WordWrap
             }
