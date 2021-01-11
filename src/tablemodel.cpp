@@ -442,3 +442,9 @@ void TableModel::generateRegistry()
         emit error(msg, false);
     }
 }
+
+void TableModel::openLedger(const QUrl &url)
+{
+    setFileName(url.toLocalFile());
+    QTimer::singleShot(0, this, &TableModel::init);
+}

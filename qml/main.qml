@@ -19,8 +19,8 @@ ApplicationWindow {
             MenuItem {
                 text: qsTr("Deschide...")
                 onTriggered: {
-                    fileDialogComp.active = true
-                    fileDialogComp.item.visible = true
+                    fileDialogLoader.active = true
+                    fileDialogLoader.item.visible = true
                 }
             }
             MenuItem {
@@ -147,9 +147,11 @@ ApplicationWindow {
         FileDialog {
             title: "Selectati fisier"
             folder: shortcuts.home
-            onAccepted: {
-                console.log("You chose: " + fileDialog.fileUrls)
-            }
+            selectExisting: true
+            selectFolder: false
+            selectMultiple: false
+            nameFilters: [ "CSV files (*.csv)", "All files (*)" ]
+            onAccepted: tableModel.openLedger(fileUrl)
             Component.onCompleted: visible = true
         }
     }

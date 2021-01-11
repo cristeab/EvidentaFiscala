@@ -39,6 +39,7 @@ public:
                          int currencyIndex, qreal rate, const QString &obs);
     Q_INVOKABLE void setChartSeries(int index, QtCharts::QAbstractSeries *series);
     Q_INVOKABLE void generateRegistry();
+    Q_INVOKABLE void openLedger(const QUrl &url);
 signals:
     void error(const QString &msg, bool fatal = false);
 private:
