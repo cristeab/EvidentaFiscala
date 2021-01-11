@@ -1,6 +1,6 @@
 <RCC>
     <qresource prefix="/">
-        <file>qml/qtquickcontrols2.conf</file>
+        <file>qtquickcontrols2.conf</file>
         <file>qml/main.qml</file>
         <file>qml/ContentView.qml</file>
         <file>qml/IncomeView.qml</file>
