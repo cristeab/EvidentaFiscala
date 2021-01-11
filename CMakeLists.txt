@@ -8,6 +8,8 @@ set(CMAKE_CXX_STANDARD_REQUIRED ON)
 set(CMAKE_AUTOMOC ON)
 set(CMAKE_AUTORCC ON)
 
+set(CMAKE_MACOSX_RPATH 1)
+
 find_package(Qt5 5.15 COMPONENTS Core Quick Charts REQUIRED)
 
 include(ExternalProject)
@@ -42,6 +44,6 @@ target_link_libraries(${PROJECT_NAME} PRIVATE Qt5::Core Qt5::Quick Qt5::Charts -
 
 if (CMAKE_BUILD_TYPE MATCHES "^[Rr]elease")
     add_definitions(-DRELEASE_FOLDER)
-    add_custom_target(pack COMMAND ${CMAKE_PREFIX_PATH}/bin/macdeployqt ${CMAKE_PROJECT_NAME}.app -qmldir=${CMAKE_SOURCE_DIR} -no-strip -dmg)
+    add_custom_target(pack COMMAND ${CMAKE_PREFIX_PATH}/bin/macdeployqt ${CMAKE_PROJECT_NAME}.app -qmldir=${CMAKE_SOURCE_DIR} -libpath=${CMAKE_BINARY_DIR}/qtcsv_install/lib -no-strip -dmg)
     include(CPack)
 endif()
