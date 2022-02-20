@@ -7,6 +7,15 @@ Rectangle {
     width: childrenRect.width
     height: childrenRect.height
 
+    onVisibleChanged: {
+        if (visible) {
+            const currentDate = new Date()
+            dayTumbler.currentIndex = currentDate.getDate() - 1
+            monthTumbler.currentIndex = currentDate.getMonth()
+            yearTumbler.currentIndex = currentDate.getFullYear() - yearTumbler.years[0]
+        }
+    }
+
     RowLayout {
         id: datePicker
 
