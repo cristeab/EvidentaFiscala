@@ -1,5 +1,5 @@
-import QtQuick 2.12
-import QtCharts 2.3
+import QtQuick
+import QtCharts
 import TableModel 1.0
 
 ChartView {

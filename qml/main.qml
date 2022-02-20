@@ -1,7 +1,7 @@
-import QtQuick 2.12
-import QtQuick.Window 2.12
-import QtQuick.Controls 2.5
-import QtQuick.Dialogs 1.2
+import QtQuick
+import QtQuick.Window
+import QtQuick.Controls
+import QtQuick.Dialogs
 
 ApplicationWindow {
     id: winApp
@@ -145,10 +145,8 @@ ApplicationWindow {
         id: fileDialogComp
         FileDialog {
             title: "Selectati fisier"
-            folder: shortcuts.home
-            selectExisting: true
-            selectFolder: false
-            selectMultiple: false
+            currentFolder: shortcuts.home
+            fileMode: FileDialog.OpenFile
             nameFilters: [ "CSV files (*.csv)", "All files (*)" ]
             onAccepted: tableModel.openLedger(fileUrl)
             Component.onCompleted: visible = true

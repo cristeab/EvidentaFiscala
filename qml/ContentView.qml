@@ -1,6 +1,5 @@
-import QtQuick 2.12
-import QtQuick.Controls 2.5
-import QtQuick.Controls 1.4 as Old
+import QtQuick
+import QtQuick.Controls
 
 Item {
     readonly property real winWidth: dateField.width + typeCombo.width + amountField.width + currencyCombo.width + rateField.width + 8 * Theme.horizontalMargin
@@ -21,7 +20,7 @@ Item {
         }
         placeholderText: qsTr("Data")
     }
-    Old.Calendar {
+    /*Calendar {
         id: calendar
         z: 10
         visible: false
@@ -34,7 +33,7 @@ Item {
             dateField.text = Qt.formatDate(date, "dd/MM/yyyy")
             calendar.visible = false
         }
-    }
+    }*/
 
     ComboBox {
         id: typeCombo

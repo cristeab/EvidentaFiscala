@@ -5,10 +5,8 @@
 #include <QStringList>
 #include <QDateTime>
 
-namespace QtCharts {
-    class QAbstractSeries;
-    class QXYSeries;
-}
+class QAbstractSeries;
+class QXYSeries;
 
 class TableModel : public QAbstractTableModel
 {
@@ -37,7 +35,7 @@ public:
     QHash<int, QByteArray> roleNames() const override;
     Q_INVOKABLE bool add(const QString &date, int typeIndex, qreal amount,
                          int currencyIndex, qreal rate, const QString &obs);
-    Q_INVOKABLE void setChartSeries(int index, QtCharts::QAbstractSeries *series);
+    Q_INVOKABLE void setChartSeries(int index, QAbstractSeries *series);
     Q_INVOKABLE void generateRegistry();
     Q_INVOKABLE void openLedger(const QUrl &url);
 signals:
@@ -71,7 +69,7 @@ private:
     uint32_t _invoiceNumber = 0;
     QList<QStringList> _readData;
     const QString _csvSeparator;
-    QtCharts::QXYSeries *_chartSeries[CURVE_COUNT];
+    QXYSeries *_chartSeries[CURVE_COUNT];
     struct MonthlyData {
         MonthlyData(qreal i, qreal e) : income(i), expense(e) {}
         MonthlyData() = default;

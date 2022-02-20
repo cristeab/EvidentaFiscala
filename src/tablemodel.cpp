@@ -15,6 +15,7 @@
 #include <QTextDocumentWriter>
 #include <QDesktopServices>
 #include <QFileInfo>
+#include <QXYSeries>
 
 const QLocale TableModel::_locale;
 
@@ -172,7 +173,7 @@ bool TableModel::add(const QString &date, int typeIndex, qreal amount,
         return false;
     }
     rc = QtCSV::Writer::write(_fileName, strData, _csvSeparator, QString("\""),
-                                QtCSV::Writer::APPEND);
+                                QtCSV::Writer::WriteMode::APPEND);
     if (rc) {
         _readData.append(row);
         updateIncomeCourves(_readData.size() - 1);
@@ -198,10 +199,10 @@ void TableModel::initInvoiceNumber()
     }
 }
 
-void TableModel::setChartSeries(int index, QtCharts::QAbstractSeries *series)
+void TableModel::setChartSeries(int index, QAbstractSeries *series)
 {
     if (0 <= index && CURVE_COUNT > index) {
-        _chartSeries[index] = static_cast<QtCharts::QXYSeries *>(series);
+        _chartSeries[index] = static_cast<QXYSeries *>(series);
     }
 }
 
@@ -226,7 +227,9 @@ bool TableModel::parseRow(int rowIndex, QDateTime &key, qreal &income,
         qWarning() << "Invalid date, skipping row" << row;
         return false;
     }
-    key = QDateTime(QDate(date.year(), date.month(), 15));//middle of the month
+
+    key = QDateTime::currentDateTime();
+    key.setDate(QDate(date.year(), date.month(), 15));//middle of the month
     income = 0;
     expense = 0;
     for (int i = 0; i < 4; ++i) {

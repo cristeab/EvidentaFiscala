@@ -10,12 +10,12 @@ set(CMAKE_AUTORCC ON)
 
 set(CMAKE_MACOSX_RPATH 1)
 
-find_package(Qt5 5.15 COMPONENTS Core Quick Charts REQUIRED)
+find_package(Qt6 6.2 COMPONENTS Core Quick Charts REQUIRED)
 
 include(ExternalProject)
 ExternalProject_Add(qtcsv
   GIT_REPOSITORY https://github.com/iamantony/qtcsv.git
-  GIT_TAG        v1.5
+  GIT_TAG        v1.7
   SOURCE_DIR    ${CMAKE_BINARY_DIR}/qtcsv_src
   CMAKE_ARGS -DCMAKE_PREFIX_PATH=${CMAKE_PREFIX_PATH} -DBUILD_TESTS=OFF -DCMAKE_INSTALL_PREFIX=${CMAKE_BINARY_DIR}/qtcsv_install
   STEP_TARGETS   build)
@@ -40,7 +40,7 @@ set_target_properties(${PROJECT_NAME} PROPERTIES
     MACOSX_BUNDLE_INFO_PLIST ${CMAKE_CURRENT_SOURCE_DIR}/Info.plist)
 
 target_compile_definitions(${PROJECT_NAME} PRIVATE $<$<OR:$<CONFIG:Debug>,$<CONFIG:RelWithDebInfo>>:QT_QML_DEBUG>)
-target_link_libraries(${PROJECT_NAME} PRIVATE Qt5::Core Qt5::Quick Qt5::Charts -lqtcsv)
+target_link_libraries(${PROJECT_NAME} PRIVATE Qt6::Core Qt6::Quick Qt6::Charts -lqtcsv)
 
 if (CMAKE_BUILD_TYPE MATCHES "^[Rr]elease")
     add_definitions(-DRELEASE_FOLDER)
