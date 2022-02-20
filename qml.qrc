@@ -6,5 +6,6 @@
         <file>qml/IncomeView.qml</file>
         <file>qml/Theme.qml</file>
         <file>qml/qmldir</file>
+        <file>qml/DatePicker.qml</file>
     </qresource>
 </RCC>

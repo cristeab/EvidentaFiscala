@@ -1,8 +1,13 @@
 import QtQuick
+import QtQuick.Controls.Material
 
 pragma Singleton
 
 QtObject {
     readonly property real verticalMargin: 5
     readonly property real horizontalMargin: 10
+
+    readonly property color backgroundColor: Material.background
+    readonly property color foregroundColor: Material.foreground
+    readonly property color accentColor: Material.accent
 }

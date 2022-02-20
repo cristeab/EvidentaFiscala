@@ -20,7 +20,7 @@ Item {
         }
         placeholderText: qsTr("Data")
     }
-    /*Calendar {
+    DatePicker {
         id: calendar
         z: 10
         visible: false
@@ -29,11 +29,11 @@ Item {
             topMargin: Theme.verticalMargin
             left: dateField.left
         }
-        onClicked: {
+        /*onClicked: (date) => {
             dateField.text = Qt.formatDate(date, "dd/MM/yyyy")
             calendar.visible = false
-        }
-    }*/
+        }*/
+    }
 
     ComboBox {
         id: typeCombo
