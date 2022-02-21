@@ -29,10 +29,10 @@ Item {
             topMargin: Theme.verticalMargin
             left: dateField.left
         }
-        /*onClicked: (date) => {
+        onClicked: (date) => {
             dateField.text = Qt.formatDate(date, "dd/MM/yyyy")
             calendar.visible = false
-        }*/
+        }
     }
 
     ComboBox {

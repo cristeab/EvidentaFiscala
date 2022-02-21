@@ -3,6 +3,18 @@ import QtQuick.Controls
 import QtQuick.Layouts
 
 Rectangle {
+    id: control
+
+    signal clicked(var date)
+
+    function updateSelectedDate() {
+        let selectedDate = new Date()
+        selectedDate.setDate(dayTumbler.currentIndex + 1)
+        selectedDate.setMonth(monthTumbler.currentIndex)
+        selectedDate.setFullYear(yearTumbler.years[yearTumbler.currentIndex])
+        control.clicked(selectedDate)
+    }
+
     color: Theme.backgroundColor
     width: childrenRect.width
     height: childrenRect.height
