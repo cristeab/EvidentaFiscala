@@ -14,23 +14,22 @@ ApplicationWindow {
 
     menuBar: MenuBar {
         Menu {
-            width: 320
             title: qsTr("Fisier")
-            MenuItem {
+            Action {
                 text: qsTr("Deschide...")
                 onTriggered: {
                     fileDialogLoader.active = true
                     fileDialogLoader.item.visible = true
                 }
             }
-            MenuItem {
+            Action {
                 text: qsTr("Configurare...")
             }
-            MenuItem {
+            Action {
                 text: qsTr("Generare Registru de Evidenta Fiscala")
                 onTriggered: tableModel.generateRegistry()
             }
-            MenuItem {
+            Action {
                 text: qsTr("Inchide")
             }
         }
@@ -110,28 +109,16 @@ ApplicationWindow {
     }
     Component {
         id: errMsgComp
-        Dialog {
+        MessageDialog {
+            id: errMsg
             property bool isFatal: false
             function show(msg) {
-                errMsgLabel.text = msg
-                visible = true
+                errMsg.text = qsTr("Eroare: ") + msg
+                errMsg.visible = true
             }
             onAccepted: visible = false
             visible: false
-            width: winApp.width/2
-            height: winApp.height/3
-            title: qsTr("Eroare")
-            standardButtons: Dialog.Ok
-            Label {
-                id: errMsgLabel
-                anchors {
-                    fill: parent
-                    margins: Theme.horizontalMargin
-                }
-                verticalAlignment: Text.AlignVCenter
-                clip: true
-                wrapMode: Text.WordWrap
-            }
+            buttons: MessageDialog.Ok
         }
     }
     Loader {
@@ -145,7 +132,7 @@ ApplicationWindow {
         id: fileDialogComp
         FileDialog {
             title: "Selectati fisier"
-            currentFolder: shortcuts.home
+            currentFolder: StandardPaths.standardLocations(StandardPaths.HomeLocation)[0]
             fileMode: FileDialog.OpenFile
             nameFilters: [ "CSV files (*.csv)", "All files (*)" ]
             onAccepted: tableModel.openLedger(fileUrl)

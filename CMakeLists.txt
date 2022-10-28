@@ -10,7 +10,7 @@ set(CMAKE_AUTORCC ON)
 
 set(CMAKE_MACOSX_RPATH 1)
 
-find_package(Qt6 6.2 COMPONENTS Core Quick Charts REQUIRED)
+find_package(Qt6 6.4 COMPONENTS Core Quick Charts REQUIRED)
 
 include(ExternalProject)
 ExternalProject_Add(qtcsv

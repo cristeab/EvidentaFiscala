@@ -5,8 +5,6 @@
 
 int main(int argc, char *argv[])
 {
-    QCoreApplication::setAttribute(Qt::AA_EnableHighDpiScaling);
-
     QApplication app(argc, argv);
     qSetMessagePattern("%{appname} [%{threadid}] [%{type}] %{message} (%{file}:%{line})");
 
@@ -15,13 +13,14 @@ int main(int argc, char *argv[])
 
     QQmlContext *context = engine.rootContext();
     if (nullptr != context) {
-        TableModel *tableModel = new TableModel();
+        auto tableModel = QPointer(new TableModel());
         context->setContextProperty(tableModel->objectName(), tableModel);
     }
 
     engine.load(QUrl(QStringLiteral("qrc:/qml/main.qml")));
-    if (engine.rootObjects().isEmpty())
-        return -1;
+    if (engine.rootObjects().isEmpty()) {
+        return EXIT_FAILURE;
+    }
 
     return app.exec();
 }
