@@ -142,7 +142,7 @@ Rectangle {
             delegate: Text {
                 horizontalAlignment: Text.AlignHCenter
                 verticalAlignment: Text.AlignVCenter
-                opacity: model.month === grid.month ? 1 : 0
+                opacity: model.month === grid.month ? 1 : 0.25
                 text: model.day
                 font: grid.font
                 color: Theme.foregroundColor
