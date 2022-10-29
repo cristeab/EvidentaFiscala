@@ -8,8 +8,6 @@ ApplicationWindow {
     id: winApp
     visible: true
     width: tableTab.winWidth
-    maximumWidth: width
-    minimumWidth: width
     height: 600
     title: qsTr("Evidenta Fiscala")
 

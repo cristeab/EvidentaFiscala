@@ -1,35 +1,77 @@
 import QtQuick
 import QtQuick.Controls
+import QtQuick.Layouts
 
 Item {
     readonly property real winWidth: dateField.width + typeCombo.width + amountField.width + currencyCombo.width + rateField.width + 8 * Theme.horizontalMargin
     property alias calendarVisible: calendar.visible
 
     clip: true
-    TextField {
-        id: dateField
+
+    RowLayout {
+        id: dateFieldRow
+
         anchors {
             top: parent.top
             topMargin: Theme.verticalMargin
             left: parent.left
             leftMargin: Theme.horizontalMargin
+            right: parent.right
+            rightMargin: Theme.horizontalMargin
         }
-        readOnly: true
-        horizontalAlignment: Text.AlignHCenter
-        MouseArea {
-            anchors.fill: parent
-            onClicked: calendar.visible = true
+        spacing: Theme.horizontalMargin
+
+        TextField {
+            id: dateField
+            readOnly: true
+            horizontalAlignment: Text.AlignHCenter
+            MouseArea {
+                anchors.fill: parent
+                onClicked: calendar.visible = true
+            }
+            placeholderText: qsTr("Data")
         }
-        placeholderText: qsTr("Data")
+        ComboBox {
+            id: typeCombo
+            Layout.preferredWidth: 1.75*dateField.width
+            model: tableModel.typeModel
+            currentIndex: 0
+        }
+        TextField {
+            id: amountField
+            horizontalAlignment: Text.AlignHCenter
+            placeholderText: qsTr("Suma")
+            validator: DoubleValidator {
+                decimals: 4
+                notation: DoubleValidator.StandardNotation
+            }
+        }
+        ComboBox {
+            id: currencyCombo
+            model: tableModel.currencyModel
+            currentIndex: 0
+        }
+        TextField {
+            id: rateField
+            visible: 0 !== currencyCombo.currentIndex
+            horizontalAlignment: Text.AlignHCenter
+            placeholderText: qsTr("Rata de Schimb")
+            Layout.alignment: Qt.AlignRight
+            validator: DoubleValidator {
+                decimals: 4
+                notation: DoubleValidator.StandardNotation
+            }
+        }
     }
+
     DatePicker {
         id: calendar
         z: 10
         visible: false
         anchors {
-            top: dateField.bottom
+            top: dateFieldRow.bottom
             topMargin: Theme.verticalMargin
-            left: dateField.left
+            left: dateFieldRow.left
         }
         onClicked: (date) => {
             dateField.text = Qt.formatDate(date, "dd/MM/yyyy")
@@ -37,71 +79,17 @@ Item {
         }
     }
 
-    ComboBox {
-        id: typeCombo
-        width: 1.75*dateField.width
-        anchors {
-            verticalCenter: dateField.verticalCenter
-            left: dateField.right
-            leftMargin: Theme.horizontalMargin
-        }
-        model: tableModel.typeModel
-        currentIndex: 0
-    }
-
-    TextField {
-        id: amountField
-        anchors {
-            verticalCenter: typeCombo.verticalCenter
-            left: typeCombo.right
-            leftMargin: Theme.horizontalMargin
-        }
-        horizontalAlignment: Text.AlignHCenter
-        placeholderText: qsTr("Suma")
-        validator: DoubleValidator {
-            decimals: 4
-            notation: DoubleValidator.StandardNotation
-        }
-    }
-
-    ComboBox {
-        id: currencyCombo
-        anchors {
-            verticalCenter: amountField.verticalCenter
-            left: amountField.right
-            leftMargin: Theme.horizontalMargin
-        }
-        model: tableModel.currencyModel
-        currentIndex: 0
-    }
-
-    TextField {
-        id: rateField
-        visible: 0 !== currencyCombo.currentIndex
-        anchors {
-            verticalCenter: currencyCombo.verticalCenter
-            left: currencyCombo.right
-            leftMargin: Theme.horizontalMargin
-        }
-        horizontalAlignment: Text.AlignHCenter
-        placeholderText: qsTr("Rata de Schimb")
-        validator: DoubleValidator {
-            decimals: 4
-            notation: DoubleValidator.StandardNotation
-        }
-    }
-
     TextArea {
         id: obsField
         anchors {
-            top: dateField.bottom
+            top: dateFieldRow.bottom
             topMargin: Theme.verticalMargin
             left: parent.left
             leftMargin: Theme.horizontalMargin
             right: parent.right
             rightMargin: Theme.horizontalMargin
         }
-        height: 2*dateField.height
+        height: 2*dateFieldRow.height
         placeholderText: qsTr("Observatii")
     }
 
