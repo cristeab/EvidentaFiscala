@@ -21,6 +21,7 @@ Rectangle {
 
     ToolBar {
         id: monthYearToolbar
+
         anchors {
             top: parent.top
             topMargin: Theme.verticalMargin
@@ -30,11 +31,35 @@ Rectangle {
         width: calendarGrid.width
         background: Item{}
 
+        function shiftCalendarDate(value) {
+            let month = grid.calendarDate.getMonth()
+            let year = grid.calendarDate.getFullYear()
+            if (1 === value) {
+                if (11 > month) {
+                    month += 1
+                } else {
+                    year += 1
+                    month = 0
+                }
+            } else if (-1 === value) {
+                if (0 < month) {
+                    month -= 1
+                } else {
+                    year -= 1
+                    month = 11
+                }
+            } else {
+                console.log('Only shifts by one month are accepted')
+                return
+            }
+            grid.calendarDate = new Date(grid.calendarDate.setFullYear(year, month))
+        }
+
         RowLayout {
             width: parent.width
             ToolButton {
                 text: qsTr("<")
-                onClicked: stack.pop()
+                onClicked: monthYearToolbar.shiftCalendarDate(-1)
                 padding: 0
                 Layout.alignment: Qt.AlignLeft
             }
@@ -47,7 +72,7 @@ Rectangle {
             }
             ToolButton {
                 text: qsTr(">")
-                onClicked: stack.pop()
+                onClicked: monthYearToolbar.shiftCalendarDate(1)
                 padding: 0
                 Layout.alignment: Qt.AlignRight
             }
@@ -107,8 +132,8 @@ Rectangle {
 
             property date calendarDate: new Date()
 
-            month: calendarDate.getUTCMonth()
-            year: calendarDate.getUTCFullYear()
+            month: calendarDate.getMonth()
+            year: calendarDate.getFullYear()
             locale: Qt.locale("Ro-ro")
 
             Layout.fillWidth: true
