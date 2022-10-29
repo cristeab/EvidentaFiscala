@@ -116,19 +116,17 @@ ApplicationWindow {
     Component {
         id: errMsgComp
         MessageDialog {
-            id: errMsg
-            property bool isFatal: false
-            function show(msg) {
-                errMsg.text = qsTr("Eroare: ") + msg
-                errMsg.visible = true
-            }
-            onAccepted: visible = false
-            visible: false
             buttons: MessageDialog.Ok
         }
     }
     Loader {
-        id: errMsgLoader
+        id: errMsg
+        function show(msg) {
+            errMsg.active = true
+            errMsg.item.title = qsTr("Eroare")
+            errMsg.item.text = msg
+            errMsg.item.visible = true
+        }
         active: false
         anchors.centerIn: parent
         sourceComponent: errMsgComp
