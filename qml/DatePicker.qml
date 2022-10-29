@@ -7,18 +7,60 @@ Rectangle {
 
     signal clicked(date date)
 
+    onVisibleChanged: {
+        if (visible) {
+            const currentDate = new Date()
+            grid.year = currentDate.getUTCFullYear()
+            grid.month = currentDate.getUTCMonth()
+        }
+    }
+
     radius: 5
     width: calendarGrid.width + 2 * Theme.horizontalMargin
-    height: calendarGrid.height + 2 * Theme.verticalMargin
+    height: calendarGrid.height + monthYearToolbar.height + 3 * Theme.verticalMargin
     color: Theme.backgroundColor
     border.color: "grey"
+
+    ToolBar {
+        id: monthYearToolbar
+        anchors {
+            top: parent.top
+            topMargin: Theme.verticalMargin
+            left: parent.left
+            leftMargin: Theme.horizontalMargin
+        }
+        width: calendarGrid.width
+        background: Item{}
+
+        RowLayout {
+            width: parent.width
+            ToolButton {
+                text: qsTr("<")
+                onClicked: stack.pop()
+                padding: 0
+                Layout.alignment: Qt.AlignLeft
+            }
+            Label {
+                text: "Month Year"
+                elide: Label.ElideRight
+                horizontalAlignment: Qt.AlignHCenter
+                verticalAlignment: Qt.AlignVCenter
+                Layout.fillWidth: true
+            }
+            ToolButton {
+                text: qsTr(">")
+                onClicked: stack.pop()
+                padding: 0
+                Layout.alignment: Qt.AlignRight
+            }
+        }
+    }
 
     GridLayout {
         id: calendarGrid
 
         anchors {
-            top: parent.top
-            topMargin: Theme.verticalMargin
+            top: monthYearToolbar.bottom
             left: parent.left
             leftMargin: Theme.horizontalMargin
         }
@@ -66,7 +108,7 @@ Rectangle {
             id: grid
             month: Calendar.December
             year: 2015
-            locale: Qt.locale("en_US")
+            locale: Qt.locale()
 
             Layout.fillWidth: true
             Layout.fillHeight: true
