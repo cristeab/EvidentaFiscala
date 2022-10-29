@@ -2,90 +2,72 @@ import QtQuick
 import QtQuick.Controls
 import QtQuick.Layouts
 
-Rectangle {
+GridLayout {
     id: control
 
-    signal clicked(var date)
+    signal clicked(date date)
 
-    function updateSelectedDate() {
-        let selectedDate = new Date()
-        selectedDate.setDate(dayTumbler.currentIndex + 1)
-        selectedDate.setMonth(monthTumbler.currentIndex)
-        selectedDate.setFullYear(yearTumbler.years[yearTumbler.currentIndex])
-        control.clicked(selectedDate)
-    }
+    columns: 2
 
-    color: Theme.backgroundColor
-    width: childrenRect.width
-    height: childrenRect.height
+    DayOfWeekRow {
+        id: dowRow
+        locale: grid.locale
 
-    onVisibleChanged: {
-        if (visible) {
-            const currentDate = new Date()
-            dayTumbler.currentIndex = currentDate.getDate() - 1
-            monthTumbler.currentIndex = currentDate.getMonth()
-            yearTumbler.currentIndex = currentDate.getFullYear() - yearTumbler.years[0]
+        Layout.column: 1
+        Layout.fillWidth: true
+
+        delegate: Text {
+            text: shortName
+            font: dowRow.font
+            horizontalAlignment: Text.AlignHCenter
+            verticalAlignment: Text.AlignVCenter
+            color: Theme.foregroundColor
+
+            required property string shortName
         }
     }
 
-    RowLayout {
-        id: datePicker
+    WeekNumberColumn {
+        id: wnCol
+        month: grid.month
+        year: grid.year
+        locale: grid.locale
 
-        Layout.leftMargin: 20
+        Layout.fillHeight: true
 
-        property alias dayTumbler: dayTumbler
-        property alias monthTumbler: monthTumbler
-        property alias yearTumbler: yearTumbler
+        delegate: Text {
+            text: weekNumber
+            font: wnCol.font
+            horizontalAlignment: Text.AlignHCenter
+            verticalAlignment: Text.AlignVCenter
+            color: Theme.foregroundColor
 
-        readonly property var days: [31, 29, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31]
-
-        Tumbler {
-            id: dayTumbler
-
-            function updateModel() {
-                // Populate the model with days of the month. For example: [0, ..., 30]
-                var previousIndex = dayTumbler.currentIndex
-                var array = []
-                var newDays = datePicker.days[monthTumbler.currentIndex]
-                for (var i = 1; i <= newDays; ++i)
-                    array.push(i)
-                dayTumbler.model = array
-                dayTumbler.currentIndex = Math.min(newDays - 1, previousIndex)
-            }
-
-            Component.onCompleted: updateModel()
-
-            delegate: Label {
-                text: modelData
-                color: (index === dayTumbler.currentIndex) ? Theme.accentColor : Theme.foregroundColor
-            }
+            required property int weekNumber
         }
-        Tumbler {
-            id: monthTumbler
+    }
 
-            onCurrentIndexChanged: dayTumbler.updateModel()
+    MonthGrid {
+        id: grid
+        month: Calendar.December
+        year: 2015
+        locale: Qt.locale("en_US")
 
-            model: 12
-            delegate: Label {
-                text: modelData + 1
-                color: (index === monthTumbler.currentIndex) ? Theme.accentColor : Theme.foregroundColor
-            }
+        Layout.fillWidth: true
+        Layout.fillHeight: true
+
+        delegate: Text {
+            horizontalAlignment: Text.AlignHCenter
+            verticalAlignment: Text.AlignVCenter
+            opacity: model.month === grid.month ? 1 : 0
+            text: model.day
+            font: grid.font
+            color: Theme.foregroundColor
+
+            required property var model
         }
-        Tumbler {
-            id: yearTumbler
 
-            // This array is populated with the next three years. For example: [2018, 2019, 2020]
-            readonly property var years: (function() {
-                var currentYear = new Date().getFullYear()
-                return [0, 1, 2].map(function(value) { return value + currentYear; })
-            })()
-
-            Layout.alignment: Qt.AlignVCenter
-            model: years
-            delegate: Label {
-                text: modelData
-                color: (index === yearTumbler.currentIndex) ? Theme.accentColor : Theme.foregroundColor
-            }
+        onClicked: (date) => {
+            control.clicked(date)
         }
     }
 }
