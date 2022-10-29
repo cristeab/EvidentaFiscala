@@ -54,6 +54,11 @@ ApplicationWindow {
         }
     }
     SwipeView {
+        Keys.onEscapePressed: {
+            tableTab.calendarVisible = false
+        }
+
+        focus: true
         interactive: false
         anchors {
             top: bar.bottom

@@ -3,6 +3,8 @@ import QtQuick.Controls
 
 Item {
     readonly property real winWidth: dateField.width + typeCombo.width + amountField.width + currencyCombo.width + rateField.width + 8 * Theme.horizontalMargin
+    property alias calendarVisible: calendar.visible
+
     clip: true
     TextField {
         id: dateField
