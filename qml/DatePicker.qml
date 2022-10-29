@@ -9,9 +9,7 @@ Rectangle {
 
     onVisibleChanged: {
         if (visible) {
-            const currentDate = new Date()
-            grid.year = currentDate.getUTCFullYear()
-            grid.month = currentDate.getUTCMonth()
+            grid.calendarDate = new Date()
         }
     }
 
@@ -41,7 +39,7 @@ Rectangle {
                 Layout.alignment: Qt.AlignLeft
             }
             Label {
-                text: "Month Year"
+                text: grid.calendarDate.toLocaleString(grid.locale, 'MMMM yyyy')
                 elide: Label.ElideRight
                 horizontalAlignment: Qt.AlignHCenter
                 verticalAlignment: Qt.AlignVCenter
@@ -106,9 +104,12 @@ Rectangle {
 
         MonthGrid {
             id: grid
-            month: Calendar.December
-            year: 2015
-            locale: Qt.locale()
+
+            property date calendarDate: new Date()
+
+            month: calendarDate.getUTCMonth()
+            year: calendarDate.getUTCFullYear()
+            locale: Qt.locale("Ro-ro")
 
             Layout.fillWidth: true
             Layout.fillHeight: true
