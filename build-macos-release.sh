@@ -1,6 +1,6 @@
 #!/bin/bash
 
-QT_VER=5.15.2
+QT_VER=6.4.0
 APP_NAME=EvidentaFiscala
 APP_IDENTIFIER="com.cristeab.finance"
 MAJOR_VERSION=1.0
@@ -13,7 +13,7 @@ rm -rf build
 mkdir build
 cd build
 
-cmake .. -DCMAKE_BUILD_TYPE=Release -DCMAKE_PREFIX_PATH=$HOME/Qt/$QT_VER/clang_64
+cmake .. -DCMAKE_BUILD_TYPE=Release -DCMAKE_PREFIX_PATH=$HOME/Qt/$QT_VER/macos
 make -j
 make pack
 cd ..
