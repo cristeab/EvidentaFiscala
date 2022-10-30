@@ -23,3 +23,9 @@ This is work in progress.
 - use the provided bash script to compile and generate the installer:
 
     ./build-macos-release.sh
+    
+# Screenshots
+
+![table](screenshots/table.png?raw=true "Records Table")
+
+![graph](screenshots/graph.png?raw=true "Records Graph")
