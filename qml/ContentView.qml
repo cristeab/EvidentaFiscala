@@ -77,6 +77,13 @@ Item {
             calendar.visible = false
         }
     }
+    MouseArea {
+        z: calendar.z - 1
+        anchors.fill: parent
+        enabled: calendar.visible
+        onClicked: calendar.visible = false
+        propagateComposedEvents: true
+    }
 
     TextArea {
         id: obsField
