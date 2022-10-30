@@ -140,6 +140,16 @@ Item {
 
     TableView {
         id: tableView
+
+        function customColumnWidth(column) {
+            let w = tableView.width / tableModel.tableHeader.length
+            w = (w < Theme.maximumColumnWidth) ? w : Theme.maximumColumnWidth
+            if ((tableModel.tableHeader.length - 1) === column) {
+                return tableView.width - (tableModel.tableHeader.length - 1) * w
+            }
+            return w
+        }
+
         anchors {
             top: okButton.bottom
             topMargin: Theme.verticalMargin
@@ -149,6 +159,7 @@ Item {
         onWidthChanged: tableView.forceLayout()
         model: tableModel
         rowSpacing: 5
+        columnSpacing: 0
         clip: true
         interactive: true
         flickableDirection: Flickable.VerticalFlick
@@ -162,9 +173,8 @@ Item {
                 model: tableModel.tableHeader.length
                 delegate: Label {
                     id: rowLabel
-                    Layout.fillWidth: true
-                    Layout.preferredWidth: tableView.width / tableModel.tableHeader.length
-                    Layout.minimumWidth: 110
+                    Layout.preferredWidth: tableView.customColumnWidth(index)
+                    Layout.minimumWidth: Theme.minimumColumnWidth
                     text: tableRow.modelName[index]
                     elide: Text.ElideRight
                     clip: true
