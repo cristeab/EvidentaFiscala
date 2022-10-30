@@ -4,6 +4,7 @@ import QtQuick.Layouts
 
 Item {
     property alias calendarVisible: calendar.visible
+    property alias count: tableView.rows
 
     clip: true
 

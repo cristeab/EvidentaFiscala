@@ -24,10 +24,12 @@ ApplicationWindow {
             }
             Action {
                 text: qsTr("Configurare...")
+                enabled: false
             }
             Action {
                 text: qsTr("Generare Registru de Evidenta Fiscala")
                 onTriggered: tableModel.generateRegistry()
+                enabled: 0 < tableTab.count
             }
             Action {
                 text: qsTr("Inchide")
