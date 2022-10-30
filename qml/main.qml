@@ -7,7 +7,7 @@ import Qt.labs.platform 1.1 as Platf
 ApplicationWindow {
     id: winApp
     visible: true
-    width: tableTab.winWidth
+    width: 800
     height: 600
     title: qsTr("Evidenta Fiscala")
 
@@ -134,7 +134,7 @@ ApplicationWindow {
         id: fileDialogComp
         FileDialog {
             title: "Selectati fisier"
-            currentFolder: Platf.StandardPaths.standardLocations(Platf.StandardPaths.HomeLocation)[0]
+            currentFolder: Platf.StandardPaths.standardLocations(Platf.StandardPaths.DocumentsLocation)[0]
             fileMode: FileDialog.OpenFile
             nameFilters: [ "CSV files (*.csv)", "All files (*)" ]
             onAccepted: tableModel.openLedger(selectedFile)

@@ -3,7 +3,6 @@ import QtQuick.Controls
 import QtQuick.Layouts
 
 Item {
-    readonly property real winWidth: dateField.width + typeCombo.width + amountField.width + currencyCombo.width + rateField.width + 8 * Theme.horizontalMargin
     property alias calendarVisible: calendar.visible
 
     clip: true
@@ -144,17 +143,17 @@ Item {
         anchors {
             top: okButton.bottom
             topMargin: Theme.verticalMargin
-            left: parent.left
-            right: parent.right
-            rightMargin: Theme.horizontalMargin
             bottom: parent.bottom
         }
+        width: parent.width
+        onWidthChanged: tableView.forceLayout()
         model: tableModel
         rowSpacing: 5
         clip: true
         interactive: true
         flickableDirection: Flickable.VerticalFlick
-        delegate: Row {
+        alternatingRows: true
+        delegate: RowLayout {
             id: tableRow
             readonly property var modelName: [date, bankIncome, cashIncome,
                 bankExpenses, cashExpenses, invoiceNumber, observations]
@@ -163,7 +162,8 @@ Item {
                 model: tableModel.tableHeader.length
                 delegate: Label {
                     id: rowLabel
-                    width: tableView.width/tableModel.tableHeader.length
+                    Layout.fillWidth: (tableModel.tableHeader.length - 1) === index
+                    Layout.preferredWidth: tableView.width / tableModel.tableHeader.length
                     text: tableRow.modelName[index]
                     elide: Text.ElideRight
                     clip: true
