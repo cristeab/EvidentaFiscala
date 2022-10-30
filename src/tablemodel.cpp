@@ -29,12 +29,8 @@ TableModel::TableModel() : _tableHeader({"Data", "Venituri prin Banca", "Venitur
 {
     setObjectName("tableModel");
 
-#ifdef RELEASE_FOLDER
     setFileName(QStandardPaths::writableLocation(QStandardPaths::DocumentsLocation) +
             QString("/PFA/ledger_pfa_%1.csv").arg(QDate::currentDate().year()));
-#else
-    setFileName(qApp->applicationDirPath() + QString("/ledger_pfa_%1.csv").arg(QDate::currentDate().year()));
-#endif
     for (int i = 0; i < CURVE_COUNT; ++i) {
         _chartSeries[i] = nullptr;
     }

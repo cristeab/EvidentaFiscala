@@ -43,7 +43,6 @@ target_compile_definitions(${PROJECT_NAME} PRIVATE $<$<OR:$<CONFIG:Debug>,$<CONF
 target_link_libraries(${PROJECT_NAME} PRIVATE Qt6::Core Qt6::Quick Qt6::Charts -lqtcsv)
 
 if (CMAKE_BUILD_TYPE MATCHES "^[Rr]elease")
-    add_definitions(-DRELEASE_FOLDER)
     add_custom_target(pack COMMAND ${CMAKE_PREFIX_PATH}/bin/macdeployqt ${CMAKE_PROJECT_NAME}.app -qmldir=${CMAKE_SOURCE_DIR} -libpath=${CMAKE_BINARY_DIR}/qtcsv_install/lib -no-strip -dmg)
     include(CPack)
 endif()
