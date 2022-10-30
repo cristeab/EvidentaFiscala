@@ -162,8 +162,9 @@ Item {
                 model: tableModel.tableHeader.length
                 delegate: Label {
                     id: rowLabel
-                    Layout.fillWidth: (tableModel.tableHeader.length - 1) === index
+                    Layout.fillWidth: true
                     Layout.preferredWidth: tableView.width / tableModel.tableHeader.length
+                    Layout.minimumWidth: 110
                     text: tableRow.modelName[index]
                     elide: Text.ElideRight
                     clip: true

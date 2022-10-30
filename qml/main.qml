@@ -8,6 +8,7 @@ ApplicationWindow {
     id: winApp
     visible: true
     width: 800
+    minimumWidth: 800
     height: 600
     title: qsTr("Evidenta Fiscala")
 
