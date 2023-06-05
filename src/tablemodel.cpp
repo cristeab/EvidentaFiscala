@@ -282,6 +282,7 @@ void TableModel::initIncomeCourves()
     qreal income = 0;
     qreal expense = 0;
     //skip header
+    _monthlyData.clear();
     for (int i = 1; i < _readData.size(); ++i) {
         if (!parseRow(i, key, income, expense)) {
             continue;
