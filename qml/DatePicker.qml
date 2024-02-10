@@ -131,6 +131,7 @@ Rectangle {
             id: grid
 
             property date calendarDate: new Date()
+            property int day: calendarDate.getDay()
 
             month: calendarDate.getMonth()
             year: calendarDate.getFullYear()
@@ -145,7 +146,7 @@ Rectangle {
                 opacity: model.month === grid.month ? 1 : 0.25
                 text: model.day
                 font: grid.font
-                color: Theme.foregroundColor
+                color: (grid.day === model.day) && (grid.month === model.month) ? Theme.accentColor : Theme.foregroundColor
 
                 required property var model
             }
