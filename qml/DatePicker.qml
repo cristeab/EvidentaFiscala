@@ -131,7 +131,7 @@ Rectangle {
             id: grid
 
             property date calendarDate: new Date()
-            property int day: calendarDate.getDay()
+            property int day: calendarDate.getDate()
 
             month: calendarDate.getMonth()
             year: calendarDate.getFullYear()
@@ -141,12 +141,13 @@ Rectangle {
             Layout.fillHeight: true
 
             delegate: Text {
+                property bool isCurrentDay: (grid.day === model.day) && (grid.month === model.month)
                 horizontalAlignment: Text.AlignHCenter
                 verticalAlignment: Text.AlignVCenter
                 opacity: model.month === grid.month ? 1 : 0.25
                 text: model.day
                 font: grid.font
-                color: (grid.day === model.day) && (grid.month === model.month) ? Theme.accentColor : Theme.foregroundColor
+                color: isCurrentDay ? Theme.accentColor : Theme.foregroundColor
 
                 required property var model
             }

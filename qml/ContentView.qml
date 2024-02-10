@@ -6,6 +6,8 @@ Item {
     property alias calendarVisible: calendar.visible
     property alias count: tableView.rows
 
+    Component.onCompleted: dateField.text = Qt.formatDate(new Date(), "dd/MM/yyyy")
+
     clip: true
 
     RowLayout {
