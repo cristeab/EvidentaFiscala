@@ -226,6 +226,7 @@ bool TableModel::parseRow(int rowIndex, QDateTime &key, qreal &income,
 
 	key = QDateTime::currentDateTime();
 	key.setDate(QDate(date.year(), date.month(), 15));//middle of the month
+	key.setTime({});
 	income = 0;
 	expense = 0;
 	for (int i = 0; i < 4; ++i) {
@@ -284,12 +285,11 @@ void TableModel::initIncomeCourves()
 	//skip header
 	_monthlyData.clear();
 	for (int i = 1; i < _readData.size(); ++i) {
-		if (!parseRow(i, key, income, expense)) {
-			continue;
+		if (parseRow(i, key, income, expense)) {
+			_monthlyData[key].income += income;
+			_monthlyData[key].expense += expense;
+			updateXAxis(key);
 		}
-		_monthlyData[key].income += income;
-		_monthlyData[key].expense += expense;
-		updateXAxis(key);
 	}
 	sortRows();
 	resetCurves();
