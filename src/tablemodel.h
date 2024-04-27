@@ -61,8 +61,7 @@ private:
     QString computeActualAmount(qreal amount, int currencyIndex, qreal rate);
     static QString toString(qreal num);
     void initInvoiceNumber();
-    bool parseRow(int rowIndex, QDateTime &key, qreal &income,
-                  qreal &expense);
+    bool parseRow(int rowIndex, QDateTime &key, qreal &income, qreal &expense);
     void sortRows();
     void initIncomeCourves();
     void updateIncomeCourves(int rowIndex);
@@ -77,8 +76,6 @@ private:
     const QString _csvSeparator;
     QXYSeries *_chartSeries[CURVE_COUNT]{};
     struct MonthlyData {
-        MonthlyData(qreal i, qreal e) : income(i), expense(e) {}
-        MonthlyData() = default;
 	qreal income{};
 	qreal expense{};
     };

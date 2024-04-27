@@ -279,8 +279,8 @@ void TableModel::sortRows()
 void TableModel::initIncomeCourves()
 {
 	QDateTime key;
-	qreal income = 0;
-	qreal expense = 0;
+	qreal income{};
+	qreal expense{};
 	//skip header
 	_monthlyData.clear();
 	for (int i = 1; i < _readData.size(); ++i) {
@@ -298,8 +298,8 @@ void TableModel::initIncomeCourves()
 void TableModel::updateIncomeCourves(int rowIndex)
 {
 	QDateTime key;
-	qreal income = 0;
-	qreal expense = 0;
+	qreal income{};
+	qreal expense{};
 	if (!parseRow(rowIndex, key, income, expense)) {
 		return;
 	}
@@ -374,12 +374,12 @@ void TableModel::resetCurves()
 
 bool TableModel::ensureLastCharIsNewLine()
 {
-	bool rc = false;
+	bool rc{};
 	QFile file(_fileName);
 	if (file.open(QIODevice::ReadWrite | QIODevice::Text)) {
 		const qint64 fileSize = file.size();
 		file.seek(fileSize-1);
-		char ch;
+		char ch{};
 		if (file.getChar(&ch)) {
 			if ('\n' != ch) {//only preOSX can have line ending a CR, ignore this case
 				file.seek(fileSize);
