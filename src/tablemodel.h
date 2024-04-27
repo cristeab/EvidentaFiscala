@@ -74,7 +74,7 @@ private:
     uint32_t _invoiceNumber{};
     QList<QStringList> _readData;
     const QString _csvSeparator;
-    QXYSeries *_chartSeries[CURVE_COUNT]{};
+    std::array<QXYSeries*, CURVE_COUNT> _chartSeries;
     struct MonthlyData {
 	qreal income{};
 	qreal expense{};

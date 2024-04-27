@@ -340,22 +340,20 @@ void TableModel::updateYAxis(qreal amount)
 
 void TableModel::resetCurves()
 {
-	for (int i = 0; i < CURVE_COUNT; ++i) {
-		if (nullptr != _chartSeries[i]) {
-			_chartSeries[i]->clear();
+	for (auto* s: _chartSeries) {
+		if (nullptr != s) {
+			s->clear();
 		}
 	}
 	if (!_monthlyData.isEmpty()) {
-		QMapIterator<QDateTime,MonthlyData> i(_monthlyData);
 		auto appendToCurve = [&](int curveIndex, qint64 timeVal, qreal amount) {
 			if (nullptr != _chartSeries[curveIndex]) {
 				_chartSeries[curveIndex]->append(static_cast<qreal>(timeVal),
 								 static_cast<qreal>(amount));
 				updateYAxis(amount);
-			} else {
-				qWarning() << "Invalid curve" << curveIndex;
 			}
 		};
+		QMapIterator<QDateTime,MonthlyData> i(_monthlyData);
 		while (i.hasNext()) {
 			i.next();
 			const qint64 timeVal = i.key().toMSecsSinceEpoch();
@@ -366,8 +364,12 @@ void TableModel::resetCurves()
 				      monthlyData.income - monthlyData.expense);
 		}
 		setXAxisTickCount(_monthlyData.size());
-		_chartSeries[THRESHOLD_CURVE]->append(_chartSeries[GROSS_INCOME_CURVE]->at(0).x(), THRESHOLD_VALUE);
-		_chartSeries[THRESHOLD_CURVE]->append(_chartSeries[GROSS_INCOME_CURVE]->at(_chartSeries[GROSS_INCOME_CURVE]->count() - 1).x(), THRESHOLD_VALUE);
+		if ((nullptr != _chartSeries[THRESHOLD_CURVE]) &&
+		    (nullptr != _chartSeries[GROSS_INCOME_CURVE])) {
+			auto* series = _chartSeries[GROSS_INCOME_CURVE];
+			_chartSeries[THRESHOLD_CURVE]->append(series->at(0).x(), THRESHOLD_VALUE);
+			_chartSeries[THRESHOLD_CURVE]->append(series->at(series->count() - 1).x(), THRESHOLD_VALUE);
+		}
 		qInfo() << "Found" << _monthlyData.size() << "points";
 	}
 }
