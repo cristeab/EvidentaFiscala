@@ -1,6 +1,6 @@
 #!/bin/bash
 
-QT_VER=6.6.1
+QT_VER=6.7.0
 APP_NAME=EvidentaFiscala
 APP_IDENTIFIER="com.cristeab.finance"
 MAJOR_VERSION=1.0

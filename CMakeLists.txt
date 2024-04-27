@@ -1,4 +1,4 @@
-cmake_minimum_required(VERSION 3.18)
+cmake_minimum_required(VERSION 3.27)
 
 project(EvidentaFiscala VERSION 1.0.0 LANGUAGES CXX)
 

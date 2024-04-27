@@ -3,10 +3,12 @@ import QtQuick.Controls
 import QtQuick.Layouts
 
 Item {
+    id: control
     property alias calendarVisible: calendar.visible
     property alias count: tableView.rows
+    readonly property string dateFormat: "dd/MM/yyyy"
 
-    Component.onCompleted: dateField.text = Qt.formatDate(new Date(), "dd/MM/yyyy")
+    Component.onCompleted: dateField.text = Qt.formatDate(new Date(), control.dateFormat)
 
     clip: true
 
@@ -76,7 +78,7 @@ Item {
             left: dateFieldRow.left
         }
         onClicked: (date) => {
-            dateField.text = Qt.formatDate(date, "dd/MM/yyyy")
+            dateField.text = Qt.formatDate(date, control.dateFormat)
             calendar.visible = false
         }
     }
