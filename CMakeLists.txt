@@ -9,6 +9,12 @@ set(CMAKE_AUTOMOC ON)
 set(CMAKE_AUTORCC ON)
 
 set(CMAKE_MACOSX_RPATH 1)
+set(CPACK_PACKAGE_VENDOR "Bogdan Cristea")
+
+include(cmake/internal_utils.cmake)
+get_app_version(SW_VERSION "1.0")
+
+configure_file(${CMAKE_SOURCE_DIR}/src/config.h.cmake ${CMAKE_BINARY_DIR}/config.h)
 
 find_package(Qt6 COMPONENTS Core Quick Charts REQUIRED)
 
@@ -25,7 +31,10 @@ file(GLOB SRCS src/*.cpp src/*.h)
 add_executable(${PROJECT_NAME} MACOSX_BUNDLE "${SRCS}" "qml.qrc"
     "${CMAKE_SOURCE_DIR}/img/${PROJECT_NAME}.icns")
 add_dependencies(${PROJECT_NAME} qtcsv)
-target_include_directories(${PROJECT_NAME} PRIVATE src ${CMAKE_BINARY_DIR}/qtcsv_install/include)
+target_include_directories(${PROJECT_NAME} PRIVATE
+    src
+    ${CMAKE_BINARY_DIR}
+    ${CMAKE_BINARY_DIR}/qtcsv_install/include)
 target_link_directories(${PROJECT_NAME} PRIVATE ${CMAKE_BINARY_DIR}/qtcsv_install/lib)
 set_source_files_properties ("${CMAKE_SOURCE_DIR}/img/${PROJECT_NAME}.icns"
     PROPERTIES MACOSX_PACKAGE_LOCATION "Resources")
@@ -36,7 +45,7 @@ set_target_properties(${PROJECT_NAME} PROPERTIES
     MACOSX_BUNDLE_BUNDLE_NAME "Evidenta Fiscala"
     MACOSX_BUNDLE_SHORT_VERSION_STRING "${PROJECT_VERSION}"
     MACOSX_BUNDLE_BUNDLE_VERSION "${PROJECT_VERSION}"
-    MACOSX_BUNDLE_COPYRIGHT "Copyright 2019, Bogdan Cristea. All rights reserved"
+    MACOSX_BUNDLE_COPYRIGHT "Copyright 2023, Bogdan Cristea. All rights reserved"
     MACOSX_BUNDLE_INFO_PLIST ${CMAKE_CURRENT_SOURCE_DIR}/Info.plist)
 
 target_compile_definitions(${PROJECT_NAME} PRIVATE $<$<OR:$<CONFIG:Debug>,$<CONFIG:RelWithDebInfo>>:QT_QML_DEBUG>)

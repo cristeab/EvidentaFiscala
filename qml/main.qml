@@ -2,7 +2,6 @@ import QtQuick
 import QtQuick.Window
 import QtQuick.Controls
 import QtQuick.Dialogs
-import Qt.labs.platform 1.1 as Platf
 
 ApplicationWindow {
     id: winApp
@@ -139,7 +138,7 @@ ApplicationWindow {
         id: fileDialogComp
         FileDialog {
             title: "Selectati Fisier"
-            currentFolder: Platf.StandardPaths.standardLocations(Platf.StandardPaths.DocumentsLocation)[0]
+            currentFolder: settings.csvFolderPath
             fileMode: FileDialog.OpenFile
             nameFilters: [ "CSV files (*.csv)", "All files (*)" ]
             onAccepted: tableModel.openLedger(selectedFile)
