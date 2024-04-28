@@ -15,23 +15,28 @@ ApplicationWindow {
     menuBar: MenuBar {
         Menu {
             title: qsTr("Fisier")
-            Action {
+            MenuItem {
                 text: qsTr("Deschide...")
                 onTriggered: {
                     fileDialogLoader.active = true
                     fileDialogLoader.item.visible = true
                 }
             }
-            Action {
+            MenuItem {
                 text: qsTr("Configurare...")
                 enabled: false
             }
-            Action {
+            MenuItem {
+                id: genReg
                 text: qsTr("Generare Registru de Evidenta Fiscala")
                 onTriggered: tableModel.generateRegistry()
                 enabled: 0 < tableTab.count
+                ToolTip {
+                    text: genReg.text
+                    visible: genReg.hovered
+                }
             }
-            Action {
+            MenuItem {
                 text: qsTr("Inchide")
             }
         }

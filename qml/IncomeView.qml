@@ -22,7 +22,7 @@ ChartView {
 
     LineSeries {
         id: grossIncomeLineSeries
-        name: "Venit Brut"
+        name: qsTr("Venit Brut")
         color: "#16c5f0"
         axisX: axisX
         axisY: axisY
@@ -31,7 +31,7 @@ ChartView {
     }
     LineSeries {
         id: expenseLineSeries
-        name: "Cheltuieli"
+        name: qsTr("Cheltuieli")
         color: "#b416e7"
         axisX: axisX
         axisY: axisY
@@ -40,7 +40,7 @@ ChartView {
     }
     LineSeries {
         id: netIncomeLineSeries
-        name: "Venit Net"
+        name: qsTr("Venit Net")
         color: "#21f15e"
         axisX: axisX
         axisY: axisY

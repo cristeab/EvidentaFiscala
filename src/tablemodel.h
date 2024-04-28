@@ -56,7 +56,7 @@ private:
         InvoiceNumber,
         Observations
     };
-    static constexpr qreal THRESHOLD_VALUE = 11112;
+    static constexpr qreal THRESHOLD_VALUE = 1600;
     void init();
     QString computeActualAmount(qreal amount, int currencyIndex, qreal rate);
     static QString toString(qreal num);
