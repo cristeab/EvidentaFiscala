@@ -1,6 +1,6 @@
 #pragma once
 
-#include "qmlhelpers.h"
+#include "settings.h"
 #include <QAbstractTableModel>
 #include <QStringList>
 #include <QDateTime>
@@ -20,6 +20,7 @@ class TableModel : public QAbstractTableModel
     QML_READABLE_PROPERTY(qreal, yAxisMin, setYAxisMin, 0)
     QML_READABLE_PROPERTY(qreal, yAxisMax, setYAxisMax, 1)
     QML_READABLE_PROPERTY(QString, fileName, setFileName, {})
+    QML_CONSTANT_PROPERTY_PTR(Settings, settings)
 
 public:
     enum CourveType { GROSS_INCOME_CURVE = 0,

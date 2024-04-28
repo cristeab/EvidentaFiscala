@@ -20,7 +20,7 @@ ExternalProject_Add(qtcsv
   CMAKE_ARGS -DCMAKE_PREFIX_PATH=${CMAKE_PREFIX_PATH} -DBUILD_TESTS=OFF -DCMAKE_INSTALL_PREFIX=${CMAKE_BINARY_DIR}/qtcsv_install
   STEP_TARGETS   build)
 
-file(GLOB SRCS src/*.cpp)
+file(GLOB SRCS src/*.cpp src/*.h)
 
 add_executable(${PROJECT_NAME} MACOSX_BUNDLE "${SRCS}" "qml.qrc"
     "${CMAKE_SOURCE_DIR}/img/${PROJECT_NAME}.icns")

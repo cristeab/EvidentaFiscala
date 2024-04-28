@@ -7,5 +7,9 @@
         <file>qml/Theme.qml</file>
         <file>qml/qmldir</file>
         <file>qml/DatePicker.qml</file>
+        <file>qml/Settings.qml</file>
+        <file>qml/LabelTextField.qml</file>
+        <file>qml/LabelTextFieldBrowser.qml</file>
+        <file>qml/LabelComboBox.qml</file>
     </qresource>
 </RCC>

@@ -15,6 +15,8 @@ int main(int argc, char *argv[])
     if (nullptr != context) {
         auto tableModel = QPointer(new TableModel());
         context->setContextProperty(tableModel->objectName(), tableModel);
+	auto* settings = tableModel->settings();
+	context->setContextProperty(settings->objectName(), settings);
     }
 
     engine.load(QUrl(QStringLiteral("qrc:/qml/main.qml")));

@@ -24,7 +24,7 @@ ApplicationWindow {
             }
             MenuItem {
                 text: qsTr("Configurare...")
-                enabled: false
+                onTriggered: settingsLoader.active = true
             }
             MenuItem {
                 id: genReg
@@ -35,9 +35,6 @@ ApplicationWindow {
                     text: genReg.text
                     visible: genReg.hovered
                 }
-            }
-            MenuItem {
-                text: qsTr("Inchide")
             }
         }
     }
@@ -141,7 +138,7 @@ ApplicationWindow {
     Component {
         id: fileDialogComp
         FileDialog {
-            title: "Selectati fisier"
+            title: "Selectati Fisier"
             currentFolder: Platf.StandardPaths.standardLocations(Platf.StandardPaths.DocumentsLocation)[0]
             fileMode: FileDialog.OpenFile
             nameFilters: [ "CSV files (*.csv)", "All files (*)" ]
@@ -154,5 +151,11 @@ ApplicationWindow {
         active: false
         anchors.centerIn: parent
         sourceComponent: fileDialogComp
+    }
+
+    Loader {
+        id: settingsLoader
+        active: false
+        source: "qrc:/qml/Settings.qml"
     }
 }

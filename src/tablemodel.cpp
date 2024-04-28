@@ -370,7 +370,6 @@ void TableModel::resetCurves()
 			_chartSeries[THRESHOLD_CURVE]->append(series->at(0).x(), THRESHOLD_VALUE);
 			_chartSeries[THRESHOLD_CURVE]->append(series->at(series->count() - 1).x(), THRESHOLD_VALUE);
 		}
-		qInfo() << "Found" << _monthlyData.size() << "points";
 	}
 }
 
