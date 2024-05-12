@@ -9,13 +9,12 @@ Column {
     property alias editText: controlTextField.text
 
     spacing: 5
-    onEditTextChanged: control.error = false
 
     Label {
         id: controlLabel
         width: parent.width
         elide: Text.ElideRight
-        color: control.error ? Theme.errorColor : Material.foreground
+        color: Material.foreground
         font {
             italic: true
         }
@@ -32,12 +31,8 @@ Column {
             width: height
             text: qsTr("...")
             onClicked: {
-                if (control.selectFolder) {
-                    fileDialogLoader.active = true
-                } else {
-                    fileDlgLoader.active = true
-                    fileDlgLoader.item.visible = true
-                }
+                folderDialogLoader.active = true
+                folderDialogLoader.item.visible = true
             }
         }
     }

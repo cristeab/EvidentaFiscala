@@ -8,6 +8,7 @@ Dialog {
     readonly property real selectFolderWidth: control.width * 2 / 3
     readonly property real editWidth: control.selectFolderWidth / 3
 
+    title: qsTr("Configurare")
     implicitWidth: winApp.width * 3 / 4
     x: (winApp.width-width)/2
     y: (winApp.height-height)/2 - 25

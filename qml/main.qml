@@ -137,7 +137,7 @@ ApplicationWindow {
     Component {
         id: fileDialogComp
         FileDialog {
-            title: "Selectati Fisier"
+            title: qsTr("Selectati Fisier")
             currentFolder: settings.csvFolderPath
             fileMode: FileDialog.OpenFile
             nameFilters: [ "CSV files (*.csv)", "All files (*)" ]
@@ -150,6 +150,22 @@ ApplicationWindow {
         active: false
         anchors.centerIn: parent
         sourceComponent: fileDialogComp
+    }
+
+    Component {
+        id: folderDialogComp
+        FolderDialog {
+            title: qsTr("Selectati Director")
+            currentFolder: settings.csvFolderPath
+            onAccepted: settings.csvFolderPath = selectedFolder.toString().replace("file://", "")
+            Component.onCompleted: visible = true
+        }
+    }
+    Loader {
+        id: folderDialogLoader
+        active: false
+        anchors.centerIn: parent
+        sourceComponent: folderDialogComp
     }
 
     Loader {
