@@ -11,5 +11,6 @@
         <file>qml/LabelTextField.qml</file>
         <file>qml/LabelTextFieldBrowser.qml</file>
         <file>qml/LabelComboBox.qml</file>
+        <file>img/FolderOpen.svg</file>
     </qresource>
 </RCC>

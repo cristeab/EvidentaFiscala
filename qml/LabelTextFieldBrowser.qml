@@ -28,8 +28,10 @@ Column {
         }
         Button {
             id: browseButton
+            height: controlTextField.height
             width: height
-            text: qsTr("...")
+            icon.source: "qrc:/img/FolderOpen.svg"
+            display: AbstractButton.IconOnly
             onClicked: {
                 folderDialogLoader.active = true
                 folderDialogLoader.item.visible = true
