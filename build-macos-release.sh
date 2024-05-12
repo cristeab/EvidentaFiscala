@@ -1,5 +1,7 @@
 #!/bin/bash
 
+# $HOME/Qt/$QT_VER/macos/bin/lupdate qml -ts langs/fr.ts
+
 set -e # exit immeditalley on error
 
 QT_VER=6.7.0

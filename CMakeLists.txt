@@ -16,7 +16,7 @@ get_app_version(SW_VERSION "1.0")
 
 configure_file(${CMAKE_SOURCE_DIR}/src/config.h.cmake ${CMAKE_BINARY_DIR}/config.h)
 
-find_package(Qt6 COMPONENTS Core Quick Charts REQUIRED)
+find_package(Qt6 COMPONENTS Core Quick Charts LinguistTools REQUIRED)
 
 include(ExternalProject)
 ExternalProject_Add(qtcsv
@@ -27,6 +27,9 @@ ExternalProject_Add(qtcsv
   STEP_TARGETS   build)
 
 file(GLOB SRCS src/*.cpp src/*.h)
+
+FILE(GLOB TS_FILES "${CMAKE_CURRENT_SOURCE_DIR}/langs/*.ts")
+qt6_create_translation(QM_FILES ${SRCS} ${TS_FILES})
 
 add_executable(${PROJECT_NAME} MACOSX_BUNDLE "${SRCS}" "qml.qrc"
     "${CMAKE_SOURCE_DIR}/img/${PROJECT_NAME}.icns")

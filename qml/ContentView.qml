@@ -106,7 +106,7 @@ Item {
 
     Button {
         id: okButton
-        text: qsTr("ADD")
+        text: qsTr("Adauga")
         anchors {
             top: obsField.bottom
             topMargin: Theme.verticalMargin
@@ -145,7 +145,7 @@ Item {
                 rateField.text = ""
                 obsField.text = ""
             } else {
-                errMsg.show(qsTr("Cannot add row"))
+                errMsg.show(qsTr("Nu se poate adauga un rand nou"))
             }
         }
     }
