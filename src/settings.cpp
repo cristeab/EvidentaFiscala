@@ -13,6 +13,9 @@ Settings::Settings(QObject *parent) : QObject{ parent }
 {
     setObjectName("settings");
     load();
+    connect(this, &Settings::languageIndexChanged, this, [this]() {
+
+    }, Qt::QueuedConnection);
 }
 
 void Settings::load()
