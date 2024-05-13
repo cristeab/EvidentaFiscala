@@ -19,9 +19,9 @@
 
 const QLocale TableModel::_locale;
 
-TableModel::TableModel() : _tableHeader({"Data", "Venituri prin Banca", "Venituri Lichide",
-			 "Cheltuieli prin Banca", "Cheltuieli Lichide",
-			 "Numar Factura", "Observatii"}),
+TableModel::TableModel() : _tableHeader({tr("Data"),tr("Venituri prin Banca"), tr("Venituri Lichide"),
+			 tr("Cheltuieli prin Banca"), tr("Cheltuieli Lichide"),
+			 tr("Numar Factura"), tr("Observatii")}),
 	  _currencyModel({"RON", "USD", "EUR"}),
 	  _typeModel(_tableHeader.mid(1, 4)),
 	  _csvSeparator(";"),
@@ -44,7 +44,7 @@ void TableModel::init()
 		strData.addRow(_tableHeader);
 		if (!QtCSV::Writer::write(_fileName, strData, _csvSeparator)) {
 			qCritical() << "Cannot create file";
-			emit error("Fisierul CSV nu poate fi creat", true);
+			emit error(tr("Fisierul CSV nu poate fi creat"), true);
 			return;
 		}
 	}
@@ -52,13 +52,13 @@ void TableModel::init()
 	if (!_readData.isEmpty()) {
 		const auto& actTableHeader = _readData.at(0);
 		if (actTableHeader.size() != _tableHeader.size()) {
-			emit error("Fisierul CSV are un numar de coloane diferit de cel asteptat", true);
+			emit error(tr("Fisierul CSV are un numar de coloane diferit de cel asteptat"), true);
 			return;
 		}
 		//check column names
 		for (int i = 0; i < _tableHeader.size(); ++i) {
 			if (_tableHeader.at(i) != actTableHeader.at(i)) {
-				emit error("Fisierul CSV nu are coloanele asteptate", true);
+				emit error(tr("Fisierul CSV nu are coloanele asteptate"), true);
 				return;
 			}
 		}
@@ -420,17 +420,17 @@ void TableModel::generateRegistry()
 
 	//generate HTML document
 	const QString year = _monthlyData.keyBegin()->toString("yyyy");
-	QString content = "<br><p>Anul " + year + "</p>";
-	content += "<p>Rectificare</p>";
-	content += "<p>Activit&#259;&#355;i de consultan&#355;&#259; &#238;n tehnologia informa&#355;iei</p>";
+	QString content = "<br><p>" + tr("Anul")+ " " + year + "</p>";
+	content += "<p>" + tr("Rectificare") + "</p>";
+	content += "<p>"+ tr("Activit&#259;&#355;i de consultan&#355;&#259; &#238;n tehnologia informa&#355;iei") + "</p>";
 	content += "<br>";
 	content += "<table>";
-	content += "<tr><th>Nr. crt.</th><th>Elemente de calcul pentru stabilirea venitului net anual/pierderii nete anuale</th><th>Valoare<br>- lei -</th></tr>";
-	content += "<tr><td align=\"center\">1</td><td>&nbsp;Venit brut</td><td align=\"center\">" + toString(totalIncome) + "</td></tr>";
-	content += "<tr><td align=\"center\">2</td><td>&nbsp;Cheltuieli</td><td align=\"center\">" + toString(totalExpense) + "</td></tr>";
+	content += "<tr><th>" + tr("Nr. crt.") + "</th><th>" + tr("Elemente de calcul pentru stabilirea venitului net anual/pierderii nete anuale") + "</th><th>" + tr("Valoare") + "<br>- " + tr("lei") + " -</th></tr>";
+	content += "<tr><td align=\"center\">1</td><td>&nbsp;" + tr("Venit brut") + "</td><td align=\"center\">" + toString(totalIncome) + "</td></tr>";
+	content += "<tr><td align=\"center\">2</td><td>&nbsp;" + tr("Cheltuieli") + "</td><td align=\"center\">" + toString(totalExpense) + "</td></tr>";
 	content += "</table>";
 	QTextDocument doc;
-	doc.setMetaInformation(QTextDocument::DocumentTitle, "Registru de Evidenta Fiscala");
+	doc.setMetaInformation(QTextDocument::DocumentTitle, tr("Registru de Evidenta Fiscala"));
 	doc.setHtml(content);
 	const QString path = QFileInfo(_fileName).path();
 	QTextDocumentWriter docWriter(path + "/RegistruEvidentaFiscala_"+year+".odt", "odf");
@@ -438,7 +438,7 @@ void TableModel::generateRegistry()
 	if (rc) {
 		QDesktopServices::openUrl("file://" + docWriter.fileName());
 	} else {
-		const QString msg = "Cannot write to " + docWriter.fileName();
+		const QString msg = tr("Nu se poate scrie in ") + docWriter.fileName();
 		qCritical() << msg;
 		emit error(msg, false);
 	}
