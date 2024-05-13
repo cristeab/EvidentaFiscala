@@ -1,57 +1,57 @@
 <?xml version="1.0" encoding="utf-8"?>
 <!DOCTYPE TS>
-<TS version="2.1">
+<TS version="2.1" language="en_US" sourcelanguage="ro_RO">
 <context>
     <name>ContentView</name>
     <message>
         <location filename="../qml/ContentView.qml" line="36"/>
         <source>Data</source>
-        <translation type="unfinished"></translation>
+        <translation>Date</translation>
     </message>
     <message>
         <location filename="../qml/ContentView.qml" line="47"/>
         <source>Suma</source>
-        <translation type="unfinished"></translation>
+        <translation>Amount</translation>
     </message>
     <message>
         <location filename="../qml/ContentView.qml" line="62"/>
         <source>Rata de Schimb</source>
-        <translation type="unfinished"></translation>
+        <translation>Exchange Rate</translation>
     </message>
     <message>
         <location filename="../qml/ContentView.qml" line="104"/>
         <source>Observatii</source>
-        <translation type="unfinished"></translation>
+        <translation>Notes</translation>
     </message>
     <message>
         <location filename="../qml/ContentView.qml" line="109"/>
         <source>Adauga</source>
-        <translation type="unfinished"></translation>
+        <translation>Add</translation>
     </message>
     <message>
         <location filename="../qml/ContentView.qml" line="148"/>
         <source>Nu se poate adauga un rand nou</source>
-        <translation type="unfinished"></translation>
+        <translation>Cannot add a new row</translation>
     </message>
     <message>
         <location filename="../qml/ContentView.qml" line="117"/>
         <source>Data trebuie specificata</source>
-        <translation type="unfinished"></translation>
+        <translation>The date must be specified</translation>
     </message>
     <message>
         <location filename="../qml/ContentView.qml" line="122"/>
         <source>Suma trebuie specificata</source>
-        <translation type="unfinished"></translation>
+        <translation>The amount must be specified</translation>
     </message>
     <message>
         <location filename="../qml/ContentView.qml" line="127"/>
         <source>Rata de schimb trebuie specificata</source>
-        <translation type="unfinished"></translation>
+        <translation>The exchange rate must be specified</translation>
     </message>
     <message>
         <location filename="../qml/ContentView.qml" line="132"/>
         <source>Observatiile trebuie specificate</source>
-        <translation type="unfinished"></translation>
+        <translation>The notes must be specified</translation>
     </message>
 </context>
 <context>
@@ -59,12 +59,12 @@
     <message>
         <location filename="../qml/DatePicker.qml" line="61"/>
         <source>&lt;</source>
-        <translation type="unfinished"></translation>
+        <translation></translation>
     </message>
     <message>
         <location filename="../qml/DatePicker.qml" line="74"/>
         <source>&gt;</source>
-        <translation type="unfinished"></translation>
+        <translation></translation>
     </message>
 </context>
 <context>
@@ -72,17 +72,17 @@
     <message>
         <location filename="../qml/IncomeView.qml" line="25"/>
         <source>Venit Brut</source>
-        <translation type="unfinished"></translation>
+        <translation>Gross Income</translation>
     </message>
     <message>
         <location filename="../qml/IncomeView.qml" line="34"/>
         <source>Cheltuieli</source>
-        <translation type="unfinished"></translation>
+        <translation>Expenses</translation>
     </message>
     <message>
         <location filename="../qml/IncomeView.qml" line="43"/>
         <source>Venit Net</source>
-        <translation type="unfinished"></translation>
+        <translation>Net Income</translation>
     </message>
 </context>
 <context>
@@ -90,27 +90,27 @@
     <message>
         <location filename="../qml/Settings.qml" line="11"/>
         <source>Configurare</source>
-        <translation type="unfinished"></translation>
+        <translation>Settings</translation>
     </message>
     <message>
         <location filename="../qml/Settings.qml" line="29"/>
         <source>Venit Minim</source>
-        <translation type="unfinished"></translation>
+        <translation>Minimum Gross Income</translation>
     </message>
     <message>
         <location filename="../qml/Settings.qml" line="35"/>
         <source>Directorul cu Fisiere CSV</source>
-        <translation type="unfinished"></translation>
+        <translation>Folder with CSV Files</translation>
     </message>
     <message>
         <location filename="../qml/Settings.qml" line="41"/>
         <source>Numar de Start pentru Chitante</source>
-        <translation type="unfinished"></translation>
+        <translation>Start Number for the Receipts</translation>
     </message>
     <message>
         <location filename="../qml/Settings.qml" line="47"/>
         <source>Selectati Limba Interfetei</source>
-        <translation type="unfinished"></translation>
+        <translation>Select Interface Language</translation>
     </message>
 </context>
 <context>
@@ -118,52 +118,52 @@
     <message>
         <location filename="../qml/main.qml" line="12"/>
         <source>Evidenta Fiscala</source>
-        <translation type="unfinished"></translation>
+        <translation>Fiscal Record</translation>
     </message>
     <message>
         <location filename="../qml/main.qml" line="16"/>
         <source>Fisier</source>
-        <translation type="unfinished"></translation>
+        <translation>File</translation>
     </message>
     <message>
         <location filename="../qml/main.qml" line="18"/>
         <source>Deschide...</source>
-        <translation type="unfinished"></translation>
+        <translation>Open...</translation>
     </message>
     <message>
         <location filename="../qml/main.qml" line="25"/>
         <source>Configurare...</source>
-        <translation type="unfinished"></translation>
+        <translation>Settings...</translation>
     </message>
     <message>
         <location filename="../qml/main.qml" line="30"/>
         <source>Generare Registru de Evidenta Fiscala</source>
-        <translation type="unfinished"></translation>
+        <translation>Generation of Fiscal Evidence Register</translation>
     </message>
     <message>
         <location filename="../qml/main.qml" line="52"/>
         <source>Tabel</source>
-        <translation type="unfinished"></translation>
+        <translation>Table</translation>
     </message>
     <message>
         <location filename="../qml/main.qml" line="55"/>
         <source>Grafic</source>
-        <translation type="unfinished"></translation>
+        <translation>Graph</translation>
     </message>
     <message>
         <location filename="../qml/main.qml" line="128"/>
         <source>Eroare</source>
-        <translation type="unfinished"></translation>
+        <translation>Error</translation>
     </message>
     <message>
         <location filename="../qml/main.qml" line="140"/>
         <source>Selectati Fisier</source>
-        <translation type="unfinished"></translation>
+        <translation>Select File</translation>
     </message>
     <message>
         <location filename="../qml/main.qml" line="158"/>
         <source>Selectati Director</source>
-        <translation type="unfinished"></translation>
+        <translation>Select Folder</translation>
     </message>
 </context>
 </TS>
