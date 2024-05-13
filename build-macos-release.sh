@@ -1,6 +1,6 @@
 #!/bin/bash
 
-# $HOME/Qt/$QT_VER/macos/bin/lupdate qml -ts langs/fr.ts
+# $HOME/Qt/$QT_VER/macos/bin/lupdate qml src -ts langs/fr.ts
 
 set -e # exit immeditalley on error
 

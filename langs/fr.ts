@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <!DOCTYPE TS>
-<TS version="2.1" language="fr" sourcelanguage="ro">
+<TS version="2.1" language="fr_FR" sourcelanguage="ro_RO">
 <context>
     <name>ContentView</name>
     <message>
@@ -111,6 +111,114 @@
         <location filename="../qml/Settings.qml" line="47"/>
         <source>Selectati Limba Interfetei</source>
         <translation>Sélectionnez la langue de l&apos;interface</translation>
+    </message>
+</context>
+<context>
+    <name>TableModel</name>
+    <message>
+        <location filename="../src/tablemodel.cpp" line="22"/>
+        <source>Data</source>
+        <translation>Date</translation>
+    </message>
+    <message>
+        <location filename="../src/tablemodel.cpp" line="22"/>
+        <source>Venituri prin Banca</source>
+        <translation>Revenus via la banque</translation>
+    </message>
+    <message>
+        <location filename="../src/tablemodel.cpp" line="22"/>
+        <source>Venituri Lichide</source>
+        <translation>Revenu liquide</translation>
+    </message>
+    <message>
+        <location filename="../src/tablemodel.cpp" line="23"/>
+        <source>Cheltuieli prin Banca</source>
+        <translation>Dépenses via la banque</translation>
+    </message>
+    <message>
+        <location filename="../src/tablemodel.cpp" line="23"/>
+        <source>Cheltuieli Lichide</source>
+        <translation>Dépenses liquides</translation>
+    </message>
+    <message>
+        <location filename="../src/tablemodel.cpp" line="24"/>
+        <source>Numar Factura</source>
+        <translation>Numéro de facture</translation>
+    </message>
+    <message>
+        <location filename="../src/tablemodel.cpp" line="24"/>
+        <source>Observatii</source>
+        <translation>Observations</translation>
+    </message>
+    <message>
+        <location filename="../src/tablemodel.cpp" line="47"/>
+        <source>Fisierul CSV nu poate fi creat</source>
+        <translation>Le fichier CSV ne peut pas être créé</translation>
+    </message>
+    <message>
+        <location filename="../src/tablemodel.cpp" line="55"/>
+        <source>Fisierul CSV are un numar de coloane diferit de cel asteptat</source>
+        <translation>Le fichier CSV a un nombre de colonnes différent de celui prévu</translation>
+    </message>
+    <message>
+        <location filename="../src/tablemodel.cpp" line="61"/>
+        <source>Fisierul CSV nu are coloanele asteptate</source>
+        <translation>Le fichier CSV n&apos;a pas les colonnes attendues</translation>
+    </message>
+    <message>
+        <location filename="../src/tablemodel.cpp" line="423"/>
+        <source>Anul</source>
+        <translation>L&apos;année</translation>
+    </message>
+    <message>
+        <location filename="../src/tablemodel.cpp" line="424"/>
+        <source>Rectificare</source>
+        <translation>Rectification</translation>
+    </message>
+    <message>
+        <location filename="../src/tablemodel.cpp" line="425"/>
+        <source>Activit&amp;#259;&amp;#355;i de consultan&amp;#355;&amp;#259; &amp;#238;n tehnologia informa&amp;#355;iei</source>
+        <translation>Activités de conseil informatique</translation>
+    </message>
+    <message>
+        <location filename="../src/tablemodel.cpp" line="428"/>
+        <source>Nr. crt.</source>
+        <translation>No. crt.</translation>
+    </message>
+    <message>
+        <location filename="../src/tablemodel.cpp" line="428"/>
+        <source>Elemente de calcul pentru stabilirea venitului net anual/pierderii nete anuale</source>
+        <translation>Éléments de calcul pour déterminer le résultat net annuel/la perte nette annuelle</translation>
+    </message>
+    <message>
+        <location filename="../src/tablemodel.cpp" line="428"/>
+        <source>Valoare</source>
+        <translation>Valeur</translation>
+    </message>
+    <message>
+        <location filename="../src/tablemodel.cpp" line="428"/>
+        <source>lei</source>
+        <translation>euro</translation>
+    </message>
+    <message>
+        <location filename="../src/tablemodel.cpp" line="429"/>
+        <source>Venit brut</source>
+        <translation>Revenu brut</translation>
+    </message>
+    <message>
+        <location filename="../src/tablemodel.cpp" line="430"/>
+        <source>Cheltuieli</source>
+        <translation>Frais</translation>
+    </message>
+    <message>
+        <location filename="../src/tablemodel.cpp" line="433"/>
+        <source>Registru de Evidenta Fiscala</source>
+        <translation>Registre des preuves fiscales</translation>
+    </message>
+    <message>
+        <location filename="../src/tablemodel.cpp" line="441"/>
+        <source>Nu se poate scrie in </source>
+        <translation>On ne peut pas écrire dans </translation>
     </message>
 </context>
 <context>

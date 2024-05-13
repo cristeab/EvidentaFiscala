@@ -114,6 +114,114 @@
     </message>
 </context>
 <context>
+    <name>TableModel</name>
+    <message>
+        <location filename="../src/tablemodel.cpp" line="22"/>
+        <source>Data</source>
+        <translation>Date</translation>
+    </message>
+    <message>
+        <location filename="../src/tablemodel.cpp" line="22"/>
+        <source>Venituri prin Banca</source>
+        <translation>Income through the Bank</translation>
+    </message>
+    <message>
+        <location filename="../src/tablemodel.cpp" line="22"/>
+        <source>Venituri Lichide</source>
+        <translation>Liquid Income</translation>
+    </message>
+    <message>
+        <location filename="../src/tablemodel.cpp" line="23"/>
+        <source>Cheltuieli prin Banca</source>
+        <translation>Expenses through the Bank</translation>
+    </message>
+    <message>
+        <location filename="../src/tablemodel.cpp" line="23"/>
+        <source>Cheltuieli Lichide</source>
+        <translation>Liquid Expenses</translation>
+    </message>
+    <message>
+        <location filename="../src/tablemodel.cpp" line="24"/>
+        <source>Numar Factura</source>
+        <translation>Invoice number</translation>
+    </message>
+    <message>
+        <location filename="../src/tablemodel.cpp" line="24"/>
+        <source>Observatii</source>
+        <translation>Notes</translation>
+    </message>
+    <message>
+        <location filename="../src/tablemodel.cpp" line="47"/>
+        <source>Fisierul CSV nu poate fi creat</source>
+        <translation>The CSV file cannot be created</translation>
+    </message>
+    <message>
+        <location filename="../src/tablemodel.cpp" line="55"/>
+        <source>Fisierul CSV are un numar de coloane diferit de cel asteptat</source>
+        <translation>The CSV file has a different number of columns than expected</translation>
+    </message>
+    <message>
+        <location filename="../src/tablemodel.cpp" line="61"/>
+        <source>Fisierul CSV nu are coloanele asteptate</source>
+        <translation>The CSV file does not have the expected columns</translation>
+    </message>
+    <message>
+        <location filename="../src/tablemodel.cpp" line="423"/>
+        <source>Anul</source>
+        <translation>Year</translation>
+    </message>
+    <message>
+        <location filename="../src/tablemodel.cpp" line="424"/>
+        <source>Rectificare</source>
+        <translation>Rectification</translation>
+    </message>
+    <message>
+        <location filename="../src/tablemodel.cpp" line="425"/>
+        <source>Activit&amp;#259;&amp;#355;i de consultan&amp;#355;&amp;#259; &amp;#238;n tehnologia informa&amp;#355;iei</source>
+        <translation>IT consultancy activities</translation>
+    </message>
+    <message>
+        <location filename="../src/tablemodel.cpp" line="428"/>
+        <source>Nr. crt.</source>
+        <translation>CNum.</translation>
+    </message>
+    <message>
+        <location filename="../src/tablemodel.cpp" line="428"/>
+        <source>Elemente de calcul pentru stabilirea venitului net anual/pierderii nete anuale</source>
+        <translation>Calculation elements for determining annual net income/annual net loss</translation>
+    </message>
+    <message>
+        <location filename="../src/tablemodel.cpp" line="428"/>
+        <source>Valoare</source>
+        <translation>Value</translation>
+    </message>
+    <message>
+        <location filename="../src/tablemodel.cpp" line="428"/>
+        <source>lei</source>
+        <translation>pounds</translation>
+    </message>
+    <message>
+        <location filename="../src/tablemodel.cpp" line="429"/>
+        <source>Venit brut</source>
+        <translation>Gross income</translation>
+    </message>
+    <message>
+        <location filename="../src/tablemodel.cpp" line="430"/>
+        <source>Cheltuieli</source>
+        <translation>Expenses</translation>
+    </message>
+    <message>
+        <location filename="../src/tablemodel.cpp" line="433"/>
+        <source>Registru de Evidenta Fiscala</source>
+        <translation>Fiscal Evidence Register</translation>
+    </message>
+    <message>
+        <location filename="../src/tablemodel.cpp" line="441"/>
+        <source>Nu se poate scrie in </source>
+        <translation>Cannot write in </translation>
+    </message>
+</context>
+<context>
     <name>main</name>
     <message>
         <location filename="../qml/main.qml" line="12"/>
