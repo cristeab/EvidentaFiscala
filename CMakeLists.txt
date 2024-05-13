@@ -1,5 +1,4 @@
 cmake_minimum_required(VERSION 3.27)
-
 project(EvidentaFiscala VERSION 1.0.0 LANGUAGES CXX)
 
 set(CMAKE_CXX_STANDARD 17)
@@ -28,11 +27,16 @@ ExternalProject_Add(qtcsv
 
 file(GLOB SRCS src/*.cpp src/*.h)
 
-FILE(GLOB TS_FILES "${CMAKE_CURRENT_SOURCE_DIR}/langs/*.ts")
-qt6_create_translation(QM_FILES ${SRCS} ${TS_FILES})
+file(GLOB TR_SRCS qml/*.qml src/*.cpp src/*.h)
+qt_standard_project_setup(I18N_TRANSLATED_LANGUAGES en fr)
+qt_add_translations(TARGETS ${PROJECT_NAME}
+                    SOURCES ${TR_SRCS}
+                    TS_FILES langs/fr.ts langs/en.ts
+                    RESOURCE_PREFIX "/langs")
 
 add_executable(${PROJECT_NAME} MACOSX_BUNDLE "${SRCS}" "qml.qrc"
     "${CMAKE_SOURCE_DIR}/img/${PROJECT_NAME}.icns")
+
 add_dependencies(${PROJECT_NAME} qtcsv)
 target_include_directories(${PROJECT_NAME} PRIVATE
     src
