@@ -109,10 +109,7 @@ ApplicationWindow {
     Connections {
         target: tableModel
         function onError(msg, fatal) {
-            errMsgLoader.active = true
-            errMsgLoader.item.visible = true
-            errMsgLoader.item.isFatal = fatal
-            errMsgLoader.item.show(msg)
+            errMsg.show(msg, fatal)
         }
     }
     Component {
@@ -123,9 +120,9 @@ ApplicationWindow {
     }
     Loader {
         id: errMsg
-        function show(msg) {
+        function show(msg, fatal) {
             errMsg.active = true
-            errMsg.item.title = qsTr("Eroare")
+            errMsg.item.title = fatal ? qsTr("Eroare") : qsTr("Avertisment")
             errMsg.item.text = msg
             errMsg.item.visible = true
         }

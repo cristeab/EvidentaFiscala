@@ -259,17 +259,22 @@
         <translation>Graph</translation>
     </message>
     <message>
-        <location filename="../qml/main.qml" line="128"/>
+        <location filename="../qml/main.qml" line="125"/>
         <source>Eroare</source>
         <translation>Error</translation>
     </message>
     <message>
-        <location filename="../qml/main.qml" line="140"/>
+        <location filename="../qml/main.qml" line="125"/>
+        <source>Avertisment</source>
+        <translation>Warning</translation>
+    </message>
+    <message>
+        <location filename="../qml/main.qml" line="137"/>
         <source>Selectati Fisier</source>
         <translation>Select File</translation>
     </message>
     <message>
-        <location filename="../qml/main.qml" line="158"/>
+        <location filename="../qml/main.qml" line="155"/>
         <source>Selectati Director</source>
         <translation>Select Folder</translation>
     </message>

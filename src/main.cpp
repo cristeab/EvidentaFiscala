@@ -9,12 +9,12 @@ int main(int argc, char *argv[])
     QApplication app(argc, argv);
     qSetMessagePattern("%{appname} [%{threadid}] [%{type}] %{message} (%{file}:%{line})");
 
-    QTranslator translator;
+    /*QTranslator translator;
     if (translator.load(":/langs/fr")) {
 	app.installTranslator(&translator);
     } else {
-    qWarning() << "Cannot install translator";
-    }
+	qWarning() << "Cannot install translator";
+    }*/
 
     QQmlApplicationEngine engine;
     qmlRegisterType<TableModel>("TableModel", 1, 0, "TableModel");
