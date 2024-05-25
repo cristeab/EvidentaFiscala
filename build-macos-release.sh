@@ -4,7 +4,7 @@
 
 set -e # exit immeditalley on error
 
-QT_VER=6.7.0
+QT_VER=6.7.1
 APP_NAME=EvidentaFiscala
 APP_IDENTIFIER="com.cristeab.finance"
 MAJOR_VERSION=1.0
