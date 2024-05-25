@@ -11,31 +11,42 @@ ApplicationWindow {
     height: 600
     title: qsTr("Evidenta Fiscala")
 
-    menuBar: MenuBar {
-        Menu {
-            title: qsTr("Fisier")
-            MenuItem {
-                text: qsTr("Deschide...")
-                onTriggered: {
+    ToolBar {
+        id: toolBar
+        spacing: Theme.horizontalMargin
+        width: parent.width
+        background: Item {}
+        Row {
+            anchors.fill: parent
+            ToolButton {
+                icon.source: "qrc:/img/FileCsv.svg"
+                onClicked: {
                     fileDialogLoader.active = true
                     fileDialogLoader.item.visible = true
                 }
+                ToolTip {
+                    text: qsTr("Deschide...")
+                    visible: parent.hovered
+                }
             }
-            MenuItem {
-                text: qsTr("Configurare...")
-                onTriggered: {
+            ToolButton {
+                icon.source: "qrc:/img/Settings.svg"
+                onClicked: {
                     settingsLoader.active = true
                     settingsLoader.item.visible = true
                 }
+                ToolTip {
+                    text: qsTr("Configurare...")
+                    visible: parent.hovered
+                }
             }
-            MenuItem {
-                id: genReg
-                text: qsTr("Generare Registru")
-                onTriggered: tableModel.generateRegistry()
+            ToolButton {
+                icon.source: "qrc:/img/FileExport.svg"
+                onClicked: tableModel.generateRegistry()
                 enabled: 0 < tableTab.count
                 ToolTip {
                     text: qsTr("Generare Registru de Evidenta Fiscala")
-                    visible: genReg.hovered
+                    visible: parent.hovered
                 }
             }
         }
@@ -44,7 +55,7 @@ ApplicationWindow {
     TabBar {
         id: bar
         anchors {
-            top: parent.top
+            top: toolBar.bottom
             topMargin: Theme.verticalMargin
             left: parent.left
             leftMargin: Theme.horizontalMargin
