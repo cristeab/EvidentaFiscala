@@ -34,6 +34,9 @@ TableModel::TableModel() : _tableHeader({tr("Data"),tr("Venituri prin Banca"), t
 	for (int i = 0; i < CURVE_COUNT; ++i) {
 		_chartSeries[i] = nullptr;
 	}
+
+	connect(_settings, &Settings::minIncomeChanged, this, &TableModel::resetMinIncome);
+
 	QTimer::singleShot(0, this, &TableModel::init);
 }
 
@@ -364,12 +367,7 @@ void TableModel::resetCurves()
 				      monthlyData.income - monthlyData.expense);
 		}
 		setXAxisTickCount(_monthlyData.size());
-		if ((nullptr != _chartSeries[THRESHOLD_CURVE]) &&
-		    (nullptr != _chartSeries[GROSS_INCOME_CURVE])) {
-			auto* series = _chartSeries[GROSS_INCOME_CURVE];
-			_chartSeries[THRESHOLD_CURVE]->append(series->at(0).x(), THRESHOLD_VALUE);
-			_chartSeries[THRESHOLD_CURVE]->append(series->at(series->count() - 1).x(), THRESHOLD_VALUE);
-		}
+		resetMinIncome();
 	}
 }
 
@@ -448,4 +446,18 @@ void TableModel::openLedger(const QUrl &url)
 {
 	setFileName(url.toLocalFile());
 	QTimer::singleShot(0, this, &TableModel::init);
+}
+
+void TableModel::resetMinIncome()
+{
+	if ((nullptr != _chartSeries[THRESHOLD_CURVE]) &&
+	    (nullptr != _chartSeries[GROSS_INCOME_CURVE])) {
+		auto* series = _chartSeries[GROSS_INCOME_CURVE];
+		const auto minIncome = _settings->minIncome();
+		_chartSeries[THRESHOLD_CURVE]->clear();
+		_chartSeries[THRESHOLD_CURVE]->append(series->at(0).x(), minIncome);
+		_chartSeries[THRESHOLD_CURVE]->append(series->at(series->count() - 1).x(), minIncome);
+	} else {
+		qWarning() << "Cannot reset minimum income";
+	}
 }

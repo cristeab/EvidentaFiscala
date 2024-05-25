@@ -16,7 +16,13 @@ Dialog {
     standardButtons: Dialog.Ok | Dialog.Cancel
 
     Component.onCompleted: control.visible = true
-    onAccepted: settings.save()
+    onAccepted: {
+        if (!venitMin.acceptableInput || !invoiceStartNum.acceptableInput) {
+            settingsLoader.active = true
+            settingsLoader.item.visible = true
+        }
+        settings.save()
+    }
     onRejected: settingsLoader.active = false
 
     Column {
@@ -28,7 +34,8 @@ Dialog {
             width: control.editWidth
             text: qsTr("Venit Minim")
             editText: settings.minIncome
-            onEditTextChanged: settings.minIncome = parseFloat(editText)
+            onEditingFinished: settings.minIncome = parseFloat(editText)
+            validator: IntValidator { bottom: 0 }
         }
         LabelTextFieldBrowser {
             width: control.selectFolderWidth
@@ -37,10 +44,12 @@ Dialog {
             onEditTextChanged: settings.csvFolderPath = editText
         }
         LabelTextField {
+            id: invoiceStartNum
             width: control.editWidth
             text: qsTr("Numar de Start pentru Chitante")
             editText: settings.invoiceNumberStart
-            onEditTextChanged: settings.invoiceNumberStart = parseInt(editText)
+            onEditingFinished: settings.invoiceNumberStart = parseInt(editText)
+            validator: IntValidator { bottom: 1 }
         }
         LabelComboBox {
             width: control.editWidth

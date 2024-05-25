@@ -29,6 +29,9 @@ bool loadTranslatorFromSettings (const Settings *settings, QTranslator &translat
     if (!ok && !langFile.isEmpty()) {
 	qWarning() << "Cannot install translator" << langFile;
     }
+    if (!ok && langFile.isEmpty()) {
+	ok = true;
+    }
     return ok;
 }
 

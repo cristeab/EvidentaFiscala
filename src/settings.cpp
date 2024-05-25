@@ -22,21 +22,14 @@ void Settings::load()
 {
     QSettings settings(ORG_NAME, APP_NAME);
     setMinIncome(GET_SETTING(minIncome).toDouble());
-    if (0 >= _minIncome) {
-	setMinIncome(DEFAULT_MIN_INCOME);
-    }
+
     setCsvFolderPath(GET_SETTING(csvFolderPath).toString());
     if (_csvFolderPath.isEmpty()) {
 	setCsvFolderPath(QStandardPaths::writableLocation(QStandardPaths::DocumentsLocation));
     }
+
     setInvoiceNumberStart(GET_SETTING(invoiceNumberStart).toInt());
-    if (1 > _invoiceNumberStart) {
-	setInvoiceNumberStart(DEFAULT_INVOICE_NUMBER_START);
-    }
     setLanguageIndex(GET_SETTING(languageIndex).toInt());
-    if (0 > _languageIndex) {
-	setLanguageIndex(DEFAULT_LANGUAGE_INDEX);
-    }
 }
 
 void Settings::save()

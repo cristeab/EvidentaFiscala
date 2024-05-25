@@ -9,6 +9,7 @@ Column {
     property alias editText: controlTextField.text
     property alias validator: controlTextField.validator
     property alias echoMode: controlTextField.echoMode
+    property alias acceptableInput: controlTextField.acceptableInput
 
     signal editingFinished()
 
@@ -17,7 +18,7 @@ Column {
     Label {
         id: controlLabel
         elide: Text.ElideRight
-        color: control.error ? Theme.errorColor : Material.foreground
+        color: controlTextField.acceptableInput ? Theme.foregroundColor : Theme.accentColor
         font {
             italic: true
         }

@@ -57,7 +57,6 @@ private:
         InvoiceNumber,
         Observations
     };
-    static constexpr qreal THRESHOLD_VALUE = 1600;
     void init();
     QString computeActualAmount(qreal amount, int currencyIndex, qreal rate);
     static QString toString(qreal num);
@@ -70,6 +69,7 @@ private:
     void updateYAxis(qreal amount);
     void resetCurves();
     bool ensureLastCharIsNewLine();
+    void resetMinIncome();
 
     const static QLocale _locale;
     uint32_t _invoiceNumber{};

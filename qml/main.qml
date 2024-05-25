@@ -23,15 +23,18 @@ ApplicationWindow {
             }
             MenuItem {
                 text: qsTr("Configurare...")
-                onTriggered: settingsLoader.active = true
+                onTriggered: {
+                    settingsLoader.active = true
+                    settingsLoader.item.visible = true
+                }
             }
             MenuItem {
                 id: genReg
-                text: qsTr("Generare Registru de Evidenta Fiscala")
+                text: qsTr("Generare Registru")
                 onTriggered: tableModel.generateRegistry()
                 enabled: 0 < tableTab.count
                 ToolTip {
-                    text: genReg.text
+                    text: qsTr("Generare Registru de Evidenta Fiscala")
                     visible: genReg.hovered
                 }
             }
@@ -62,6 +65,7 @@ ApplicationWindow {
 
         focus: true
         interactive: false
+        clip: true
         anchors {
             top: bar.bottom
             topMargin: Theme.verticalMargin

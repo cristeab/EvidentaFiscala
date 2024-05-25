@@ -25,6 +25,7 @@ Column {
         TextField {
             id: controlTextField
             width: control.width - browseButton.width - browseRow.spacing
+            readOnly: true
         }
         Button {
             id: browseButton
