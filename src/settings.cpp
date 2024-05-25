@@ -1,5 +1,4 @@
 #include "settings.h"
-#include "config.h"
 #include <QStandardPaths>
 #include <QSettings>
 

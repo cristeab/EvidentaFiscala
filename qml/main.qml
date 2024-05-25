@@ -9,7 +9,7 @@ ApplicationWindow {
     width: 800
     minimumWidth: 800
     height: 600
-    title: qsTr("Evidenta Fiscala")
+    title: qsTr("Evidenta Fiscala") + " v" + settings.swVersion
 
     ToolBar {
         id: toolBar
