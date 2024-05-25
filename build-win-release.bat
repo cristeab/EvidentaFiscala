@@ -28,7 +28,7 @@ if %errorlevel% neq 0 (
     exit /b %errorlevel%
 )
 
-cmake.exe --build . --target package
+cmake.exe --build . --target pack
 if %errorlevel% neq 0 (
     popd
     exit /b %errorlevel%
