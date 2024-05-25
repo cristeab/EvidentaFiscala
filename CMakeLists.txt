@@ -34,8 +34,13 @@ qt_add_translations(TARGETS ${PROJECT_NAME}
                     TS_FILES langs/fr.ts langs/en.ts
                     RESOURCE_PREFIX "/langs")
 
-add_executable(${PROJECT_NAME} MACOSX_BUNDLE "${SRCS}" "qml.qrc"
-    "${CMAKE_SOURCE_DIR}/img/${PROJECT_NAME}.icns")
+if (APPLE)
+    add_executable(${PROJECT_NAME} MACOSX_BUNDLE ${SRCS} "qml.qrc"
+        "${CMAKE_SOURCE_DIR}/img/${PROJECT_NAME}.icns")
+elseif (WIN32)
+    add_executable(${PROJECT_NAME} WIN32 ${SRCS} "qml.qrc"
+        "${CMAKE_SOURCE_DIR}/img/app.rc")
+endif ()
 
 add_dependencies(${PROJECT_NAME} qtcsv)
 target_include_directories(${PROJECT_NAME} PRIVATE
