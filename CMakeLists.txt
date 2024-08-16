@@ -7,7 +7,7 @@ set(CMAKE_CXX_STANDARD_REQUIRED ON)
 set(CMAKE_AUTOMOC ON)
 set(CMAKE_AUTORCC ON)
 
-set(CMAKE_MACOSX_RPATH 1)
+set(CMAKE_MACOSX_RPATH TRUE)
 set(CPACK_PACKAGE_VENDOR "Bogdan Cristea")
 
 include(cmake/internal_utils.cmake)
@@ -35,11 +35,9 @@ qt_add_translations(TARGETS ${PROJECT_NAME}
                     RESOURCE_PREFIX "/langs")
 
 if (APPLE)
-    add_executable(${PROJECT_NAME} MACOSX_BUNDLE ${SRCS} "qml.qrc"
-        "${CMAKE_SOURCE_DIR}/img/${PROJECT_NAME}.icns")
+    include(cmake/macos.cmake)
 elseif (WIN32)
-    add_executable(${PROJECT_NAME} WIN32 ${SRCS} "qml.qrc"
-        "${CMAKE_SOURCE_DIR}/img/app.rc")
+    include(cmake/windows.cmake)
 endif ()
 
 add_dependencies(${PROJECT_NAME} qtcsv)
@@ -48,26 +46,9 @@ target_include_directories(${PROJECT_NAME} PRIVATE
     ${CMAKE_BINARY_DIR}
     ${CMAKE_BINARY_DIR}/qtcsv_install/include)
 target_link_directories(${PROJECT_NAME} PRIVATE ${CMAKE_BINARY_DIR}/qtcsv_install/lib)
-set_source_files_properties ("${CMAKE_SOURCE_DIR}/img/${PROJECT_NAME}.icns"
-    PROPERTIES MACOSX_PACKAGE_LOCATION "Resources")
-set_target_properties(${PROJECT_NAME} PROPERTIES
-    MACOSX_BUNDLE_GUI_IDENTIFIER "com.cristeab.finance"
-    MACOSX_BUNDLE_INFO_STRING "Evidenta Fiscala"
-    MACOSX_BUNDLE_ICON_FILE "${PROJECT_NAME}.icns"
-    MACOSX_BUNDLE_BUNDLE_NAME "Evidenta Fiscala"
-    MACOSX_BUNDLE_SHORT_VERSION_STRING "${PROJECT_VERSION}"
-    MACOSX_BUNDLE_BUNDLE_VERSION "${PROJECT_VERSION}"
-    MACOSX_BUNDLE_COPYRIGHT "Copyright 2023, Bogdan Cristea. All rights reserved"
-    MACOSX_BUNDLE_INFO_PLIST ${CMAKE_CURRENT_SOURCE_DIR}/Info.plist)
 
 target_compile_definitions(${PROJECT_NAME} PRIVATE $<$<OR:$<CONFIG:Debug>,$<CONFIG:RelWithDebInfo>>:QT_QML_DEBUG>)
-if (APPLE)
-    target_link_libraries(${PROJECT_NAME} PRIVATE Qt6::Core Qt6::Quick Qt6::Charts -lqtcsv)
-elseif (WIN32)
-    target_link_libraries(${PROJECT_NAME} PRIVATE Qt6::Core Qt6::Quick Qt6::Charts qtcsv.lib)
-endif()
 
 if (CMAKE_BUILD_TYPE MATCHES "^[Rr]elease")
-    add_custom_target(pack COMMAND ${CMAKE_PREFIX_PATH}/bin/macdeployqt ${CMAKE_PROJECT_NAME}.app -qmldir=${CMAKE_SOURCE_DIR} -libpath=${CMAKE_BINARY_DIR}/qtcsv_install/lib -no-strip -dmg)
     include(CPack)
-endif()
+endif ()
