@@ -23,8 +23,18 @@ ChartView {
     Text {
         id: pointTooltip
         color: Theme.accentColor
-        font.pixelSize: 12
+        font {
+            bold: true
+            pixelSize: 12
+        }
         visible: false
+        function show(point, color) {
+            pointTooltip.text = point.y.toFixed(2)
+            pointTooltip.color = color
+            pointTooltip.visible = true
+            pointTooltip.x = mapToPosition(point).x
+            pointTooltip.y = mapToPosition(point).y - 15
+        }
     }
 
     LineSeries {
@@ -37,13 +47,7 @@ ChartView {
         width: 2
         onHovered: function(point, state) {
             if (state) {
-                console.log(point.y.toFixed(2))
-                // Update the position and text of the tooltip
-                pointTooltip.text = point.y.toFixed(2)
-                pointTooltip.color = grossIncomeLineSeries.color
-                pointTooltip.visible = true
-                pointTooltip.x = mapToPosition(point).x
-                pointTooltip.y = mapToPosition(point).y
+                pointTooltip.show(point, grossIncomeLineSeries.color)
             } else {
                 pointTooltip.visible = false
             }
@@ -59,13 +63,7 @@ ChartView {
         width: 2
         onHovered: function(point, state) {
             if (state) {
-                console.log(point.y.toFixed(2))
-                // Update the position and text of the tooltip
-                pointTooltip.text = point.y.toFixed(2)
-                pointTooltip.color = expenseLineSeries.color
-                pointTooltip.visible = true
-                pointTooltip.x = mapToPosition(point).x
-                pointTooltip.y = mapToPosition(point).y
+                pointTooltip.show(point, expenseLineSeries.color)
             } else {
                 pointTooltip.visible = false
             }
@@ -81,13 +79,7 @@ ChartView {
         width: 2
         onHovered: function(point, state) {
             if (state) {
-                console.log(point.y.toFixed(2))
-                // Update the position and text of the tooltip
-                pointTooltip.text = point.y.toFixed(2)
-                pointTooltip.color = netIncomeLineSeries.color
-                pointTooltip.visible = true
-                pointTooltip.x = mapToPosition(point).x
-                pointTooltip.y = mapToPosition(point).y
+                pointTooltip.show(point, netIncomeLineSeries.color)
             } else {
                 pointTooltip.visible = false
             }
@@ -102,13 +94,7 @@ ChartView {
         width: 1
         onHovered: function(point, state) {
             if (state) {
-                console.log(point.y.toFixed(2))
-                // Update the position and text of the tooltip
-                pointTooltip.text = point.y.toFixed(2)
-                pointTooltip.color = threshold.color
-                pointTooltip.visible = true
-                pointTooltip.x = mapToPosition(point).x
-                pointTooltip.y = mapToPosition(point).y
+                pointTooltip.show(point, threshold.color)
             } else {
                 pointTooltip.visible = false
             }
