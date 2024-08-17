@@ -28,12 +28,26 @@ ChartView {
             pixelSize: 12
         }
         visible: false
-        function show(point, color) {
-            pointTooltip.text = point.y.toFixed(2)
-            pointTooltip.color = color
+        function show(point, lineSeries) {
+            const closestPoint = findClosestPoint(point.x, lineSeries)
+            pointTooltip.text = closestPoint ? closestPoint.y.toFixed(2) : point.y.toFixed(2)
+            pointTooltip.color = lineSeries.color
             pointTooltip.visible = true
             pointTooltip.x = mapToPosition(point).x
             pointTooltip.y = mapToPosition(point).y - 15
+        }
+        function findClosestPoint(mouseX, lineSeries) {
+            let minDist = Number.MAX_VALUE
+            let closestPoint = null
+            for (let i = 0; i < lineSeries.count; i++) {
+                const point = lineSeries.at(i)
+                const dist = Math.abs(point.x - mouseX)
+                if (dist < minDist) {
+                    minDist = dist
+                    closestPoint = point
+                }
+            }
+            return closestPoint
         }
     }
 
@@ -47,7 +61,7 @@ ChartView {
         width: 2
         onHovered: function(point, state) {
             if (state) {
-                pointTooltip.show(point, grossIncomeLineSeries.color)
+                pointTooltip.show(point, grossIncomeLineSeries)
             } else {
                 pointTooltip.visible = false
             }
@@ -63,7 +77,7 @@ ChartView {
         width: 2
         onHovered: function(point, state) {
             if (state) {
-                pointTooltip.show(point, expenseLineSeries.color)
+                pointTooltip.show(point, expenseLineSeries)
             } else {
                 pointTooltip.visible = false
             }
@@ -79,7 +93,7 @@ ChartView {
         width: 2
         onHovered: function(point, state) {
             if (state) {
-                pointTooltip.show(point, netIncomeLineSeries.color)
+                pointTooltip.show(point, netIncomeLineSeries)
             } else {
                 pointTooltip.visible = false
             }
@@ -94,7 +108,7 @@ ChartView {
         width: 1
         onHovered: function(point, state) {
             if (state) {
-                pointTooltip.show(point, threshold.color)
+                pointTooltip.show(point, threshold)
             } else {
                 pointTooltip.visible = false
             }
