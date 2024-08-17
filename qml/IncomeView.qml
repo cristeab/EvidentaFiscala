@@ -20,6 +20,13 @@ ChartView {
         titleText: "RON"
     }
 
+    Text {
+        id: pointTooltip
+        color: Theme.accentColor
+        font.pixelSize: 12
+        visible: false
+    }
+
     LineSeries {
         id: grossIncomeLineSeries
         name: qsTr("Venit Brut")
@@ -28,6 +35,19 @@ ChartView {
         axisY: axisY
         style: Qt.DashDotLine
         width: 2
+        onHovered: function(point, state) {
+            if (state) {
+                console.log(point.y.toFixed(2))
+                // Update the position and text of the tooltip
+                pointTooltip.text = point.y.toFixed(2)
+                pointTooltip.color = grossIncomeLineSeries.color
+                pointTooltip.visible = true
+                pointTooltip.x = mapToPosition(point).x
+                pointTooltip.y = mapToPosition(point).y
+            } else {
+                pointTooltip.visible = false
+            }
+        }
     }
     LineSeries {
         id: expenseLineSeries
@@ -37,6 +57,19 @@ ChartView {
         axisY: axisY
         style: Qt.SolidLine
         width: 2
+        onHovered: function(point, state) {
+            if (state) {
+                console.log(point.y.toFixed(2))
+                // Update the position and text of the tooltip
+                pointTooltip.text = point.y.toFixed(2)
+                pointTooltip.color = expenseLineSeries.color
+                pointTooltip.visible = true
+                pointTooltip.x = mapToPosition(point).x
+                pointTooltip.y = mapToPosition(point).y
+            } else {
+                pointTooltip.visible = false
+            }
+        }
     }
     LineSeries {
         id: netIncomeLineSeries
@@ -46,6 +79,19 @@ ChartView {
         axisY: axisY
         style: Qt.SolidLine
         width: 2
+        onHovered: function(point, state) {
+            if (state) {
+                console.log(point.y.toFixed(2))
+                // Update the position and text of the tooltip
+                pointTooltip.text = point.y.toFixed(2)
+                pointTooltip.color = netIncomeLineSeries.color
+                pointTooltip.visible = true
+                pointTooltip.x = mapToPosition(point).x
+                pointTooltip.y = mapToPosition(point).y
+            } else {
+                pointTooltip.visible = false
+            }
+        }
     }
     LineSeries {
         id: threshold
@@ -54,6 +100,19 @@ ChartView {
         style: Qt.DashDotDotLine
         color: "lightgray"
         width: 1
+        onHovered: function(point, state) {
+            if (state) {
+                console.log(point.y.toFixed(2))
+                // Update the position and text of the tooltip
+                pointTooltip.text = point.y.toFixed(2)
+                pointTooltip.color = threshold.color
+                pointTooltip.visible = true
+                pointTooltip.x = mapToPosition(point).x
+                pointTooltip.y = mapToPosition(point).y
+            } else {
+                pointTooltip.visible = false
+            }
+        }
     }
     Component.onCompleted: {
         tableModel.setChartSeries(TableModel.GROSS_INCOME_CURVE, grossIncomeLineSeries)

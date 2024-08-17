@@ -1,3 +1,5 @@
+set(CMAKE_MACOSX_RPATH TRUE)
+
 add_executable(${PROJECT_NAME} MACOSX_BUNDLE ${SRCS} "qml.qrc"
     "${CMAKE_SOURCE_DIR}/img/${PROJECT_NAME}.icns")
 
