@@ -31,11 +31,12 @@ ChartView {
         function show(point, lineSeries) {
             const closestPoint = findClosestPoint(point.x, lineSeries)
             const actualPoint = closestPoint ? closestPoint : point
+            // set text
             pointTooltip.text = actualPoint.y.toFixed(2)
             pointTooltip.color = lineSeries.color
             pointTooltip.visible = true
-            pointTooltip.x = mapToPosition(point).x
-            pointTooltip.y = mapToPosition(point).y - 15
+            pointTooltip.x = mapToPosition(actualPoint).x + 10
+            pointTooltip.y = mapToPosition(actualPoint).y - 20
             // set marker
             pointMarker.x = mapToPosition(actualPoint).x - (pointMarker.width / 2)
             pointMarker.y = mapToPosition(actualPoint).y - (pointMarker.height / 2)
