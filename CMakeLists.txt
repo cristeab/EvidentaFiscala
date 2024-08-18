@@ -49,5 +49,13 @@ target_link_directories(${PROJECT_NAME} PRIVATE ${CMAKE_BINARY_DIR}/qtcsv_instal
 target_compile_definitions(${PROJECT_NAME} PRIVATE $<$<OR:$<CONFIG:Debug>,$<CONFIG:RelWithDebInfo>>:QT_QML_DEBUG>)
 
 if (CMAKE_BUILD_TYPE MATCHES "^[Rr]el")
+    set(CPACK_PACKAGE_NAME ${PROJECT_NAME})
+    set(CPACK_PACKAGE_DESCRIPTION_SUMMARY "Application for Keeping Fiscal Records")
+    set(CPACK_PACKAGE_DESCRIPTION_FILE ${CMAKE_SOURCE_DIR}/README.md)
+    set(CPACK_PACKAGE_VERSION ${SW_VERSION})
+    set(CPACK_RESOURCE_FILE_README ${CMAKE_SOURCE_DIR}/README.md)
+    set(CPACK_RESOURCE_FILE_LICENSE ${CMAKE_SOURCE_DIR}/LICENSE)
+    set(CPACK_PACKAGE_CONTACT "cristeab@gmail.com")
+    set(CPACK_STRIP_FILES ${PROJECT_NAME})
     include(CPack)
 endif ()

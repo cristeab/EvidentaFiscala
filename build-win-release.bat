@@ -16,7 +16,7 @@ if %errorlevel% neq 0 (
     exit /b %errorlevel%
 )
 
-cmake.exe .. -G "Ninja" -DCMAKE_BUILD_TYPE=RelWithDebInfo -DCMAKE_PREFIX_PATH=%QT_PATH%
+cmake.exe .. -G "Ninja" -DCMAKE_BUILD_TYPE=Release -DCMAKE_PREFIX_PATH=%QT_PATH%
 if %errorlevel% neq 0 (
     popd
     exit /b %errorlevel%
@@ -28,7 +28,7 @@ if %errorlevel% neq 0 (
     exit /b %errorlevel%
 )
 
-cmake.exe --build . --target pack
+cmake.exe --build . --target package
 if %errorlevel% neq 0 (
     popd
     exit /b %errorlevel%
