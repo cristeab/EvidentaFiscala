@@ -39,7 +39,7 @@ Dialog {
         }
         LabelTextFieldBrowser {
             width: control.selectFolderWidth
-            text: qsTr("Directorul cu Fisiere CSV")
+            text: qsTr("Directorul de Lucru")
             editText: settings.csvFolderPath
             onEditTextChanged: settings.csvFolderPath = editText
         }

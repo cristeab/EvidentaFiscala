@@ -7,7 +7,6 @@
 #include <QFile>
 #include <QTimer>
 #include <QDebug>
-#include <QDate>
 #include <QCoreApplication>
 #include <QtCharts/QXYSeries>
 #include <QRegularExpression>
@@ -16,6 +15,7 @@
 #include <QDesktopServices>
 #include <QFileInfo>
 #include <QXYSeries>
+#include <QDir>
 
 const QLocale TableModel::_locale;
 
@@ -29,8 +29,6 @@ TableModel::TableModel() : _tableHeader({tr("Data"),tr("Venituri prin Banca"), t
 {
 	setObjectName("tableModel");
 
-	setFileName(QStandardPaths::writableLocation(QStandardPaths::DocumentsLocation) +
-		    QString("/PFA/ledger_pfa_%1.csv").arg(QDate::currentDate().year()));
 	for (int i = 0; i < CURVE_COUNT; ++i) {
 		_chartSeries[i] = nullptr;
 	}
@@ -42,16 +40,21 @@ TableModel::TableModel() : _tableHeader({tr("Data"),tr("Venituri prin Banca"), t
 
 void TableModel::init()
 {
-	if (!QFile::exists(_fileName)) {
+	const auto& ledgerFilePath = _settings->ledgerFilePath();
+	if (ledgerFilePath.isEmpty()) {
+	    emit error(tr("Numele fisierului CSV este gol"), true);
+	    return;
+	}
+	if (!QFile::exists(ledgerFilePath)) {
 		QtCSV::StringData strData;
 		strData.addRow(_tableHeader);
-		if (!QtCSV::Writer::write(_fileName, strData, _csvSeparator)) {
+		if (!QtCSV::Writer::write(ledgerFilePath, strData, _csvSeparator)) {
 			qCritical() << "Cannot create file";
 			emit error(tr("Fisierul CSV nu poate fi creat"), true);
 			return;
 		}
 	}
-	_readData = QtCSV::Reader::readToList(_fileName, _csvSeparator);
+	_readData = QtCSV::Reader::readToList(ledgerFilePath, _csvSeparator);
 	if (!_readData.isEmpty()) {
 		const auto& actTableHeader = _readData.at(0);
 		if (actTableHeader.size() != _tableHeader.size()) {
@@ -167,11 +170,13 @@ bool TableModel::add(const QString &date, int typeIndex, qreal amount,
 	row << obs + obsSuffix;
 	QtCSV::StringData strData;
 	strData.addRow(row);
-	bool rc = ensureLastCharIsNewLine();
+
+	const auto& ledgerFilePath = _settings->ledgerFilePath();
+	bool rc = ensureLastCharIsNewLine(ledgerFilePath);
 	if (!rc) {
 		return false;
 	}
-	rc = QtCSV::Writer::write(_fileName, strData, _csvSeparator, QString("\""),
+	rc = QtCSV::Writer::write(ledgerFilePath, strData, _csvSeparator, QString("\""),
 				  QtCSV::Writer::WriteMode::APPEND);
 	if (rc) {
 		_readData.append(row);
@@ -371,10 +376,10 @@ void TableModel::resetCurves()
 	}
 }
 
-bool TableModel::ensureLastCharIsNewLine()
+bool TableModel::ensureLastCharIsNewLine(const QString& filePath)
 {
 	bool rc{};
-	QFile file(_fileName);
+	QFile file(filePath);
 	if (file.open(QIODevice::ReadWrite | QIODevice::Text)) {
 		const qint64 fileSize = file.size();
 		file.seek(fileSize-1);
@@ -430,8 +435,10 @@ void TableModel::generateRegistry()
 	QTextDocument doc;
 	doc.setMetaInformation(QTextDocument::DocumentTitle, tr("Registru de Evidenta Fiscala"));
 	doc.setHtml(content);
-	const QString path = QFileInfo(_fileName).path();
-	QTextDocumentWriter docWriter(path + "/RegistruEvidentaFiscala_"+year+".odt", "odf");
+
+	QDir dir(_settings->csvFolderPath());
+	const auto fileName = "RegistruEvidentaFiscala_" + year + ".odt";
+	QTextDocumentWriter docWriter(dir.filePath(fileName), "odf");
 	const bool rc = docWriter.write(&doc);
 	if (rc) {
 		QDesktopServices::openUrl("file://" + docWriter.fileName());
@@ -444,7 +451,7 @@ void TableModel::generateRegistry()
 
 void TableModel::openLedger(const QUrl &url)
 {
-	setFileName(url.toLocalFile());
+	_settings->setLedgerFilePath(url.toLocalFile());
 	QTimer::singleShot(0, this, &TableModel::init);
 }
 

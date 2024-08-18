@@ -99,7 +99,7 @@ ApplicationWindow {
     footer: Label {
         id: footerLabel
         width: parent.width
-        text: tableModel.fileName
+        text: settings.ledgerFilePath
         horizontalAlignment: Text.AlignRight
         bottomPadding: 5
         MouseArea {
@@ -167,7 +167,7 @@ ApplicationWindow {
     Component {
         id: folderDialogComp
         FolderDialog {
-            title: qsTr("Selectati Director")
+            title: qsTr("Selectati Directorul de Lucru")
             currentFolder: settings.csvFolderPath
             onAccepted: settings.csvFolderPath = selectedFolder.toString().replace("file://", "")
             Component.onCompleted: visible = true

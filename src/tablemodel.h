@@ -19,7 +19,6 @@ class TableModel : public QAbstractTableModel
     QML_READABLE_PROPERTY(int, xAxisTickCount, setXAxisTickCount, 2)
     QML_READABLE_PROPERTY(qreal, yAxisMin, setYAxisMin, 0)
     QML_READABLE_PROPERTY(qreal, yAxisMax, setYAxisMax, 1)
-    QML_READABLE_PROPERTY(QString, fileName, setFileName, {})
     QML_CONSTANT_PROPERTY_PTR(Settings, settings)
 
 public:
@@ -68,7 +67,7 @@ private:
     void updateXAxis(const QDateTime &val);
     void updateYAxis(qreal amount);
     void resetCurves();
-    bool ensureLastCharIsNewLine();
+    static bool ensureLastCharIsNewLine(const QString& filePath);
     void resetMinIncome();
 
     const static QLocale _locale;
