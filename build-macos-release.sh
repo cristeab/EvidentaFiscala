@@ -5,7 +5,7 @@
 set -e # exit immeditalley on error
 
 QT_VER=6.7.2
-APP_NAME=EvidentaFiscala
+APP_NAME=FiscalRecords
 APP_IDENTIFIER="com.cristeab.finance"
 MAJOR_VERSION=1.0
 MINOR_VERSION=$(git rev-list --count HEAD)

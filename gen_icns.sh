@@ -1,8 +1,8 @@
 #!/bin/sh
 
-export PROJECT=EvidentaFiscala
+export PROJECT=FiscalRecords
 export ICONDIR=$PROJECT.iconset
-export ORIGICON=img/EvidentaFiscala.png
+export ORIGICON=img/FiscalRecords.png
 export OUTDIR=img
 
 mkdir $ICONDIR
