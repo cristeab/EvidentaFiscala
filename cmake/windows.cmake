@@ -26,9 +26,10 @@ if (CMAKE_BUILD_TYPE MATCHES "^[Rr]el")
 
     install(PROGRAMS "${CMAKE_SOURCE_DIR}/build/${PROJECT_NAME}.exe" DESTINATION .)
     install(FILES ${CMAKE_SOURCE_DIR}/img/EvidentaFiscala.ico DESTINATION .)
+    install(FILES ${CMAKE_BINARY_DIR}/qtcsv_install/bin/qtcsv.dll DESTINATION .)
 
     find_program(WINDEPLOYQT windeployqt PATHS ${CMAKE_PREFIX_PATH}/bin/)
-    add_custom_target(pack
+    add_custom_target(windeployqt ALL
         COMMAND ${WINDEPLOYQT}
         --dir ${PROJECT_BINARY_DIR}/deploy
         --release
