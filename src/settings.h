@@ -13,7 +13,7 @@ public:
 
     QML_CONSTANT_PROPERTY(QString, swVersion, APP_VERSION)
     QML_WRITABLE_PROPERTY_FLOAT(qreal, minIncome, setMinIncome, DEFAULT_MIN_INCOME)
-    QML_WRITABLE_PROPERTY(QString, csvFolderPath, setCsvFolderPath, {})
+    QML_WRITABLE_PROPERTY(QString, workingFolderPath, setWorkingFolderPath, {})
     QML_WRITABLE_PROPERTY(QString, ledgerFilePath, setLedgerFilePath, {})
     QML_WRITABLE_PROPERTY(int, invoiceNumberStart, setInvoiceNumberStart, DEFAULT_INVOICE_NUMBER_START)
     QML_WRITABLE_PROPERTY(int, languageIndex, setLanguageIndex, DEFAULT_LANGUAGE_INDEX)

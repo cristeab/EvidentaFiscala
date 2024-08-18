@@ -150,7 +150,7 @@ ApplicationWindow {
         id: fileDialogComp
         FileDialog {
             title: qsTr("Selectati Fisier")
-            currentFolder: settings.csvFolderPath
+            currentFolder: settings.workingFolderPath
             fileMode: FileDialog.OpenFile
             nameFilters: [ "CSV files (*.csv)", "All files (*)" ]
             onAccepted: tableModel.openLedger(selectedFile)
@@ -168,8 +168,8 @@ ApplicationWindow {
         id: folderDialogComp
         FolderDialog {
             title: qsTr("Selectati Directorul de Lucru")
-            currentFolder: settings.csvFolderPath
-            onAccepted: settings.csvFolderPath = selectedFolder.toString().replace("file://", "")
+            currentFolder: settings.workingFolderPath
+            onAccepted: settings.workingFolderPath = selectedFolder.toString().replace("file://", "")
             Component.onCompleted: visible = true
         }
     }

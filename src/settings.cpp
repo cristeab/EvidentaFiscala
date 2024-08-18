@@ -24,15 +24,15 @@ void Settings::load()
 {
     setMinIncome(GET_SETTING(minIncome).toDouble());
 
-    setCsvFolderPath(GET_SETTING(csvFolderPath).toString());
-    if (_csvFolderPath.isEmpty()) {
-	setCsvFolderPath(QStandardPaths::writableLocation(QStandardPaths::DocumentsLocation));
+    setWorkingFolderPath(GET_SETTING(workingFolderPath).toString());
+    if (_workingFolderPath.isEmpty()) {
+	setWorkingFolderPath(QStandardPaths::writableLocation(QStandardPaths::DocumentsLocation));
     }
 
     setLedgerFilePath(GET_SETTING(ledgerFilePath).toString());
     if (_ledgerFilePath.isEmpty()) {
 	const auto ledgerFileName = QString("ledger_pfa_%1.csv").arg(QDate::currentDate().year());
-	QDir dir(_csvFolderPath);
+	QDir dir(_workingFolderPath);
 	setLedgerFilePath(dir.filePath(ledgerFileName));
     }
 
@@ -43,7 +43,7 @@ void Settings::load()
 void Settings::save()
 {
     SET_SETTING(minIncome);
-    SET_SETTING(csvFolderPath);
+    SET_SETTING(workingFolderPath);
     SET_SETTING(invoiceNumberStart);
     SET_SETTING(languageIndex);
 }

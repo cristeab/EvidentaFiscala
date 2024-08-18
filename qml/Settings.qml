@@ -40,8 +40,8 @@ Dialog {
         LabelTextFieldBrowser {
             width: control.selectFolderWidth
             text: qsTr("Directorul de Lucru")
-            editText: settings.csvFolderPath
-            onEditTextChanged: settings.csvFolderPath = editText
+            editText: settings.workingFolderPath
+            onEditTextChanged: settings.workingFolderPath = editText
         }
         LabelTextField {
             id: invoiceStartNum

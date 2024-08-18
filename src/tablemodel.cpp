@@ -436,7 +436,7 @@ void TableModel::generateRegistry()
 	doc.setMetaInformation(QTextDocument::DocumentTitle, tr("Registru de Evidenta Fiscala"));
 	doc.setHtml(content);
 
-	QDir dir(_settings->csvFolderPath());
+	QDir dir(_settings->workingFolderPath());
 	const auto fileName = "RegistruEvidentaFiscala_" + year + ".odt";
 	QTextDocumentWriter docWriter(dir.filePath(fileName), "odf");
 	const bool rc = docWriter.write(&doc);
