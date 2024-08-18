@@ -1,5 +1,5 @@
 cmake_minimum_required(VERSION 3.27)
-project(EvidentaFiscala VERSION 1.0.0 LANGUAGES CXX)
+project(EvidentaFiscala VERSION 1.1 LANGUAGES CXX)
 
 set(CMAKE_CXX_STANDARD 17)
 set(CMAKE_CXX_STANDARD_REQUIRED ON)
@@ -9,7 +9,7 @@ set(CMAKE_AUTORCC ON)
 set(CPACK_PACKAGE_VENDOR "Bogdan Cristea")
 
 include(cmake/internal_utils.cmake)
-get_app_version(SW_VERSION "1.0")
+get_app_version(SW_VERSION "${PROJECT_VERSION}")
 
 configure_file(${CMAKE_SOURCE_DIR}/src/config.h.cmake ${CMAKE_BINARY_DIR}/config.h)
 
