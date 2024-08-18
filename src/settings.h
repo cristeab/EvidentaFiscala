@@ -2,6 +2,7 @@
 
 #include "qmlhelpers.h"
 #include "config.h"
+#include <QSettings>
 
 class Settings : public QObject {
 Q_OBJECT
@@ -21,4 +22,7 @@ public:
 
     Q_INVOKABLE void load();
     Q_INVOKABLE void save();
+
+private:
+    QSettings _settings;
 };

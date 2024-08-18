@@ -1,25 +1,20 @@
 #include "settings.h"
 #include <QStandardPaths>
-#include <QSettings>
 
 #define XSTR(a) STR_HELPER(a)
 #define STR_HELPER(a) #a
 
-#define GET_SETTING(name) settings.value(XSTR(name), _ ## name)
-#define SET_SETTING(name) settings.setValue(XSTR(name), _ ## name)
+#define GET_SETTING(name) _settings.value(XSTR(name), _ ## name)
+#define SET_SETTING(name) _settings.setValue(XSTR(name), _ ## name)
 
-Settings::Settings(QObject *parent) : QObject{ parent }
+Settings::Settings(QObject *parent) : _settings(ORG_NAME, APP_NAME), QObject(parent)
 {
     setObjectName("settings");
     load();
-    connect(this, &Settings::languageIndexChanged, this, [this]() {
-
-    }, Qt::QueuedConnection);
 }
 
 void Settings::load()
 {
-    QSettings settings(ORG_NAME, APP_NAME);
     setMinIncome(GET_SETTING(minIncome).toDouble());
 
     setCsvFolderPath(GET_SETTING(csvFolderPath).toString());
@@ -33,7 +28,6 @@ void Settings::load()
 
 void Settings::save()
 {
-     QSettings settings(ORG_NAME, APP_NAME);
      SET_SETTING(minIncome);
      SET_SETTING(csvFolderPath);
      SET_SETTING(invoiceNumberStart);
