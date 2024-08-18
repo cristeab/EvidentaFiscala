@@ -5,15 +5,15 @@ set(ADDITIONAL_CMAKE_ARGS -DCMAKE_OSX_ARCHITECTURES:STRING=x86_64|arm64)
 set(CMAKE_MACOSX_RPATH TRUE)
 
 add_executable(${PROJECT_NAME} MACOSX_BUNDLE ${SRCS} "qml.qrc"
-    "${CMAKE_SOURCE_DIR}/img/${PROJECT_NAME}.icns")
+    "${CMAKE_SOURCE_DIR}/img/logo.icns")
 
-set_source_files_properties ("${CMAKE_SOURCE_DIR}/img/${PROJECT_NAME}.icns"
+set_source_files_properties ("${CMAKE_SOURCE_DIR}/img/logo.icns"
     PROPERTIES MACOSX_PACKAGE_LOCATION "Resources")
 set_target_properties(${PROJECT_NAME} PROPERTIES
     MACOSX_BUNDLE_GUI_IDENTIFIER "com.cristeab.finance"
-    MACOSX_BUNDLE_INFO_STRING "Evidenta Fiscala"
-    MACOSX_BUNDLE_ICON_FILE "${PROJECT_NAME}.icns"
-    MACOSX_BUNDLE_BUNDLE_NAME "Evidenta Fiscala"
+    MACOSX_BUNDLE_INFO_STRING "Fiscal Records"
+    MACOSX_BUNDLE_ICON_FILE "logo.icns"
+    MACOSX_BUNDLE_BUNDLE_NAME "Fiscal Records"
     MACOSX_BUNDLE_SHORT_VERSION_STRING "${PROJECT_VERSION}"
     MACOSX_BUNDLE_BUNDLE_VERSION "${PROJECT_VERSION}"
     MACOSX_BUNDLE_COPYRIGHT "Copyright 2023, Bogdan Cristea. All rights reserved"

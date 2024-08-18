@@ -13,19 +13,19 @@ if (CMAKE_BUILD_TYPE MATCHES "^[Rr]el")
     set(CPACK_PACKAGE_INSTALL_DIRECTORY "${PROJECT_NAME}")
     set(CPACK_NSIS_CONTACT "${CPACK_PACKAGE_CONTACT}")
     set(CPACK_NSIS_INSTALLED_ICON_NAME "${PROJECT_NAME}.exe")
-    set(CPACK_NSIS_MUI_ICON "${CMAKE_SOURCE_DIR}/img/${PROJECT_NAME}.ico")
-    set(CPACK_NSIS_MUI_UNIICON "${CMAKE_SOURCE_DIR}/img/${PROJECT_NAME}.ico")
+    set(CPACK_NSIS_MUI_ICON "${CMAKE_SOURCE_DIR}/img/logo.ico")
+    set(CPACK_NSIS_MUI_UNIICON "${CMAKE_SOURCE_DIR}/img/logo.ico")
     set(CPACK_NSIS_ENABLE_UNINSTALL_BEFORE_INSTALL ON)
-    set(CPACK_PACKAGE_ICON "${CMAKE_SOURCE_DIR}\\\\img\\\\${PROJECT_NAME}.bmp")
+    set(CPACK_PACKAGE_ICON "${CMAKE_SOURCE_DIR}\\\\img\\\\logo.bmp")
     set(CPACK_NSIS_URL_INFO_ABOUT "${CPACK_PACKAGE_DESCRIPTION_SUMMARY}")
     set(CPACK_NSIS_EXTRA_INSTALL_COMMANDS "ExecWait '\\\"$INSTDIR\\\\${VC_REDIST_FILENAME}\\\" /install /passive /norestart'
-         CreateShortCut \\\"$DESKTOP\\\\${PROJECT_NAME}.lnk\\\" \\\"$INSTDIR\\\\${PROJECT_NAME}.exe\\\" \\\"\\\" \\\"$INSTDIR\\\\${PROJECT_NAME}.ico\\\"
-         CreateShortCut \\\"$SMPROGRAMS\\\\${PROJECT_NAME}.lnk\\\" \\\"$INSTDIR\\\\${PROJECT_NAME}.exe\\\" \\\"\\\" \\\"$INSTDIR\\\\${PROJECT_NAME}.ico\\\"")
+         CreateShortCut \\\"$DESKTOP\\\\${PROJECT_NAME}.lnk\\\" \\\"$INSTDIR\\\\${PROJECT_NAME}.exe\\\" \\\"\\\" \\\"$INSTDIR\\\\logo.ico\\\"
+         CreateShortCut \\\"$SMPROGRAMS\\\\${PROJECT_NAME}.lnk\\\" \\\"$INSTDIR\\\\${PROJECT_NAME}.exe\\\" \\\"\\\" \\\"$INSTDIR\\\\logo.ico\\\"")
     set(CPACK_NSIS_EXTRA_UNINSTALL_COMMANDS "Delete \\\"$DESKTOP\\\\${PROJECT_NAME}.lnk\\\"
          Delete \\\"$SMPROGRAMS\\\\${PROJECT_NAME}.lnk\\\"")
 
     install(PROGRAMS "${CMAKE_SOURCE_DIR}/build/${PROJECT_NAME}.exe" DESTINATION .)
-    install(FILES ${CMAKE_SOURCE_DIR}/img/${PROJECT_NAME}.ico DESTINATION .)
+    install(FILES ${CMAKE_SOURCE_DIR}/img/logo.ico DESTINATION .)
     install(FILES ${CMAKE_BINARY_DIR}/qtcsv_install/bin/qtcsv.dll DESTINATION .)
 
     find_program(WINDEPLOYQT windeployqt PATHS ${CMAKE_PREFIX_PATH}/bin/)
