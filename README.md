@@ -1,12 +1,12 @@
 # FiscalRecords
 
-Application used to keep fiscal records in CSV files written in Qt/QML.
-The only supported language is Romanian.
+Application used to keep fiscal records in CSV files.
+Supported languages: Romanian, English, French.
 This is work in progress.
 
 # External dependences:
 
-- Qt v6.4
+- Qt v6.7
 
 - cmake v3.18
 
@@ -16,14 +16,22 @@ This is work in progress.
 
 - macOS
 
-- any other platform where Qt runs (planned)
+- Windows
+
+- Linux (planned)
 
 # Installer Generation
 
 - use the provided bash script to compile and generate the installer:
 
+On macOS:
+
     ./build-macos-release.sh
-    
+
+On Windows:
+
+    build-win-release.bat
+
 # Screenshots
 
 ![table](screenshots/table.png?raw=true "Records Table")
