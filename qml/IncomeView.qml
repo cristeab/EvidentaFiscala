@@ -30,12 +30,23 @@ ChartView {
         visible: false
         function show(point, lineSeries) {
             const closestPoint = findClosestPoint(point.x, lineSeries)
-            pointTooltip.text = closestPoint ? closestPoint.y.toFixed(2) : point.y.toFixed(2)
+            const actualPoint = closestPoint ? closestPoint : point
+            pointTooltip.text = actualPoint.y.toFixed(2)
             pointTooltip.color = lineSeries.color
             pointTooltip.visible = true
             pointTooltip.x = mapToPosition(point).x
             pointTooltip.y = mapToPosition(point).y - 15
+            // set marker
+            pointMarker.x = mapToPosition(actualPoint).x - (pointMarker.width / 2)
+            pointMarker.y = mapToPosition(actualPoint).y - (pointMarker.height / 2)
+            pointMarker.color = lineSeries.color
+            pointMarker.visible = true
         }
+        function hide() {
+            pointTooltip.visible = false
+            pointMarker.visible = false
+        }
+
         function findClosestPoint(mouseX, lineSeries) {
             let minDist = Number.MAX_VALUE
             let closestPoint = null
@@ -51,6 +62,15 @@ ChartView {
         }
     }
 
+    Rectangle {
+        id: pointMarker
+        z: 1
+        width: 10
+        height: width
+        radius: width / 2
+        visible: false
+    }
+
     LineSeries {
         id: grossIncomeLineSeries
         name: qsTr("Venit Brut")
@@ -63,7 +83,7 @@ ChartView {
             if (state) {
                 pointTooltip.show(point, grossIncomeLineSeries)
             } else {
-                pointTooltip.visible = false
+                pointTooltip.hide()
             }
         }
     }
@@ -79,7 +99,7 @@ ChartView {
             if (state) {
                 pointTooltip.show(point, expenseLineSeries)
             } else {
-                pointTooltip.visible = false
+                pointTooltip.hide()
             }
         }
     }
@@ -95,7 +115,7 @@ ChartView {
             if (state) {
                 pointTooltip.show(point, netIncomeLineSeries)
             } else {
-                pointTooltip.visible = false
+                pointTooltip.hide()
             }
         }
     }
@@ -110,7 +130,7 @@ ChartView {
             if (state) {
                 pointTooltip.show(point, threshold)
             } else {
-                pointTooltip.visible = false
+                pointTooltip.hide()
             }
         }
     }
