@@ -1,7 +1,3 @@
-# universal binary for macOS
-set(CMAKE_OSX_ARCHITECTURES "x86_64;arm64")
-set(ADDITIONAL_CMAKE_ARGS -DCMAKE_OSX_ARCHITECTURES:STRING=x86_64|arm64)
-
 set(BUNDLE_ID "com.cristeab.fiscalrecords")
 
 set(CMAKE_MACOSX_RPATH TRUE)

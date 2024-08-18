@@ -15,6 +15,12 @@ configure_file(${CMAKE_SOURCE_DIR}/src/config.h.cmake ${CMAKE_BINARY_DIR}/config
 
 find_package(Qt6 COMPONENTS Core Quick Charts LinguistTools REQUIRED)
 
+if(APPLE)
+    # universal binary for macOS
+    set(CMAKE_OSX_ARCHITECTURES "x86_64;arm64")
+    set(ADDITIONAL_CMAKE_ARGS -DCMAKE_OSX_ARCHITECTURES:STRING=x86_64|arm64)
+endif()
+
 include(ExternalProject)
 ExternalProject_Add(qtcsv
   GIT_REPOSITORY https://github.com/iamantony/qtcsv.git
@@ -33,11 +39,11 @@ qt_add_translations(TARGETS ${PROJECT_NAME}
                     TS_FILES langs/fr.ts langs/en.ts
                     RESOURCE_PREFIX "/langs")
 
-if (APPLE)
+if(APPLE)
     include(cmake/macos.cmake)
-elseif (WIN32)
+elseif(WIN32)
     include(cmake/windows.cmake)
-endif ()
+endif()
 
 add_dependencies(${PROJECT_NAME} qtcsv)
 target_include_directories(${PROJECT_NAME} PRIVATE

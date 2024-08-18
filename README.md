@@ -2,7 +2,6 @@
 
 Application used to keep fiscal records in CSV files.
 Supported languages: Romanian, English, French.
-This is work in progress.
 
 # External dependences:
 
