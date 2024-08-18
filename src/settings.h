@@ -7,7 +7,7 @@
 class Settings : public QObject {
 Q_OBJECT
 public:
-    static constexpr qreal DEFAULT_MIN_INCOME{1600};
+    static constexpr qreal DEFAULT_MIN_INCOME{2000};
     static constexpr int DEFAULT_INVOICE_NUMBER_START{1};
     static constexpr int DEFAULT_LANGUAGE_INDEX{0};
 
