@@ -48,6 +48,6 @@ target_link_directories(${PROJECT_NAME} PRIVATE ${CMAKE_BINARY_DIR}/qtcsv_instal
 
 target_compile_definitions(${PROJECT_NAME} PRIVATE $<$<OR:$<CONFIG:Debug>,$<CONFIG:RelWithDebInfo>>:QT_QML_DEBUG>)
 
-if (CMAKE_BUILD_TYPE MATCHES "^[Rr]elease")
+if (CMAKE_BUILD_TYPE MATCHES "^[Rr]el")
     include(CPack)
 endif ()
