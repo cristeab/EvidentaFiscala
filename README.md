@@ -21,7 +21,7 @@ Supported languages: Romanian, English, French.
 
 # Installer Generation
 
-- use the provided bash script to compile and generate the installer:
+- use the provided script to compile and generate the installer:
 
 On macOS:
 
