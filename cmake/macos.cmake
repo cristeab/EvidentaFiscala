@@ -2,7 +2,7 @@ set(BUNDLE_ID "com.cristeab.fiscalrecords")
 
 set(CMAKE_MACOSX_RPATH TRUE)
 
-add_executable(${PROJECT_NAME} MACOSX_BUNDLE ${SRCS} "qml.qrc"
+add_executable(${PROJECT_NAME} MACOSX_BUNDLE ${SRCS} ${RESOURCES}
     "${CMAKE_SOURCE_DIR}/img/logo.icns")
 
 set_source_files_properties ("${CMAKE_SOURCE_DIR}/img/logo.icns"
@@ -17,7 +17,11 @@ set_target_properties(${PROJECT_NAME} PROPERTIES
     MACOSX_BUNDLE_COPYRIGHT "Copyright 2023, Bogdan Cristea. All rights reserved"
     MACOSX_BUNDLE_INFO_PLIST ${CMAKE_CURRENT_SOURCE_DIR}/Info.plist)
 
-target_link_libraries(${PROJECT_NAME} PRIVATE Qt6::Core Qt6::Quick Qt6::Charts -lqtcsv)
+target_link_libraries(${PROJECT_NAME} PRIVATE
+    Qt6::Core
+    Qt6::Quick
+    Qt6::Charts
+    -lqtcsv)
 
 if (CMAKE_BUILD_TYPE MATCHES "^[Rr]el")
     add_custom_target(pack

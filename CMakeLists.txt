@@ -13,7 +13,11 @@ get_app_version(SW_VERSION "${PROJECT_VERSION}")
 
 configure_file(${CMAKE_SOURCE_DIR}/src/config.h.cmake ${CMAKE_BINARY_DIR}/config.h)
 
-find_package(Qt6 COMPONENTS Core Quick Charts LinguistTools REQUIRED)
+find_package(Qt6 REQUIRED COMPONENTS
+    Core
+    Quick
+    Charts
+    LinguistTools)
 
 if(APPLE)
     # universal binary for macOS
@@ -30,7 +34,7 @@ ExternalProject_Add(qtcsv
   CMAKE_ARGS ${ADDITIONAL_CMAKE_ARGS} -DCMAKE_BUILD_TYPE=${CMAKE_BUILD_TYPE} -DCMAKE_PREFIX_PATH=${CMAKE_PREFIX_PATH} -DBUILD_TESTS=OFF -DCMAKE_INSTALL_PREFIX=${CMAKE_BINARY_DIR}/qtcsv_install
   STEP_TARGETS   build)
 
-file(GLOB SRCS src/*.cpp src/*.h)
+file(GLOB SRCS src/*.cpp)
 
 file(GLOB TR_SRCS qml/*.qml src/*.cpp src/*.h)
 qt_standard_project_setup(I18N_TRANSLATED_LANGUAGES en fr)
@@ -44,6 +48,21 @@ if(APPLE)
 elseif(WIN32)
     include(cmake/windows.cmake)
 endif()
+
+# Add QML resources
+qt_add_resources(RESOURCES qml.qrc)
+
+# add binary precompiled versions of QML files
+file(GLOB_RECURSE QML_FILES
+    RELATIVE ${CMAKE_SOURCE_DIR}
+    ${CMAKE_SOURCE_DIR}/qml/*.qml)
+qt_add_qml_module(${PROJECT_NAME}
+    URI ${PROJECT_NAME}
+    OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR}/qml
+    VERSION 1.0
+    RESOURCE_PREFIX /
+    QML_FILES ${QML_FILES}
+)
 
 add_dependencies(${PROJECT_NAME} qtcsv)
 target_include_directories(${PROJECT_NAME} PRIVATE
