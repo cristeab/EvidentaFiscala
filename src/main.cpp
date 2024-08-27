@@ -43,11 +43,6 @@ int main(int argc, char *argv[])
     QQmlApplicationEngine engine;
     qmlRegisterType<TableModel>("TableModel", 1, 0, "TableModel");
 
-    const auto importPaths = engine.importPathList();
-    for (const auto &path : importPaths) {
-	qDebug() << "Import Path:" << path;
-    }
-
     QTranslator translator;
 
     QQmlContext *context = engine.rootContext();
