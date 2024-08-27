@@ -49,18 +49,15 @@ elseif(WIN32)
     include(cmake/windows.cmake)
 endif()
 
-# Add QML resources
-qt_add_resources(RESOURCES qml.qrc)
-
-# add binary precompiled versions of QML files
+# Enable the Qt Quick Compiler
 file(GLOB_RECURSE QML_FILES
     RELATIVE ${CMAKE_SOURCE_DIR}
     ${CMAKE_SOURCE_DIR}/qml/*.qml)
+
 qt_add_qml_module(${PROJECT_NAME}
     URI ${PROJECT_NAME}
     OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR}/qml
     VERSION 1.0
-    RESOURCE_PREFIX /
     QML_FILES ${QML_FILES}
 )
 
