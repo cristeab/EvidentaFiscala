@@ -1,7 +1,7 @@
+pragma Singleton
+
 import QtQuick
 import QtQuick.Controls.Material
-
-pragma Singleton
 
 QtObject {
     readonly property real verticalMargin: 5
