@@ -1,6 +1,5 @@
 <RCC>
     <qresource prefix="/">
-        <file>qtquickcontrols2.conf</file>
         <file>img/FolderOpen.svg</file>
         <file>img/FileCsv.svg</file>
         <file>img/Settings.svg</file>

@@ -61,7 +61,7 @@ qt_add_qml_module(${PROJECT_NAME}
     NO_RESOURCE_TARGET_PATH
     VERSION 1.0
     QML_FILES ${QML_FILES}
-    RESOURCES qml/qmldir
+    RESOURCES qml/qmldir qtquickcontrols2.conf
 )
 
 add_dependencies(${PROJECT_NAME} qtcsv)
