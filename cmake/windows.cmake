@@ -1,10 +1,11 @@
 set(CMAKE_MSVC_ARCH x64)
 set(VC_REDIST_FILENAME "vc_redist.${CMAKE_MSVC_ARCH}.exe")
 
-add_executable(${PROJECT_NAME} WIN32 ${SRCS} "qml.qrc"
-    "${CMAKE_SOURCE_DIR}/img/app.rc")
+set_target_properties(${PROJECT_NAME} PROPERTIES
+    WIN32_EXECUTABLE TRUE)
+target_sources(${PROJECT_NAME} PRIVATE "${CMAKE_SOURCE_DIR}/img/app.rc")
 
-target_link_libraries(${PROJECT_NAME} PRIVATE Qt6::Core Qt6::Quick Qt6::Charts qtcsv.lib)
+target_link_libraries(${PROJECT_NAME} PRIVATE qtcsv.lib)
 
 if (CMAKE_BUILD_TYPE MATCHES "^[Rr]el")
     set(CPACK_GENERATOR "NSIS64")
