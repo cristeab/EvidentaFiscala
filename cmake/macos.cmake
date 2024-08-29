@@ -2,7 +2,7 @@ set(BUNDLE_ID "com.cristeab.fiscalrecords")
 
 set(CMAKE_MACOSX_RPATH TRUE)
 
-add_executable(${PROJECT_NAME} MACOSX_BUNDLE ${SRCS} qml.qrc
+add_executable(${PROJECT_NAME} MACOSX_BUNDLE ${SRCS}
     "${CMAKE_SOURCE_DIR}/img/logo.icns")
 
 set_source_files_properties ("${CMAKE_SOURCE_DIR}/img/logo.icns"

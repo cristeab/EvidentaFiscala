@@ -49,6 +49,12 @@ elseif(WIN32)
     include(cmake/windows.cmake)
 endif()
 
+# images
+set(IMG_FILES img/FolderOpen.svg
+              img/FileCsv.svg
+              img/Settings.svg
+              img/FileExport.svg)
+
 # Enable the Qt Quick Compiler
 file(GLOB_RECURSE QML_FILES
     RELATIVE ${CMAKE_SOURCE_DIR}
@@ -61,8 +67,7 @@ qt_add_qml_module(${PROJECT_NAME}
     NO_RESOURCE_TARGET_PATH
     VERSION 1.0
     QML_FILES ${QML_FILES}
-    RESOURCES qml/qmldir qtquickcontrols2.conf
-)
+    RESOURCES qml/qmldir qtquickcontrols2.conf ${IMG_FILES})
 
 add_dependencies(${PROJECT_NAME} qtcsv)
 target_include_directories(${PROJECT_NAME} PRIVATE

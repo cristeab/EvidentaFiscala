@@ -1,8 +1,0 @@
-<RCC>
-    <qresource prefix="/">
-        <file>img/FolderOpen.svg</file>
-        <file>img/FileCsv.svg</file>
-        <file>img/Settings.svg</file>
-        <file>img/FileExport.svg</file>
-    </qresource>
-</RCC>
