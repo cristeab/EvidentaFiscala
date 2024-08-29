@@ -8,6 +8,14 @@ set(CMAKE_AUTORCC ON)
 
 set(CPACK_PACKAGE_VENDOR "Bogdan Cristea")
 
+if(APPLE)
+    # universal binary for macOS
+    set(CMAKE_OSX_ARCHITECTURES "x86_64;arm64")
+    set(ADDITIONAL_CMAKE_ARGS -DCMAKE_OSX_ARCHITECTURES:STRING=x86_64|arm64)
+endif()
+
+add_executable(${PROJECT_NAME})
+
 include(cmake/internal_utils.cmake)
 get_app_version(SW_VERSION "${PROJECT_VERSION}")
 
@@ -18,11 +26,16 @@ find_package(Qt6 REQUIRED COMPONENTS
     Quick
     Charts
     LinguistTools)
+target_link_libraries(${PROJECT_NAME} PRIVATE
+    Qt6::Core
+    Qt6::Quick
+    Qt6::Charts)
 
+# platform specific code
 if(APPLE)
-    # universal binary for macOS
-    set(CMAKE_OSX_ARCHITECTURES "x86_64;arm64")
-    set(ADDITIONAL_CMAKE_ARGS -DCMAKE_OSX_ARCHITECTURES:STRING=x86_64|arm64)
+    include(cmake/macos.cmake)
+elseif(WIN32)
+    include(cmake/windows.cmake)
 endif()
 
 include(ExternalProject)
@@ -35,6 +48,7 @@ ExternalProject_Add(qtcsv
   STEP_TARGETS   build)
 
 file(GLOB SRCS src/*.cpp)
+target_sources(${PROJECT_NAME} PRIVATE ${SRCS})
 
 file(GLOB TR_SRCS qml/*.qml src/*.cpp src/*.h)
 qt_standard_project_setup(I18N_TRANSLATED_LANGUAGES en fr)
@@ -42,12 +56,6 @@ qt_add_translations(TARGETS ${PROJECT_NAME}
                     SOURCES ${TR_SRCS}
                     TS_FILES langs/fr.ts langs/en.ts
                     RESOURCE_PREFIX "/langs")
-
-if(APPLE)
-    include(cmake/macos.cmake)
-elseif(WIN32)
-    include(cmake/windows.cmake)
-endif()
 
 # images
 set(IMG_FILES img/FolderOpen.svg
