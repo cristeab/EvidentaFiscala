@@ -20,9 +20,9 @@ BUILD_DIR=build
 
 echo "QT version $QT_VER"
 
-rm -rf build
+rm -rf $BUILD_DIR
 
-mkdir build
+mkdir $BUILD_DIR
 
 cmake -B $BUILD_DIR -S . -DCMAKE_BUILD_TYPE=Release -DCMAKE_PREFIX_PATH=$HOME/Qt/$QT_VER/macos
 cmake --build $BUILD_DIR -j
