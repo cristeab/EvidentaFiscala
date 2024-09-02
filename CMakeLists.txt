@@ -4,7 +4,6 @@ project(FiscalRecords VERSION 1.1 LANGUAGES CXX)
 set(CMAKE_CXX_STANDARD 17)
 set(CMAKE_CXX_STANDARD_REQUIRED ON)
 set(CMAKE_AUTOMOC ON)
-set(CMAKE_AUTORCC ON)
 
 set(CPACK_PACKAGE_VENDOR "Bogdan Cristea")
 
@@ -30,6 +29,9 @@ target_link_libraries(${PROJECT_NAME} PRIVATE
     Qt6::Core
     Qt6::Quick
     Qt6::Charts)
+
+# Set up the project with Qt standard configurations
+qt_standard_project_setup()
 
 # platform specific code
 if(APPLE)
