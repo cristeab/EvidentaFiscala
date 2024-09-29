@@ -4,7 +4,7 @@
 
 set -e # exit immeditalley on error
 
-QT_VER=6.7.2
+QT_VER=6.7.3
 APP_NAME=FiscalRecords
 APP_IDENTIFIER="com.cristeab.fiscalrecords"
 MAJOR_VERSION=1.1
@@ -25,7 +25,6 @@ mkdir $BUILD_DIR
 
 cmake -B $BUILD_DIR -S . -DCMAKE_BUILD_TYPE=Release -DCMAKE_PREFIX_PATH=$HOME/Qt/$QT_VER/macos
 cmake --build $BUILD_DIR -j
-cmake --build $BUILD_DIR --target deploy
 
 echo "Sign app bundle"
 codesign --strict --timestamp --force --verify --verbose --deep \

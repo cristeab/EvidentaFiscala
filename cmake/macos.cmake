@@ -21,14 +21,17 @@ target_link_libraries(${PROJECT_NAME} PRIVATE
     -lqtcsv)
 
 if (CMAKE_BUILD_TYPE MATCHES "^[Rr]el")
-    add_custom_target(deploy
-        COMMAND ${CMAKE_PREFIX_PATH}/bin/macdeployqt
-        ${CMAKE_PROJECT_NAME}.app
+    find_program(MACDEPLOYQT macdeployqt HINTS "${_qt_bin_dir}")
+    add_custom_command(TARGET ${PROJECT_NAME} POST_BUILD
+        COMMAND ${MACDEPLOYQT} $<TARGET_BUNDLE_DIR:${PROJECT_NAME}>
         -qmldir=${CMAKE_SOURCE_DIR}
         -libpath=${CMAKE_BINARY_DIR}/qtcsv_install/lib
-        -no-strip)
+        -no-strip
+        -always-overwrite
+        COMMENT "Running macdeployqt...")
 
     set(CPACK_GENERATOR "productbuild")
     set(CPACK_PRODUCTBUILD_IDENTIFIER ${BUNDLE_ID})
     set(CPACK_PACKAGE_FILE_NAME "${PROJECT_NAME}-${SW_VERSION}")
+    set(CPACK_OSX_PACKAGE_VERSION "11")
 endif()
