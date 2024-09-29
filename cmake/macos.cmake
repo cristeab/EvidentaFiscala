@@ -28,6 +28,7 @@ if (CMAKE_BUILD_TYPE MATCHES "^[Rr]el")
         -libpath=${CMAKE_BINARY_DIR}/qtcsv_install/lib
         -no-strip
         -always-overwrite
+        WORKING_DIRECTORY ${CMAKE_BINARY_DIR}
         COMMENT "Running macdeployqt...")
 
     set(CPACK_GENERATOR "productbuild")

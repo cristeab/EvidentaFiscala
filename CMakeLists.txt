@@ -89,6 +89,12 @@ target_link_directories(${PROJECT_NAME} PRIVATE ${CMAKE_BINARY_DIR}/qtcsv_instal
 target_compile_definitions(${PROJECT_NAME} PRIVATE $<$<OR:$<CONFIG:Debug>,$<CONFIG:RelWithDebInfo>>:QT_QML_DEBUG>)
 
 if (CMAKE_BUILD_TYPE MATCHES "^[Rr]el")
+    install(TARGETS ${PROJECT_NAME}
+        BUNDLE DESTINATION .
+        RUNTIME DESTINATION ${CMAKE_INSTALL_BINDIR}
+        COMPONENT ${PROJECT_NAME}
+    )
+
     # make sure the resource files have the right extension
     configure_file("${CMAKE_SOURCE_DIR}/LICENSE" "${CMAKE_BINARY_DIR}/LICENSE.txt" COPYONLY)
     configure_file("${CMAKE_SOURCE_DIR}/README.md" "${CMAKE_BINARY_DIR}/README.txt" COPYONLY)
@@ -102,5 +108,8 @@ if (CMAKE_BUILD_TYPE MATCHES "^[Rr]el")
     set(CPACK_PACKAGE_CONTACT "cristeab@gmail.com")
     set(CPACK_PACKAGE_VENDOR "Bogdan Cristea")
     set(CPACK_STRIP_FILES ${PROJECT_NAME})
+
     include(CPack)
+    # workaround for generating the pkg installer
+    cpack_add_component(${PROJECT_NAME})
 endif ()
