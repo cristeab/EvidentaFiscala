@@ -4,7 +4,7 @@
 
 set -e # exit immeditalley on error
 
-QT_VER=6.7.2
+QT_VER=6.7.3
 APP_NAME=FiscalRecords
 APP_IDENTIFIER="com.cristeab.fiscalrecords"
 MAJOR_VERSION=1.1
@@ -14,21 +14,17 @@ APP_VERSION="${MAJOR_VERSION}.${MINOR_VERSION}"
 DEVELOPER_ID="Bogdan Cristea"
 DEVELOPER_USERNAME="cristeab@gmail.com"
 TEAM_ID="FAARUB626Q"
-INSTALL_LOCATION="/Applications"
 PKG_NAME=${APP_NAME}-${APP_VERSION}.pkg
+BUILD_DIR=build
 
 echo "QT version $QT_VER"
 
-rm -rf build
+rm -rf $BUILD_DIR
 
-mkdir build
-pushd build
+mkdir $BUILD_DIR
 
-cmake .. -DCMAKE_BUILD_TYPE=Release -DCMAKE_PREFIX_PATH=$HOME/Qt/$QT_VER/macos
-cmake --build . -j
-cmake --build . --target pack
-
-popd
+cmake -B $BUILD_DIR -S . -DCMAKE_BUILD_TYPE=Release -DCMAKE_PREFIX_PATH=$HOME/Qt/$QT_VER/macos
+cmake --build $BUILD_DIR -j
 
 echo "Sign app bundle"
 codesign --strict --timestamp --force --verify --verbose --deep \
@@ -40,28 +36,13 @@ codesign --strict --timestamp --force --verify --verbose --deep \
 codesign --verify --verbose=4 --deep --strict ./build/$APP_NAME.app
 
 echo "Create installer"
-pkgbuild --analyze --root build/$APP_NAME.app Components.plist
-
-pkgbuild --identifier $APP_IDENTIFIER \
-         --version $APP_VERSION \
-         --root build/$APP_NAME.app \
-         --component-plist Components.plist \
-         --install-location $INSTALL_LOCATION/$APP_NAME.app \
-         build/$PKG_NAME
-
-productbuild --synthesize --package build/$PKG_NAME distribution.xml
-
-cp build/$PKG_NAME .
-productbuild --distribution distribution.xml \
-             --resources . \
-             build/$PKG_NAME
-rm $PKG_NAME
+cmake --build $BUILD_DIR --target package
 
 echo "Signing installer package..."
 productsign --sign "Developer ID Installer: $DEVELOPER_ID" \
-            build/$PKG_NAME \
+            $BUILD_DIR/$PKG_NAME \
             $PKG_NAME
-mv ${PKG_NAME} build/
+mv ${PKG_NAME} $BUILD_DIR/
 
 if [ -z "$APP_PWD" ]; then
      echo Notarization password is not set
@@ -69,7 +50,7 @@ if [ -z "$APP_PWD" ]; then
 fi
 
 echo "Upload installer to Apple servers"
-xcrun notarytool submit build/$PKG_NAME \
+xcrun notarytool submit $BUILD_DIR/$PKG_NAME \
              --apple-id $DEVELOPER_USERNAME \
              --team-id $TEAM_ID \
              --password $APP_PWD \
@@ -78,4 +59,4 @@ xcrun notarytool submit build/$PKG_NAME \
 
 # once the notarization is successful
 echo "Staple the installer"
-xcrun stapler staple -v build/$PKG_NAME
+xcrun stapler staple -v $BUILD_DIR/$PKG_NAME
