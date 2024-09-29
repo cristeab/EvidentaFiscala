@@ -30,14 +30,13 @@ if (CMAKE_BUILD_TYPE MATCHES "^[Rr]el")
     install(FILES ${CMAKE_BINARY_DIR}/qtcsv_install/bin/qtcsv.dll DESTINATION .)
 
     find_program(WINDEPLOYQT windeployqt PATHS ${CMAKE_PREFIX_PATH}/bin/)
-    add_custom_target(windeployqt ALL
-        COMMAND ${WINDEPLOYQT}
+    add_custom_command(TARGET ${PROJECT_NAME} POST_BUILD
+        COMMAND ${WINDEPLOYQT} $<TARGET_FILE_NAME:${PROJECT_NAME}>
         --dir ${PROJECT_BINARY_DIR}/deploy
         --release
         --compiler-runtime
         --qmldir ${PROJECT_SOURCE_DIR}/qml
-        ${PROJECT_NAME}.exe
-        DEPENDS ${PROJECT_NAME}.exe
-        COMMENT "Preparing Qt runtime dependencies")
+        WORKING_DIRECTORY ${CMAKE_BINARY_DIR}
+        COMMENT "Running macdeployqt...")
     install(DIRECTORY ${PROJECT_BINARY_DIR}/deploy/ DESTINATION .)
 endif()
