@@ -108,6 +108,7 @@ if (CMAKE_BUILD_TYPE MATCHES "^[Rr]el")
     set(CPACK_PACKAGE_CONTACT "cristeab@gmail.com")
     set(CPACK_PACKAGE_VENDOR "Bogdan Cristea")
     set(CPACK_STRIP_FILES ${PROJECT_NAME})
+    set(CPACK_MONOLITHIC_INSTALL ON)
 
     include(CPack)
     # workaround for generating the pkg installer
