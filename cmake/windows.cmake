@@ -17,6 +17,8 @@ if (CMAKE_BUILD_TYPE MATCHES "^[Rr]el")
     set(CPACK_NSIS_MUI_ICON "${CMAKE_SOURCE_DIR}/img/logo.ico")
     set(CPACK_NSIS_MUI_UNIICON "${CMAKE_SOURCE_DIR}/img/logo.ico")
     set(CPACK_NSIS_ENABLE_UNINSTALL_BEFORE_INSTALL ON)
+    set(CPACK_COMPONENTS_ALL ${PROJECT_NAME})
+    set(CPACK_NSIS_ENABLE_COMPONENT_PAGE OFF)
     set(CPACK_PACKAGE_ICON "${CMAKE_SOURCE_DIR}\\\\img\\\\logo.bmp")
     set(CPACK_NSIS_URL_INFO_ABOUT "${CPACK_PACKAGE_DESCRIPTION_SUMMARY}")
     set(CPACK_NSIS_EXTRA_INSTALL_COMMANDS "ExecWait '\\\"$INSTDIR\\\\${VC_REDIST_FILENAME}\\\" /install /passive /norestart'
@@ -25,9 +27,12 @@ if (CMAKE_BUILD_TYPE MATCHES "^[Rr]el")
     set(CPACK_NSIS_EXTRA_UNINSTALL_COMMANDS "Delete \\\"$DESKTOP\\\\${PROJECT_NAME}.lnk\\\"
          Delete \\\"$SMPROGRAMS\\\\${PROJECT_NAME}.lnk\\\"")
 
-    install(PROGRAMS "${CMAKE_SOURCE_DIR}/build/${PROJECT_NAME}.exe" DESTINATION .)
-    install(FILES ${CMAKE_SOURCE_DIR}/img/logo.ico DESTINATION .)
-    install(FILES ${CMAKE_BINARY_DIR}/qtcsv_install/bin/qtcsv.dll DESTINATION .)
+    install(FILES ${CMAKE_SOURCE_DIR}/img/logo.ico
+            DESTINATION .
+            COMPONENT ${PROJECT_NAME})
+    install(FILES ${CMAKE_BINARY_DIR}/qtcsv_install/bin/qtcsv.dll
+            DESTINATION .
+            COMPONENT ${PROJECT_NAME})
 
     find_program(WINDEPLOYQT windeployqt PATHS ${CMAKE_PREFIX_PATH}/bin/)
     add_custom_command(TARGET ${PROJECT_NAME} POST_BUILD
@@ -38,5 +43,7 @@ if (CMAKE_BUILD_TYPE MATCHES "^[Rr]el")
         --qmldir ${PROJECT_SOURCE_DIR}/qml
         WORKING_DIRECTORY ${CMAKE_BINARY_DIR}
         COMMENT "Running macdeployqt...")
-    install(DIRECTORY ${PROJECT_BINARY_DIR}/deploy/ DESTINATION .)
+    install(DIRECTORY ${PROJECT_BINARY_DIR}/deploy/
+            DESTINATION .
+            COMPONENT ${PROJECT_NAME})
 endif()
