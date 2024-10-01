@@ -35,7 +35,7 @@ Dialog {
             text: qsTr("General")
         }
         TabButton {
-            text: qsTr("Avansat")
+            text: qsTr("Coloane Vizibile")
         }
     }
 
@@ -90,6 +90,15 @@ Dialog {
         // advanced settings tab
         Item {
             id: advancedSettings
+            ColumnLayout {
+                spacing: Theme.verticalMargin
+                Repeater {
+                    model: tableModel.tableHeader.length
+                    delegate: CheckBox {
+                        text: tableModel.tableHeader[index]
+                    }
+                }
+            }
         } // advanced settings tab
     } // StackLayout
 }
