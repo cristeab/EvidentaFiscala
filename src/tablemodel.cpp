@@ -1,5 +1,4 @@
 #include "tablemodel.h"
-#include "qtcsv/variantdata.h"
 #include "qtcsv/stringdata.h"
 #include "qtcsv/reader.h"
 #include "qtcsv/writer.h"
