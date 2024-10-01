@@ -154,10 +154,11 @@ Item {
         id: tableView
 
         function customColumnWidth(column) {
-            let w = tableView.width / tableModel.tableHeader.length
+            const cols = tableModel.tableHeader.length - 2
+            let w = tableView.width / cols
             w = (w < Theme.maximumColumnWidth) ? w : Theme.maximumColumnWidth
-            if ((tableModel.tableHeader.length - 1) === column) {
-                return tableView.width - (tableModel.tableHeader.length - 1) * w
+            if ((cols - 1) === column) {
+                return tableView.width - (cols - 1) * w
             }
             return w
         }
@@ -190,6 +191,7 @@ Item {
                     text: tableRow.modelName[index]
                     elide: Text.ElideRight
                     clip: true
+                    visible: 2 !== index && 4 !== index
                     MouseArea {
                         id: rowLabelMouseArea
                         anchors.fill: parent

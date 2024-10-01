@@ -8,7 +8,7 @@ Column {
     property alias text: controlLabel.text
     property alias editText: controlTextField.text
 
-    spacing: 5
+    spacing: Theme.verticalMargin
 
     Label {
         id: controlLabel
@@ -21,7 +21,7 @@ Column {
     }
     Row {
         id: browseRow
-        spacing: 5
+        spacing: Theme.horizontalMargin
         TextField {
             id: controlTextField
             width: control.width - browseButton.width - browseRow.spacing
