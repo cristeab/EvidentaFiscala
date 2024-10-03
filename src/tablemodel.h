@@ -4,7 +4,6 @@
 #include <QAbstractTableModel>
 #include <QStringList>
 #include <QDateTime>
-#include <unordered_set>
 
 class QAbstractSeries;
 class QXYSeries;
@@ -45,10 +44,10 @@ public:
     Q_INVOKABLE void openLedger(const QUrl &url);
 
     Q_INVOKABLE bool isColumnVisible(int index) const {
-	return 0 == _invisibleColumns.count(index);
+	return 0 == _settings->_invisibleColumns.count(index);
     }
     Q_INVOKABLE int invisibleColumnsCount() const {
-	return static_cast<int>(_invisibleColumns.size());
+	return static_cast<int>(_settings->_invisibleColumns.size());
     }
     Q_INVOKABLE void setInvisibleColumn(const QList<int> &indexList);
 
@@ -90,5 +89,4 @@ private:
     };
     QMap<QDateTime, MonthlyData> _monthlyData;
     const QStringList _dateFormats;
-    std::unordered_set<int> _invisibleColumns;
 };

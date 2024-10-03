@@ -38,6 +38,12 @@ void Settings::load()
 
     setInvoiceNumberStart(GET_SETTING(invoiceNumberStart).toInt());
     setLanguageIndex(GET_SETTING(languageIndex).toInt());
+
+    const QVariantList& variantList = _settings.value(XSTR(invisibleColumns)).toList();
+    _invisibleColumns.clear();
+    for (const QVariant& variant : variantList) {
+	_invisibleColumns.emplace(variant.toInt());
+    }
 }
 
 void Settings::save()
@@ -46,4 +52,10 @@ void Settings::save()
     SET_SETTING(workingFolderPath);
     SET_SETTING(invoiceNumberStart);
     SET_SETTING(languageIndex);
+
+    QVariantList variantList;
+    for (int value : _invisibleColumns) {
+	variantList.append(value);
+    }
+    _settings.setValue(XSTR(invisibleColumns), variantList);
 }
