@@ -154,7 +154,7 @@ Item {
         id: tableView
 
         function customColumnWidth(column) {
-            const cols = tableModel.tableHeader.length - 2
+            const cols = tableModel.tableHeader.length - tableModel.invisibleColumnsCount()
             let w = tableView.width / cols
             w = (w < Theme.maximumColumnWidth) ? w : Theme.maximumColumnWidth
             if ((cols - 1) === column) {
@@ -191,7 +191,7 @@ Item {
                     text: tableRow.modelName[index]
                     elide: Text.ElideRight
                     clip: true
-                    visible: 2 !== index && 4 !== index
+                    visible: tableModel.isColumnVisible(index)
                     MouseArea {
                         id: rowLabelMouseArea
                         anchors.fill: parent

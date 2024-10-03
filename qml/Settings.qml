@@ -9,6 +9,8 @@ Dialog {
     readonly property real selectFolderWidth: control.width * 2 / 3
     readonly property real editWidth: control.selectFolderWidth / 3
 
+    property list<int> invisibleColumns
+
     title: qsTr("Configurare")
     implicitWidth: winApp.width * 0.75
     implicitHeight: winApp.height * 0.9
@@ -23,9 +25,14 @@ Dialog {
             settingsLoader.active = true
             settingsLoader.item.visible = true
         }
+        tableModel.setInvisibleColumn(control.invisibleColumns)
+        control.invisibleColumns = []
         settings.save()
     }
-    onRejected: settingsLoader.active = false
+    onRejected: {
+        settingsLoader.active = false
+        control.invisibleColumns.clear()
+    }
 
     TabBar {
         id: tabBar
@@ -96,6 +103,14 @@ Dialog {
                     model: tableModel.tableHeader.length
                     delegate: CheckBox {
                         text: tableModel.tableHeader[index]
+                        checked: tableModel.isColumnVisible(index)
+                        onCheckedChanged: {
+                            if (checked) {
+                                control.invisibleColumns.splice(index, 1)
+                            } else {
+                                control.invisibleColumns.push(index)
+                            }
+                        }
                     }
                 }
             }

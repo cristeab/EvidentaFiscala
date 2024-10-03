@@ -467,3 +467,14 @@ void TableModel::resetMinIncome()
 		qWarning() << "Cannot reset minimum income";
 	}
 }
+
+void TableModel::setInvisibleColumn(const QList<int> &indexList)
+{
+	qDebug() << "Invisible cols" << indexList;
+	emit layoutAboutToBeChanged();
+	_invisibleColumns.clear();
+	for (auto index: indexList) {
+		_invisibleColumns.emplace(index);
+	}
+	emit layoutChanged();
+}
