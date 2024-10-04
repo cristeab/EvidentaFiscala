@@ -468,13 +468,24 @@ void TableModel::resetMinIncome()
 	}
 }
 
-void TableModel::setInvisibleColumn(const QList<int> &indexList)
+void TableModel::setInvisibleColumns(const QList<int> &indexList)
 {
 	qDebug() << "Invisible cols" << indexList;
+
+	// update table
 	emit layoutAboutToBeChanged();
 	_settings->_invisibleColumns.clear();
 	for (auto index: indexList) {
 		_settings->_invisibleColumns.emplace(index);
 	}
 	emit layoutChanged();
+
+	// update combobox
+	_typeModel.clear();
+	for (int i = 1; i < (_tableHeader.size() - 2); ++i) {
+		if (isColumnVisible(i)) {
+			_typeModel.append(_tableHeader.at(i));
+		}
+	}
+	emit typeModelChanged();
 }

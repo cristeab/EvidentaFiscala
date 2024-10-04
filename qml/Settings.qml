@@ -25,7 +25,7 @@ Dialog {
             settingsLoader.active = true
             settingsLoader.item.visible = true
         }
-        tableModel.setInvisibleColumn(control.invisibleColumns)
+        tableModel.setInvisibleColumns(control.invisibleColumns)
         control.invisibleColumns = []
         settings.save()
     }

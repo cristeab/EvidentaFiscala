@@ -13,7 +13,7 @@ class TableModel : public QAbstractTableModel
     Q_OBJECT
     QML_CONSTANT_PROPERTY(QStringList, tableHeader, {})
     QML_CONSTANT_PROPERTY(QStringList, currencyModel, {})
-    QML_CONSTANT_PROPERTY(QStringList, typeModel, {})
+    QML_READABLE_PROPERTY(QStringList, typeModel, setTypeModel, {})
     QML_READABLE_PROPERTY(QDateTime, xAxisMin, setXAxisMin, {})
     QML_READABLE_PROPERTY(QDateTime, xAxisMax, setXAxisMax, {})
     QML_READABLE_PROPERTY(int, xAxisTickCount, setXAxisTickCount, 2)
@@ -49,7 +49,7 @@ public:
     Q_INVOKABLE int invisibleColumnsCount() const {
 	return static_cast<int>(_settings->_invisibleColumns.size());
     }
-    Q_INVOKABLE void setInvisibleColumn(const QList<int> &indexList);
+    Q_INVOKABLE void setInvisibleColumns(const QList<int> &indexList);
 
 signals:
     void error(const QString &msg, bool fatal = false);
