@@ -39,6 +39,8 @@ TableModel::TableModel() : _tableHeader({tr("Data"),tr("Venituri prin Banca"), t
 
 void TableModel::init()
 {
+	updateTypeModel();
+
 	const auto& ledgerFilePath = _settings->ledgerFilePath();
 	if (ledgerFilePath.isEmpty()) {
 	    emit error(tr("Numele fisierului CSV este gol"), true);
@@ -468,6 +470,23 @@ void TableModel::resetMinIncome()
 	}
 }
 
+void TableModel::updateTypeModel()
+{
+	static constexpr int defaultTableHeaderIndex{3};
+
+	// update combobox
+	_typeModel.clear();
+	for (int i = 1; i < (_tableHeader.size() - 2); ++i) {
+		if (isColumnVisible(i)) {
+			_typeModel.append(_tableHeader.at(i));
+		}
+	}
+	emit typeModelChanged();
+
+	// update default index in combobox
+	setDefaultTypeModelIndex(_typeModel.indexOf(_tableHeader.at(defaultTableHeaderIndex)));
+}
+
 void TableModel::setInvisibleColumns(const QList<int> &indexList)
 {
 	qDebug() << "Invisible cols" << indexList;
@@ -480,12 +499,5 @@ void TableModel::setInvisibleColumns(const QList<int> &indexList)
 	}
 	emit layoutChanged();
 
-	// update combobox
-	_typeModel.clear();
-	for (int i = 1; i < (_tableHeader.size() - 2); ++i) {
-		if (isColumnVisible(i)) {
-			_typeModel.append(_tableHeader.at(i));
-		}
-	}
-	emit typeModelChanged();
+	updateTypeModel();
 }

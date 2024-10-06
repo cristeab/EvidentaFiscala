@@ -39,7 +39,7 @@ Item {
             id: typeCombo
             Layout.preferredWidth: 1.75*dateField.width
             model: tableModel.typeModel
-            currentIndex: 2
+            currentIndex: tableModel.defaultTypeModelIndex
         }
         TextField {
             id: amountField

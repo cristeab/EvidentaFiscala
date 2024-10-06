@@ -14,6 +14,7 @@ class TableModel : public QAbstractTableModel
     QML_CONSTANT_PROPERTY(QStringList, tableHeader, {})
     QML_CONSTANT_PROPERTY(QStringList, currencyModel, {})
     QML_READABLE_PROPERTY(QStringList, typeModel, setTypeModel, {})
+    QML_READABLE_PROPERTY(int, defaultTypeModelIndex, setDefaultTypeModelIndex, 2)
     QML_READABLE_PROPERTY(QDateTime, xAxisMin, setXAxisMin, {})
     QML_READABLE_PROPERTY(QDateTime, xAxisMax, setXAxisMax, {})
     QML_READABLE_PROPERTY(int, xAxisTickCount, setXAxisTickCount, 2)
@@ -77,6 +78,7 @@ private:
     void resetCurves();
     static bool ensureLastCharIsNewLine(const QString& filePath);
     void resetMinIncome();
+    void updateTypeModel();
 
     const static QLocale _locale;
     uint32_t _invoiceNumber{};
