@@ -492,12 +492,12 @@ void TableModel::setInvisibleColumns(const QList<int> &indexList)
 	qDebug() << "Invisible cols" << indexList;
 
 	// update table
-	emit layoutAboutToBeChanged();
+	emit beginResetModel();
 	_settings->_invisibleColumns.clear();
 	for (auto index: indexList) {
 		_settings->_invisibleColumns.emplace(index);
 	}
-	emit layoutChanged();
+	emit endResetModel();
 
 	updateTypeModel();
 }
