@@ -179,16 +179,15 @@ Item {
         alternatingRows: true
         delegate: RowLayout {
             id: tableRow
-            readonly property var modelName: [date, bankIncome, cashIncome,
-                bankExpenses, cashExpenses, invoiceNumber, observations]
             spacing: 0
             Repeater {
-                model: tableModel.tableHeader.length
+                model: [date, bankIncome, cashIncome,
+                    bankExpenses, cashExpenses, invoiceNumber, observations]
                 delegate: Label {
                     id: rowLabel
                     Layout.preferredWidth: tableView.customColumnWidth(index)
                     Layout.minimumWidth: Theme.minimumColumnWidth
-                    text: tableRow.modelName[index]
+                    text: modelData
                     elide: Text.ElideRight
                     clip: true
                     visible: tableModel.isColumnVisible(index)
