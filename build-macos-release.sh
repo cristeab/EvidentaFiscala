@@ -26,10 +26,9 @@ rm -rf $BUILD_DIR
 
 mkdir $BUILD_DIR
 
-cmake -B $BUILD_DIR -S . \
+cmake -B $BUILD_DIR -S . -G Ninja \
         -DCMAKE_BUILD_TYPE=Release \
-        -DCMAKE_PREFIX_PATH=$QT_ROOT \
-        -DCMAKE_GENERATOR=Ninja
+        -DCMAKE_PREFIX_PATH=$QT_ROOT
 cmake --build $BUILD_DIR --target all
 
 echo "Sign app bundle"
