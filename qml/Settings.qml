@@ -31,7 +31,7 @@ Dialog {
     }
     onRejected: {
         settingsLoader.active = false
-        control.invisibleColumns.clear()
+        control.invisibleColumns = []
     }
 
     TabBar {
