@@ -492,12 +492,14 @@ void TableModel::setInvisibleColumns(const QList<int> &indexList)
 	qDebug() << "Invisible cols" << indexList;
 
 	// update table
-	emit beginResetModel();
-	_settings->_invisibleColumns.clear();
+	std::unordered_set<int> newInvisibleColumns;
 	for (auto index: indexList) {
-		_settings->_invisibleColumns.emplace(index);
+		newInvisibleColumns.emplace(index);
 	}
-	emit endResetModel();
+	if (_settings->_invisibleColumns != newInvisibleColumns) {
+		_settings->_invisibleColumns = newInvisibleColumns;
+		emit error(tr("Restartati aplicatia pentru a aplica modificarile"), false);
+	}
 
 	updateTypeModel();
 }

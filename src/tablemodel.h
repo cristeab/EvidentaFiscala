@@ -53,7 +53,7 @@ public:
     Q_INVOKABLE void setInvisibleColumns(const QList<int> &indexList);
 
 signals:
-    void error(const QString &msg, bool fatal = false);
+    void error(const QString &msg, bool fatal);
 
 private:
     enum ColumnNames {
