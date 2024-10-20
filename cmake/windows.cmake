@@ -42,7 +42,7 @@ if (CMAKE_BUILD_TYPE MATCHES "^[Rr]el")
         --compiler-runtime
         --qmldir ${PROJECT_SOURCE_DIR}/qml
         WORKING_DIRECTORY ${CMAKE_BINARY_DIR}
-        COMMENT "Running macdeployqt...")
+        COMMENT "Running windeployqt...")
     install(DIRECTORY ${PROJECT_BINARY_DIR}/deploy/
             DESTINATION .
             COMPONENT ${PROJECT_NAME})
