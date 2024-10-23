@@ -47,7 +47,7 @@ public:
     Q_INVOKABLE bool isColumnVisible(int index) const {
 	return 0 == _settings->_invisibleColumns.count(index);
     }
-    Q_INVOKABLE int invisibleColumnsCount() const {
+    Q_INVOKABLE int invisibleColumns() const {
 	return static_cast<int>(_settings->_invisibleColumns.size());
     }
     Q_INVOKABLE void setInvisibleColumns(const QList<int> &indexList);

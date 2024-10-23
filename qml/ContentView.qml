@@ -154,7 +154,7 @@ Item {
         id: tableView
 
         function customColumnWidth(column) {
-            const cols = tableView.columns - tableModel.invisibleColumnsCount()
+            const cols = tableView.columns - tableModel.invisibleColumns()
             let w = tableView.width / cols
             w = (w < Theme.maximumColumnWidth) ? w : Theme.maximumColumnWidth
             if ((cols - 1) === column) {
