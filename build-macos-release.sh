@@ -22,11 +22,7 @@ NINJA_ROOT=$QT_DIR/Tools/Ninja
 
 echo "QT version $QT_VER"
 
-rm -rf $BUILD_DIR
-
-mkdir $BUILD_DIR
-
-cmake -B $BUILD_DIR -S . -G Ninja \
+cmake -B $BUILD_DIR -S . -G Ninja --fresh \
         -DCMAKE_BUILD_TYPE=Release \
         -DCMAKE_PREFIX_PATH=$QT_ROOT
 cmake --build $BUILD_DIR --target all
