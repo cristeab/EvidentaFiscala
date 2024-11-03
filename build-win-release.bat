@@ -1,3 +1,6 @@
+@echo OFF
+setlocal
+
 set QT_PATH="C:/Qt/6.8.0/msvc2022_64"
 set VS_PATH="C:\Program Files\Microsoft Visual Studio\2022\Community\VC\Auxiliary\Build"
 set CMAKE_PATH="C:\Qt\Tools\CMake_64\bin"
@@ -25,3 +28,5 @@ cmake.exe --build %BUILD_DIR% --target package
 if %errorlevel% neq 0 (
     exit /b %errorlevel%
 )
+
+endlocal
