@@ -154,13 +154,37 @@ Item {
         id: tableView
 
         function customColumnWidth(column) {
-            const cols = tableView.columns - tableModel.invisibleColumns()
-            let w = tableView.width / cols
-            w = (w < Theme.maximumColumnWidth) ? w : Theme.maximumColumnWidth
-            if ((cols - 1) === column) {
-                return tableView.width - (cols - 1) * w
+            if (!tableModel.isColumnVisible(column)) {
+                return 0
             }
-            return w
+            let columnWidth = 0
+            switch (column) {
+            case Theme.dateColumn:
+                columnWidth = Theme.minimumColumnWidth
+                break
+            case Theme.bankIncomeColumn:
+                columnWidth = 1.6 * Theme.minimumColumnWidth
+                break
+            case Theme.cashIncomeColumn:
+                columnWidth = 1.6 * Theme.minimumColumnWidth
+                break
+            case Theme.bankExpensesColumn:
+                columnWidth = 1.6 * Theme.minimumColumnWidth
+                break
+            case Theme.cashExpensesColumn:
+                columnWidth = 1.6 * Theme.minimumColumnWidth
+                break
+            case Theme.invoiceNumberColumn:
+                columnWidth = 1.25 * Theme.minimumColumnWidth
+                break
+            case Theme.observationsColumn:
+                columnWidth = tableView.width
+                for (let c = 0; c < (tableView.columns - 1); c += 1) {
+                    columnWidth -= tableView.customColumnWidth(c)
+                }
+                break
+            }
+            return columnWidth
         }
 
         anchors {
@@ -189,6 +213,7 @@ Item {
                     Layout.minimumWidth: Theme.minimumColumnWidth
                     text: modelData
                     elide: Text.ElideRight
+                    horizontalAlignment: Text.AlignLeft
                     clip: true
                     visible: tableModel.isColumnVisible(index)
                     MouseArea {

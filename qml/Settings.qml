@@ -102,6 +102,7 @@ Dialog {
                 Repeater {
                     model: tableModel.tableHeader.length
                     delegate: CheckBox {
+                        enabled: (tableModel.tableHeader.length - 1) !== index
                         text: tableModel.tableHeader[index]
                         checked: tableModel.isColumnVisible(index)
                         onCheckedChanged: {

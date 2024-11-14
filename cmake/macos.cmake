@@ -1,5 +1,6 @@
 set(BUNDLE_ID "com.cristeab.fiscalrecords")
 
+set(CMAKE_OSX_DEPLOYMENT_TARGET "12.0") # earliest supported version by Qt6.8
 set(CMAKE_MACOSX_RPATH TRUE)
 
 target_sources(${PROJECT_NAME} PRIVATE "${CMAKE_SOURCE_DIR}/img/logo.icns")
@@ -34,5 +35,5 @@ if (CMAKE_BUILD_TYPE MATCHES "^[Rr]el")
     set(CPACK_GENERATOR "productbuild")
     set(CPACK_PRODUCTBUILD_IDENTIFIER ${BUNDLE_ID})
     set(CPACK_PACKAGE_FILE_NAME "${PROJECT_NAME}-${SW_VERSION}")
-    set(CPACK_OSX_PACKAGE_VERSION "11")
+    set(CPACK_OSX_PACKAGE_VERSION ${CMAKE_OSX_DEPLOYMENT_TARGET})
 endif()
