@@ -188,6 +188,7 @@ bool TableModel::add(const QString &date, int typeIndex, qreal amount,
 
 void TableModel::initInvoiceNumber()
 {
+    _invoiceNumber = 0;
 	for (const auto &row: std::as_const(_readData)) {
 		const int rowLen = row.size();
 		if (2 < rowLen) {
