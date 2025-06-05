@@ -39,6 +39,8 @@ TableModel::TableModel() : _tableHeader({tr("Data"),tr("Venituri prin Banca"), t
 
 void TableModel::init()
 {
+	updateTypeModel();
+
 	const auto& ledgerFilePath = _settings->ledgerFilePath();
 	if (ledgerFilePath.isEmpty()) {
 	    emit error(tr("Numele fisierului CSV este gol"), true);
@@ -186,6 +188,7 @@ bool TableModel::add(const QString &date, int typeIndex, qreal amount,
 
 void TableModel::initInvoiceNumber()
 {
+    _invoiceNumber = 0;
 	for (const auto &row: std::as_const(_readData)) {
 		const int rowLen = row.size();
 		if (2 < rowLen) {
@@ -466,4 +469,38 @@ void TableModel::resetMinIncome()
 	} else {
 		qWarning() << "Cannot reset minimum income";
 	}
+}
+
+void TableModel::updateTypeModel()
+{
+	static constexpr int defaultTableHeaderIndex{3};
+
+	// update combobox
+	_typeModel.clear();
+	for (int i = 1; i < (_tableHeader.size() - 2); ++i) {
+		if (isColumnVisible(i)) {
+			_typeModel.append(_tableHeader.at(i));
+		}
+	}
+	emit typeModelChanged();
+
+	// update default index in combobox
+	setDefaultTypeModelIndex(_typeModel.indexOf(_tableHeader.at(defaultTableHeaderIndex)));
+}
+
+void TableModel::setInvisibleColumns(const QList<int> &indexList)
+{
+	qDebug() << "Invisible cols" << indexList;
+
+	// update table
+	std::unordered_set<int> newInvisibleColumns;
+	for (auto index: indexList) {
+		newInvisibleColumns.emplace(index);
+	}
+	if (_settings->_invisibleColumns != newInvisibleColumns) {
+		_settings->_invisibleColumns = newInvisibleColumns;
+		emit error(tr("Restartati aplicatia pentru a aplica modificarile"), false);
+	}
+
+	updateTypeModel();
 }

@@ -4,7 +4,7 @@
 
 set -e # exit immeditalley on error
 
-QT_VER=6.7.3
+QT_VER=6.9.1
 APP_NAME=FiscalRecords
 MAJOR_VERSION=1.1
 MINOR_VERSION=$(git rev-list --count HEAD)
@@ -16,14 +16,16 @@ TEAM_ID="FAARUB626Q"
 PKG_NAME=${APP_NAME}-${APP_VERSION}.pkg
 BUILD_DIR=build
 
+QT_DIR=$HOME/Qt
+QT_ROOT=$QT_DIR/$QT_VER/macos
+NINJA_ROOT=$QT_DIR/Tools/Ninja
+
 echo "QT version $QT_VER"
 
-rm -rf $BUILD_DIR
-
-mkdir $BUILD_DIR
-
-cmake -B $BUILD_DIR -S . -DCMAKE_BUILD_TYPE=Release -DCMAKE_PREFIX_PATH=$HOME/Qt/$QT_VER/macos
-cmake --build $BUILD_DIR -j
+cmake -B $BUILD_DIR -S . -G Ninja --fresh \
+        -DCMAKE_BUILD_TYPE=Release \
+        -DCMAKE_PREFIX_PATH=$QT_ROOT
+cmake --build $BUILD_DIR --target all
 
 echo "Sign app bundle"
 codesign --strict --timestamp --force --verify --verbose --deep \

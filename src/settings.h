@@ -3,6 +3,9 @@
 #include "qmlhelpers.h"
 #include "config.h"
 #include <QSettings>
+#include <unordered_set>
+
+class TableModel;
 
 class Settings : public QObject {
 Q_OBJECT
@@ -26,4 +29,6 @@ public:
 
 private:
     QSettings _settings;
+    std::unordered_set<int> _invisibleColumns;
+    friend TableModel;
 };

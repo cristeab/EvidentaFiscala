@@ -39,7 +39,7 @@ Item {
             id: typeCombo
             Layout.preferredWidth: 1.75*dateField.width
             model: tableModel.typeModel
-            currentIndex: 2
+            currentIndex: tableModel.defaultTypeModelIndex
         }
         TextField {
             id: amountField
@@ -139,7 +139,7 @@ Item {
             if (tableModel.add(dateField.text, typeCombo.currentIndex, amount,
                            currencyCombo.currentIndex, rate, obsField.text)) {
                 dateField.text = ""
-                typeCombo.currentIndex = 0
+                typeCombo.currentIndex = tableModel.defaultTypeModelIndex
                 amountField.text = ""
                 currencyCombo.currentIndex = 0
                 rateField.text = ""
@@ -154,12 +154,37 @@ Item {
         id: tableView
 
         function customColumnWidth(column) {
-            let w = tableView.width / tableModel.tableHeader.length
-            w = (w < Theme.maximumColumnWidth) ? w : Theme.maximumColumnWidth
-            if ((tableModel.tableHeader.length - 1) === column) {
-                return tableView.width - (tableModel.tableHeader.length - 1) * w
+            if (!tableModel.isColumnVisible(column)) {
+                return 0
             }
-            return w
+            let columnWidth = 0
+            switch (column) {
+            case Theme.dateColumn:
+                columnWidth = Theme.minimumColumnWidth
+                break
+            case Theme.bankIncomeColumn:
+                columnWidth = 1.6 * Theme.minimumColumnWidth
+                break
+            case Theme.cashIncomeColumn:
+                columnWidth = 1.6 * Theme.minimumColumnWidth
+                break
+            case Theme.bankExpensesColumn:
+                columnWidth = 1.6 * Theme.minimumColumnWidth
+                break
+            case Theme.cashExpensesColumn:
+                columnWidth = 1.6 * Theme.minimumColumnWidth
+                break
+            case Theme.invoiceNumberColumn:
+                columnWidth = 1.25 * Theme.minimumColumnWidth
+                break
+            case Theme.observationsColumn:
+                columnWidth = tableView.width
+                for (let c = 0; c < (tableView.columns - 1); c += 1) {
+                    columnWidth -= tableView.customColumnWidth(c)
+                }
+                break
+            }
+            return columnWidth
         }
 
         anchors {
@@ -178,18 +203,19 @@ Item {
         alternatingRows: true
         delegate: RowLayout {
             id: tableRow
-            readonly property var modelName: [date, bankIncome, cashIncome,
-                bankExpenses, cashExpenses, invoiceNumber, observations]
             spacing: 0
             Repeater {
-                model: tableModel.tableHeader.length
+                model: [date, bankIncome, cashIncome,
+                    bankExpenses, cashExpenses, invoiceNumber, observations]
                 delegate: Label {
                     id: rowLabel
                     Layout.preferredWidth: tableView.customColumnWidth(index)
                     Layout.minimumWidth: Theme.minimumColumnWidth
-                    text: tableRow.modelName[index]
+                    text: modelData
                     elide: Text.ElideRight
+                    horizontalAlignment: Text.AlignLeft
                     clip: true
+                    visible: tableModel.isColumnVisible(index)
                     MouseArea {
                         id: rowLabelMouseArea
                         anchors.fill: parent

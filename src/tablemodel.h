@@ -13,7 +13,8 @@ class TableModel : public QAbstractTableModel
     Q_OBJECT
     QML_CONSTANT_PROPERTY(QStringList, tableHeader, {})
     QML_CONSTANT_PROPERTY(QStringList, currencyModel, {})
-    QML_CONSTANT_PROPERTY(QStringList, typeModel, {})
+    QML_READABLE_PROPERTY(QStringList, typeModel, setTypeModel, {})
+    QML_READABLE_PROPERTY(int, defaultTypeModelIndex, setDefaultTypeModelIndex, 2)
     QML_READABLE_PROPERTY(QDateTime, xAxisMin, setXAxisMin, {})
     QML_READABLE_PROPERTY(QDateTime, xAxisMax, setXAxisMax, {})
     QML_READABLE_PROPERTY(int, xAxisTickCount, setXAxisTickCount, 2)
@@ -43,8 +44,16 @@ public:
     Q_INVOKABLE void generateRegistry();
     Q_INVOKABLE void openLedger(const QUrl &url);
 
+    Q_INVOKABLE bool isColumnVisible(int index) const {
+	return 0 == _settings->_invisibleColumns.count(index);
+    }
+    Q_INVOKABLE int invisibleColumns() const {
+	return static_cast<int>(_settings->_invisibleColumns.size());
+    }
+    Q_INVOKABLE void setInvisibleColumns(const QList<int> &indexList);
+
 signals:
-    void error(const QString &msg, bool fatal = false);
+    void error(const QString &msg, bool fatal);
 
 private:
     enum ColumnNames {
@@ -69,6 +78,7 @@ private:
     void resetCurves();
     static bool ensureLastCharIsNewLine(const QString& filePath);
     void resetMinIncome();
+    void updateTypeModel();
 
     const static QLocale _locale;
     uint32_t _invoiceNumber{};
