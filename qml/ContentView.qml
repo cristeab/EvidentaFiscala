@@ -139,7 +139,7 @@ Item {
             if (tableModel.add(dateField.text, typeCombo.currentIndex, amount,
                            currencyCombo.currentIndex, rate, obsField.text)) {
                 dateField.text = ""
-                typeCombo.currentIndex = 0
+                typeCombo.currentIndex = tableModel.defaultTypeModelIndex
                 amountField.text = ""
                 currencyCombo.currentIndex = 0
                 rateField.text = ""
