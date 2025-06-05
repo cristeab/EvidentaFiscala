@@ -7,7 +7,6 @@
 #include <QTimer>
 #include <QDebug>
 #include <QCoreApplication>
-#include <QtCharts/QXYSeries>
 #include <QRegularExpression>
 #include <QTextDocument>
 #include <QTextDocumentWriter>

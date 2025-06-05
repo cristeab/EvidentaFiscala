@@ -1,5 +1,5 @@
 #include "tablemodel.h"
-#include <QApplication>
+#include <QGuiApplication>
 #include <QQmlApplicationEngine>
 #include <QQmlContext>
 #include <QTranslator>
@@ -37,7 +37,7 @@ bool loadTranslatorFromSettings (const Settings *settings, QTranslator &translat
 
 int main(int argc, char *argv[])
 {
-    QApplication app(argc, argv);
+    QGuiApplication app(argc, argv);
     qSetMessagePattern("%{appname} [%{threadid}] [%{type}] %{message} (%{file}:%{line})");
 
     QQmlApplicationEngine engine;

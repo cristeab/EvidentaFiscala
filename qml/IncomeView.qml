@@ -1,19 +1,20 @@
 import QtQuick
-import QtCharts
+import QtGraphs
 import TableModel 1.0
 
-ChartView {
+GraphsView {
     antialiasing: true
     theme: ChartView.ChartThemeDark
-    legend.alignment: Qt.AlignBottom
-    DateTimeAxis {
+
+    axisX: DateTimeAxis {
         id: axisX
-        format: "MMM yyyy"
+        labelFormat: "MMM yyyy"
         min: tableModel.xAxisMin
         max: tableModel.xAxisMax
-        tickCount: tableModel.xAxisTickCount
+        subTickCount: tableModel.xAxisTickCount
     }
-    ValueAxis {
+
+    axisY: ValueAxis {
         id: axisY
         min: tableModel.yAxisMin
         max: tableModel.yAxisMax
@@ -76,11 +77,9 @@ ChartView {
         id: grossIncomeLineSeries
         name: qsTr("Venit Brut")
         color: "#16c5f0"
-        axisX: axisX
-        axisY: axisY
-        style: Qt.DashDotLine
         width: 2
-        onHovered: function(point, state) {
+        hoverable: true
+        onHover: function(point, state) {
             if (state) {
                 pointTooltip.show(point, grossIncomeLineSeries)
             } else {
@@ -92,11 +91,9 @@ ChartView {
         id: expenseLineSeries
         name: qsTr("Cheltuieli")
         color: "#b416e7"
-        axisX: axisX
-        axisY: axisY
-        style: Qt.SolidLine
         width: 2
-        onHovered: function(point, state) {
+        hoverable: true
+        onHover: function(point, state) {
             if (state) {
                 pointTooltip.show(point, expenseLineSeries)
             } else {
@@ -108,11 +105,9 @@ ChartView {
         id: netIncomeLineSeries
         name: qsTr("Venit Net")
         color: "#21f15e"
-        axisX: axisX
-        axisY: axisY
-        style: Qt.SolidLine
         width: 2
-        onHovered: function(point, state) {
+        hoverable: true
+        onHover: function(point, state) {
             if (state) {
                 pointTooltip.show(point, netIncomeLineSeries)
             } else {
@@ -122,12 +117,10 @@ ChartView {
     }
     LineSeries {
         id: threshold
-        axisX: axisX
-        axisY: axisY
-        style: Qt.DashDotDotLine
         color: "lightgray"
         width: 1
-        onHovered: function(point, state) {
+        hoverable: true
+        onHover: function(point, state) {
             if (state) {
                 pointTooltip.show(point, threshold)
             } else {
