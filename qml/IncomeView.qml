@@ -50,26 +50,22 @@ GraphsView {
                 pointTooltip.x = position.x + 1
                 pointTooltip.y = position.y + 1
                 pointTooltip.visible = true
+                // set marker
+                markerSeries.clear()
+                markerSeries.append(closestPoint.x, closestPoint.y)
+                markerSeries.color = lineSeries.color
             }
-            // set marker
-            /*pointMarker.x = position.x - (pointMarker.width / 2)
-            pointMarker.y = position.y - (pointMarker.height / 2)
-            pointMarker.color = lineSeries.color
-            pointMarker.visible = true*/
         }
         function hide() {
             pointTooltip.visible = false
-            //pointMarker.visible = false
+            markerSeries.clear()
         }
     }
 
-    Rectangle {
-        id: pointMarker
-        z: 1
-        width: 10
-        height: width
-        radius: width / 2
-        visible: false
+    // Marker series (styled as a red circle)
+    ScatterSeries {
+        id: markerSeries
+        color: "red"
     }
 
     LineSeries {
