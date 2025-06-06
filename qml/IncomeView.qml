@@ -4,7 +4,9 @@ import TableModel 1.0
 
 GraphsView {
     antialiasing: true
-    theme: ChartView.ChartThemeDark
+    theme: GraphsTheme {
+        colorScheme: GraphsTheme.ColorScheme.Dark
+    }
 
     axisX: DateTimeAxis {
         id: axisX
