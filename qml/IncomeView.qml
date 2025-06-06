@@ -65,7 +65,12 @@ GraphsView {
     // Marker series (styled as a red circle)
     ScatterSeries {
         id: markerSeries
-        color: "red"
+        pointDelegate: Rectangle {
+            width: 12
+            height: width
+            radius: width / 2
+            color: markerSeries.color
+        }
     }
 
     LineSeries {
