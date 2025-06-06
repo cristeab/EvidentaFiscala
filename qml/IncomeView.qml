@@ -1,5 +1,6 @@
 import QtQuick
 import QtGraphs
+import QtQuick.Controls
 import TableModel 1.0
 
 GraphsView {
@@ -23,46 +24,42 @@ GraphsView {
         titleText: "RON"
     }
 
-    Text {
+    ToolTip {
         id: pointTooltip
-        color: Theme.accentColor
-        font {
-            bold: true
-            pixelSize: 12
-        }
         visible: false
-        function show(point, lineSeries) {
-            const closestPoint = findClosestPoint(point.x, lineSeries)
-            const actualPoint = closestPoint ? closestPoint : point
-            // set text
-            pointTooltip.text = actualPoint.y.toFixed(2)
-            pointTooltip.color = lineSeries.color
-            pointTooltip.visible = true
-            pointTooltip.x = mapToPosition(actualPoint).x + 10
-            pointTooltip.y = mapToPosition(actualPoint).y - 20
+        function show(position, value, lineSeries) {
+            // Find closest data point index
+            let minDist = Infinity;
+            let closestIndex = -1;
+
+            for (let i = 0; i < lineSeries.count; i++) {
+                const point = lineSeries.at(i);
+                const dx = point.x - value.x;
+                const dy = point.y - value.y;
+                const dist = Math.sqrt(dx*dx + dy*dy);
+
+                if (dist < minDist) {
+                    minDist = dist;
+                    closestIndex = i;
+                }
+            }
+            if (closestIndex !== -1) {
+                // set text
+                const closestPoint = lineSeries.at(closestIndex);
+                pointTooltip.text = closestPoint.y.toFixed(2)
+                pointTooltip.x = position.x + 1
+                pointTooltip.y = position.y + 1
+                pointTooltip.visible = true
+            }
             // set marker
-            pointMarker.x = mapToPosition(actualPoint).x - (pointMarker.width / 2)
-            pointMarker.y = mapToPosition(actualPoint).y - (pointMarker.height / 2)
+            /*pointMarker.x = position.x - (pointMarker.width / 2)
+            pointMarker.y = position.y - (pointMarker.height / 2)
             pointMarker.color = lineSeries.color
-            pointMarker.visible = true
+            pointMarker.visible = true*/
         }
         function hide() {
             pointTooltip.visible = false
-            pointMarker.visible = false
-        }
-
-        function findClosestPoint(mouseX, lineSeries) {
-            let minDist = Number.MAX_VALUE
-            let closestPoint = null
-            for (let i = 0; i < lineSeries.count; i++) {
-                const point = lineSeries.at(i)
-                const dist = Math.abs(point.x - mouseX)
-                if (dist < minDist) {
-                    minDist = dist
-                    closestPoint = point
-                }
-            }
-            return closestPoint
+            //pointMarker.visible = false
         }
     }
 
@@ -81,13 +78,10 @@ GraphsView {
         color: "#16c5f0"
         width: 2
         hoverable: true
-        onHover: function(point, state) {
-            if (state) {
-                pointTooltip.show(point, grossIncomeLineSeries)
-            } else {
-                pointTooltip.hide()
-            }
+        onHover: (name, position, value) => {
+            pointTooltip.show(position, value, grossIncomeLineSeries)
         }
+        onHoverExit: pointTooltip.hide()
     }
     LineSeries {
         id: expenseLineSeries
@@ -95,13 +89,10 @@ GraphsView {
         color: "#b416e7"
         width: 2
         hoverable: true
-        onHover: function(point, state) {
-            if (state) {
-                pointTooltip.show(point, expenseLineSeries)
-            } else {
-                pointTooltip.hide()
-            }
+        onHover: (name, position, value) => {
+            pointTooltip.show(position, value, expenseLineSeries)
         }
+        onHoverExit: pointTooltip.hide()
     }
     LineSeries {
         id: netIncomeLineSeries
@@ -109,26 +100,20 @@ GraphsView {
         color: "#21f15e"
         width: 2
         hoverable: true
-        onHover: function(point, state) {
-            if (state) {
-                pointTooltip.show(point, netIncomeLineSeries)
-            } else {
-                pointTooltip.hide()
-            }
+        onHover: (name, position, value) => {
+            pointTooltip.show(position, value, netIncomeLineSeries)
         }
+        onHoverExit: pointTooltip.hide()
     }
     LineSeries {
         id: threshold
         color: "lightgray"
         width: 1
         hoverable: true
-        onHover: function(point, state) {
-            if (state) {
-                pointTooltip.show(point, threshold)
-            } else {
-                pointTooltip.hide()
-            }
+        onHover: (name, position, value) => {
+            pointTooltip.show(position, value, threshold)
         }
+        onHoverExit: pointTooltip.hide()
     }
     Component.onCompleted: {
         tableModel.setChartSeries(TableModel.GROSS_INCOME_CURVE, grossIncomeLineSeries)
