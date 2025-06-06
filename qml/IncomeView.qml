@@ -45,8 +45,9 @@ GraphsView {
             }
             if (closestIndex !== -1) {
                 // set text
-                const closestPoint = lineSeries.at(closestIndex);
-                pointTooltip.text = closestPoint.y.toFixed(2)
+                const closestPoint = lineSeries.at(closestIndex)
+                const date = new Date(closestPoint.x)
+                pointTooltip.text = closestPoint.y.toFixed(2) + "\n" + date.toLocaleDateString(Qt.locale(), axisX.labelFormat)
                 pointTooltip.x = position.x + 1
                 pointTooltip.y = position.y + 1
                 pointTooltip.visible = true
