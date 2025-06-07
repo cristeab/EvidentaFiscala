@@ -233,9 +233,11 @@ bool TableModel::parseRow(int rowIndex, QDateTime &key, qreal &income,
 		return false;
 	}
 
-	key = QDateTime::currentDateTime();
-	key.setDate(QDate(date.year(), date.month(), 15));//middle of the month
-	key.setTime({});
+    // generate key as the last day of the month
+    int lastDay = date.daysInMonth();
+    QDate lastDayOfMonth(date.year(), date.month(), lastDay);
+    key = QDateTime(lastDayOfMonth, QTime(0, 0, 0));
+
 	income = 0;
 	expense = 0;
 	for (int i = 0; i < 4; ++i) {
