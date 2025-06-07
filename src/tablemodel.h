@@ -78,10 +78,14 @@ private:
 
     void initGraphLines();
     void updateGraphLines(int rowIndex);
+    void resetGraphLines();
+
+    void initGraphBars();
+    void updateGraphBars(int rowIndex);
 
     void updateXAxis(const QDateTime &val);
     void updateYAxis(qreal amount);
-    void resetCurves();
+
     static bool ensureLastCharIsNewLine(const QString& filePath);
     void resetMinIncome();
     void updateTypeModel();

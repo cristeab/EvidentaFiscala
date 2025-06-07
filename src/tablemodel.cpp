@@ -303,7 +303,7 @@ void TableModel::initGraphLines()
 		}
 	}
 	sortRows();
-	resetCurves();
+    resetGraphLines();
 }
 
 void TableModel::updateGraphLines(int rowIndex)
@@ -318,7 +318,17 @@ void TableModel::updateGraphLines(int rowIndex)
 	_monthlyData[key].expense += expense;
 	updateXAxis(key);
 	sortRows();
-	resetCurves();
+    resetGraphLines();
+}
+
+void TableModel::initGraphBars()
+{
+
+}
+
+void TableModel::updateGraphBars(int rowIndex)
+{
+
 }
 
 void TableModel::updateXAxis(const QDateTime &val)
@@ -341,7 +351,7 @@ void TableModel::updateYAxis(qreal amount)
 	}
 }
 
-void TableModel::resetCurves()
+void TableModel::resetGraphLines()
 {
 	for (auto* s: _chartSeries) {
 		if (nullptr != s) {
