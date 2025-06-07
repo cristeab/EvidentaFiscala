@@ -10,7 +10,7 @@ GraphsView {
     }
 
     axisX: BarCategoryAxis {
-        categories: ["Jan", "Feb", "Mar", "Apr", "May", "Jun"]
+        categories: tableModel.barMonths
     }
     axisY: ValueAxis {
         min: 0
@@ -22,12 +22,12 @@ GraphsView {
         BarSet {
             label: qsTr("Venit Brut")
             color: "blue"
-            values: [80000, 85000, 90000, 87000, 95000, 93000]
+            values: tableModel.barRevenue
         }
         BarSet {
             label: qsTr("Venit Net")
             color: "orange"
-            values: [12000, 15000, 17000, 14000, 18000, 16000]
+            values: tableModel.barNetIncome
         }
     }
 }

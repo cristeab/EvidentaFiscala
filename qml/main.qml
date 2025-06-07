@@ -93,7 +93,7 @@ ApplicationWindow {
         }
         Loader {
             property bool useBars: true
-            sourceComponent: useBars ? chartWithBarsTab : chartWithLinesTab
+            sourceComponent: tableModel.settings.useBars ? chartWithBarsTab : chartWithLinesTab
             Component {
                 id: chartWithLinesTab
                 IncomeViewWithLines {

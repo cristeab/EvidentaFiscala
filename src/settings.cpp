@@ -16,7 +16,7 @@ Settings::Settings(QObject *parent) : _settings(ORG_NAME, APP_NAME), QObject(par
     load();
 
     connect(this, &Settings::ledgerFilePathChanged, this, [this]() {
-	    SET_SETTING(ledgerFilePath);
+        SET_SETTING(ledgerFilePath);
     }, Qt::QueuedConnection);
 }
 
@@ -26,14 +26,14 @@ void Settings::load()
 
     setWorkingFolderPath(GET_SETTING(workingFolderPath).toString());
     if (_workingFolderPath.isEmpty()) {
-	setWorkingFolderPath(QStandardPaths::writableLocation(QStandardPaths::DocumentsLocation));
+        setWorkingFolderPath(QStandardPaths::writableLocation(QStandardPaths::DocumentsLocation));
     }
 
     setLedgerFilePath(GET_SETTING(ledgerFilePath).toString());
     if (_ledgerFilePath.isEmpty()) {
-	const auto ledgerFileName = QString("ledger_pfa_%1.csv").arg(QDate::currentDate().year());
-	QDir dir(_workingFolderPath);
-	setLedgerFilePath(dir.filePath(ledgerFileName));
+        const auto ledgerFileName = QString("ledger_pfa_%1.csv").arg(QDate::currentDate().year());
+        QDir dir(_workingFolderPath);
+        setLedgerFilePath(dir.filePath(ledgerFileName));
     }
 
     setInvoiceNumberStart(GET_SETTING(invoiceNumberStart).toInt());
@@ -42,8 +42,10 @@ void Settings::load()
     const QVariantList& variantList = _settings.value(XSTR(invisibleColumns)).toList();
     _invisibleColumns.clear();
     for (const QVariant& variant : variantList) {
-	_invisibleColumns.emplace(variant.toInt());
+        _invisibleColumns.emplace(variant.toInt());
     }
+
+    setUseBars(GET_SETTING(useBars).toBool());
 }
 
 void Settings::save()
@@ -55,7 +57,9 @@ void Settings::save()
 
     QVariantList variantList;
     for (int value : _invisibleColumns) {
-	variantList.append(value);
+        variantList.append(value);
     }
     _settings.setValue(XSTR(invisibleColumns), variantList);
+
+    SET_SETTING(useBars);
 }

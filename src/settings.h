@@ -21,6 +21,8 @@ public:
     QML_WRITABLE_PROPERTY(int, invoiceNumberStart, setInvoiceNumberStart, DEFAULT_INVOICE_NUMBER_START)
     QML_WRITABLE_PROPERTY(int, languageIndex, setLanguageIndex, DEFAULT_LANGUAGE_INDEX)
 
+    QML_WRITABLE_PROPERTY(bool, useBars, setUseBars, true)
+
 public:
     explicit Settings(QObject *parent = nullptr);
 
