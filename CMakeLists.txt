@@ -23,12 +23,12 @@ configure_file(${CMAKE_SOURCE_DIR}/src/config.h.cmake ${CMAKE_BINARY_DIR}/config
 find_package(Qt6 REQUIRED COMPONENTS
     Core
     Quick
-    Charts
+    Graphs
     LinguistTools)
 target_link_libraries(${PROJECT_NAME} PRIVATE
     Qt6::Core
     Qt6::Quick
-    Qt6::Charts)
+    Qt6::Graphs)
 
 # Set up the project with Qt standard configurations
 qt_standard_project_setup()

@@ -7,7 +7,6 @@
 #include <QTimer>
 #include <QDebug>
 #include <QCoreApplication>
-#include <QtCharts/QXYSeries>
 #include <QRegularExpression>
 #include <QTextDocument>
 #include <QTextDocumentWriter>
@@ -234,9 +233,11 @@ bool TableModel::parseRow(int rowIndex, QDateTime &key, qreal &income,
 		return false;
 	}
 
-	key = QDateTime::currentDateTime();
-	key.setDate(QDate(date.year(), date.month(), 15));//middle of the month
-	key.setTime({});
+    // generate key as the last day of the month
+    int lastDay = date.daysInMonth();
+    QDate lastDayOfMonth(date.year(), date.month(), lastDay);
+    key = QDateTime(lastDayOfMonth, QTime(0, 0, 0));
+
 	income = 0;
 	expense = 0;
 	for (int i = 0; i < 4; ++i) {
@@ -322,20 +323,12 @@ void TableModel::updateIncomeCourves(int rowIndex)
 
 void TableModel::updateXAxis(const QDateTime &val)
 {
-	if (_xAxisMin.isValid()) {
-		if (_xAxisMin > val) {
-			setXAxisMin(val);
-		}
-	} else {
-		setXAxisMin(val);
-	}
-	if (_xAxisMax.isValid()) {
-		if (_xAxisMax < val) {
-			setXAxisMax(val);
-		}
-	} else {
-		setXAxisMax(val);
-	}
+    if (!_xAxisMin.isValid() || _xAxisMin > val) {
+        setXAxisMin(val);
+    }
+    if (!_xAxisMax.isValid() || _xAxisMax < val) {
+        setXAxisMax(val);
+    }
 }
 
 void TableModel::updateYAxis(qreal amount)

@@ -1,139 +1,119 @@
 import QtQuick
-import QtCharts
+import QtGraphs
+import QtQuick.Controls
 import TableModel 1.0
 
-ChartView {
+GraphsView {
     antialiasing: true
-    theme: ChartView.ChartThemeDark
-    legend.alignment: Qt.AlignBottom
-    DateTimeAxis {
-        id: axisX
-        format: "MMM yyyy"
+    theme: GraphsTheme {
+        colorScheme: GraphsTheme.ColorScheme.Dark
+    }
+
+    axisX: DateTimeAxis {
+        labelFormat: "MMM yyyy"
         min: tableModel.xAxisMin
         max: tableModel.xAxisMax
-        tickCount: tableModel.xAxisTickCount
+        subTickCount: tableModel.xAxisTickCount
     }
-    ValueAxis {
-        id: axisY
+
+    axisY: ValueAxis {
         min: tableModel.yAxisMin
         max: tableModel.yAxisMax
         titleText: "RON"
     }
 
-    Text {
+    ToolTip {
         id: pointTooltip
-        color: Theme.accentColor
-        font {
-            bold: true
-            pixelSize: 12
-        }
         visible: false
-        function show(point, lineSeries) {
-            const closestPoint = findClosestPoint(point.x, lineSeries)
-            const actualPoint = closestPoint ? closestPoint : point
-            // set text
-            pointTooltip.text = actualPoint.y.toFixed(2)
-            pointTooltip.color = lineSeries.color
-            pointTooltip.visible = true
-            pointTooltip.x = mapToPosition(actualPoint).x + 10
-            pointTooltip.y = mapToPosition(actualPoint).y - 20
-            // set marker
-            pointMarker.x = mapToPosition(actualPoint).x - (pointMarker.width / 2)
-            pointMarker.y = mapToPosition(actualPoint).y - (pointMarker.height / 2)
-            pointMarker.color = lineSeries.color
-            pointMarker.visible = true
+        function show(position, value, lineSeries) {
+            // Find closest data point index
+            let minDist = Infinity;
+            let closestIndex = -1;
+
+            for (let i = 0; i < lineSeries.count; i++) {
+                const point = lineSeries.at(i);
+                const dx = point.x - value.x;
+                const dy = point.y - value.y;
+                const dist = Math.sqrt(dx*dx + dy*dy);
+
+                if (dist < minDist) {
+                    minDist = dist;
+                    closestIndex = i;
+                }
+            }
+            if (closestIndex !== -1) {
+                // set text
+                const closestPoint = lineSeries.at(closestIndex)
+                const date = new Date(closestPoint.x)
+                pointTooltip.text = closestPoint.y.toFixed(2) + "\n" + date.toLocaleDateString(Qt.locale(), axisX.labelFormat)
+                pointTooltip.x = position.x + 1
+                pointTooltip.y = position.y + 1
+                pointTooltip.visible = true
+                // set marker
+                markerSeries.clear()
+                markerSeries.append(closestPoint.x, closestPoint.y)
+                markerSeries.color = lineSeries.color
+            }
         }
         function hide() {
             pointTooltip.visible = false
-            pointMarker.visible = false
-        }
-
-        function findClosestPoint(mouseX, lineSeries) {
-            let minDist = Number.MAX_VALUE
-            let closestPoint = null
-            for (let i = 0; i < lineSeries.count; i++) {
-                const point = lineSeries.at(i)
-                const dist = Math.abs(point.x - mouseX)
-                if (dist < minDist) {
-                    minDist = dist
-                    closestPoint = point
-                }
-            }
-            return closestPoint
+            markerSeries.clear()
         }
     }
 
-    Rectangle {
-        id: pointMarker
-        z: 1
-        width: 10
-        height: width
-        radius: width / 2
-        visible: false
+    // Marker series (styled as a red circle)
+    ScatterSeries {
+        id: markerSeries
+        pointDelegate: Rectangle {
+            width: 12
+            height: width
+            radius: width / 2
+            color: markerSeries.color
+        }
     }
 
     LineSeries {
         id: grossIncomeLineSeries
         name: qsTr("Venit Brut")
         color: "#16c5f0"
-        axisX: axisX
-        axisY: axisY
-        style: Qt.DashDotLine
         width: 2
-        onHovered: function(point, state) {
-            if (state) {
-                pointTooltip.show(point, grossIncomeLineSeries)
-            } else {
-                pointTooltip.hide()
-            }
+        hoverable: true
+        onHover: (name, position, value) => {
+            pointTooltip.show(position, value, grossIncomeLineSeries)
         }
+        onHoverExit: pointTooltip.hide()
     }
     LineSeries {
         id: expenseLineSeries
         name: qsTr("Cheltuieli")
         color: "#b416e7"
-        axisX: axisX
-        axisY: axisY
-        style: Qt.SolidLine
         width: 2
-        onHovered: function(point, state) {
-            if (state) {
-                pointTooltip.show(point, expenseLineSeries)
-            } else {
-                pointTooltip.hide()
-            }
+        hoverable: true
+        onHover: (name, position, value) => {
+            pointTooltip.show(position, value, expenseLineSeries)
         }
+        onHoverExit: pointTooltip.hide()
     }
     LineSeries {
         id: netIncomeLineSeries
         name: qsTr("Venit Net")
         color: "#21f15e"
-        axisX: axisX
-        axisY: axisY
-        style: Qt.SolidLine
         width: 2
-        onHovered: function(point, state) {
-            if (state) {
-                pointTooltip.show(point, netIncomeLineSeries)
-            } else {
-                pointTooltip.hide()
-            }
+        hoverable: true
+        onHover: (name, position, value) => {
+            pointTooltip.show(position, value, netIncomeLineSeries)
         }
+        onHoverExit: pointTooltip.hide()
     }
     LineSeries {
         id: threshold
-        axisX: axisX
-        axisY: axisY
-        style: Qt.DashDotDotLine
         color: "lightgray"
         width: 1
-        onHovered: function(point, state) {
-            if (state) {
-                pointTooltip.show(point, threshold)
-            } else {
-                pointTooltip.hide()
-            }
+        hoverable: true
+        onHover: (name, position, value) => {
+            pointTooltip.show(position, value, threshold)
         }
+        onHoverExit: pointTooltip.hide()
     }
     Component.onCompleted: {
         tableModel.setChartSeries(TableModel.GROSS_INCOME_CURVE, grossIncomeLineSeries)
