@@ -70,7 +70,7 @@ void TableModel::init()
 		}
 	}
 	initInvoiceNumber();
-	initIncomeCourves();
+    initGraphLines();
 }
 
 QString TableModel::computeActualAmount(qreal amount, int currencyIndex, qreal rate)
@@ -180,7 +180,7 @@ bool TableModel::add(const QString &date, int typeIndex, qreal amount,
 				  QtCSV::Writer::WriteMode::APPEND);
 	if (rc) {
 		_readData.append(row);
-		updateIncomeCourves(_readData.size() - 1);
+        updateGraphLines(_readData.size() - 1);
 	}
 	return rc;
 }
@@ -288,7 +288,7 @@ void TableModel::sortRows()
 	}
 }
 
-void TableModel::initIncomeCourves()
+void TableModel::initGraphLines()
 {
 	QDateTime key;
 	qreal income{};
@@ -306,7 +306,7 @@ void TableModel::initIncomeCourves()
 	resetCurves();
 }
 
-void TableModel::updateIncomeCourves(int rowIndex)
+void TableModel::updateGraphLines(int rowIndex)
 {
 	QDateTime key;
 	qreal income{};

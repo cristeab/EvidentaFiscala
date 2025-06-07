@@ -76,8 +76,8 @@ private:
     bool parseRow(int rowIndex, QDateTime &key, qreal &income, qreal &expense);
     void sortRows();
 
-    void initIncomeCourves();
-    void updateIncomeCourves(int rowIndex);
+    void initGraphLines();
+    void updateGraphLines(int rowIndex);
 
     void updateXAxis(const QDateTime &val);
     void updateYAxis(qreal amount);
