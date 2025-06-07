@@ -25,7 +25,7 @@ GraphsView {
     ToolTip {
         id: pointTooltip
         visible: false
-        function show(position, value, lineSeries) {
+        function show(name, position, value, lineSeries) {
             // Find closest data point index
             let minDist = Infinity;
             let closestIndex = -1;
@@ -45,7 +45,7 @@ GraphsView {
                 // set text
                 const closestPoint = lineSeries.at(closestIndex)
                 const date = new Date(closestPoint.x)
-                pointTooltip.text = closestPoint.y.toFixed(2) + "\n" + date.toLocaleDateString(Qt.locale(), axisX.labelFormat)
+                pointTooltip.text = name + "\n" + closestPoint.y.toFixed(2) + "\n" + date.toLocaleDateString(Qt.locale(), axisX.labelFormat)
                 pointTooltip.x = position.x + 1
                 pointTooltip.y = position.y + 1
                 pointTooltip.visible = true
@@ -79,7 +79,7 @@ GraphsView {
         width: 2
         hoverable: true
         onHover: (name, position, value) => {
-            pointTooltip.show(position, value, grossIncomeLineSeries)
+            pointTooltip.show(name, position, value, grossIncomeLineSeries)
         }
         onHoverExit: pointTooltip.hide()
     }
@@ -90,7 +90,7 @@ GraphsView {
         width: 2
         hoverable: true
         onHover: (name, position, value) => {
-            pointTooltip.show(position, value, expenseLineSeries)
+            pointTooltip.show(name, position, value, expenseLineSeries)
         }
         onHoverExit: pointTooltip.hide()
     }
@@ -101,7 +101,7 @@ GraphsView {
         width: 2
         hoverable: true
         onHover: (name, position, value) => {
-            pointTooltip.show(position, value, netIncomeLineSeries)
+            pointTooltip.show(name, position, value, netIncomeLineSeries)
         }
         onHoverExit: pointTooltip.hide()
     }
@@ -111,7 +111,7 @@ GraphsView {
         width: 1
         hoverable: true
         onHover: (name, position, value) => {
-            pointTooltip.show(position, value, threshold)
+            pointTooltip.show(name, position, value, threshold)
         }
         onHoverExit: pointTooltip.hide()
     }
