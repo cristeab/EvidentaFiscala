@@ -91,8 +91,19 @@ ApplicationWindow {
         ContentView {
             id: tableTab
         }
-        IncomeViewWithLines {
-            id: chartTab
+        Loader {
+            property bool useBars: true
+            sourceComponent: useBars ? chartWithBarsTab : chartWithLinesTab
+            Component {
+                id: chartWithLinesTab
+                IncomeViewWithLines {
+                }
+            }
+            Component {
+                id: chartWithBarsTab
+                IncomeViewWithBars {
+                }
+            }
         }
     }
 
