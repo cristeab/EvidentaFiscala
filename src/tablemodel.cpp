@@ -323,20 +323,12 @@ void TableModel::updateIncomeCourves(int rowIndex)
 
 void TableModel::updateXAxis(const QDateTime &val)
 {
-	if (_xAxisMin.isValid()) {
-		if (_xAxisMin > val) {
-			setXAxisMin(val);
-		}
-	} else {
-		setXAxisMin(val);
-	}
-	if (_xAxisMax.isValid()) {
-		if (_xAxisMax < val) {
-			setXAxisMax(val);
-		}
-	} else {
-		setXAxisMax(val);
-	}
+    if (!_xAxisMin.isValid() || _xAxisMin > val) {
+        setXAxisMin(val);
+    }
+    if (!_xAxisMax.isValid() || _xAxisMax < val) {
+        setXAxisMax(val);
+    }
 }
 
 void TableModel::updateYAxis(qreal amount)

@@ -10,7 +10,6 @@ GraphsView {
     }
 
     axisX: DateTimeAxis {
-        id: axisX
         labelFormat: "MMM yyyy"
         min: tableModel.xAxisMin
         max: tableModel.xAxisMax
@@ -18,7 +17,6 @@ GraphsView {
     }
 
     axisY: ValueAxis {
-        id: axisY
         min: tableModel.yAxisMin
         max: tableModel.yAxisMax
         titleText: "RON"
