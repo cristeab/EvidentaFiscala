@@ -91,7 +91,7 @@ ApplicationWindow {
         ContentView {
             id: tableTab
         }
-        IncomeView {
+        IncomeViewWithLines {
             id: chartTab
         }
     }
