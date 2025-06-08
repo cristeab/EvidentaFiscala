@@ -65,7 +65,7 @@ Dialog {
                 LabelTextField {
                     id: venitMin
                     width: control.editWidth
-                    text: qsTr("Venitul Minim")
+                    text: qsTr("Venitul Brut Minim")
                     editText: settings.minIncome
                     onEditingFinished: settings.minIncome = parseFloat(editText)
                     validator: IntValidator { bottom: 0 }
