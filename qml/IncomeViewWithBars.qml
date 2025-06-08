@@ -50,6 +50,7 @@ GraphsView {
             color: "orange"
             values: tableModel.barNetIncome
         }
+        labelsVisible: false
         hoverable: true
         onHover: (name, position, value) => {
             pointTooltip.show(name, position, value)
