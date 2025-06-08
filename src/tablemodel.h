@@ -76,12 +76,16 @@ private:
     bool parseRow(int rowIndex, QDateTime &key, qreal &income, qreal &expense);
     void sortRows();
 
+    void initMonthlyData();
+    void updateMonthlyData(int rowIndex);
+
     void initGraphLines();
     void updateGraphLines(int rowIndex);
     void resetGraphLines();
 
     void initGraphBars();
     void updateGraphBars(int rowIndex);
+    void resetGraphBars();
 
     void updateXAxis(const QDateTime &val);
     void updateYAxis(qreal amount);
@@ -96,8 +100,8 @@ private:
     const QString _csvSeparator;
     std::array<QXYSeries*, CURVE_COUNT> _chartSeries;
     struct MonthlyData {
-	qreal income{};
-	qreal expense{};
+        qreal income{};
+        qreal expense{};
     };
     QMap<QDateTime, MonthlyData> _monthlyData;
     const QStringList _dateFormats;
