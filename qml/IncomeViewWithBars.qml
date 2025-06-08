@@ -16,6 +16,27 @@ GraphsView {
         min: tableModel.yAxisMin
         max: tableModel.yAxisMax
         labelFormat: "%.0f"
+        titleText: "RON"
+    }
+
+    ToolTip {
+        id: pointTooltip
+        visible: false
+        function show(name, position, value) {
+            const index = Math.round(value.x)
+            const revenue = tableModel.barRevenue[index];
+            const netIncome = tableModel.barNetIncome[index];
+            pointTooltip.text = qsTr("Venit Brut: %1\nVenit Net: %2\nCheltuieli: %3")
+            .arg(revenue)
+            .arg(netIncome)
+            .arg(revenue - netIncome)
+            pointTooltip.x = position.x + 80
+            pointTooltip.y = position.y + 20
+            pointTooltip.visible = true
+        }
+        function hide() {
+            pointTooltip.visible = false
+        }
     }
 
     BarSeries {
@@ -29,5 +50,10 @@ GraphsView {
             color: "orange"
             values: tableModel.barNetIncome
         }
+        hoverable: true
+        onHover: (name, position, value) => {
+            pointTooltip.show(name, position, value)
+        }
+        onHoverExit: pointTooltip.hide()
     }
 }
