@@ -14,7 +14,7 @@ GraphsView {
     }
     axisY: ValueAxis {
         min: tableModel.yAxisMin
-        max: tableModel.yAxisMax
+        max: 1.05 * tableModel.yAxisMax
         labelFormat: "%.0f"
         titleText: "RON"
     }
@@ -50,7 +50,9 @@ GraphsView {
             color: "orange"
             values: tableModel.barNetIncome
         }
-        labelsVisible: false
+        labelsVisible: true
+        labelsPrecision: 2
+        labelsPosition: BarSeries.LabelsPosition.OutsideEnd
         hoverable: true
         onHover: (name, position, value) => {
             pointTooltip.show(name, position, value)
