@@ -6,7 +6,7 @@ set -e # exit immeditalley on error
 
 QT_VER=6.9.1
 APP_NAME=FiscalRecords
-MAJOR_VERSION=1.1
+MAJOR_VERSION=1.2
 MINOR_VERSION=$(git rev-list --count HEAD)
 APP_VERSION="${MAJOR_VERSION}.${MINOR_VERSION}"
 
