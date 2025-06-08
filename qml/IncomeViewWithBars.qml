@@ -13,8 +13,8 @@ GraphsView {
         categories: tableModel.barMonths
     }
     axisY: ValueAxis {
-        min: 0
-        max: 100000
+        min: tableModel.yAxisMin
+        max: tableModel.yAxisMax
         labelFormat: "%.0f"
     }
 

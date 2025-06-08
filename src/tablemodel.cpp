@@ -364,7 +364,10 @@ void TableModel::resetGraphBars()
         // Use key and value
         _barMonths << QLocale().toString(key, "MMM yyyy");
         _barRevenue << value.income;
-        _barNetIncome << value.income - value.expense;
+        updateYAxis(value.income);
+        const auto netIncome = value.income - value.expense;
+        _barNetIncome << netIncome;
+        updateYAxis(netIncome);
     }
 
     emit barMonthsChanged();
