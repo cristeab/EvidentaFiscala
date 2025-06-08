@@ -32,6 +32,9 @@ TableModel::TableModel() : _tableHeader({tr("Data"),tr("Venituri prin Banca"), t
 	}
 
 	connect(_settings, &Settings::minIncomeChanged, this, &TableModel::resetMinIncome);
+    connect(_settings, &Settings::useBarsChanged, this, [this]() {
+        _settings->useBars() ? initGraphBars() : initGraphLines();
+    }, Qt::QueuedConnection);
 
 	QTimer::singleShot(0, this, &TableModel::init);
 }

@@ -24,10 +24,12 @@ Dialog {
         if (!venitMin.acceptableInput || !invoiceStartNum.acceptableInput) {
             settingsLoader.active = true
             settingsLoader.item.visible = true
+            return
         }
         tableModel.setInvisibleColumns(control.invisibleColumns)
         control.invisibleColumns = []
         settings.save()
+        settingsLoader.active = false
     }
     onRejected: {
         settingsLoader.active = false
@@ -62,13 +64,24 @@ Dialog {
                 anchors.fill: parent
                 anchors.margins: Theme.horizontalMargin
                 spacing: 2 * Theme.verticalMargin
-                LabelTextField {
-                    id: venitMin
-                    width: control.editWidth
-                    text: qsTr("Venitul Brut Minim")
-                    editText: settings.minIncome
-                    onEditingFinished: settings.minIncome = parseFloat(editText)
-                    validator: IntValidator { bottom: 0 }
+                Row {
+                    spacing: parent.width - venitMin.width - displayMode.width
+                    LabelTextField {
+                        id: venitMin
+                        width: control.editWidth
+                        text: qsTr("Venitul Brut Minim")
+                        editText: settings.minIncome
+                        onEditingFinished: settings.minIncome = parseFloat(editText)
+                        validator: IntValidator { bottom: 0 }
+                    }
+                    LabelComboBox {
+                        id: displayMode
+                        width: control.editWidth
+                        text: qsTr("Reprezentarea Grafica")
+                        model: ["Bare", "Linii"]
+                        currentIndex: settings.useBars ? 0 : 1
+                        onCurrentIndexChanged: settings.useBars = 0 === currentIndex
+                    }
                 }
                 LabelTextFieldBrowser {
                     width: control.selectFolderWidth
