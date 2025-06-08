@@ -32,6 +32,9 @@ TableModel::TableModel() : _tableHeader({tr("Data"),tr("Venituri prin Banca"), t
 	}
 
 	connect(_settings, &Settings::minIncomeChanged, this, &TableModel::resetMinIncome);
+    connect(_settings, &Settings::useBarsChanged, this, [this]() {
+        _settings->useBars() ? initGraphBars() : initGraphLines();
+    }, Qt::QueuedConnection);
 
 	QTimer::singleShot(0, this, &TableModel::init);
 }
@@ -70,7 +73,11 @@ void TableModel::init()
 		}
 	}
 	initInvoiceNumber();
-	initIncomeCourves();
+    if (_settings->useBars()) {
+        initGraphBars();
+    } else {
+        initGraphLines();
+    }
 }
 
 QString TableModel::computeActualAmount(qreal amount, int currencyIndex, qreal rate)
@@ -180,7 +187,11 @@ bool TableModel::add(const QString &date, int typeIndex, qreal amount,
 				  QtCSV::Writer::WriteMode::APPEND);
 	if (rc) {
 		_readData.append(row);
-		updateIncomeCourves(_readData.size() - 1);
+        if (_settings->useBars()) {
+            updateGraphBars(_readData.size() - 1);
+        } else {
+            updateGraphLines(_readData.size() - 1);
+        }
 	}
 	return rc;
 }
@@ -288,37 +299,83 @@ void TableModel::sortRows()
 	}
 }
 
-void TableModel::initIncomeCourves()
+void TableModel::initMonthlyData()
 {
-	QDateTime key;
-	qreal income{};
-	qreal expense{};
-	//skip header
-	_monthlyData.clear();
-	for (int i = 1; i < _readData.size(); ++i) {
-		if (parseRow(i, key, income, expense)) {
-			_monthlyData[key].income += income;
-			_monthlyData[key].expense += expense;
-			updateXAxis(key);
-		}
-	}
-	sortRows();
-	resetCurves();
+    QDateTime key;
+    qreal income{};
+    qreal expense{};
+    _monthlyData.clear();
+    for (int i = 1; i < _readData.size(); ++i) { //skip header
+        if (parseRow(i, key, income, expense)) {
+            _monthlyData[key].income += income;
+            _monthlyData[key].expense += expense;
+            updateXAxis(key);
+        }
+    }
 }
 
-void TableModel::updateIncomeCourves(int rowIndex)
+void TableModel::updateMonthlyData(int rowIndex)
 {
-	QDateTime key;
-	qreal income{};
-	qreal expense{};
-	if (!parseRow(rowIndex, key, income, expense)) {
-		return;
-	}
-	_monthlyData[key].income += income;
-	_monthlyData[key].expense += expense;
-	updateXAxis(key);
+    QDateTime key;
+    qreal income{};
+    qreal expense{};
+    if (!parseRow(rowIndex, key, income, expense)) {
+        return;
+    }
+    _monthlyData[key].income += income;
+    _monthlyData[key].expense += expense;
+    updateXAxis(key);
+}
+
+void TableModel::initGraphLines()
+{
+    initMonthlyData();
 	sortRows();
-	resetCurves();
+    resetGraphLines();
+}
+
+void TableModel::updateGraphLines(int rowIndex)
+{
+    updateMonthlyData(rowIndex);
+	sortRows();
+    resetGraphLines();
+}
+
+void TableModel::initGraphBars()
+{
+    initMonthlyData();
+    sortRows();
+    resetGraphBars();
+}
+
+void TableModel::updateGraphBars(int rowIndex)
+{
+    updateMonthlyData(rowIndex);
+    sortRows();
+    resetGraphBars();
+}
+
+void TableModel::resetGraphBars()
+{
+    _barMonths.clear();
+    _barRevenue.clear();
+    _barNetIncome.clear();
+
+    for (auto it = _monthlyData.cbegin(), end = _monthlyData.cend(); it != end; ++it) {
+        const QDateTime& key = it.key();
+        const MonthlyData& value = it.value();
+        // Use key and value
+        _barMonths << QLocale().toString(key, "MMM yyyy");
+        _barRevenue << value.income;
+        updateYAxis(value.income);
+        const auto netIncome = value.income - value.expense;
+        _barNetIncome << netIncome;
+        updateYAxis(netIncome);
+    }
+
+    emit barMonthsChanged();
+    emit barRevenueChanged();
+    emit barNetIncomeChanged();
 }
 
 void TableModel::updateXAxis(const QDateTime &val)
@@ -341,7 +398,7 @@ void TableModel::updateYAxis(qreal amount)
 	}
 }
 
-void TableModel::resetCurves()
+void TableModel::resetGraphLines()
 {
 	for (auto* s: _chartSeries) {
 		if (nullptr != s) {

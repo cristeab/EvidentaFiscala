@@ -22,12 +22,22 @@ Dialog {
     Component.onCompleted: control.visible = true
     onAccepted: {
         if (!venitMin.acceptableInput || !invoiceStartNum.acceptableInput) {
+            errMsg.show(qsTr("Setari invalide"), false)
             settingsLoader.active = true
             settingsLoader.item.visible = true
+            return
         }
+
+        settings.minIncome = parseFloat(venitMin.editText)
+        settings.useBars = 0 === displayMode.currentIndex
+        settings.workingFolderPath = workingFolder.editText
+        settings.invoiceNumberStart = parseInt(invoiceStartNum.editText)
+        settings.languageIndex = uiLanguage.currentIndex
+
         tableModel.setInvisibleColumns(control.invisibleColumns)
         control.invisibleColumns = []
         settings.save()
+        settingsLoader.active = false
     }
     onRejected: {
         settingsLoader.active = false
@@ -62,34 +72,42 @@ Dialog {
                 anchors.fill: parent
                 anchors.margins: Theme.horizontalMargin
                 spacing: 2 * Theme.verticalMargin
-                LabelTextField {
-                    id: venitMin
-                    width: control.editWidth
-                    text: qsTr("Venitul Minim")
-                    editText: settings.minIncome
-                    onEditingFinished: settings.minIncome = parseFloat(editText)
-                    validator: IntValidator { bottom: 0 }
+                Row {
+                    spacing: parent.width - venitMin.width - displayMode.width
+                    LabelTextField {
+                        id: venitMin
+                        width: control.editWidth
+                        text: qsTr("Venitul Brut Minim")
+                        editText: settings.minIncome
+                        validator: IntValidator { bottom: 0 }
+                    }
+                    LabelComboBox {
+                        id: displayMode
+                        width: control.editWidth
+                        text: qsTr("Reprezentarea Grafica")
+                        model: ["Bare", "Linii"]
+                        currentIndex: settings.useBars ? 0 : 1
+                    }
                 }
                 LabelTextFieldBrowser {
+                    id: workingFolder
                     width: control.selectFolderWidth
                     text: qsTr("Directorul de Lucru")
                     editText: settings.workingFolderPath
-                    onEditTextChanged: settings.workingFolderPath = editText
                 }
                 LabelTextField {
                     id: invoiceStartNum
                     width: control.editWidth
                     text: qsTr("Numarul de Start pentru Chitante")
                     editText: settings.invoiceNumberStart
-                    onEditingFinished: settings.invoiceNumberStart = parseInt(editText)
                     validator: IntValidator { bottom: 1 }
                 }
                 LabelComboBox {
+                    id: uiLanguage
                     width: control.editWidth
                     text: qsTr("Limba Interfetei")
                     model: ["RO", "EN", "FR"]
                     currentIndex: settings.languageIndex
-                    onCurrentIndexChanged: settings.languageIndex = currentIndex
                 }
             }
         } // general settings tab

@@ -22,6 +22,10 @@ class TableModel : public QAbstractTableModel
     QML_READABLE_PROPERTY(qreal, yAxisMax, setYAxisMax, 1)
     QML_CONSTANT_PROPERTY_PTR(Settings, settings)
 
+    QML_READABLE_PROPERTY(QStringList, barMonths, setBarMonths, {})
+    QML_READABLE_PROPERTY(QVariantList, barRevenue, setBarRevenue, {})
+    QML_READABLE_PROPERTY(QVariantList, barNetIncome, setBarNetIncome, {})
+
 public:
     enum CourveType { GROSS_INCOME_CURVE = 0,
 		      EXPENSE_CURVE,
@@ -71,11 +75,21 @@ private:
     void initInvoiceNumber();
     bool parseRow(int rowIndex, QDateTime &key, qreal &income, qreal &expense);
     void sortRows();
-    void initIncomeCourves();
-    void updateIncomeCourves(int rowIndex);
+
+    void initMonthlyData();
+    void updateMonthlyData(int rowIndex);
+
+    void initGraphLines();
+    void updateGraphLines(int rowIndex);
+    void resetGraphLines();
+
+    void initGraphBars();
+    void updateGraphBars(int rowIndex);
+    void resetGraphBars();
+
     void updateXAxis(const QDateTime &val);
     void updateYAxis(qreal amount);
-    void resetCurves();
+
     static bool ensureLastCharIsNewLine(const QString& filePath);
     void resetMinIncome();
     void updateTypeModel();
@@ -86,8 +100,8 @@ private:
     const QString _csvSeparator;
     std::array<QXYSeries*, CURVE_COUNT> _chartSeries;
     struct MonthlyData {
-	qreal income{};
-	qreal expense{};
+        qreal income{};
+        qreal expense{};
     };
     QMap<QDateTime, MonthlyData> _monthlyData;
     const QStringList _dateFormats;
