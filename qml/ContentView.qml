@@ -1,6 +1,7 @@
 import QtQuick
 import QtQuick.Controls
 import QtQuick.Layouts
+import TableModel 1.0
 
 Item {
     id: control
@@ -159,25 +160,25 @@ Item {
             }
             let columnWidth = 0
             switch (column) {
-            case Theme.dateColumn:
+            case TableModel.DATE_INDEX:
                 columnWidth = Theme.minimumColumnWidth
                 break
-            case Theme.bankIncomeColumn:
+            case TableModel.BANK_INCOME_INDEX:
                 columnWidth = 1.6 * Theme.minimumColumnWidth
                 break
-            case Theme.cashIncomeColumn:
+            case TableModel.CASH_INCOME_INDEX:
                 columnWidth = 1.6 * Theme.minimumColumnWidth
                 break
-            case Theme.bankExpensesColumn:
+            case TableModel.BANK_EXPENSES_INDEX:
                 columnWidth = 1.6 * Theme.minimumColumnWidth
                 break
-            case Theme.cashExpensesColumn:
+            case TableModel.CASH_EXPENSES_INDEX:
                 columnWidth = 1.6 * Theme.minimumColumnWidth
                 break
-            case Theme.invoiceNumberColumn:
+            case TableModel.INVOICE_NUMBER_INDEX:
                 columnWidth = 1.25 * Theme.minimumColumnWidth
                 break
-            case Theme.commentsColumn:
+            case TableModel.COMMENTS_INDEX:
                 columnWidth = tableView.width
                 for (let c = 0; c < (tableView.columns - 1); c += 1) {
                     columnWidth -= tableView.customColumnWidth(c)

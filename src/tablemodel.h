@@ -33,6 +33,19 @@ public:
 		      THRESHOLD_CURVE,
 		      CURVE_COUNT };
     Q_ENUM(CourveType)
+
+    enum ColumnIndex {
+        DATE_INDEX = 0,
+        BANK_INCOME_INDEX,
+        CASH_INCOME_INDEX,
+        BANK_EXPENSES_INDEX,
+        CASH_EXPENSES_INDEX,
+        INVOICE_NUMBER_INDEX,
+        COMMENTS_INDEX,
+        COLUMN_COUNT
+    };
+    Q_ENUM(ColumnIndex)
+
     TableModel();
     int rowCount(const QModelIndex & = QModelIndex()) const override {
         return _readData.size();

@@ -17,20 +17,13 @@
 
 const QLocale TableModel::_locale;
 
-static constexpr int DATE_INDEX = 0;
-static constexpr int BANK_INCOME_INDEX = 1;
-static constexpr int CASH_INCOME_INDEX = 2;
-static constexpr int BANK_EXPENSES_INDEX = 3;
-static constexpr int CASH_EXPENSES_INDEX = 4;
-static constexpr int INVOICE_NUMBER_INDEX = 5;
-static constexpr int COMMENTS_INDEX = 6;
-
 static constexpr int RO_CURRENCY_INDEX = 0;
 
-static constexpr int TRANSACTION_START_INDEX = BANK_INCOME_INDEX;
+static constexpr int TRANSACTION_START_INDEX = TableModel::ColumnIndex::BANK_INCOME_INDEX;
 static constexpr int TRANSACTION_ARRAY_LENGTH = 4;
 
-static constexpr int INCOME_INDICES[]{BANK_INCOME_INDEX, CASH_INCOME_INDEX};
+static constexpr int INCOME_INDICES[]{TableModel::ColumnIndex::BANK_INCOME_INDEX,
+                                      TableModel::ColumnIndex::CASH_INCOME_INDEX};
 
 TableModel::TableModel() : _tableHeader({tr("Data"), tr("Venituri prin Banca"), tr("Venituri Lichide"),
 			 tr("Cheltuieli prin Banca"), tr("Cheltuieli Lichide"),
@@ -76,7 +69,7 @@ void TableModel::init()
 	if (!_readData.isEmpty()) {
 		//check column names
         const auto& actTableHeader = _readData.at(0);
-		for (int i = 0; i < _tableHeader.size(); ++i) {
+        for (int i = 0; i < COLUMN_COUNT; ++i) {
 			if (_tableHeader.at(i) != actTableHeader.at(i)) {
 				emit error(tr("Fisierul CSV nu are coloanele asteptate"), true);
                 _readData.clear();
@@ -85,9 +78,9 @@ void TableModel::init()
 		}
         // check that all rows have the same number of columns
         for (int i = 0; i < _readData.size(); ++i) {
-            if (_readData.at(i).size() != _tableHeader.size()) {
+            if (_readData.at(i).size() != COLUMN_COUNT) {
                 emit error(tr("Fisierul CSV are randul %1 cu un numar de coloane, %2, diferit de cel asteptat, %3")
-                               .arg(i).arg(_readData.at(i).size()).arg(_tableHeader.size()), true);
+                               .arg(i).arg(_readData.at(i).size()).arg(COLUMN_COUNT), true);
                 _readData.clear();
                 return;
             }
@@ -166,7 +159,7 @@ QHash<int, QByteArray> TableModel::roleNames() const
 bool TableModel::add(const QString &date, int typeIndex, qreal amount,
 		     int currencyIndex, qreal rate, const QString &obs)
 {
-    QStringList row(_tableHeader.size());
+    QStringList row(COLUMN_COUNT);
     row[DATE_INDEX] = date;
     for (int i = TRANSACTION_START_INDEX; i <= TRANSACTION_ARRAY_LENGTH; ++i) {
         if (_typeModel.at(typeIndex) == _tableHeader.at(i)) {
@@ -546,7 +539,7 @@ void TableModel::updateTypeModel()
 
 	// update combobox
 	_typeModel.clear();
-	for (int i = 1; i < (_tableHeader.size() - 2); ++i) {
+    for (int i = 1; i < (COLUMN_COUNT - 2); ++i) {
 		if (isColumnVisible(i)) {
 			_typeModel.append(_tableHeader.at(i));
 		}
