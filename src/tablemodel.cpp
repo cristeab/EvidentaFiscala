@@ -17,7 +17,7 @@
 
 const QLocale TableModel::_locale;
 
-TableModel::TableModel() : _tableHeader({tr("Data"),tr("Venituri prin Banca"), tr("Venituri Lichide"),
+TableModel::TableModel() : _tableHeader({tr("Data"), tr("Venituri prin Banca"), tr("Venituri Lichide"),
 			 tr("Cheltuieli prin Banca"), tr("Cheltuieli Lichide"),
 			 tr("Numar Factura"), tr("Observatii")}),
 	  _currencyModel({"RON", "USD", "EUR"}),
@@ -59,18 +59,24 @@ void TableModel::init()
 	}
 	_readData = QtCSV::Reader::readToList(ledgerFilePath, _csvSeparator);
 	if (!_readData.isEmpty()) {
-		const auto& actTableHeader = _readData.at(0);
-		if (actTableHeader.size() != _tableHeader.size()) {
-			emit error(tr("Fisierul CSV are un numar de coloane diferit de cel asteptat"), true);
-			return;
-		}
 		//check column names
+        const auto& actTableHeader = _readData.at(0);
 		for (int i = 0; i < _tableHeader.size(); ++i) {
 			if (_tableHeader.at(i) != actTableHeader.at(i)) {
 				emit error(tr("Fisierul CSV nu are coloanele asteptate"), true);
+                _readData.clear();
 				return;
 			}
 		}
+        // check that all rows have the same number of columns
+        for (int i = 0; i < _readData.size(); ++i) {
+            if (_readData.at(i).size() != _tableHeader.size()) {
+                emit error(tr("Fisierul CSV are randul %1 cu un numar de coloane, %2, diferit de cel asteptat, %3")
+                               .arg(i).arg(_readData.at(i).size()).arg(_tableHeader.size()), true);
+                _readData.clear();
+                return;
+            }
+        }
 	}
 	initInvoiceNumber();
     if (_settings->useBars()) {
