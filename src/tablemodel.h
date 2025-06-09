@@ -67,7 +67,7 @@ private:
         BankExpenses,
         CashExpenses,
         InvoiceNumber,
-        Observations
+        Comments
     };
     void init();
     QString computeActualAmount(qreal amount, int currencyIndex, qreal rate);
@@ -93,6 +93,8 @@ private:
     static bool ensureLastCharIsNewLine(const QString& filePath);
     void resetMinIncome();
     void updateTypeModel();
+
+    bool isIncome(int typeIndex) const;
 
     const static QLocale _locale;
     uint32_t _invoiceNumber{};

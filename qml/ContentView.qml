@@ -177,7 +177,7 @@ Item {
             case Theme.invoiceNumberColumn:
                 columnWidth = 1.25 * Theme.minimumColumnWidth
                 break
-            case Theme.observationsColumn:
+            case Theme.commentsColumn:
                 columnWidth = tableView.width
                 for (let c = 0; c < (tableView.columns - 1); c += 1) {
                     columnWidth -= tableView.customColumnWidth(c)
@@ -206,7 +206,7 @@ Item {
             spacing: 0
             Repeater {
                 model: [date, bankIncome, cashIncome,
-                    bankExpenses, cashExpenses, invoiceNumber, observations]
+                    bankExpenses, cashExpenses, invoiceNumber, comments]
                 delegate: Label {
                     id: rowLabel
                     Layout.preferredWidth: tableView.customColumnWidth(index)

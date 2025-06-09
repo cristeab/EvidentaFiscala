@@ -17,11 +17,26 @@
 
 const QLocale TableModel::_locale;
 
+static constexpr int DATE_INDEX = 0;
+static constexpr int BANK_INCOME_INDEX = 1;
+static constexpr int CASH_INCOME_INDEX = 2;
+static constexpr int BANK_EXPENSES_INDEX = 3;
+static constexpr int CASH_EXPENSES_INDEX = 4;
+static constexpr int INVOICE_NUMBER_INDEX = 5;
+static constexpr int COMMENTS_INDEX = 6;
+
+static constexpr int RO_CURRENCY_INDEX = 0;
+
+static constexpr int TRANSACTION_START_INDEX = BANK_INCOME_INDEX;
+static constexpr int TRANSACTION_ARRAY_LENGTH = 4;
+
+static constexpr int INCOME_INDICES[]{BANK_INCOME_INDEX, CASH_INCOME_INDEX};
+
 TableModel::TableModel() : _tableHeader({tr("Data"), tr("Venituri prin Banca"), tr("Venituri Lichide"),
 			 tr("Cheltuieli prin Banca"), tr("Cheltuieli Lichide"),
 			 tr("Numar Factura"), tr("Observatii")}),
 	  _currencyModel({"RON", "USD", "EUR"}),
-	  _typeModel(_tableHeader.mid(1, 4)),
+      _typeModel(_tableHeader.mid(TRANSACTION_START_INDEX, TRANSACTION_ARRAY_LENGTH)),
 	  _csvSeparator(";"),
 	  _dateFormats({"dd/MM/yyyy", "dd.MM.yyyy"})
 {
@@ -110,25 +125,25 @@ QVariant TableModel::data(const QModelIndex &index, int role) const
 	int col = -1;
 	switch (role) {
 	case TableModel::Date:
-		col = 0;
+        col = DATE_INDEX;
 		break;
 	case TableModel::BankIncome:
-		col = 1;
+        col = BANK_INCOME_INDEX;
 		break;
 	case TableModel::CashIncome:
-		col = 2;
+        col = CASH_INCOME_INDEX;
 		break;
 	case TableModel::BankExpenses:
-		col = 3;
+        col = BANK_EXPENSES_INDEX;
 		break;
 	case TableModel::CashExpenses:
-		col = 4;
+        col = CASH_EXPENSES_INDEX;
 		break;
 	case TableModel::InvoiceNumber:
-		col = 5;
+        col = INVOICE_NUMBER_INDEX;
 		break;
-	case TableModel::Observations:
-		col = 6;
+    case TableModel::Comments:
+        col = COMMENTS_INDEX;
 		break;
 	default:
 		qCritical() << "Unknown role";
@@ -145,42 +160,40 @@ QHash<int, QByteArray> TableModel::roleNames() const
 		 { TableModel::BankExpenses, "bankExpenses" },
 		 { TableModel::CashExpenses, "cashExpenses" },
 		 { TableModel::InvoiceNumber, "invoiceNumber" },
-		 { TableModel::Observations, "observations" } };
+         { TableModel::Comments, "comments" } };
 }
 
 bool TableModel::add(const QString &date, int typeIndex, qreal amount,
 		     int currencyIndex, qreal rate, const QString &obs)
 {
-	QStringList row;
-	row << date;
-	for (int i = 0; i < _typeModel.size(); ++i) {
-		if (typeIndex == i) {
-			row << computeActualAmount(amount, currencyIndex, rate);
-		} else {
-			row << "";
+    QStringList row(_tableHeader.size());
+    row[DATE_INDEX] = date;
+    for (int i = TRANSACTION_START_INDEX; i <= TRANSACTION_ARRAY_LENGTH; ++i) {
+        if (_typeModel.at(typeIndex) == _tableHeader.at(i)) {
+            row[i] = computeActualAmount(amount, currencyIndex, rate);
+            break;
 		}
 	}
 	//generate invoice number only for income
-	if ((0 == typeIndex) || (1 == typeIndex)) {
-		if (0 != currencyIndex) {
+    if (isIncome(typeIndex)) {
+        if (RO_CURRENCY_INDEX != currencyIndex) {
 			//2 invoice numbers (ro and en)
-			row << QString("%1, %2").arg(_invoiceNumber + 1).arg(_invoiceNumber + 2);
+            row[INVOICE_NUMBER_INDEX] = QString("%1, %2").arg(_invoiceNumber + 1).arg(_invoiceNumber + 2);
 			_invoiceNumber += 2;
 		} else {
 			//1 invoice number
-			row << QString("%1").arg(_invoiceNumber + 1);
+            row[INVOICE_NUMBER_INDEX] = QString("%1").arg(_invoiceNumber + 1);
 			_invoiceNumber += 1;
 		}
-	} else {
-		row << "";
 	}
-	//observations
+    //comments
 	QString obsSuffix;
-	if (0 != currencyIndex) {
+    if (RO_CURRENCY_INDEX != currencyIndex) {
 		obsSuffix = QString(" (%1 %2 @ 1 %2 = %3 %4)").arg(amount).arg(_currencyModel.at(currencyIndex),
 									       toString(rate), _currencyModel.at(0));
 	}
-	row << obs + obsSuffix;
+    row[COMMENTS_INDEX] = obs + obsSuffix;
+
 	QtCSV::StringData strData;
 	strData.addRow(row);
 
@@ -559,4 +572,11 @@ void TableModel::setInvisibleColumns(const QList<int> &indexList)
 	}
 
 	updateTypeModel();
+}
+
+bool TableModel::isIncome(int typeIndex) const
+{
+    const auto& transactionName = _typeModel.at(typeIndex);
+    return std::any_of(std::begin(INCOME_INDICES), std::end(INCOME_INDICES),
+                       [&](int idx) { return transactionName == _tableHeader.at(idx); });
 }
