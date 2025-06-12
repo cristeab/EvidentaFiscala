@@ -35,9 +35,11 @@ qt_standard_project_setup()
 
 # platform specific code
 if(APPLE)
-    include(cmake/macos.cmake)
+  include(cmake/macos.cmake)
 elseif(WIN32)
-    include(cmake/windows.cmake)
+  include(cmake/windows.cmake)
+else()
+  include(cmake/linux.cmake)
 endif()
 
 include(ExternalProject)
