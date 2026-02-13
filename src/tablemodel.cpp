@@ -35,9 +35,7 @@ TableModel::TableModel() : _tableHeader({tr("Data"), tr("Venituri prin Banca"), 
 {
 	setObjectName("tableModel");
 
-	for (int i = 0; i < CURVE_COUNT; ++i) {
-		_chartSeries[i] = nullptr;
-	}
+    _chartSeries.fill(nullptr);
 
 	connect(_settings, &Settings::minIncomeChanged, this, &TableModel::resetMinIncome);
     connect(_settings, &Settings::useBarsChanged, this, [this]() {
@@ -68,22 +66,21 @@ void TableModel::init()
 	_readData = QtCSV::Reader::readToList(ledgerFilePath, _csvSeparator);
 	if (!_readData.isEmpty()) {
 		//check column names
-        const auto& actTableHeader = _readData.at(0);
-        for (int i = 0; i < COLUMN_COUNT; ++i) {
-			if (_tableHeader.at(i) != actTableHeader.at(i)) {
-				emit error(tr("Fisierul CSV nu are coloanele asteptate"), true);
-                _readData.clear();
-				return;
-			}
-		}
+        if (!std::ranges::equal(_tableHeader, _readData.at(0))) {
+            emit error(tr("Fisierul CSV nu are coloanele asteptate"), true);
+            _readData.clear();
+            return;
+        }
+
         // check that all rows have the same number of columns
-        for (int i = 0; i < _readData.size(); ++i) {
-            if (_readData.at(i).size() != COLUMN_COUNT) {
-                emit error(tr("Fisierul CSV are randul %1 cu un numar de coloane, %2, diferit de cel asteptat, %3")
-                               .arg(i).arg(_readData.at(i).size()).arg(COLUMN_COUNT), true);
-                _readData.clear();
-                return;
-            }
+        auto const invalidColumnCount = std::ranges::any_of(_readData, [](auto const& row){
+            return row.size() != COLUMN_COUNT;
+        });
+        if (invalidColumnCount) {
+            emit error(tr("Fisierul CSV are un numar de coloane diferit de cel asteptat, %1")
+                           .arg(COLUMN_COUNT), true);
+            _readData.clear();
+            return;
         }
 	}
 	initInvoiceNumber();
@@ -211,20 +208,17 @@ bool TableModel::add(const QString &date, int typeIndex, qreal amount,
 void TableModel::initInvoiceNumber()
 {
     _invoiceNumber = 0;
-	for (const auto &row: std::as_const(_readData)) {
-		const int rowLen = row.size();
-		if (2 < rowLen) {
-			const QString invNo = row.at(rowLen-2);
-			const auto tok = invNo.split(",");
-			bool ok = false;
-			for (int n = 0; n < tok.size(); ++n) {
-				const uint32_t curInvNo = tok.at(n).toUInt(&ok);
-				if (ok && curInvNo > _invoiceNumber) {
-					_invoiceNumber = curInvNo;
-				}
-			}
-		}
-	}
+    std::ranges::for_each(_readData, [this](auto const& row) {
+        if (const int rowLen = row.size(); 2 < rowLen) {
+            QString const& invNo = row.at(rowLen-2);
+            std::ranges::for_each(invNo.split(","), [this](auto const& tok) {
+                bool ok = false;
+                if (const uint32_t curInvNo = tok.toUInt(&ok); ok) {
+                    _invoiceNumber = std::max(_invoiceNumber, curInvNo);
+                }
+            });
+        }
+    });
 }
 
 void TableModel::setChartSeries(int index, QAbstractSeries *series)
