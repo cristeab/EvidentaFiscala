@@ -232,23 +232,21 @@ bool TableModel::parseRow(int rowIndex, QDateTime &key, qreal &income,
 			  qreal &expense)
 {
 	const auto &row = _readData.at(rowIndex);
-	QDate date;
-	for (int i = 0; i < _dateFormats.size(); ++i) {
-		date = QDate::fromString(row.at(0), _dateFormats.at(i));
-		if (date.isValid()) {
-			if (0 < i) {
-				//update date to match default format
-				QStringList newRow(row);
-				newRow.replace(0, date.toString(_dateFormats.at(0)));
-				_readData.replace(rowIndex, newRow);
-			}
-			break;
-		}
-	}
-	if (!date.isValid()) {
-		qWarning() << "Invalid date, skipping row" << row;
-		return false;
-	}
+    QDate date;
+    auto it = std::ranges::find_if(_dateFormats, [&row, &date, this](auto const& dataFormat) {
+        date = QDate::fromString(row.at(0), dataFormat);
+        return date.isValid();
+    });
+    if (_dateFormats.end() == it) {
+        qWarning() << "Invalid date, skipping row" << row;
+        return false;
+    }
+    if (_dateFormats.begin() != it) {
+        //update date to match default format
+        QStringList newRow(row);
+        newRow.replace(0, date.toString(_dateFormats.at(0)));
+        _readData.replace(rowIndex, newRow);
+    }
 
     // generate key as the last day of the month
     int lastDay = date.daysInMonth();
