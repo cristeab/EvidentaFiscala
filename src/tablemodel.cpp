@@ -365,14 +365,11 @@ void TableModel::resetGraphBars()
     _barRevenue.clear();
     _barNetIncome.clear();
 
-    for (auto it = _monthlyData.cbegin(), end = _monthlyData.cend(); it != end; ++it) {
-        const QDateTime& key = it.key();
-        const MonthlyData& value = it.value();
-        // Use key and value
-        _barMonths << QLocale().toString(key, "MMM yyyy");
-        _barRevenue << value.income;
-        updateYAxis(value.income);
-        const auto netIncome = value.income - value.expense;
+    for (auto const& [date, monthlyData]: _monthlyData.asKeyValueRange()) {
+        _barMonths << QLocale().toString(date, "MMM yyyy");
+        _barRevenue << monthlyData.income;
+        updateYAxis(monthlyData.income);
+        const auto netIncome = monthlyData.income - monthlyData.expense;
         _barNetIncome << netIncome;
         updateYAxis(netIncome);
     }
@@ -404,11 +401,10 @@ void TableModel::updateYAxis(qreal amount)
 
 void TableModel::resetGraphLines()
 {
-	for (auto* s: _chartSeries) {
-		if (nullptr != s) {
-			s->clear();
-		}
-	}
+    std::ranges::for_each(_chartSeries, [](auto* elem) {
+        if (elem) elem->clear();
+    });
+
 	if (!_monthlyData.isEmpty()) {
 		auto appendToCurve = [&](int curveIndex, qint64 timeVal, qreal amount) {
 			if (nullptr != _chartSeries[curveIndex]) {
