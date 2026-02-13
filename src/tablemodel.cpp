@@ -405,27 +405,28 @@ void TableModel::resetGraphLines()
         if (elem) elem->clear();
     });
 
-	if (!_monthlyData.isEmpty()) {
-		auto appendToCurve = [&](int curveIndex, qint64 timeVal, qreal amount) {
-			if (nullptr != _chartSeries[curveIndex]) {
-				_chartSeries[curveIndex]->append(static_cast<qreal>(timeVal),
-								 static_cast<qreal>(amount));
-				updateYAxis(amount);
-			}
-		};
-		QMapIterator<QDateTime,MonthlyData> i(_monthlyData);
-		while (i.hasNext()) {
-			i.next();
-			const qint64 timeVal = i.key().toMSecsSinceEpoch();
-			const MonthlyData &monthlyData = i.value();
-			appendToCurve(GROSS_INCOME_CURVE, timeVal, monthlyData.income);
-			appendToCurve(EXPENSE_CURVE, timeVal, monthlyData.expense);
-			appendToCurve(NET_INCOME_CURVE, timeVal,
-				      monthlyData.income - monthlyData.expense);
-		}
-		setXAxisTickCount(_monthlyData.size());
-		resetMinIncome();
-	}
+    if (_monthlyData.isEmpty()) {
+        return;
+    }
+
+    auto appendToCurve = [&](int curveIndex, qint64 timeVal, qreal amount) {
+        if (nullptr != _chartSeries[curveIndex]) {
+            _chartSeries[curveIndex]->append(static_cast<qreal>(timeVal),
+                                             static_cast<qreal>(amount));
+            updateYAxis(amount);
+        }
+    };
+
+    for (auto const& [date, monthlyData]: _monthlyData.asKeyValueRange()) {
+        const qint64 timeVal = date.toMSecsSinceEpoch();
+        appendToCurve(GROSS_INCOME_CURVE, timeVal, monthlyData.income);
+        appendToCurve(EXPENSE_CURVE, timeVal, monthlyData.expense);
+        appendToCurve(NET_INCOME_CURVE, timeVal,
+                      monthlyData.income - monthlyData.expense);
+    }
+
+    setXAxisTickCount(_monthlyData.size());
+    resetMinIncome();
 }
 
 bool TableModel::ensureLastCharIsNewLine(const QString& filePath)
@@ -463,15 +464,16 @@ void TableModel::generateRegistry()
 	if (_monthlyData.isEmpty()) {
 		return;
 	}
-	qreal totalIncome = 0;
-	qreal totalExpense = 0;
-	for (const auto &item: std::as_const(_monthlyData)) {
-		totalIncome += item.income;
-		totalExpense += item.expense;
-	}
-	qInfo() << "Gross income" << totalIncome;
-	qInfo() << "Expenses" << totalExpense;
-	qInfo() << "Net income" << totalIncome - totalExpense;
+
+    auto const total = std::ranges::fold_left(_monthlyData, MonthlyData{},
+                    [](auto const& left, auto const& right) {
+        return MonthlyData{.income = left.income + right.income,
+                           .expense = left.expense + right.expense};
+    });
+
+    qInfo() << "Gross income" << total.income;
+    qInfo() << "Expenses" << total.expense;
+    qInfo() << "Net income" << total.income - total.expense;
 
 	//generate HTML document
 	const QString year = _monthlyData.keyBegin()->toString("yyyy");
@@ -481,8 +483,8 @@ void TableModel::generateRegistry()
 	content += "<br>";
 	content += "<table>";
 	content += "<tr><th>" + tr("Nr. crt.") + "</th><th>" + tr("Elemente de calcul pentru stabilirea venitului net anual/pierderii nete anuale") + "</th><th>" + tr("Valoare") + "<br>- " + tr("lei") + " -</th></tr>";
-	content += "<tr><td align=\"center\">1</td><td>&nbsp;" + tr("Venit brut") + "</td><td align=\"center\">" + toString(totalIncome) + "</td></tr>";
-	content += "<tr><td align=\"center\">2</td><td>&nbsp;" + tr("Cheltuieli") + "</td><td align=\"center\">" + toString(totalExpense) + "</td></tr>";
+    content += "<tr><td align=\"center\">1</td><td>&nbsp;" + tr("Venit brut") + "</td><td align=\"center\">" + toString(total.income) + "</td></tr>";
+    content += "<tr><td align=\"center\">2</td><td>&nbsp;" + tr("Cheltuieli") + "</td><td align=\"center\">" + toString(total.expense) + "</td></tr>";
 	content += "</table>";
 	QTextDocument doc;
 	doc.setMetaInformation(QTextDocument::DocumentTitle, tr("Registru de Evidenta Fiscala"));
@@ -558,6 +560,6 @@ void TableModel::setInvisibleColumns(const QList<int> &indexList)
 bool TableModel::isIncome(int typeIndex) const
 {
     const auto& transactionName = _typeModel.at(typeIndex);
-    return std::any_of(std::begin(INCOME_INDICES), std::end(INCOME_INDICES),
+    return std::ranges::any_of(INCOME_INDICES,
                        [&](int idx) { return transactionName == _tableHeader.at(idx); });
 }
