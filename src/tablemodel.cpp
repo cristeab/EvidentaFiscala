@@ -109,7 +109,7 @@ QVariant TableModel::data(const QModelIndex &index, int role) const
 {
 	const int row = index.row();
 	if ((0 > row) || (row >= _readData.size())) {
-		return "";
+        return {};
 	}
 	const QStringList rowData = _readData.at(row);
 	int col = -1;
