@@ -23,8 +23,8 @@ class TableModel : public QAbstractTableModel
     QML_CONSTANT_PROPERTY_PTR(Settings, settings)
 
     QML_READABLE_PROPERTY(QStringList, barMonths, setBarMonths, {})
-    QML_READABLE_PROPERTY(QVariantList, barRevenue, setBarRevenue, {})
-    QML_READABLE_PROPERTY(QVariantList, barNetIncome, setBarNetIncome, {})
+    QML_READABLE_PROPERTY(QList<qreal>, barRevenue, setBarRevenue, {})
+    QML_READABLE_PROPERTY(QList<qreal>, barNetIncome, setBarNetIncome, {})
 
 public:
     enum CourveType { GROSS_INCOME_CURVE = 0,
