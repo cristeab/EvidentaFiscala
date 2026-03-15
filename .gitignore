@@ -78,3 +78,5 @@ build/
 Components.plist
 
 distribution.xml
+
+.qtcreator/

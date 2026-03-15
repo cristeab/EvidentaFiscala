@@ -28,10 +28,10 @@ class TableModel : public QAbstractTableModel
 
 public:
     enum CourveType { GROSS_INCOME_CURVE = 0,
-		      EXPENSE_CURVE,
-		      NET_INCOME_CURVE,
-		      THRESHOLD_CURVE,
-		      CURVE_COUNT };
+                      EXPENSE_CURVE,
+                      NET_INCOME_CURVE,
+                      THRESHOLD_CURVE,
+                      CURVE_COUNT };
     Q_ENUM(CourveType)
 
     enum ColumnIndex {
@@ -61,11 +61,11 @@ public:
     Q_INVOKABLE void generateRegistry();
     Q_INVOKABLE void openLedger(const QUrl &url);
 
-    Q_INVOKABLE bool isColumnVisible(int index) const {
-	return 0 == _settings->_invisibleColumns.count(index);
+    Q_INVOKABLE constexpr bool isColumnVisible(int index) const {
+        return 0 == _settings->_invisibleColumns.count(index);
     }
-    Q_INVOKABLE int invisibleColumns() const {
-	return static_cast<int>(_settings->_invisibleColumns.size());
+    Q_INVOKABLE constexpr int invisibleColumns() const {
+        return static_cast<int>(_settings->_invisibleColumns.size());
     }
     Q_INVOKABLE void setInvisibleColumns(const QList<int> &indexList);
 
