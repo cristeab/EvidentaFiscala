@@ -1,6 +1,6 @@
 set(BUNDLE_ID "com.cristeab.fiscalrecords")
 
-set(CMAKE_OSX_DEPLOYMENT_TARGET "12.0") # earliest supported version by Qt6.8
+set(CMAKE_OSX_DEPLOYMENT_TARGET "13.0") # earliest supported version by Qt
 set(CMAKE_MACOSX_RPATH TRUE)
 
 target_sources(${PROJECT_NAME} PRIVATE "${CMAKE_SOURCE_DIR}/img/logo.icns")
