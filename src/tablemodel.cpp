@@ -280,17 +280,18 @@ bool TableModel::parseRow(int rowIndex, QDateTime &key, qreal &income,
 
 void TableModel::sortRows()
 {
-	auto compareRows = [&](const QStringList &left, const QStringList &right) {
+    if (1 >= _readData.size()) return;
+
+    auto compareRows = [this](const QStringList &left, const QStringList &right) {
 		const QDate dateLeft = QDate::fromString(left.at(0), _dateFormats.at(0));
 		const QDate dateRight = QDate::fromString(right.at(0), _dateFormats.at(0));
 		return dateLeft > dateRight;
 	};
-	if (1 < _readData.size()) {
-		emit layoutAboutToBeChanged();
-		//skip table header
-		std::sort(++_readData.begin(), _readData.end(), compareRows);
-		emit layoutChanged();
-	}
+
+    emit layoutAboutToBeChanged();
+    //skip table header
+    std::sort(_readData.begin() + 1, _readData.end(), compareRows);
+    emit layoutChanged();
 }
 
 void TableModel::initMonthlyData()
