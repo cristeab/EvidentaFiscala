@@ -38,9 +38,7 @@ TableModel::TableModel() : _tableHeader({tr("Data"), tr("Venituri prin Banca"), 
     _chartSeries.fill(nullptr);
 
 	connect(_settings, &Settings::minIncomeChanged, this, &TableModel::resetMinIncome);
-    connect(_settings, &Settings::useBarsChanged, this, [this]() {
-        _settings->useBars() ? initGraphBars() : initGraphLines();
-    }, Qt::QueuedConnection);
+    connect(_settings, &Settings::useBarsChanged, this, &TableModel::initGraph);
 
 	QTimer::singleShot(0, this, &TableModel::init);
 }
@@ -84,11 +82,7 @@ void TableModel::init()
         }
 	}
 	initInvoiceNumber();
-    if (_settings->useBars()) {
-        initGraphBars();
-    } else {
-        initGraphLines();
-    }
+    initGraph();
 }
 
 QString TableModel::computeActualAmount(qreal amount, int currencyIndex, qreal rate)
@@ -331,11 +325,11 @@ void TableModel::updateMonthlyData(int rowIndex)
     updateXAxis(key);
 }
 
-void TableModel::initGraphLines()
+void TableModel::initGraph()
 {
     initMonthlyData();
 	sortRows();
-    resetGraphLines();
+    _settings->useBars() ? resetGraphBars() : resetGraphLines();
 }
 
 void TableModel::updateGraphLines(int rowIndex)
@@ -343,13 +337,6 @@ void TableModel::updateGraphLines(int rowIndex)
     updateMonthlyData(rowIndex);
 	sortRows();
     resetGraphLines();
-}
-
-void TableModel::initGraphBars()
-{
-    initMonthlyData();
-    sortRows();
-    resetGraphBars();
 }
 
 void TableModel::updateGraphBars(int rowIndex)

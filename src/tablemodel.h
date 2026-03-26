@@ -92,11 +92,11 @@ private:
     void initMonthlyData();
     void updateMonthlyData(int rowIndex);
 
-    void initGraphLines();
+    void initGraph();
+
     void updateGraphLines(int rowIndex);
     void resetGraphLines();
 
-    void initGraphBars();
     void updateGraphBars(int rowIndex);
     void resetGraphBars();
 
