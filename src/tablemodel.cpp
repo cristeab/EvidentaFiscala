@@ -355,26 +355,6 @@ void TableModel::resetGraphBars()
     emit barNetIncomeChanged();
 }
 
-void TableModel::updateXAxis(const QDateTime &val)
-{
-    if (!_xAxisMin.isValid() || _xAxisMin > val) {
-        setXAxisMin(val);
-    }
-    if (!_xAxisMax.isValid() || _xAxisMax < val) {
-        setXAxisMax(val);
-    }
-}
-
-void TableModel::updateYAxis(qreal amount)
-{
-	if (_yAxisMin > amount) {
-		setYAxisMin(amount);
-	}
-	if (_yAxisMax < amount) {
-		setYAxisMax(amount);
-	}
-}
-
 void TableModel::resetGraphLines()
 {
     std::ranges::for_each(_chartSeries, [](auto* elem) {
@@ -403,6 +383,26 @@ void TableModel::resetGraphLines()
 
     setXAxisTickCount(_monthlyData.size());
     resetMinIncome();
+}
+
+void TableModel::updateXAxis(const QDateTime &val)
+{
+    if (!_xAxisMin.isValid() || _xAxisMin > val) {
+        setXAxisMin(val);
+    }
+    if (!_xAxisMax.isValid() || _xAxisMax < val) {
+        setXAxisMax(val);
+    }
+}
+
+void TableModel::updateYAxis(qreal amount)
+{
+    if (_yAxisMin > amount) {
+        setYAxisMin(amount);
+    }
+    if (_yAxisMax < amount) {
+        setYAxisMax(amount);
+    }
 }
 
 bool TableModel::ensureLastCharIsNewLine(const QString& filePath)
