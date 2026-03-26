@@ -81,8 +81,9 @@ void TableModel::init()
             return;
         }
 	}
-	initInvoiceNumber();
+
     initGraph();
+	initInvoiceNumber();
 }
 
 QString TableModel::computeActualAmount(qreal amount, int currencyIndex, qreal rate)
@@ -197,18 +198,31 @@ bool TableModel::add(const QString &date, int typeIndex, qreal amount,
 
 void TableModel::initInvoiceNumber()
 {
+    // assumes that the rows are already sorted after the date, the most recent first
+    // the invoice number must be the first found
+    // or 0 if the last number is not one and the items read backwards are only increasing
     _invoiceNumber = 0;
-    std::ranges::for_each(_readData, [this](auto const& row) {
+    std::vector<int> nums;
+    std::ranges::for_each(_readData, [&nums](auto const& row) {
         if (const int rowLen = row.size(); 2 < rowLen) {
             QString const& invNo = row.at(rowLen-2);
-            std::ranges::for_each(invNo.split(","), [this](auto const& tok) {
+
+            std::vector<int> subArr;
+            std::ranges::for_each(invNo.split(","), [&subArr](auto const& tok) {
                 bool ok = false;
                 if (const uint32_t curInvNo = tok.toUInt(&ok); ok) {
-                    _invoiceNumber = std::max(_invoiceNumber, curInvNo);
+                    subArr.push_back(curInvNo);
                 }
             });
+            std::ranges::sort(subArr, [](int l, int r) { return l > r; });
+            nums.append_range(subArr);
         }
     });
+    if (!nums.empty() &&
+        ((1 == nums.back()) || ((nums.at(0) - nums.back()) != (nums.size() - 1)))) {
+        _invoiceNumber = nums.at(0);
+    }
+    qInfo() << "Last invoice number" << _invoiceNumber;
 }
 
 void TableModel::setChartSeries(int index, QAbstractSeries *series)
