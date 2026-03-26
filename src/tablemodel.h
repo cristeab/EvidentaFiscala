@@ -93,11 +93,9 @@ private:
     void updateMonthlyData(int rowIndex);
 
     void initGraph();
+    void updateGraph(int rowIndex);
 
-    void updateGraphLines(int rowIndex);
     void resetGraphLines();
-
-    void updateGraphBars(int rowIndex);
     void resetGraphBars();
 
     void updateXAxis(const QDateTime &val);

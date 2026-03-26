@@ -190,11 +190,7 @@ bool TableModel::add(const QString &date, int typeIndex, qreal amount,
 				  QtCSV::Writer::WriteMode::APPEND);
 	if (rc) {
 		_readData.append(row);
-        if (_settings->useBars()) {
-            updateGraphBars(_readData.size() - 1);
-        } else {
-            updateGraphLines(_readData.size() - 1);
-        }
+        updateGraph(_readData.size() - 1);
 	}
 	return rc;
 }
@@ -332,18 +328,11 @@ void TableModel::initGraph()
     _settings->useBars() ? resetGraphBars() : resetGraphLines();
 }
 
-void TableModel::updateGraphLines(int rowIndex)
+void TableModel::updateGraph(int rowIndex)
 {
     updateMonthlyData(rowIndex);
 	sortRows();
-    resetGraphLines();
-}
-
-void TableModel::updateGraphBars(int rowIndex)
-{
-    updateMonthlyData(rowIndex);
-    sortRows();
-    resetGraphBars();
+    _settings->useBars() ? resetGraphBars() : resetGraphLines();
 }
 
 void TableModel::resetGraphBars()
