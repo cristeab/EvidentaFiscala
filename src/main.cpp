@@ -1,4 +1,4 @@
-#include "tablemodel.h"
+#include "table_model.h"
 #include <QGuiApplication>
 #include <QQmlApplicationEngine>
 #include <QQmlContext>

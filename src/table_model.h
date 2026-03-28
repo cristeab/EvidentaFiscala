@@ -4,6 +4,7 @@
 #include <QAbstractTableModel>
 #include <QStringList>
 #include <QDateTime>
+#include <expected>
 
 class QAbstractSeries;
 class QXYSeries;
@@ -25,6 +26,8 @@ class TableModel : public QAbstractTableModel
     QML_READABLE_PROPERTY(QStringList, barMonths, setBarMonths, {})
     QML_READABLE_PROPERTY(QList<qreal>, barRevenue, setBarRevenue, {})
     QML_READABLE_PROPERTY(QList<qreal>, barNetIncome, setBarNetIncome, {})
+
+    QML_READABLE_PROPERTY(QString, errorMessage, setErrorMessage, {})
 
 public:
     enum CourveType { GROSS_INCOME_CURVE = 0,
@@ -83,7 +86,9 @@ private:
         Comments
     };
     void init();
+    [[nodiscard]]
     QString computeActualAmount(qreal amount, int currencyIndex, qreal rate);
+    [[nodiscard]]
     static QString toString(qreal num);
     void initInvoiceNumber();
     bool parseRow(int rowIndex, QDateTime &key, qreal &income, qreal &expense);
@@ -105,7 +110,11 @@ private:
     void resetMinIncome();
     void updateTypeModel();
 
+    [[nodiscard]]
     bool isIncome(int typeIndex) const;
+
+    [[nodiscard]]
+    std::expected<void,QString> isValidRow(QStringList const& row);
 
     const static QLocale _locale;
     uint32_t _invoiceNumber{};

@@ -1,4 +1,5 @@
-#include "tablemodel.h"
+#include "table_model.h"
+#include "similarity_score.h"
 #include "qtcsv/stringdata.h"
 #include "qtcsv/reader.h"
 #include "qtcsv/writer.h"
@@ -179,6 +180,12 @@ bool TableModel::add(const QString &date, int typeIndex, qreal amount,
 	}
     row[COMMENTS_INDEX] = obs + obsSuffix;
 
+    if (auto const res = isValidRow(row); !res) {
+        qWarning() << res.error();
+        setErrorMessage(res.error());
+        return false;
+    }
+
 	QtCSV::StringData strData;
 	strData.addRow(row);
 
@@ -192,7 +199,9 @@ bool TableModel::add(const QString &date, int typeIndex, qreal amount,
 	if (rc) {
 		_readData.append(row);
         updateGraph(_readData.size() - 1);
-	}
+    } else {
+        setErrorMessage(tr("Cannot write CSV file {}").arg(ledgerFilePath));
+    }
 	return rc;
 }
 
@@ -553,4 +562,108 @@ bool TableModel::isIncome(int typeIndex) const
     const auto& transactionName = _typeModel.at(typeIndex);
     return std::ranges::any_of(INCOME_INDICES,
                        [&](int idx) { return transactionName == _tableHeader.at(idx); });
+}
+
+std::expected<void,QString> TableModel::isValidRow(QStringList const& row)
+{
+	if (_readData.empty()) {
+        return {};
+	}
+    if (row.size() != COLUMN_COUNT) {
+        return std::unexpected(tr("Invalid number of columns in candidate row"));
+    }
+
+    auto parseDate = [&](QString const &dateString) -> QDate {
+        for (auto const &format : _dateFormats) {
+            const QDate date = QDate::fromString(dateString, format);
+            if (date.isValid()) {
+                return date;
+            }
+        }
+        return QDate();
+    };
+
+    auto parseAmount = [&](QString const &value) -> qreal {
+        if (value.isEmpty()) {
+            return 0;
+        }
+        static QRegularExpression re("RON\\h*(.+)", QRegularExpression::CaseInsensitiveOption);
+        const auto match = re.match(value);
+        if (!match.hasMatch()) {
+            return 0;
+        }
+
+        QString amountStr = match.captured(1);
+        amountStr = amountStr.simplified().replace(" ", "");
+        bool ok = false;
+        const qreal amount = _locale.toDouble(amountStr, &ok);
+        return ok ? amount : 0;
+    };
+
+    const QDate rowDate = parseDate(row.at(DATE_INDEX));
+    if (!rowDate.isValid()) {
+        return std::unexpected(tr("Invalid date in candidate row"));
+    }
+
+    // transaction type and sum for the candidate row
+    int rowTypeIndex = -1;
+    qreal rowSum = 0;
+
+    for (int i = BANK_INCOME_INDEX; i <= CASH_EXPENSES_INDEX; ++i) {
+        const qreal amount = parseAmount(row.at(i));
+        if (amount != 0) {
+            if (rowTypeIndex == -1) {
+                rowTypeIndex = i;
+                rowSum = amount;
+            } else {
+                return std::unexpected(tr("Multiple transactions in candidate row"));
+            }
+        }
+    }
+
+    if (rowTypeIndex < 0) {
+        return std::unexpected(tr("No transaction amount in candidate row"));
+    }
+
+    auto const& rowComments = row.at(COMMENTS_INDEX);
+    for (int idx = 1; idx < _readData.size(); ++idx) {
+        const QStringList &existingRow = _readData.at(idx);
+        if (existingRow.size() != COLUMN_COUNT) {
+            continue;
+        }
+
+        const QDate existingDate = parseDate(existingRow.at(DATE_INDEX));
+        if (!existingDate.isValid() || existingDate != rowDate) {
+            continue;
+        }
+
+        // existing transaction type and sum
+        int existingTypeIndex = -1;
+        qreal existingSum = 0;
+
+        for (int i = BANK_INCOME_INDEX; i <= CASH_EXPENSES_INDEX; ++i) {
+            const qreal amount = parseAmount(existingRow.at(i));
+            if (amount != 0) {
+                if (existingTypeIndex == -1) {
+                    existingTypeIndex = i;
+                    existingSum = amount;
+                    break;
+                }
+            }
+        }
+
+        if (existingTypeIndex != rowTypeIndex) {
+            continue;
+        }
+
+        if (qAbs(existingSum - rowSum) < 1.0) {
+            return std::unexpected(tr("Found possible duplicate amount in row #{1}").arg(idx));
+        }
+
+        if (0.7 < calculateSimilarity(rowComments, existingRow.at(COMMENTS_INDEX))) {
+            return std::unexpected(tr("Found possible duplicate comment in row #{1}").arg(idx));
+        }
+    }
+
+    return {};
 }

@@ -146,7 +146,7 @@ Item {
                 rateField.text = ""
                 obsField.text = ""
             } else {
-                errMsg.show(qsTr("Nu se poate adauga un rand nou"))
+                errMsg.show(qsTr("Nu se poate adauga un rand nou") + "\n" + tableModel.errorMessage)
             }
         }
     }
