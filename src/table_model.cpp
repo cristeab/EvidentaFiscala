@@ -23,7 +23,7 @@ static constexpr int RO_CURRENCY_INDEX = 0;
 static constexpr int TRANSACTION_START_INDEX = TableModel::ColumnIndex::BANK_INCOME_INDEX;
 static constexpr int TRANSACTION_ARRAY_LENGTH = 4;
 
-static constexpr int INCOME_INDICES[]{TableModel::ColumnIndex::BANK_INCOME_INDEX,
+static constexpr std::array<int, 2> INCOME_INDICES{TableModel::ColumnIndex::BANK_INCOME_INDEX,
                                       TableModel::ColumnIndex::CASH_INCOME_INDEX};
 
 TableModel::TableModel() : _tableHeader({tr("Data"), tr("Venituri prin Banca"), tr("Venituri Lichide"),
@@ -87,7 +87,7 @@ void TableModel::init()
 	initInvoiceNumber();
 }
 
-QString TableModel::computeActualAmount(qreal amount, int currencyIndex, qreal rate)
+QString TableModel::computeActualAmount(qreal amount, int currencyIndex, qreal rate) const
 {
 	qreal actualAmount = amount;
 	if (0 != currencyIndex) {
@@ -180,7 +180,7 @@ bool TableModel::add(const QString &date, int typeIndex, qreal amount,
 	}
     row[COMMENTS_INDEX] = obs + obsSuffix;
 
-    if (auto const res = isValidRow(row); !res) {
+    if (auto const res = isValidRow(row); !res.has_value()) {
         qWarning() << res.error();
         setErrorMessage(res.error());
         return false;
@@ -198,7 +198,7 @@ bool TableModel::add(const QString &date, int typeIndex, qreal amount,
 				  QtCSV::Writer::WriteMode::APPEND);
 	if (rc) {
 		_readData.append(row);
-        updateGraph(_readData.size() - 1);
+        updateGraph(static_cast<int>(_readData.size()) - 1);
     } else {
         setErrorMessage(tr("Cannot write CSV file {}").arg(ledgerFilePath));
     }
@@ -213,7 +213,7 @@ void TableModel::initInvoiceNumber()
     _invoiceNumber = 0;
     std::vector<int> nums;
     std::ranges::for_each(_readData, [&nums](auto const& row) {
-        if (const int rowLen = row.size(); 2 < rowLen) {
+        if (auto rowLen = row.size(); 2 < rowLen) {
             QString const& invNo = row.at(rowLen-2);
 
             std::vector<int> subArr;
@@ -269,34 +269,34 @@ bool TableModel::parseRow(int rowIndex, QDateTime &key, qreal &income,
 	income = 0;
 	expense = 0;
 	for (int i = 0; i < 4; ++i) {
-		const QString val = row.at(i + 1);
+		const auto& val = row.at(i + 1);
 		if (val.isEmpty()) {
 			continue;
 		}
 
 		static QRegularExpression re("RON\\h*(.+)", QRegularExpression::CaseInsensitiveOption);
-		auto match = re.match(val);
-		if (match.hasMatch()) {
-			bool ok = false;
-			QString amountStr = match.captured(1);
-			amountStr = amountStr.simplified().replace(" ", "");
-			const qreal amount = _locale.toDouble(amountStr, &ok);
-			if (ok) {
-				if (2 > i) {
-					income += amount;
-				} else {
-					expense += amount;
-				}
-				//update amount to match default format
-				QStringList newRow(row);
-				newRow.replace(i + 1, "RON " + toString(amount));
-				_readData.replace(rowIndex, newRow);
-			} else {
-				qWarning() << "Cannot convert amount" << match.captured(1);
-			}
+		const auto match = re.match(val);
+		if (!match.hasMatch()) {
+            qWarning() << "Cannot match" << val;
+            continue;
+        }
+		bool ok = false;
+		QString amountStr = match.captured(1);
+		amountStr = amountStr.simplified().replace(" ", "");
+		const auto amount = _locale.toDouble(amountStr, &ok);
+		if (!ok) {
+            qWarning() << "Cannot convert amount" << match.captured(1);
+            continue;
+        }
+		if (2 > i) {
+			income += amount;
 		} else {
-			qWarning() << "Cannot match" << val;
+			expense += amount;
 		}
+		//update amount to match default format
+		QStringList newRow(row);
+		newRow.replace(i + 1, "RON " + toString(amount));
+		_readData.replace(rowIndex, newRow);
 	}
 	return true;
 }
@@ -392,7 +392,7 @@ void TableModel::resetGraphLines()
     auto appendToCurve = [&](int curveIndex, qint64 timeVal, qreal amount) {
         if (nullptr != _chartSeries[curveIndex]) {
             _chartSeries[curveIndex]->append(static_cast<qreal>(timeVal),
-                                             static_cast<qreal>(amount));
+                                             amount);
             updateYAxis(amount);
         }
     };
@@ -405,7 +405,7 @@ void TableModel::resetGraphLines()
                       monthlyData.income - monthlyData.expense);
     }
 
-    setXAxisTickCount(_monthlyData.size());
+    setXAxisTickCount(static_cast<int>(_monthlyData.size()));
     resetMinIncome();
 }
 
@@ -431,31 +431,34 @@ void TableModel::updateYAxis(qreal amount)
 
 bool TableModel::ensureLastCharIsNewLine(const QString& filePath)
 {
-	bool rc{};
-	QFile file(filePath);
-	if (file.open(QIODevice::ReadWrite | QIODevice::Text)) {
-		const qint64 fileSize = file.size();
-		file.seek(fileSize-1);
-		char ch{};
-		if (file.getChar(&ch)) {
-			if ('\n' != ch) {//only preOSX can have line ending a CR, ignore this case
-				file.seek(fileSize);
-				rc = file.putChar('\n');
-				if (rc) {
-					qInfo() << "Put LF at the end of the file";
-				} else {
-					qWarning() << "Cannot putChar" << file.errorString();
-				}
-			} else {
-				qInfo() << "Found LF at the end of the file";
-				rc = true;
-			}
+    QFile file(filePath);
+    if (file.open(QIODevice::ReadWrite | QIODevice::Text)) {
+        qWarning() << "Cannot open" << file.errorString();
+        return false;
+    }
+
+	const qint64 fileSize = file.size();
+	file.seek(fileSize-1);
+	char ch{};
+	if (file.getChar(&ch)) {
+        qWarning() << "Cannot getChar" << file.errorString();
+        return false;
+    }
+
+    bool rc{};
+	if ('\n' != ch) {//only preOSX can have line ending a CR, ignore this case
+		file.seek(fileSize);
+		rc = file.putChar('\n');
+		if (rc) {
+			qInfo() << "Put LF at the end of the file";
 		} else {
-			qWarning() << "Cannot getChar" << file.errorString();
+			qWarning() << "Cannot putChar" << file.errorString();
 		}
 	} else {
-		qWarning() << "Cannot open" << file.errorString();
+		qInfo() << "Found LF at the end of the file";
+		rc = true;
 	}
+
 	return rc;
 }
 
@@ -513,7 +516,7 @@ void TableModel::resetMinIncome()
 {
 	if ((nullptr != _chartSeries[THRESHOLD_CURVE]) &&
 	    (nullptr != _chartSeries[GROSS_INCOME_CURVE])) {
-		auto* series = _chartSeries[GROSS_INCOME_CURVE];
+		const auto* series = _chartSeries[GROSS_INCOME_CURVE];
 		const auto minIncome = _settings->minIncome();
 		_chartSeries[THRESHOLD_CURVE]->clear();
 		_chartSeries[THRESHOLD_CURVE]->append(series->at(0).x(), minIncome);
@@ -537,7 +540,7 @@ void TableModel::updateTypeModel()
 	emit typeModelChanged();
 
 	// update default index in combobox
-	setDefaultTypeModelIndex(_typeModel.indexOf(_tableHeader.at(defaultTableHeaderIndex)));
+	setDefaultTypeModelIndex(static_cast<int>(_typeModel.indexOf(_tableHeader.at(defaultTableHeaderIndex))));
 }
 
 void TableModel::setInvisibleColumns(const QList<int> &indexList)
@@ -632,8 +635,8 @@ std::expected<void,QString> TableModel::isValidRow(QStringList const& row)
             continue;
         }
 
-        const QDate existingDate = parseDate(existingRow.at(DATE_INDEX));
-        if (!existingDate.isValid() || existingDate != rowDate) {
+        if (const QDate existingDate = parseDate(existingRow.at(DATE_INDEX));
+            !existingDate.isValid() || existingDate != rowDate) {
             continue;
         }
 
@@ -643,12 +646,10 @@ std::expected<void,QString> TableModel::isValidRow(QStringList const& row)
 
         for (int i = BANK_INCOME_INDEX; i <= CASH_EXPENSES_INDEX; ++i) {
             const qreal amount = parseAmount(existingRow.at(i));
-            if (amount != 0) {
-                if (existingTypeIndex == -1) {
-                    existingTypeIndex = i;
-                    existingSum = amount;
-                    break;
-                }
+            if (amount != 0 && existingTypeIndex == -1) {
+                existingTypeIndex = i;
+                existingSum = amount;
+                break;
             }
         }
 

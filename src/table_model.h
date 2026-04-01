@@ -87,7 +87,7 @@ private:
     };
     void init();
     [[nodiscard]]
-    QString computeActualAmount(qreal amount, int currencyIndex, qreal rate);
+    QString computeActualAmount(qreal amount, int currencyIndex, qreal rate) const;
     [[nodiscard]]
     static QString toString(qreal num);
     void initInvoiceNumber();
