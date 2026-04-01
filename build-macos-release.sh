@@ -26,6 +26,7 @@ rm -rf $BUILD_DIR
 
 cmake -B $BUILD_DIR -S . -G Ninja --fresh \
         -DCMAKE_BUILD_TYPE=Release \
+        -DCMAKE_EXPORT_COMPILE_COMMANDS=ON \
         -DCMAKE_PREFIX_PATH=$QT_ROOT
 cmake --build $BUILD_DIR --target all
 
