@@ -26,7 +26,7 @@ GraphsView {
             const index = Math.round(value.x)
             const revenue = tableModel.barRevenue[index];
             const netIncome = tableModel.barNetIncome[index];
-            pointTooltip.text = qsTr("Venit Brut: %1\nVenit Net: %2\nCheltuieli: %3")
+            pointTooltip.text = qsTr("Gross Income: %1\nNet Income: %2\nExpenses: %3")
             .arg(revenue)
             .arg(netIncome)
             .arg(revenue - netIncome)
@@ -41,12 +41,12 @@ GraphsView {
 
     BarSeries {
         BarSet {
-            label: qsTr("Venit Brut")
+            label: qsTr("Gross Income")
             color: "blue"
             values: tableModel.barRevenue
         }
         BarSet {
-            label: qsTr("Venit Net")
+            label: qsTr("Net Income")
             color: "orange"
             values: tableModel.barNetIncome
         }

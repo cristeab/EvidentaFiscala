@@ -9,7 +9,7 @@ ApplicationWindow {
     width: 800
     minimumWidth: 800
     height: 600
-    title: qsTr("Evidenta Fiscala") + " v" + settings.swVersion
+    title: qsTr("Fiscal Records") + " v" + settings.swVersion
 
     ToolBar {
         id: toolBar
@@ -25,7 +25,7 @@ ApplicationWindow {
                     fileDialogLoader.item.visible = true
                 }
                 ToolTip {
-                    text: qsTr("Deschide...")
+                    text: qsTr("Open...")
                     visible: parent.hovered
                 }
             }
@@ -36,7 +36,7 @@ ApplicationWindow {
                     settingsLoader.item.visible = true
                 }
                 ToolTip {
-                    text: qsTr("Configurare...")
+                    text: qsTr("Settings...")
                     visible: parent.hovered
                 }
             }
@@ -45,7 +45,7 @@ ApplicationWindow {
                 onClicked: tableModel.generateRegistry()
                 enabled: 0 < tableTab.count
                 ToolTip {
-                    text: qsTr("Generare Registru de Evidenta Fiscala")
+                    text: qsTr("Generate Fiscal Records Register")
                     visible: parent.hovered
                 }
             }
@@ -63,10 +63,10 @@ ApplicationWindow {
             rightMargin: Theme.horizontalMargin
         }
         TabButton {
-            text: qsTr("Tabel")
+            text: qsTr("Table")
         }
         TabButton {
-            text: qsTr("Grafic")
+            text: qsTr("Chart")
         }
     }
     SwipeView {
@@ -148,7 +148,7 @@ ApplicationWindow {
         id: errMsg
         function show(msg, fatal) {
             errMsg.active = true
-            errMsg.item.title = fatal ? qsTr("Eroare") : qsTr("Avertisment")
+            errMsg.item.title = fatal ? qsTr("Error") : qsTr("Warning")
             errMsg.item.text = msg
             errMsg.item.visible = true
         }
@@ -160,7 +160,7 @@ ApplicationWindow {
     Component {
         id: fileDialogComp
         FileDialog {
-            title: qsTr("Selectati Fisier")
+            title: qsTr("Select File")
             currentFolder: settings.workingFolderPath
             fileMode: FileDialog.OpenFile
             nameFilters: [ "CSV files (*.csv)", "All files (*)" ]
@@ -178,7 +178,7 @@ ApplicationWindow {
     Component {
         id: folderDialogComp
         FolderDialog {
-            title: qsTr("Selectati Directorul de Lucru")
+            title: qsTr("Select Working Directory")
             currentFolder: settings.workingFolderPath
             onAccepted: settings.workingFolderPath = selectedFolder.toString().replace("file://", "")
             Component.onCompleted: visible = true

@@ -74,7 +74,7 @@ GraphsView {
 
     LineSeries {
         id: grossIncomeLineSeries
-        name: qsTr("Venit Brut")
+        name: qsTr("Gross Income")
         color: "#16c5f0"
         width: 2
         hoverable: true
@@ -85,7 +85,7 @@ GraphsView {
     }
     LineSeries {
         id: expenseLineSeries
-        name: qsTr("Cheltuieli")
+        name: qsTr("Expenses")
         color: "#b416e7"
         width: 2
         hoverable: true
@@ -96,7 +96,7 @@ GraphsView {
     }
     LineSeries {
         id: netIncomeLineSeries
-        name: qsTr("Venit Net")
+        name: qsTr("Net Income")
         color: "#21f15e"
         width: 2
         hoverable: true

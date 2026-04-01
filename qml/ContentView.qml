@@ -34,7 +34,7 @@ Item {
                 anchors.fill: parent
                 onClicked: calendar.visible = true
             }
-            placeholderText: qsTr("Data")
+            placeholderText: qsTr("Date")
         }
         ComboBox {
             id: typeCombo
@@ -45,7 +45,7 @@ Item {
         TextField {
             id: amountField
             horizontalAlignment: Text.AlignHCenter
-            placeholderText: qsTr("Suma")
+            placeholderText: qsTr("Amount")
             validator: DoubleValidator {
                 decimals: 4
                 notation: DoubleValidator.StandardNotation
@@ -60,7 +60,7 @@ Item {
             id: rateField
             visible: 0 !== currencyCombo.currentIndex
             horizontalAlignment: Text.AlignHCenter
-            placeholderText: qsTr("Rata de Schimb")
+            placeholderText: qsTr("Exchange Rate")
             Layout.alignment: Qt.AlignRight
             validator: DoubleValidator {
                 decimals: 4
@@ -102,12 +102,12 @@ Item {
             rightMargin: Theme.horizontalMargin
         }
         height: 2*dateFieldRow.height
-        placeholderText: qsTr("Observatii")
+        placeholderText: qsTr("Observations")
     }
 
     Button {
         id: okButton
-        text: qsTr("Adauga")
+        text: qsTr("Add")
         anchors {
             top: obsField.bottom
             topMargin: Theme.verticalMargin
@@ -115,22 +115,22 @@ Item {
         }
         onClicked: {
             if ("" === dateField.text) {
-                errMsg.show(qsTr("Data trebuie specificata"))
+                errMsg.show(qsTr("Date must be specified"))
                 calendar.visible = true
                 return
             }
             if ("" === amountField.text) {
-                errMsg.show(qsTr("Suma trebuie specificata"))
+                errMsg.show(qsTr("Amount must be specified"))
                 amountField.focus = true
                 return
             }
             if (rateField.visible && ("" === rateField.text)) {
-                errMsg.show(qsTr("Rata de schimb trebuie specificata"))
+                errMsg.show(qsTr("Exchange rate must be specified"))
                 rateField.focus = true
                 return
             }
             if ("" === obsField.text) {
-                errMsg.show(qsTr("Observatiile trebuie specificate"))
+                errMsg.show(qsTr("Observations must be specified"))
                 obsField.focus = true
                 return
             }
@@ -146,7 +146,7 @@ Item {
                 rateField.text = ""
                 obsField.text = ""
             } else {
-                errMsg.show(qsTr("Nu se poate adauga un rand nou") + "\n" + tableModel.errorMessage)
+                errMsg.show(qsTr("Cannot add a new row") + "\n" + tableModel.errorMessage)
             }
         }
     }

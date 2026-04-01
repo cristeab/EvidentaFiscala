@@ -11,7 +11,7 @@ Dialog {
 
     property list<int> invisibleColumns
 
-    title: qsTr("Configurare")
+    title: qsTr("Settings")
     implicitWidth: winApp.width * 0.75
     implicitHeight: winApp.height * 0.9
     x: (winApp.width-width)/2
@@ -22,7 +22,7 @@ Dialog {
     Component.onCompleted: control.visible = true
     onAccepted: {
         if (!venitMin.acceptableInput || !invoiceStartNum.acceptableInput) {
-            errMsg.show(qsTr("Setari invalide"), false)
+            errMsg.show(qsTr("Invalid Settings"), false)
             settingsLoader.active = true
             settingsLoader.item.visible = true
             return
@@ -52,7 +52,7 @@ Dialog {
             text: qsTr("General")
         }
         TabButton {
-            text: qsTr("Coloane Vizibile")
+            text: qsTr("Visible Columns")
         }
     }
 
@@ -77,14 +77,14 @@ Dialog {
                     LabelTextField {
                         id: venitMin
                         width: control.editWidth
-                        text: qsTr("Venitul Brut Minim")
+                        text: qsTr("Minimum Gross Income")
                         editText: settings.minIncome
                         validator: IntValidator { bottom: 0 }
                     }
                     LabelComboBox {
                         id: displayMode
                         width: control.editWidth
-                        text: qsTr("Reprezentarea Grafica")
+                        text: qsTr("Graphic Representation")
                         model: ["Bare", "Linii"]
                         currentIndex: settings.useBars ? 0 : 1
                     }
@@ -92,20 +92,20 @@ Dialog {
                 LabelTextFieldBrowser {
                     id: workingFolder
                     width: control.selectFolderWidth
-                    text: qsTr("Directorul de Lucru")
+                    text: qsTr("Working Directory")
                     editText: settings.workingFolderPath
                 }
                 LabelTextField {
                     id: invoiceStartNum
                     width: control.editWidth
-                    text: qsTr("Numarul de Start pentru Chitante")
+                    text: qsTr("Starting Number for Receipts")
                     editText: settings.invoiceNumberStart
                     validator: IntValidator { bottom: 1 }
                 }
                 LabelComboBox {
                     id: uiLanguage
                     width: control.editWidth
-                    text: qsTr("Limba Interfetei")
+                    text: qsTr("Interface Language")
                     model: ["RO", "EN", "FR"]
                     currentIndex: settings.languageIndex
                 }
