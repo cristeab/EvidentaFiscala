@@ -50,7 +50,7 @@ void TableModel::init()
 
 	const auto& ledgerFilePath = _settings->ledgerFilePath();
 	if (ledgerFilePath.isEmpty()) {
-	    emit error(tr("Numele fisierului CSV este gol"), true);
+	    emit error(tr("CSV file name is empty"), true);
 	    return;
 	}
 	if (!QFile::exists(ledgerFilePath)) {
@@ -58,7 +58,7 @@ void TableModel::init()
 		strData.addRow(_tableHeader);
 		if (!QtCSV::Writer::write(ledgerFilePath, strData, _csvSeparator)) {
 			qCritical() << "Cannot create file";
-			emit error(tr("Fisierul CSV nu poate fi creat"), true);
+			emit error(tr("CSV file cannot be created"), true);
 			return;
 		}
 	}
@@ -66,7 +66,7 @@ void TableModel::init()
 	if (!_readData.isEmpty()) {
 		//check column names
         if (!std::ranges::equal(_tableHeader, _readData.at(0))) {
-            emit error(tr("Fisierul CSV nu are coloanele asteptate"), true);
+            emit error(tr("CSV file does not have expected columns"), true);
             _readData.clear();
             return;
         }
@@ -76,7 +76,7 @@ void TableModel::init()
             return row.size() != COLUMN_COUNT;
         });
         if (invalidColumnCount) {
-            emit error(tr("Fisierul CSV are un numar de coloane diferit de cel asteptat, %1")
+            emit error(tr("CSV file has a different number of columns than expected, %1")
                            .arg(COLUMN_COUNT), true);
             _readData.clear();
             return;
@@ -497,7 +497,7 @@ void TableModel::generateRegistry()
 	if (rc) {
 		QDesktopServices::openUrl("file://" + docWriter.fileName());
 	} else {
-		const QString msg = tr("Nu se poate scrie in ") + docWriter.fileName();
+		const QString msg = tr("Cannot write to ") + docWriter.fileName();
 		qCritical() << msg;
 		emit error(msg, false);
 	}
@@ -551,7 +551,7 @@ void TableModel::setInvisibleColumns(const QList<int> &indexList)
 	}
 	if (_settings->_invisibleColumns != newInvisibleColumns) {
 		_settings->_invisibleColumns = newInvisibleColumns;
-		emit error(tr("Restartati aplicatia pentru a aplica modificarile"), false);
+		emit error(tr("Restart the application to apply changes"), false);
 	}
 
 	updateTypeModel();
