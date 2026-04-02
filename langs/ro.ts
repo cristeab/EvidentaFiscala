@@ -5,278 +5,278 @@
     <name>ContentView</name>
     <message>
         <location filename="../qml/ContentView.qml" line="36"/>
-        <source>Data</source>
-        <translation>Date</translation>
+        <source>Date</source>
+        <translation>Data</translation>
     </message>
     <message>
         <location filename="../qml/ContentView.qml" line="47"/>
-        <source>Suma</source>
-        <translation>Amount</translation>
+        <source>Amount</source>
+        <translation>Suma</translation>
     </message>
     <message>
         <location filename="../qml/ContentView.qml" line="62"/>
-        <source>Rata de Schimb</source>
-        <translation>Exchange Rate</translation>
+        <source>Exchange Rate</source>
+        <translation>Rata de Schimb</translation>
     </message>
     <message>
         <location filename="../qml/ContentView.qml" line="104"/>
-        <source>Observatii</source>
-        <translation>Notes</translation>
+        <source>Notes</source>
+        <translation>Observatii</translation>
     </message>
     <message>
         <location filename="../qml/ContentView.qml" line="109"/>
-        <source>Adauga</source>
-        <translation>Add</translation>
+        <source>Add</source>
+        <translation>Adauga</translation>
     </message>
     <message>
         <location filename="../qml/ContentView.qml" line="148"/>
-        <source>Nu se poate adauga un rand nou</source>
-        <translation>Cannot add a new row</translation>
+        <source>Cannot add a new row</source>
+        <translation>Nu se poate adauga un rand nou</translation>
     </message>
     <message>
         <location filename="../qml/ContentView.qml" line="117"/>
-        <source>Data trebuie specificata</source>
-        <translation>The date must be specified</translation>
+        <source>The date must be specified</source>
+        <translation>Data trebuie specificata</translation>
     </message>
     <message>
         <location filename="../qml/ContentView.qml" line="122"/>
-        <source>Suma trebuie specificata</source>
-        <translation>The amount must be specified</translation>
+        <source>The amount must be specified</source>
+        <translation>Suma trebuie specificata</translation>
     </message>
     <message>
         <location filename="../qml/ContentView.qml" line="127"/>
-        <source>Rata de schimb trebuie specificata</source>
-        <translation>The exchange rate must be specified</translation>
+        <source>The exchange rate must be specified</source>
+        <translation>Rata de schimb trebuie specificata</translation>
     </message>
     <message>
         <location filename="../qml/ContentView.qml" line="132"/>
-        <source>Observatiile trebuie specificate</source>
-        <translation>The notes must be specified</translation>
+        <source>The notes must be specified</source>
+        <translation>Observatiile trebuie specificate</translation>
     </message>
 </context>
 <context>
     <name>DatePicker</name>
     <message>
         <location filename="../qml/DatePicker.qml" line="61"/>
-        <source>&lt;</source>
-        <translation></translation>
+        <source></source>
+        <translation>&lt;</translation>
     </message>
     <message>
         <location filename="../qml/DatePicker.qml" line="74"/>
-        <source>&gt;</source>
-        <translation></translation>
+        <source></source>
+        <translation>&gt;</translation>
     </message>
 </context>
 <context>
     <name>IncomeView</name>
     <message>
         <location filename="../qml/IncomeView.qml" line="25"/>
-        <source>Venit Brut</source>
-        <translation>Gross Income</translation>
+        <source>Gross Income</source>
+        <translation>Venit Brut</translation>
     </message>
     <message>
         <location filename="../qml/IncomeView.qml" line="34"/>
-        <source>Cheltuieli</source>
-        <translation>Expenses</translation>
+        <source>Expenses</source>
+        <translation>Cheltuieli</translation>
     </message>
     <message>
         <location filename="../qml/IncomeView.qml" line="43"/>
-        <source>Venit Net</source>
-        <translation>Net Income</translation>
+        <source>Net Income</source>
+        <translation>Venit Net</translation>
     </message>
 </context>
 <context>
     <name>Settings</name>
     <message>
         <location filename="../qml/Settings.qml" line="11"/>
-        <source>Configurare</source>
-        <translation>Settings</translation>
+        <source>Settings</source>
+        <translation>Configurare</translation>
     </message>
     <message>
         <location filename="../qml/Settings.qml" line="29"/>
-        <source>Venit Minim</source>
-        <translation>Minimum Gross Income</translation>
+        <source>Minimum Gross Income</source>
+        <translation>Venit Minim</translation>
     </message>
     <message>
         <location filename="../qml/Settings.qml" line="35"/>
-        <source>Directorul cu Fisiere CSV</source>
-        <translation>Folder with CSV Files</translation>
+        <source>Folder with CSV Files</source>
+        <translation>Directorul cu Fisiere CSV</translation>
     </message>
     <message>
         <location filename="../qml/Settings.qml" line="41"/>
-        <source>Numar de Start pentru Chitante</source>
-        <translation>Start Number for the Receipts</translation>
+        <source>Start Number for the Receipts</source>
+        <translation>Numar de Start pentru Chitante</translation>
     </message>
     <message>
         <location filename="../qml/Settings.qml" line="47"/>
-        <source>Selectati Limba Interfetei</source>
-        <translation>Select Interface Language</translation>
+        <source>Select Interface Language</source>
+        <translation>Selectati Limba Interfetei</translation>
     </message>
 </context>
 <context>
     <name>TableModel</name>
     <message>
         <location filename="../src/tablemodel.cpp" line="22"/>
-        <source>Data</source>
-        <translation>Date</translation>
+        <source>Date</source>
+        <translation>Data</translation>
     </message>
     <message>
         <location filename="../src/tablemodel.cpp" line="22"/>
-        <source>Venituri prin Banca</source>
-        <translation>Income through the Bank</translation>
+        <source>Income through the Bank</source>
+        <translation>Venituri prin Banca</translation>
     </message>
     <message>
         <location filename="../src/tablemodel.cpp" line="22"/>
-        <source>Venituri Lichide</source>
-        <translation>Liquid Income</translation>
+        <source>Liquid Income</source>
+        <translation>Venituri Lichide</translation>
     </message>
     <message>
         <location filename="../src/tablemodel.cpp" line="23"/>
-        <source>Cheltuieli prin Banca</source>
-        <translation>Expenses through the Bank</translation>
+        <source>Expenses through the Bank</source>
+        <translation>Cheltuieli prin Banca</translation>
     </message>
     <message>
         <location filename="../src/tablemodel.cpp" line="23"/>
-        <source>Cheltuieli Lichide</source>
-        <translation>Liquid Expenses</translation>
+        <source>Liquid Expenses</source>
+        <translation>Cheltuieli Lichide</translation>
     </message>
     <message>
         <location filename="../src/tablemodel.cpp" line="24"/>
-        <source>Numar Factura</source>
-        <translation>Invoice number</translation>
+        <source>Invoice number</source>
+        <translation>Numar Factura</translation>
     </message>
     <message>
         <location filename="../src/tablemodel.cpp" line="24"/>
-        <source>Observatii</source>
-        <translation>Notes</translation>
+        <source>Notes</source>
+        <translation>Observatii</translation>
     </message>
     <message>
         <location filename="../src/tablemodel.cpp" line="47"/>
-        <source>Fisierul CSV nu poate fi creat</source>
-        <translation>The CSV file cannot be created</translation>
+        <source>The CSV file cannot be created</source>
+        <translation>Fisierul CSV nu poate fi creat</translation>
     </message>
     <message>
         <location filename="../src/tablemodel.cpp" line="55"/>
-        <source>Fisierul CSV are un numar de coloane diferit de cel asteptat</source>
-        <translation>The CSV file has a different number of columns than expected</translation>
+        <source>The CSV file has a different number of columns than expected</source>
+        <translation>Fisierul CSV are un numar de coloane diferit de cel asteptat</translation>
     </message>
     <message>
         <location filename="../src/tablemodel.cpp" line="61"/>
-        <source>Fisierul CSV nu are coloanele asteptate</source>
-        <translation>The CSV file does not have the expected columns</translation>
+        <source>The CSV file does not have the expected columns</source>
+        <translation>Fisierul CSV nu are coloanele asteptate</translation>
     </message>
     <message>
         <location filename="../src/tablemodel.cpp" line="423"/>
-        <source>Anul</source>
-        <translation>Year</translation>
+        <source>Year</source>
+        <translation>Anul</translation>
     </message>
     <message>
         <location filename="../src/tablemodel.cpp" line="424"/>
-        <source>Rectificare</source>
-        <translation>Rectification</translation>
+        <source>Rectification</source>
+        <translation>Rectificare</translation>
     </message>
     <message>
         <location filename="../src/tablemodel.cpp" line="425"/>
-        <source>Activit&amp;#259;&amp;#355;i de consultan&amp;#355;&amp;#259; &amp;#238;n tehnologia informa&amp;#355;iei</source>
-        <translation>IT consultancy activities</translation>
+        <source>IT consultancy activities</source>
+        <translation>Activit&amp;#259;&amp;#355;i de consultan&amp;#355;&amp;#259; &amp;#238;n tehnologia informa&amp;#355;iei</translation>
     </message>
     <message>
         <location filename="../src/tablemodel.cpp" line="428"/>
-        <source>Nr. crt.</source>
-        <translation>CNum.</translation>
+        <source>CNum.</source>
+        <translation>Nr. crt.</translation>
     </message>
     <message>
         <location filename="../src/tablemodel.cpp" line="428"/>
-        <source>Elemente de calcul pentru stabilirea venitului net anual/pierderii nete anuale</source>
-        <translation>Calculation elements for determining annual net income/annual net loss</translation>
+        <source>Calculation elements for determining annual net income/annual net loss</source>
+        <translation>Elemente de calcul pentru stabilirea venitului net anual/pierderii nete anuale</translation>
     </message>
     <message>
         <location filename="../src/tablemodel.cpp" line="428"/>
-        <source>Valoare</source>
-        <translation>Value</translation>
+        <source>Value</source>
+        <translation>Valoare</translation>
     </message>
     <message>
         <location filename="../src/tablemodel.cpp" line="428"/>
-        <source>lei</source>
-        <translation>pounds</translation>
+        <source>pounds</source>
+        <translation>lei</translation>
     </message>
     <message>
         <location filename="../src/tablemodel.cpp" line="429"/>
-        <source>Venit brut</source>
-        <translation>Gross income</translation>
+        <source>Gross income</source>
+        <translation>Venit brut</translation>
     </message>
     <message>
         <location filename="../src/tablemodel.cpp" line="430"/>
-        <source>Cheltuieli</source>
-        <translation>Expenses</translation>
+        <source>Expenses</source>
+        <translation>Cheltuieli</translation>
     </message>
     <message>
         <location filename="../src/tablemodel.cpp" line="433"/>
-        <source>Registru de Evidenta Fiscala</source>
-        <translation>Fiscal Evidence Register</translation>
+        <source>Fiscal Evidence Register</source>
+        <translation>Registru de Evidenta Fiscala</translation>
     </message>
     <message>
         <location filename="../src/tablemodel.cpp" line="441"/>
-        <source>Nu se poate scrie in </source>
-        <translation>Cannot write in </translation>
+        <source>Cannot write in </source>
+        <translation>Nu se poate scrie in </translation>
     </message>
 </context>
 <context>
     <name>main</name>
     <message>
         <location filename="../qml/main.qml" line="12"/>
-        <source>Evidenta Fiscala</source>
-        <translation>Fiscal Record</translation>
+        <source>Fiscal Record</source>
+        <translation>Evidenta Fiscala</translation>
     </message>
     <message>
         <location filename="../qml/main.qml" line="16"/>
-        <source>Fisier</source>
-        <translation>File</translation>
+        <source>File</source>
+        <translation>Fisier</translation>
     </message>
     <message>
         <location filename="../qml/main.qml" line="18"/>
-        <source>Deschide...</source>
-        <translation>Open...</translation>
+        <source>Open...</source>
+        <translation>Deschide...</translation>
     </message>
     <message>
         <location filename="../qml/main.qml" line="25"/>
-        <source>Configurare...</source>
-        <translation>Settings...</translation>
+        <source>Settings...</source>
+        <translation>Configurare...</translation>
     </message>
     <message>
         <location filename="../qml/main.qml" line="30"/>
-        <source>Generare Registru de Evidenta Fiscala</source>
-        <translation>Generation of Fiscal Evidence Register</translation>
+        <source>Generation of Fiscal Evidence Register</source>
+        <translation>Generare Registru de Evidenta Fiscala</translation>
     </message>
     <message>
         <location filename="../qml/main.qml" line="52"/>
-        <source>Tabel</source>
-        <translation>Table</translation>
+        <source>Table</source>
+        <translation>Tabel</translation>
     </message>
     <message>
         <location filename="../qml/main.qml" line="55"/>
-        <source>Grafic</source>
-        <translation>Graph</translation>
+        <source>Graph</source>
+        <translation>Grafic</translation>
     </message>
     <message>
         <location filename="../qml/main.qml" line="125"/>
-        <source>Eroare</source>
-        <translation>Error</translation>
+        <source>Error</source>
+        <translation>Eroare</translation>
     </message>
     <message>
         <location filename="../qml/main.qml" line="125"/>
-        <source>Avertisment</source>
-        <translation>Warning</translation>
+        <source>Warning</source>
+        <translation>Avertisment</translation>
     </message>
     <message>
         <location filename="../qml/main.qml" line="137"/>
-        <source>Selectati Fisier</source>
-        <translation>Select File</translation>
+        <source>Select File</source>
+        <translation>Selectati Fisier</translation>
     </message>
     <message>
         <location filename="../qml/main.qml" line="155"/>
-        <source>Selectati Director</source>
-        <translation>Select Folder</translation>
+        <source>Select Folder</source>
+        <translation>Selectati Director</translation>
     </message>
 </context>
 </TS>
