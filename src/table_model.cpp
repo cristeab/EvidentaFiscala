@@ -657,12 +657,9 @@ std::expected<void,QString> TableModel::isValidRow(QStringList const& row)
             continue;
         }
 
-        if (qAbs(existingSum - rowSum) < 1.0) {
-            return std::unexpected(tr("Found possible duplicate amount in row #{1}").arg(idx));
-        }
-
-        if (0.7 < calculateSimilarity(rowComments, existingRow.at(COMMENTS_INDEX))) {
-            return std::unexpected(tr("Found possible duplicate comment in row #{1}").arg(idx));
+        if (qAbs(existingSum - rowSum) < 1.0 &&
+            0.7 < calculateSimilarity(rowComments, existingRow.at(COMMENTS_INDEX))) {
+            return std::unexpected(tr("Found possible duplicate row #%1").arg(idx));
         }
     }
 

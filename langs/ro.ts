@@ -61,11 +61,6 @@
         <source></source>
         <translation>&lt;</translation>
     </message>
-    <message>
-        <location filename="../qml/DatePicker.qml" line="74"/>
-        <source></source>
-        <translation>&gt;</translation>
-    </message>
 </context>
 <context>
     <name>IncomeView</name>
