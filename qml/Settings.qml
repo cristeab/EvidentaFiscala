@@ -33,6 +33,7 @@ Dialog {
         settings.workingFolderPath = workingFolder.editText
         settings.invoiceNumberStart = parseInt(invoiceStartNum.editText)
         settings.languageIndex = uiLanguage.currentIndex
+        settings.csvHeaderIndex = csvLanguage.currentIndex
 
         tableModel.setInvisibleColumns(control.invisibleColumns)
         control.invisibleColumns = []
@@ -73,6 +74,7 @@ Dialog {
                 anchors.margins: Theme.horizontalMargin
                 spacing: 2 * Theme.verticalMargin
                 Row {
+                    id: grossIncomeRow
                     spacing: parent.width - venitMin.width - displayMode.width
                     LabelTextField {
                         id: venitMin
@@ -102,12 +104,22 @@ Dialog {
                     editText: settings.invoiceNumberStart
                     validator: IntValidator { bottom: 1 }
                 }
-                LabelComboBox {
-                    id: uiLanguage
-                    width: control.editWidth
-                    text: qsTr("Interface Language")
-                    model: ["RO", "EN", "FR"]
-                    currentIndex: settings.languageIndex
+                Row {
+                    spacing: grossIncomeRow.spacing
+                    LabelComboBox {
+                        id: uiLanguage
+                        width: control.editWidth
+                        text: qsTr("Interface Language")
+                        model: ["RO", "EN", "FR"]
+                        currentIndex: settings.languageIndex
+                    }
+                    LabelComboBox {
+                        id: csvLanguage
+                        width: control.editWidth
+                        text: qsTr("CSV Header Language")
+                        model: uiLanguage.model
+                        currentIndex: settings.csvHeaderIndex
+                    }
                 }
             }
         } // general settings tab

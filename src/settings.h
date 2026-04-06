@@ -12,7 +12,7 @@ Q_OBJECT
 public:
     static constexpr qreal DEFAULT_MIN_INCOME{2000};
     static constexpr int DEFAULT_INVOICE_NUMBER_START{1};
-    static constexpr int DEFAULT_LANGUAGE_INDEX{0};
+    static constexpr int DEFAULT_LANGUAGE_INDEX{1};
 
     QML_CONSTANT_PROPERTY(QString, swVersion, APP_VERSION)
     QML_WRITABLE_PROPERTY_FLOAT(qreal, minIncome, setMinIncome, DEFAULT_MIN_INCOME)
@@ -20,6 +20,7 @@ public:
     QML_WRITABLE_PROPERTY(QString, ledgerFilePath, setLedgerFilePath, {})
     QML_WRITABLE_PROPERTY(int, invoiceNumberStart, setInvoiceNumberStart, DEFAULT_INVOICE_NUMBER_START)
     QML_WRITABLE_PROPERTY(int, languageIndex, setLanguageIndex, DEFAULT_LANGUAGE_INDEX)
+    QML_WRITABLE_PROPERTY(int, csvHeaderIndex, setCsvHeaderIndex, 0)
 
     QML_WRITABLE_PROPERTY(bool, useBars, setUseBars, true)
 

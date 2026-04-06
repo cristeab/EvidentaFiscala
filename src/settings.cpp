@@ -38,6 +38,7 @@ void Settings::load()
 
     setInvoiceNumberStart(GET_SETTING(invoiceNumberStart).toInt());
     setLanguageIndex(GET_SETTING(languageIndex).toInt());
+    setCsvHeaderIndex(GET_SETTING(csvHeaderIndex).toInt());
 
     const QVariantList& variantList = _settings.value(XSTR(invisibleColumns)).toList();
     _invisibleColumns.clear();
@@ -54,6 +55,7 @@ void Settings::save()
     SET_SETTING(workingFolderPath);
     SET_SETTING(invoiceNumberStart);
     SET_SETTING(languageIndex);
+    SET_SETTING(csvHeaderIndex);
 
     QVariantList variantList;
     for (int value : _invisibleColumns) {
