@@ -112,6 +112,7 @@ ApplicationWindow {
         width: parent.width
         text: settings.ledgerFilePath
         horizontalAlignment: Text.AlignRight
+        rightPadding: 5
         bottomPadding: 5
         MouseArea {
             id: control
@@ -129,6 +130,10 @@ ApplicationWindow {
                 }
             }
             onClicked: Qt.openUrlExternally("file://"+ footerLabel.text)
+        }
+        ToolTip {
+            text: qsTr("Click to Open in Default Editor")
+            visible: control.containsMouse
         }
     }
 
