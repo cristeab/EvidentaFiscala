@@ -85,7 +85,7 @@ Dialog {
                         id: displayMode
                         width: control.editWidth
                         text: qsTr("Graphic Representation")
-                        model: ["Bare", "Linii"]
+                        model: [qsTr("Bars"), qsTr("Lines")]
                         currentIndex: settings.useBars ? 0 : 1
                     }
                 }
