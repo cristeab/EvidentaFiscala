@@ -26,9 +26,13 @@ static constexpr int TRANSACTION_ARRAY_LENGTH = 4;
 static constexpr std::array<int, 2> INCOME_INDICES{TableModel::ColumnIndex::BANK_INCOME_INDEX,
                                       TableModel::ColumnIndex::CASH_INCOME_INDEX};
 
-TableModel::TableModel() : _tableHeader({tr("Data"), tr("Venituri prin Banca"), tr("Venituri Lichide"),
-			 tr("Cheltuieli prin Banca"), tr("Cheltuieli Lichide"),
-			 tr("Numar Factura"), tr("Observatii")}),
+static const QStringList RO_TABLE_HEADER{"Data", "Venituri prin Banca", "Venituri Lichide",
+                                        "Cheltuieli prin Banca", "Cheltuieli Lichide",
+                                        "Numar Factura", "Observatii"};
+
+TableModel::TableModel() : _tableHeader({tr("Date"), tr("Bank Income"), tr("Cash Income"),
+tr("Bank Expenses"), tr("Cash Expenses"),
+		 tr("Invoice Number"), tr("Comments")}),
 	  _currencyModel({"RON", "USD", "EUR"}),
       _typeModel(_tableHeader.mid(TRANSACTION_START_INDEX, TRANSACTION_ARRAY_LENGTH)),
 	  _csvSeparator(";"),
@@ -55,7 +59,7 @@ void TableModel::init()
 	}
 	if (!QFile::exists(ledgerFilePath)) {
 		QtCSV::StringData strData;
-		strData.addRow(_tableHeader);
+        strData.addRow(RO_TABLE_HEADER);
 		if (!QtCSV::Writer::write(ledgerFilePath, strData, _csvSeparator)) {
 			qCritical() << "Cannot create file";
 			emit error(tr("CSV file cannot be created"), true);
@@ -65,8 +69,8 @@ void TableModel::init()
 	_readData = QtCSV::Reader::readToList(ledgerFilePath, _csvSeparator);
 	if (!_readData.isEmpty()) {
 		//check column names
-        if (!std::ranges::equal(_tableHeader, _readData.at(0))) {
-            emit error(tr("CSV file does not have expected columns"), true);
+        if (!std::ranges::equal(RO_TABLE_HEADER, _readData.at(0))) {
+            emit error(tr("CSV file does not have the expected columns"), true);
             _readData.clear();
             return;
         }
@@ -107,7 +111,7 @@ QVariant TableModel::data(const QModelIndex &index, int role) const
 	if ((0 > row) || (row >= _readData.size())) {
         return {};
 	}
-	const QStringList rowData = _readData.at(row);
+    const QStringList& rowData = (0 == row) ? _tableHeader : _readData.at(row);
 	int col = -1;
 	switch (role) {
 	case TableModel::Date:
@@ -133,7 +137,7 @@ QVariant TableModel::data(const QModelIndex &index, int role) const
 		break;
 	default:
 		qCritical() << "Unknown role";
-		return QVariant();
+        return {};
 	}
 	return rowData.at(col);
 }
