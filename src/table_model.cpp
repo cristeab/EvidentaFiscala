@@ -436,7 +436,7 @@ void TableModel::updateYAxis(qreal amount)
 bool TableModel::ensureLastCharIsNewLine(const QString& filePath)
 {
     QFile file(filePath);
-    if (file.open(QIODevice::ReadWrite | QIODevice::Text)) {
+    if (!file.open(QIODevice::ReadWrite | QIODevice::Text)) {
         qWarning() << "Cannot open" << file.errorString();
         return false;
     }
@@ -444,7 +444,7 @@ bool TableModel::ensureLastCharIsNewLine(const QString& filePath)
 	const qint64 fileSize = file.size();
 	file.seek(fileSize-1);
 	char ch{};
-	if (file.getChar(&ch)) {
+    if (!file.getChar(&ch)) {
         qWarning() << "Cannot getChar" << file.errorString();
         return false;
     }
