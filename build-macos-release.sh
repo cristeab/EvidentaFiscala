@@ -29,24 +29,36 @@ cmake -B $BUILD_DIR -S . -G Ninja --fresh \
         -DCMAKE_EXPORT_COMPILE_COMMANDS=ON \
         -DCMAKE_PREFIX_PATH=$QT_ROOT
 cmake --build $BUILD_DIR --target all
+cmake --build $BUILD_DIR --target update_translations
 
-echo "Sign app bundle"
-codesign --strict --timestamp --force --verify --verbose --deep \
-          --entitlements ./Entitlements.plist \
-          --sign "Developer ID Application: $DEVELOPER_ID" \
-          --options runtime ./build/$APP_NAME.app
+# Check if the developer ID exists on the system
+HAS_DEVELOPER_ID=0; security find-identity -v -p codesigning | grep -q "Developer ID Application: $DEVELOPER_ID" && HAS_DEVELOPER_ID=1
 
-# check the signing
-codesign --verify --verbose=4 --deep --strict ./build/$APP_NAME.app
+if [ "$HAS_DEVELOPER_ID" -eq 1 ]; then
+    echo "Developer ID found. Signing app bundle..."
+    codesign --strict --timestamp --force --verify --verbose --deep \
+              --entitlements ./Entitlements.plist \
+              --sign "Developer ID Application: $DEVELOPER_ID" \
+              --options runtime ./build/$APP_NAME.app
+
+    # check the signing
+    codesign --verify --verbose=4 --deep --strict ./build/$APP_NAME.app
+else
+    echo "Developer ID not found. Skipping code signing."
+fi
 
 echo "Create installer"
 cmake --build $BUILD_DIR --target package
 
-echo "Signing installer package..."
-productsign --sign "Developer ID Installer: $DEVELOPER_ID" \
-            $BUILD_DIR/$PKG_NAME \
-            $PKG_NAME
-mv ${PKG_NAME} $BUILD_DIR/
+if [ "$HAS_DEVELOPER_ID" -eq 1 ]; then
+    echo "Signing installer package..."
+    productsign --sign "Developer ID Installer: $DEVELOPER_ID" \
+                $BUILD_DIR/$PKG_NAME \
+                $PKG_NAME
+    mv ${PKG_NAME} $BUILD_DIR/
+else
+    echo "Developer ID not found. Skipping installer signing."
+fi
 
 if [ -z "$APP_PWD" ]; then
      echo Notarization password is not set
