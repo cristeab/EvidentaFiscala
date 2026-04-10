@@ -4,54 +4,54 @@
 <context>
     <name>ContentView</name>
     <message>
-        <location filename="../qml/ContentView.qml" line="36"/>
-        <source>Data</source>
-        <translation>Date</translation>
+        <location filename="../qml/ContentView.qml" line="37"/>
+        <source>Date</source>
+        <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../qml/ContentView.qml" line="47"/>
-        <source>Suma</source>
-        <translation>Somme</translation>
+        <location filename="../qml/ContentView.qml" line="48"/>
+        <source>Amount</source>
+        <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../qml/ContentView.qml" line="62"/>
-        <source>Rata de Schimb</source>
-        <translation>Taux de Change</translation>
+        <location filename="../qml/ContentView.qml" line="63"/>
+        <source>Exchange Rate</source>
+        <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../qml/ContentView.qml" line="104"/>
-        <source>Observatii</source>
-        <translation>Observations</translation>
+        <location filename="../qml/ContentView.qml" line="105"/>
+        <source>Observations</source>
+        <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../qml/ContentView.qml" line="109"/>
-        <source>Adauga</source>
-        <translation>Ajouter</translation>
+        <location filename="../qml/ContentView.qml" line="110"/>
+        <source>Add</source>
+        <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../qml/ContentView.qml" line="117"/>
-        <source>Data trebuie specificata</source>
-        <translation>La date doit être précisée</translation>
+        <location filename="../qml/ContentView.qml" line="118"/>
+        <source>Date must be specified</source>
+        <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../qml/ContentView.qml" line="122"/>
-        <source>Suma trebuie specificata</source>
-        <translation>Le montant doit être précisé</translation>
+        <location filename="../qml/ContentView.qml" line="123"/>
+        <source>Amount must be specified</source>
+        <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../qml/ContentView.qml" line="127"/>
-        <source>Rata de schimb trebuie specificata</source>
-        <translation>Le taux de change doit être précisé</translation>
+        <location filename="../qml/ContentView.qml" line="128"/>
+        <source>Exchange rate must be specified</source>
+        <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../qml/ContentView.qml" line="132"/>
-        <source>Observatiile trebuie specificate</source>
-        <translation>Les observations doivent être précisées</translation>
+        <location filename="../qml/ContentView.qml" line="133"/>
+        <source>Observations must be specified</source>
+        <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../qml/ContentView.qml" line="148"/>
-        <source>Nu se poate adauga un rand nou</source>
-        <translation>Une nouvelle ligne ne peut pas être ajoutée</translation>
+        <location filename="../qml/ContentView.qml" line="149"/>
+        <source>Cannot add a new row</source>
+        <translation type="unfinished"></translation>
     </message>
 </context>
 <context>
@@ -59,224 +59,319 @@
     <message>
         <location filename="../qml/DatePicker.qml" line="61"/>
         <source>&lt;</source>
-        <translation></translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../qml/DatePicker.qml" line="74"/>
         <source>&gt;</source>
-        <translation></translation>
+        <translation type="unfinished"></translation>
     </message>
 </context>
 <context>
-    <name>IncomeView</name>
+    <name>IncomeViewWithBars</name>
     <message>
-        <location filename="../qml/IncomeView.qml" line="25"/>
-        <source>Venit Brut</source>
-        <translation>Revenu brut</translation>
+        <location filename="../qml/IncomeViewWithBars.qml" line="29"/>
+        <source>Gross Income: %1
+Net Income: %2
+Expenses: %3</source>
+        <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../qml/IncomeView.qml" line="34"/>
-        <source>Cheltuieli</source>
-        <translation>Frais</translation>
+        <location filename="../qml/IncomeViewWithBars.qml" line="44"/>
+        <source>Gross Income</source>
+        <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../qml/IncomeView.qml" line="43"/>
-        <source>Venit Net</source>
-        <translation>Revenu net</translation>
+        <location filename="../qml/IncomeViewWithBars.qml" line="49"/>
+        <source>Net Income</source>
+        <translation type="unfinished"></translation>
+    </message>
+</context>
+<context>
+    <name>IncomeViewWithLines</name>
+    <message>
+        <location filename="../qml/IncomeViewWithLines.qml" line="77"/>
+        <source>Gross Income</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../qml/IncomeViewWithLines.qml" line="88"/>
+        <source>Expenses</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../qml/IncomeViewWithLines.qml" line="99"/>
+        <source>Net Income</source>
+        <translation type="unfinished"></translation>
     </message>
 </context>
 <context>
     <name>Settings</name>
     <message>
-        <location filename="../qml/Settings.qml" line="11"/>
-        <source>Configurare</source>
-        <translation>Configurer</translation>
+        <location filename="../qml/Settings.qml" line="14"/>
+        <source>Settings</source>
+        <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../qml/Settings.qml" line="29"/>
-        <source>Venit Minim</source>
-        <translation>Revenu minimum</translation>
+        <location filename="../qml/Settings.qml" line="25"/>
+        <source>Invalid Settings</source>
+        <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../qml/Settings.qml" line="35"/>
-        <source>Directorul cu Fisiere CSV</source>
-        <translation>Répertoire avec des fichiers CSV</translation>
+        <location filename="../qml/Settings.qml" line="53"/>
+        <source>General</source>
+        <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../qml/Settings.qml" line="41"/>
-        <source>Numar de Start pentru Chitante</source>
-        <translation>Numéro de départ pour les reçus</translation>
+        <location filename="../qml/Settings.qml" line="56"/>
+        <source>Visible Columns</source>
+        <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../qml/Settings.qml" line="47"/>
-        <source>Selectati Limba Interfetei</source>
-        <translation>Sélectionnez la langue de l&apos;interface</translation>
+        <location filename="../qml/Settings.qml" line="82"/>
+        <source>Minimum Gross Income</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../qml/Settings.qml" line="89"/>
+        <source>Graphic Representation</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../qml/Settings.qml" line="90"/>
+        <source>Bars</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../qml/Settings.qml" line="90"/>
+        <source>Lines</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../qml/Settings.qml" line="97"/>
+        <source>Working Directory</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../qml/Settings.qml" line="103"/>
+        <source>Starting Number for Receipts</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../qml/Settings.qml" line="112"/>
+        <source>Interface Language</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../qml/Settings.qml" line="119"/>
+        <source>CSV Header Language</source>
+        <translation type="unfinished"></translation>
     </message>
 </context>
 <context>
     <name>TableModel</name>
     <message>
-        <location filename="../src/tablemodel.cpp" line="22"/>
-        <source>Data</source>
-        <translation>Date</translation>
+        <location filename="../src/table_model.cpp" line="33"/>
+        <source>Date</source>
+        <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/tablemodel.cpp" line="22"/>
-        <source>Venituri prin Banca</source>
-        <translation>Revenus via la banque</translation>
+        <location filename="../src/table_model.cpp" line="33"/>
+        <source>Bank Income</source>
+        <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/tablemodel.cpp" line="22"/>
-        <source>Venituri Lichide</source>
-        <translation>Revenu liquide</translation>
+        <location filename="../src/table_model.cpp" line="33"/>
+        <source>Cash Income</source>
+        <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/tablemodel.cpp" line="23"/>
-        <source>Cheltuieli prin Banca</source>
-        <translation>Dépenses via la banque</translation>
+        <location filename="../src/table_model.cpp" line="34"/>
+        <source>Bank Expenses</source>
+        <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/tablemodel.cpp" line="23"/>
-        <source>Cheltuieli Lichide</source>
-        <translation>Dépenses liquides</translation>
+        <location filename="../src/table_model.cpp" line="34"/>
+        <source>Cash Expenses</source>
+        <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/tablemodel.cpp" line="24"/>
-        <source>Numar Factura</source>
-        <translation>Numéro de facture</translation>
+        <location filename="../src/table_model.cpp" line="35"/>
+        <source>Invoice Number</source>
+        <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/tablemodel.cpp" line="24"/>
-        <source>Observatii</source>
-        <translation>Observations</translation>
+        <location filename="../src/table_model.cpp" line="35"/>
+        <source>Comments</source>
+        <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/tablemodel.cpp" line="47"/>
-        <source>Fisierul CSV nu poate fi creat</source>
-        <translation>Le fichier CSV ne peut pas être créé</translation>
+        <location filename="../src/table_model.cpp" line="57"/>
+        <source>CSV file name is empty</source>
+        <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/tablemodel.cpp" line="55"/>
-        <source>Fisierul CSV are un numar de coloane diferit de cel asteptat</source>
-        <translation>Le fichier CSV a un nombre de colonnes différent de celui prévu</translation>
+        <location filename="../src/table_model.cpp" line="65"/>
+        <source>CSV file cannot be created</source>
+        <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/tablemodel.cpp" line="61"/>
-        <source>Fisierul CSV nu are coloanele asteptate</source>
-        <translation>Le fichier CSV n&apos;a pas les colonnes attendues</translation>
+        <location filename="../src/table_model.cpp" line="73"/>
+        <source>CSV file does not have the expected columns</source>
+        <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/tablemodel.cpp" line="423"/>
+        <location filename="../src/table_model.cpp" line="83"/>
+        <source>CSV file has a different number of columns than expected, %1</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../src/table_model.cpp" line="207"/>
+        <source>Cannot write CSV file {}</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../src/table_model.cpp" line="487"/>
         <source>Anul</source>
-        <translation>L&apos;année</translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/tablemodel.cpp" line="424"/>
+        <location filename="../src/table_model.cpp" line="488"/>
         <source>Rectificare</source>
-        <translation>Rectification</translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/tablemodel.cpp" line="425"/>
+        <location filename="../src/table_model.cpp" line="489"/>
         <source>Activit&amp;#259;&amp;#355;i de consultan&amp;#355;&amp;#259; &amp;#238;n tehnologia informa&amp;#355;iei</source>
-        <translation>Activités de conseil informatique</translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/tablemodel.cpp" line="428"/>
+        <location filename="../src/table_model.cpp" line="492"/>
         <source>Nr. crt.</source>
-        <translation>No. crt.</translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/tablemodel.cpp" line="428"/>
+        <location filename="../src/table_model.cpp" line="492"/>
         <source>Elemente de calcul pentru stabilirea venitului net anual/pierderii nete anuale</source>
-        <translation>Éléments de calcul pour déterminer le résultat net annuel/la perte nette annuelle</translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/tablemodel.cpp" line="428"/>
+        <location filename="../src/table_model.cpp" line="492"/>
         <source>Valoare</source>
-        <translation>Valeur</translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/tablemodel.cpp" line="428"/>
+        <location filename="../src/table_model.cpp" line="492"/>
         <source>lei</source>
-        <translation>euro</translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/tablemodel.cpp" line="429"/>
+        <location filename="../src/table_model.cpp" line="493"/>
         <source>Venit brut</source>
-        <translation>Revenu brut</translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/tablemodel.cpp" line="430"/>
+        <location filename="../src/table_model.cpp" line="494"/>
         <source>Cheltuieli</source>
-        <translation>Frais</translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/tablemodel.cpp" line="433"/>
+        <location filename="../src/table_model.cpp" line="497"/>
         <source>Registru de Evidenta Fiscala</source>
-        <translation>Registre des preuves fiscales</translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/tablemodel.cpp" line="441"/>
-        <source>Nu se poate scrie in </source>
-        <translation>On ne peut pas écrire dans </translation>
+        <location filename="../src/table_model.cpp" line="507"/>
+        <source>Cannot write to </source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../src/table_model.cpp" line="561"/>
+        <source>Restart the application to apply changes</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../src/table_model.cpp" line="580"/>
+        <source>Invalid number of columns in candidate row</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../src/table_model.cpp" line="612"/>
+        <source>Invalid date in candidate row</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../src/table_model.cpp" line="626"/>
+        <source>Multiple transactions in candidate row</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../src/table_model.cpp" line="632"/>
+        <source>No transaction amount in candidate row</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../src/table_model.cpp" line="666"/>
+        <source>Found possible duplicate row #%1</source>
+        <translation type="unfinished"></translation>
     </message>
 </context>
 <context>
     <name>main</name>
     <message>
         <location filename="../qml/main.qml" line="12"/>
-        <source>Evidenta Fiscala</source>
-        <translation>Dossier fiscal</translation>
+        <source>Fiscal Records</source>
+        <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../qml/main.qml" line="16"/>
-        <source>Fisier</source>
-        <translation>Fichier</translation>
+        <location filename="../qml/main.qml" line="28"/>
+        <source>Open...</source>
+        <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../qml/main.qml" line="18"/>
-        <source>Deschide...</source>
-        <translation>Ouvrir...</translation>
+        <location filename="../qml/main.qml" line="39"/>
+        <source>Settings...</source>
+        <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../qml/main.qml" line="25"/>
-        <source>Configurare...</source>
-        <translation>Configuration...</translation>
+        <location filename="../qml/main.qml" line="48"/>
+        <source>Generate Fiscal Records Register</source>
+        <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../qml/main.qml" line="30"/>
-        <source>Generare Registru de Evidenta Fiscala</source>
-        <translation>Génération d&apos;un registre des preuves fiscales</translation>
+        <location filename="../qml/main.qml" line="66"/>
+        <source>Table</source>
+        <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../qml/main.qml" line="52"/>
-        <source>Tabel</source>
-        <translation>Tableau</translation>
+        <location filename="../qml/main.qml" line="69"/>
+        <source>Chart</source>
+        <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../qml/main.qml" line="55"/>
-        <source>Grafic</source>
-        <translation>Graphique</translation>
+        <location filename="../qml/main.qml" line="135"/>
+        <source>Click to Open in Default Editor</source>
+        <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../qml/main.qml" line="125"/>
-        <source>Eroare</source>
-        <translation>Erreur</translation>
+        <location filename="../qml/main.qml" line="156"/>
+        <source>Error</source>
+        <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../qml/main.qml" line="125"/>
-        <source>Avertisment</source>
-        <translation>Avertissement</translation>
+        <location filename="../qml/main.qml" line="156"/>
+        <source>Warning</source>
+        <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../qml/main.qml" line="137"/>
-        <source>Selectati Fisier</source>
-        <translation>Choisir un fichier</translation>
+        <location filename="../qml/main.qml" line="168"/>
+        <source>Select File</source>
+        <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../qml/main.qml" line="155"/>
-        <source>Selectati Director</source>
-        <translation>Choisir le répertoire</translation>
+        <location filename="../qml/main.qml" line="186"/>
+        <source>Select Working Directory</source>
+        <translation type="unfinished"></translation>
     </message>
 </context>
 </TS>
