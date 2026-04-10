@@ -32,6 +32,7 @@ static
     if (!ok && langFile.isEmpty()) {
         ok = true;
     }
+    qDebug() << "Installed translator" << langFile;
     return ok;
 }
 
