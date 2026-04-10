@@ -58,7 +58,7 @@ file(GLOB TR_SRCS qml/*.qml src/*.cpp src/*.h)
 qt_standard_project_setup(I18N_TRANSLATED_LANGUAGES en fr)
 qt_add_translations(TARGETS ${PROJECT_NAME}
                     SOURCES ${TR_SRCS}
-                    TS_FILES langs/fr.ts langs/en.ts
+                    TS_FILES langs/fr.ts langs/ro.ts
                     RESOURCE_PREFIX "/langs")
 
 # images

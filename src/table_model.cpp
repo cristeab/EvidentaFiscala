@@ -26,9 +26,13 @@ static constexpr int TRANSACTION_ARRAY_LENGTH = 4;
 static constexpr std::array<int, 2> INCOME_INDICES{TableModel::ColumnIndex::BANK_INCOME_INDEX,
                                       TableModel::ColumnIndex::CASH_INCOME_INDEX};
 
-TableModel::TableModel() : _tableHeader({tr("Data"), tr("Venituri prin Banca"), tr("Venituri Lichide"),
-			 tr("Cheltuieli prin Banca"), tr("Cheltuieli Lichide"),
-			 tr("Numar Factura"), tr("Observatii")}),
+static const QStringList RO_TABLE_HEADER{"Data", "Venituri prin Banca", "Venituri Lichide",
+                                        "Cheltuieli prin Banca", "Cheltuieli Lichide",
+                                        "Numar Factura", "Observatii"};
+
+TableModel::TableModel() : _tableHeader({tr("Date"), tr("Bank Income"), tr("Cash Income"),
+tr("Bank Expenses"), tr("Cash Expenses"),
+		 tr("Invoice Number"), tr("Comments")}),
 	  _currencyModel({"RON", "USD", "EUR"}),
       _typeModel(_tableHeader.mid(TRANSACTION_START_INDEX, TRANSACTION_ARRAY_LENGTH)),
 	  _csvSeparator(";"),
@@ -55,7 +59,7 @@ void TableModel::init()
 	}
 	if (!QFile::exists(ledgerFilePath)) {
 		QtCSV::StringData strData;
-		strData.addRow(_tableHeader);
+        strData.addRow(RO_TABLE_HEADER);
 		if (!QtCSV::Writer::write(ledgerFilePath, strData, _csvSeparator)) {
 			qCritical() << "Cannot create file";
 			emit error(tr("CSV file cannot be created"), true);
@@ -65,8 +69,8 @@ void TableModel::init()
 	_readData = QtCSV::Reader::readToList(ledgerFilePath, _csvSeparator);
 	if (!_readData.isEmpty()) {
 		//check column names
-        if (!std::ranges::equal(_tableHeader, _readData.at(0))) {
-            emit error(tr("CSV file does not have expected columns"), true);
+        if (!std::ranges::equal(RO_TABLE_HEADER, _readData.at(0))) {
+            emit error(tr("CSV file does not have the expected columns"), true);
             _readData.clear();
             return;
         }
@@ -107,7 +111,7 @@ QVariant TableModel::data(const QModelIndex &index, int role) const
 	if ((0 > row) || (row >= _readData.size())) {
         return {};
 	}
-	const QStringList rowData = _readData.at(row);
+    const QStringList& rowData = (0 == row) ? _tableHeader : _readData.at(row);
 	int col = -1;
 	switch (role) {
 	case TableModel::Date:
@@ -133,7 +137,7 @@ QVariant TableModel::data(const QModelIndex &index, int role) const
 		break;
 	default:
 		qCritical() << "Unknown role";
-		return QVariant();
+        return {};
 	}
 	return rowData.at(col);
 }
@@ -480,17 +484,21 @@ void TableModel::generateRegistry()
 
 	//generate HTML document
 	const QString year = _monthlyData.keyBegin()->toString("yyyy");
-	QString content = "<br><p>" + tr("Anul")+ " " + year + "</p>";
-	content += "<p>" + tr("Rectificare") + "</p>";
-	content += "<p>"+ tr("Activit&#259;&#355;i de consultan&#355;&#259; &#238;n tehnologia informa&#355;iei") + "</p>";
+    QString content = "<br><p>Anul " + year + "</p>";
+    content += "<p>Rectificare</p>";
+    content += "<p>Activit&#259;&#355;i de consultan&#355;&#259; &#238;n tehnologia informa&#355;iei</p>";
 	content += "<br>";
 	content += "<table>";
-	content += "<tr><th>" + tr("Nr. crt.") + "</th><th>" + tr("Elemente de calcul pentru stabilirea venitului net anual/pierderii nete anuale") + "</th><th>" + tr("Valoare") + "<br>- " + tr("lei") + " -</th></tr>";
-    content += "<tr><td align=\"center\">1</td><td>&nbsp;" + tr("Venit brut") + "</td><td align=\"center\">" + toString(total.income) + "</td></tr>";
-    content += "<tr><td align=\"center\">2</td><td>&nbsp;" + tr("Cheltuieli") + "</td><td align=\"center\">" + toString(total.expense) + "</td></tr>";
+    content += "<tr><th>Nr. crt.</th><th>"
+               "Elemente de calcul pentru stabilirea venitului net anual/pierderii nete anuale</th><th>"
+               "Valoare<br>- lei -</th></tr>";
+    content += "<tr><td align=\"center\">1</td><td>&nbsp;Venit brut</td><td align=\"center\">" +
+               toString(total.income) + "</td></tr>";
+    content += "<tr><td align=\"center\">2</td><td>&nbsp;Cheltuieli</td><td align=\"center\">" +
+               toString(total.expense) + "</td></tr>";
 	content += "</table>";
 	QTextDocument doc;
-	doc.setMetaInformation(QTextDocument::DocumentTitle, tr("Registru de Evidenta Fiscala"));
+    doc.setMetaInformation(QTextDocument::DocumentTitle, "Registru de Evidenta Fiscala");
 	doc.setHtml(content);
 
 	QDir dir(_settings->workingFolderPath());
@@ -657,12 +665,9 @@ std::expected<void,QString> TableModel::isValidRow(QStringList const& row)
             continue;
         }
 
-        if (qAbs(existingSum - rowSum) < 1.0) {
-            return std::unexpected(tr("Found possible duplicate amount in row #{1}").arg(idx));
-        }
-
-        if (0.7 < calculateSimilarity(rowComments, existingRow.at(COMMENTS_INDEX))) {
-            return std::unexpected(tr("Found possible duplicate comment in row #{1}").arg(idx));
+        if (qAbs(existingSum - rowSum) < 1.0 &&
+            0.7 < calculateSimilarity(rowComments, existingRow.at(COMMENTS_INDEX))) {
+            return std::unexpected(tr("Found possible duplicate row #%1").arg(idx));
         }
     }
 

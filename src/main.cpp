@@ -9,8 +9,8 @@ static
 {
     enum class Language : int { RO, EN, FR };
     switch (static_cast<Language>(languageIndex)) {
-    case Language::EN:
-        return ":/langs/en";
+    case Language::RO:
+        return ":/langs/ro";
     case Language::FR:
         return ":/langs/fr";
     default:;
@@ -32,6 +32,7 @@ static
     if (!ok && langFile.isEmpty()) {
         ok = true;
     }
+    qDebug() << "Installed translator" << langFile;
     return ok;
 }
 
