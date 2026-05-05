@@ -107,21 +107,32 @@ Item {
         // Show popup when typing
         onTextChanged: {
             suggestionPopup.userInput = text
-            if (text.length > 0 && !suggestionPopup.opened) {
-                if (0 < suggestionPopup.count) {
-                    suggestionPopup.open()
-                }
+            if (suggestionPopup.canOpen &&
+                    text.length > 0 &&
+                    !suggestionPopup.opened &&
+                    0 < suggestionPopup.count) {
+                suggestionPopup.open()
+            } else if (0 === text.length) {
+                suggestionPopup.canOpen = true
+            }
+        }
+        Keys.onEscapePressed: {
+            if (suggestionPopup.opened) {
+                suggestionPopup.close()
+                suggestionPopup.canOpen = false
             }
         }
 
         SuggestionPopup {
             id: suggestionPopup
+            property bool canOpen: true
             x: obsField.cursorRectangle.x
             y: obsField.cursorRectangle.y + obsField.cursorRectangle.height
             onClicked: (selection) => {
                 obsField.clear()
                 obsField.insert(0, selection)
                 suggestionPopup.close()
+                suggestionPopup.canOpen = false
             }
         }
     }
