@@ -4,8 +4,10 @@ import QtQuick.Controls
 Popup {
     id: control
 
+    property string userInput
     readonly property int itemHeight: 40
     readonly property int maxRows: 10
+    property alias count: suggestionList.count
 
     width: 150
     height: Math.min(suggestionList.contentHeight, control.itemHeight * control.maxRows)
@@ -16,7 +18,7 @@ Popup {
 
     contentItem: ListView {
         id: suggestionList
-        model: ["Option A", "Option B", "Option C"]
+        model: tableModel.suggestions(control.userInput)
         delegate: ItemDelegate {
             height: suggestionPopup.itemHeight
             text: modelData

@@ -72,6 +72,8 @@ public:
     }
     Q_INVOKABLE void setInvisibleColumns(const QList<int> &indexList);
 
+    Q_INVOKABLE QStringList suggestions(QString input);
+
 signals:
     void error(const QString &msg, bool fatal);
 

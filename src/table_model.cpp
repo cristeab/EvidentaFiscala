@@ -673,3 +673,21 @@ std::expected<void,QString> TableModel::isValidRow(QStringList const& row)
 
     return {};
 }
+
+QStringList TableModel::suggestions(QString input)
+{
+    input = input.trimmed();
+    if (3 > input.size()) return {};
+
+    QStringList res;
+    QSet<QString> seen;
+    for (auto const& row: _readData) {
+        auto const& text = row.at(TableModel::ColumnIndex::COMMENTS_INDEX);
+        if (!seen.contains(text) &&
+            text.contains(input, Qt::CaseInsensitive)) {
+            res.push_back(text);
+            seen.insert(text);
+        }
+    }
+    return res;
+}

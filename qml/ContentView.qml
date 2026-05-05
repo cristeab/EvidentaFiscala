@@ -107,7 +107,10 @@ Item {
         // Show popup when typing
         onTextChanged: {
             if (text.length > 0 && !suggestionPopup.opened) {
-                suggestionPopup.open()
+                suggestionPopup.userInput = text
+                if (0 < suggestionPopup.count) {
+                    suggestionPopup.open()
+                }
             }
         }
 
@@ -116,7 +119,8 @@ Item {
             x: obsField.cursorRectangle.x
             y: obsField.cursorRectangle.y + obsField.cursorRectangle.height
             onClicked: (selection) => {
-                obsField.insert(obsField.cursorPosition, selection)
+                obsField.clear()
+                obsField.insert(0, selection)
                 suggestionPopup.close()
             }
         }
