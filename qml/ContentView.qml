@@ -112,7 +112,7 @@ Item {
                     !suggestionPopup.opened &&
                     0 < suggestionPopup.count) {
                 suggestionPopup.open()
-            } else if (0 === text.length) {
+            } else if (3 > text.length) {
                 suggestionPopup.canOpen = true
             }
         }
