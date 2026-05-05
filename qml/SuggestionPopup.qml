@@ -5,11 +5,11 @@ Popup {
     id: control
 
     property string userInput
-    readonly property int itemHeight: 40
+    readonly property int itemHeight: 30
     readonly property int maxRows: 10
     property alias count: suggestionList.count
 
-    width: 150
+    width: Math.min(300, 8 * tableModel.suggestionMaxLength + 20)
     height: Math.min(suggestionList.contentHeight, control.itemHeight * control.maxRows)
     padding: 0
     closePolicy: Popup.CloseOnEscape | Popup.CloseOnPressOutsideParent
@@ -18,6 +18,7 @@ Popup {
 
     contentItem: ListView {
         id: suggestionList
+        spacing: 0
         model: tableModel.suggestions(control.userInput)
         delegate: ItemDelegate {
             height: suggestionPopup.itemHeight

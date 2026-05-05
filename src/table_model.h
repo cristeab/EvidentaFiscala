@@ -29,6 +29,8 @@ class TableModel : public QAbstractTableModel
 
     QML_READABLE_PROPERTY(QString, errorMessage, setErrorMessage, {})
 
+    QML_READABLE_PROPERTY(int, suggestionMaxLength, setSuggestionMaxLength, 0)
+
 public:
     enum CourveType { GROSS_INCOME_CURVE = 0,
                       EXPENSE_CURVE,

@@ -681,13 +681,16 @@ QStringList TableModel::suggestions(QString input)
 
     QStringList res;
     QSet<QString> seen;
+    int max{};
     for (auto const& row: _readData) {
         auto const& text = row.at(TableModel::ColumnIndex::COMMENTS_INDEX);
         if (!seen.contains(text) &&
             text.contains(input, Qt::CaseInsensitive)) {
             res.push_back(text);
             seen.insert(text);
+            max = qMax(max, text.size());
         }
     }
+    setSuggestionMaxLength(max);
     return res;
 }

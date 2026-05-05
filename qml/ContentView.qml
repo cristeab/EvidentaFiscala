@@ -106,8 +106,8 @@ Item {
 
         // Show popup when typing
         onTextChanged: {
+            suggestionPopup.userInput = text
             if (text.length > 0 && !suggestionPopup.opened) {
-                suggestionPopup.userInput = text
                 if (0 < suggestionPopup.count) {
                     suggestionPopup.open()
                 }
