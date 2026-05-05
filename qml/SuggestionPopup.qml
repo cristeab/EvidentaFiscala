@@ -9,7 +9,7 @@ Popup {
     readonly property int maxRows: 10
     property alias count: suggestionList.count
 
-    width: Math.min(300, 8 * tableModel.suggestionMaxLength + 20)
+    width: Math.min(700, 8 * tableModel.suggestionMaxLength)
     height: Math.min(suggestionList.contentHeight, control.itemHeight * control.maxRows)
     padding: 0
     closePolicy: Popup.CloseOnEscape | Popup.CloseOnPressOutsideParent
