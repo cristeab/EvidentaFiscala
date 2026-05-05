@@ -102,7 +102,24 @@ Item {
             rightMargin: Theme.horizontalMargin
         }
         height: 2*dateFieldRow.height
-        placeholderText: qsTr("Observations")
+        placeholderText: qsTr("Comments")
+
+        // Show popup when typing
+        onTextChanged: {
+            if (text.length > 0 && !suggestionPopup.opened) {
+                suggestionPopup.open()
+            }
+        }
+
+        SuggestionPopup {
+            id: suggestionPopup
+            x: obsField.cursorRectangle.x
+            y: obsField.cursorRectangle.y + obsField.cursorRectangle.height
+            onClicked: (selection) => {
+                obsField.insert(obsField.cursorPosition, selection)
+                suggestionPopup.close()
+            }
+        }
     }
 
     Button {
