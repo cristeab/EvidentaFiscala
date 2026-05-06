@@ -574,8 +574,6 @@ void TableModel::setInvisibleColumns(const QList<int> &indexList)
 		_settings->_invisibleColumns = newInvisibleColumns;
 		emit error(tr("Restart the application to apply changes"), false);
 	}
-
-	updateTypeModel();
 }
 
 bool TableModel::isIncome(int typeIndex) const
