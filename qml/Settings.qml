@@ -128,6 +128,7 @@ Dialog {
         Item {
             id: advancedSettings
             ColumnLayout {
+                id: leftCol
                 spacing: Theme.verticalMargin
                 Repeater {
                     model: tableModel.tableHeader.length
@@ -144,6 +145,16 @@ Dialog {
                         }
                     }
                 }
+            }
+            CheckBox {
+                anchors {
+                    top: leftCol.top
+                    left: leftCol.right
+                    leftMargin: 4 * Theme.horizontalMargin
+                }
+                text: qsTr("Enable Row Numbers")
+                checked: settings.enableRowNumber
+                onCheckedChanged: settings.enableRowNumber = checked
             }
         } // advanced settings tab
     } // StackLayout

@@ -32,9 +32,7 @@ class TableModel : public QAbstractTableModel
     QML_READABLE_PROPERTY(QList<qreal>, barNetIncome, setBarNetIncome, {})
 
     QML_READABLE_PROPERTY(QString, errorMessage, setErrorMessage, {})
-
     QML_READABLE_PROPERTY(int, suggestionMaxLength, setSuggestionMaxLength, 0)
-
     QML_READABLE_PROPERTY(double, conversionRate, setConversionRate, {})
 
 public:
