@@ -1,4 +1,5 @@
 #include "table_model.h"
+#include "rest_client.h"
 #include "similarity_score.h"
 #include "qtcsv/stringdata.h"
 #include "qtcsv/reader.h"
@@ -36,7 +37,8 @@ tr("Bank Expenses"), tr("Cash Expenses"),
 	  _currencyModel({"RON", "USD", "EUR"}),
       _typeModel(_tableHeader.mid(TRANSACTION_START_INDEX, TRANSACTION_ARRAY_LENGTH)),
 	  _csvSeparator(";"),
-	  _dateFormats({"dd/MM/yyyy", "dd.MM.yyyy"})
+      _dateFormats({"dd/MM/yyyy", "dd.MM.yyyy"}),
+    _restClient(new RestClient(this))
 {
 	setObjectName("tableModel");
 
@@ -44,6 +46,14 @@ tr("Bank Expenses"), tr("Cash Expenses"),
 
 	connect(_settings, &Settings::minIncomeChanged, this, &TableModel::resetMinIncome);
     connect(_settings, &Settings::useBarsChanged, this, &TableModel::initGraph);
+
+    connect(_restClient, &RestClient::conversionRateReady, this, [this](double value, QString const& currency) {
+        if (0 == _currencyModel.at(_currencyModelIndex).compare(currency, Qt::CaseInsensitive)) {
+            setConversionRate(value);
+        } else {
+            qWarning() << "Ignoring conversion rate" << value << "for" << currency;
+        }
+    }, Qt::QueuedConnection);
 
 	QTimer::singleShot(0, this, &TableModel::init);
 }
@@ -692,4 +702,13 @@ QStringList TableModel::suggestions(QString input)
     }
     setSuggestionMaxLength(max);
     return res;
+}
+
+void TableModel::updateCurrencyRate(QString const& date)
+{
+    if (0 == _currencyModelIndex || date.isEmpty() || !_restClient) {
+        return;
+    }
+    _restClient->requestConversionRate(_currencyModel.at(_currencyModelIndex),
+                                       QDate::fromString(date, _dateFormat));
 }

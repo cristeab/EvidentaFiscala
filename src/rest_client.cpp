@@ -20,10 +20,10 @@ RestClient::RestClient(QObject *parent)
     _restManager(new QRestAccessManager(_accessManager, this))
 {}
 
-void RestClient::requestConversionRate(Currency currency, QDate const& date)
+void RestClient::requestConversionRate(QString const& currency, QDate const& date)
 {
     QUrlQuery urlQuery;
-    urlQuery.addQueryItem("currency", toString(currency));
+    urlQuery.addQueryItem("currency", currency);
     if (date.isValid()) {
         urlQuery.addQueryItem("date", date.toString("yyyy-MM-dd"));
     }
@@ -32,16 +32,16 @@ void RestClient::requestConversionRate(Currency currency, QDate const& date)
     QNetworkRequest netReq(url);
 
     _restManager->get(netReq, this, [this](QRestReply &reply) {
-        if (reply.isSuccess()) {
-            QJsonParseError error;
-            if (auto const doc = reply.readJson(&error)) {
-                parseReply(*doc);
-                return;
-            }
-            qWarning() << error.errorString();
-        } else {
+        if (!reply.isSuccess()) {
             qWarning() << reply.errorString();
+            return;
         }
+        QJsonParseError error;
+        if (auto const doc = reply.readJson(&error)) {
+            parseReply(*doc);
+            return;
+        }
+        qWarning() << error.errorString();
     });
 }
 
@@ -70,15 +70,4 @@ void RestClient::parseReply(QJsonDocument const& doc)
         return;
     }
     emit conversionRateReady(numericValue, currency);
-}
-
-QString RestClient::toString(Currency currency)
-{
-    switch (currency) {
-    case Currency::EUR:
-        return "EUR";
-    case Currency::USD:
-        return "USD";
-    }
-    return "";
 }
