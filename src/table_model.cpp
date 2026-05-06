@@ -676,7 +676,6 @@ std::expected<void,QString> TableModel::isValidRow(QStringList const& row)
 
 QStringList TableModel::suggestions(QString input)
 {
-    input = input.trimmed();
     if (3 > input.size()) return {};
 
     QStringList res;
