@@ -15,9 +15,7 @@ Popup {
     height: Math.min(controlList.contentHeight, control.itemHeight * control.maxRows)
     padding: 0
     closePolicy: Popup.CloseOnEscape | Popup.CloseOnPressOutsideParent
-    focus: true
-
-    onOpened: controlList.forceActiveFocus()
+    focus: false
 
     contentItem: ListView {
         id: controlList
