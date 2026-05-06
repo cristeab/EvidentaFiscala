@@ -8,12 +8,16 @@
 
 class QAbstractSeries;
 class QXYSeries;
+class RestClient;
 
 class TableModel : public QAbstractTableModel
 {
     Q_OBJECT
     QML_CONSTANT_PROPERTY(QStringList, tableHeader, {})
     QML_CONSTANT_PROPERTY(QStringList, currencyModel, {})
+    QML_WRITABLE_PROPERTY(int, currencyModelIndex, setCurrencyModelIndex, 0)
+    QML_CONSTANT_PROPERTY(QString, dateFormat, "dd/MM/yyyy")
+
     QML_READABLE_PROPERTY(QStringList, typeModel, setTypeModel, {})
     QML_READABLE_PROPERTY(int, defaultTypeModelIndex, setDefaultTypeModelIndex, 2)
     QML_READABLE_PROPERTY(QDateTime, xAxisMin, setXAxisMin, {})
@@ -30,6 +34,8 @@ class TableModel : public QAbstractTableModel
     QML_READABLE_PROPERTY(QString, errorMessage, setErrorMessage, {})
 
     QML_READABLE_PROPERTY(int, suggestionMaxLength, setSuggestionMaxLength, 0)
+
+    QML_READABLE_PROPERTY(double, conversionRate, setConversionRate, {})
 
 public:
     enum CourveType { GROSS_INCOME_CURVE = 0,
@@ -75,6 +81,8 @@ public:
     Q_INVOKABLE void setInvisibleColumns(const QList<int> &indexList);
 
     Q_INVOKABLE QStringList suggestions(QString input);
+
+    Q_INVOKABLE void updateCurrencyRate(QString const& date);
 
 signals:
     void error(const QString &msg, bool fatal);
@@ -131,4 +139,5 @@ private:
     };
     QMap<QDateTime, MonthlyData> _monthlyData;
     const QStringList _dateFormats;
+    RestClient* _restClient{};
 };

@@ -5,11 +5,15 @@ import TableModel 1.0
 
 Item {
     id: control
+
     property alias calendarVisible: calendar.visible
     property alias count: tableView.rows
-    readonly property string dateFormat: "dd/MM/yyyy"
+    readonly property var locale: Qt.locale()
 
-    Component.onCompleted: dateField.text = Qt.formatDate(new Date(), control.dateFormat)
+    Component.onCompleted: {
+        dateField.text = Qt.formatDate(new Date(), tableModel.dateFormat)
+        tableModel.updateCurrencyRate(dateField.text)
+    }
 
     clip: true
 
@@ -54,10 +58,15 @@ Item {
         ComboBox {
             id: currencyCombo
             model: tableModel.currencyModel
-            currentIndex: 0
+            currentIndex: tableModel.currencyModelIndex
+            onCurrentIndexChanged: {
+                tableModel.currencyModelIndex = currentIndex
+                tableModel.updateCurrencyRate(dateField.text)
+            }
         }
         TextField {
             id: rateField
+            text: control.locale.toString(Number(tableModel.conversionRate), 'f', 4)
             visible: 0 !== currencyCombo.currentIndex
             horizontalAlignment: Text.AlignHCenter
             placeholderText: qsTr("Exchange Rate")
@@ -79,8 +88,9 @@ Item {
             left: dateFieldRow.left
         }
         onClicked: (date) => {
-            dateField.text = Qt.formatDate(date, control.dateFormat)
+            dateField.text = Qt.formatDate(date, tableModel.dateFormat)
             calendar.visible = false
+            tableModel.updateCurrencyRate(dateField.text)
         }
     }
     MouseArea {
@@ -167,9 +177,8 @@ Item {
                 obsField.focus = true
                 return
             }
-            var locale = Qt.locale()
-            var amount = Number.fromLocaleString(locale, amountField.text)
-            var rate = Number.fromLocaleString(locale, rateField.text)
+            var amount = Number.fromLocaleString(control.locale, amountField.text)
+            var rate = Number.fromLocaleString(control.locale, rateField.text)
             if (tableModel.add(dateField.text, typeCombo.currentIndex, amount,
                            currencyCombo.currentIndex, rate, obsField.text)) {
                 dateField.text = ""
