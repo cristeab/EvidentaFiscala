@@ -116,6 +116,7 @@ Item {
                 suggestionPopup.canOpen = true
             }
         }
+
         Keys.onEscapePressed: {
             if (suggestionPopup.opened) {
                 suggestionPopup.close()
