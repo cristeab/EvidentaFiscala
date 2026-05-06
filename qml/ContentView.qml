@@ -5,8 +5,10 @@ import TableModel 1.0
 
 Item {
     id: control
+
     property alias calendarVisible: calendar.visible
     property alias count: tableView.rows
+    readonly property var locale: Qt.locale()
 
     Component.onCompleted: {
         dateField.text = Qt.formatDate(new Date(), tableModel.dateFormat)
@@ -64,7 +66,7 @@ Item {
         }
         TextField {
             id: rateField
-            text: tableModel.conversionRate
+            text: control.locale.toString(Number(tableModel.conversionRate), 'f', 4)
             visible: 0 !== currencyCombo.currentIndex
             horizontalAlignment: Text.AlignHCenter
             placeholderText: qsTr("Exchange Rate")
@@ -175,9 +177,8 @@ Item {
                 obsField.focus = true
                 return
             }
-            var locale = Qt.locale()
-            var amount = Number.fromLocaleString(locale, amountField.text)
-            var rate = Number.fromLocaleString(locale, rateField.text)
+            var amount = Number.fromLocaleString(control.locale, amountField.text)
+            var rate = Number.fromLocaleString(control.locale, rateField.text)
             if (tableModel.add(dateField.text, typeCombo.currentIndex, amount,
                            currencyCombo.currentIndex, rate, obsField.text)) {
                 dateField.text = ""
