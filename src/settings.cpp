@@ -47,6 +47,7 @@ void Settings::load()
     }
 
     setUseBars(GET_SETTING(useBars).toBool());
+    setEnableRowNumber(GET_SETTING(enableRowNumber).toBool());
 }
 
 void Settings::save()
@@ -64,4 +65,5 @@ void Settings::save()
     _settings.setValue(XSTR(invisibleColumns), variantList);
 
     SET_SETTING(useBars);
+    SET_SETTING(enableRowNumber);
 }

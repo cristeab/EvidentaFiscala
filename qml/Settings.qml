@@ -34,6 +34,7 @@ Dialog {
         settings.invoiceNumberStart = parseInt(invoiceStartNum.editText)
         settings.languageIndex = uiLanguage.currentIndex
         settings.csvHeaderIndex = csvLanguage.currentIndex
+        settings.enableRowNumber = enableRowNumber.checked
 
         tableModel.setInvisibleColumns(control.invisibleColumns)
         control.invisibleColumns = []
@@ -128,6 +129,7 @@ Dialog {
         Item {
             id: advancedSettings
             ColumnLayout {
+                id: leftCol
                 spacing: Theme.verticalMargin
                 Repeater {
                     model: tableModel.tableHeader.length
@@ -144,6 +146,16 @@ Dialog {
                         }
                     }
                 }
+            }
+            CheckBox {
+                id: enableRowNumber
+                anchors {
+                    top: leftCol.top
+                    left: leftCol.right
+                    leftMargin: 4 * Theme.horizontalMargin
+                }
+                text: qsTr("Enable Row Numbers")
+                checked: settings.enableRowNumber
             }
         } // advanced settings tab
     } // StackLayout

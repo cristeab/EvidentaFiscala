@@ -19,6 +19,7 @@ public:
     QML_WRITABLE_PROPERTY(int, csvHeaderIndex, setCsvHeaderIndex, 0)
 
     QML_WRITABLE_PROPERTY(bool, useBars, setUseBars, true)
+    QML_WRITABLE_PROPERTY(bool, enableRowNumber, setEnableRowNumber, true)
 
 public:
     explicit Settings(QObject *parent = nullptr);

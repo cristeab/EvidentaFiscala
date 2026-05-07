@@ -80,3 +80,5 @@ Components.plist
 distribution.xml
 
 .qtcreator/
+
+.vscode/

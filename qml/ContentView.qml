@@ -247,6 +247,13 @@ Item {
         delegate: RowLayout {
             id: tableRow
             spacing: 0
+            Label {
+                visible: settings.enableRowNumber
+                text: (0 != index) ? String(index).padStart(2, ' ') : "  "
+                rightPadding: 3
+                font.bold: true
+                color: "gray"
+            }
             Repeater {
                 model: [date, bankIncome, cashIncome,
                     bankExpenses, cashExpenses, invoiceNumber, comments]
