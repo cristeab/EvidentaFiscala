@@ -6,6 +6,7 @@
 #include <QDateTime>
 #include <expected>
 
+class Settings;
 class QAbstractSeries;
 class QXYSeries;
 class RestClient;
@@ -25,7 +26,6 @@ class TableModel : public QAbstractTableModel
     QML_READABLE_PROPERTY(int, xAxisTickCount, setXAxisTickCount, 2)
     QML_READABLE_PROPERTY(qreal, yAxisMin, setYAxisMin, 0)
     QML_READABLE_PROPERTY(qreal, yAxisMax, setYAxisMax, 1)
-    QML_CONSTANT_PROPERTY_PTR(Settings, settings)
 
     QML_READABLE_PROPERTY(QStringList, barMonths, setBarMonths, {})
     QML_READABLE_PROPERTY(QList<qreal>, barRevenue, setBarRevenue, {})
@@ -82,6 +82,8 @@ public:
 
     Q_INVOKABLE void updateCurrencyRate(QString const& date);
 
+    constexpr Settings* settings() const { return _settings; }
+
 signals:
     void error(const QString &msg, bool fatal);
 
@@ -126,6 +128,7 @@ private:
     [[nodiscard]]
     std::expected<void,QString> isValidRow(QStringList const& row);
 
+    Settings* _settings{};
     const static QLocale _locale;
     uint32_t _invoiceNumber{};
     QList<QStringList> _readData;

@@ -31,8 +31,10 @@ static const QStringList RO_TABLE_HEADER{"Data", "Venituri prin Banca", "Venitur
                                         "Cheltuieli prin Banca", "Cheltuieli Lichide",
                                         "Numar Factura", "Observatii"};
 
-TableModel::TableModel() : _tableHeader({tr("Date"), tr("Bank Income"), tr("Cash Income"),
-tr("Bank Expenses"), tr("Cash Expenses"),
+TableModel::TableModel() :
+    _settings{new Settings(this)},
+    _tableHeader({tr("Date"), tr("Bank Income"), tr("Cash Income"),
+        tr("Bank Expenses"), tr("Cash Expenses"),
 		 tr("Invoice Number"), tr("Comments")}),
 	  _currencyModel({"RON", "USD", "EUR"}),
       _typeModel(_tableHeader.mid(TRANSACTION_START_INDEX, TRANSACTION_ARRAY_LENGTH)),
