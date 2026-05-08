@@ -1,7 +1,7 @@
 import QtQuick
 import QtGraphs
 import QtQuick.Controls
-import TableModel 1.0
+import UiController 1.0
 
 GraphsView {
     antialiasing: true
@@ -11,14 +11,14 @@ GraphsView {
 
     axisX: DateTimeAxis {
         labelFormat: "MMM yyyy"
-        min: tableModel.xAxisMin
-        max: tableModel.xAxisMax
-        subTickCount: tableModel.xAxisTickCount
+        min: controller.xAxisMin
+        max: controller.xAxisMax
+        subTickCount: controller.xAxisTickCount
     }
 
     axisY: ValueAxis {
-        min: tableModel.yAxisMin
-        max: tableModel.yAxisMax
+        min: controller.yAxisMin
+        max: controller.yAxisMax
         titleText: "RON"
     }
 
@@ -116,9 +116,9 @@ GraphsView {
         onHoverExit: pointTooltip.hide()
     }
     Component.onCompleted: {
-        tableModel.setChartSeries(TableModel.GROSS_INCOME_CURVE, grossIncomeLineSeries)
-        tableModel.setChartSeries(TableModel.EXPENSE_CURVE, expenseLineSeries)
-        tableModel.setChartSeries(TableModel.NET_INCOME_CURVE, netIncomeLineSeries)
-        tableModel.setChartSeries(TableModel.THRESHOLD_CURVE, threshold)
+        controller.setChartSeries(UiController.GROSS_INCOME_CURVE, grossIncomeLineSeries)
+        controller.setChartSeries(UiController.EXPENSE_CURVE, expenseLineSeries)
+        controller.setChartSeries(UiController.NET_INCOME_CURVE, netIncomeLineSeries)
+        controller.setChartSeries(UiController.THRESHOLD_CURVE, threshold)
     }
 }

@@ -10,11 +10,11 @@ GraphsView {
     }
 
     axisX: BarCategoryAxis {
-        categories: tableModel.barMonths
+        categories: controller.barMonths
     }
     axisY: ValueAxis {
-        min: tableModel.yAxisMin
-        max: 1.05 * tableModel.yAxisMax
+        min: controller.yAxisMin
+        max: 1.05 * controller.yAxisMax
         labelFormat: "%.0f"
         titleText: "RON"
     }
@@ -24,8 +24,8 @@ GraphsView {
         visible: false
         function show(name, position, value) {
             const index = Math.round(value.x)
-            const revenue = tableModel.barRevenue[index];
-            const netIncome = tableModel.barNetIncome[index];
+            const revenue = controller.barRevenue[index];
+            const netIncome = controller.barNetIncome[index];
             pointTooltip.text = qsTr("Gross Income: %1\nNet Income: %2\nExpenses: %3")
             .arg(revenue)
             .arg(netIncome)
@@ -43,12 +43,12 @@ GraphsView {
         BarSet {
             label: qsTr("Gross Income")
             color: "blue"
-            values: tableModel.barRevenue
+            values: controller.barRevenue
         }
         BarSet {
             label: qsTr("Net Income")
             color: "orange"
-            values: tableModel.barNetIncome
+            values: controller.barNetIncome
         }
         labelsVisible: true
         labelsPrecision: 2

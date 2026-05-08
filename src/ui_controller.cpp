@@ -10,8 +10,8 @@
 
 UiController::UiController(QObject *parent)
     : QObject{parent},
-        _settings(new Settings(this)),
-        _restClient(new RestClient(this)),
+    _settings(new Settings(this)),
+    _restClient(new RestClient(this)),
     _tableModel(new TableModel(this))
 {
     setObjectName("controller");

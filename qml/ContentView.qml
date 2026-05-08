@@ -12,7 +12,7 @@ Item {
 
     Component.onCompleted: {
         dateField.text = Qt.formatDate(new Date(), controller.dateFormat)
-        tableModel.updateCurrencyRate(dateField.text)
+        controller.updateCurrencyRate(dateField.text)
     }
 
     clip: true
@@ -61,7 +61,7 @@ Item {
             currentIndex: tableModel.currencyModelIndex
             onCurrentIndexChanged: {
                 tableModel.currencyModelIndex = currentIndex
-                tableModel.updateCurrencyRate(dateField.text)
+                controller.updateCurrencyRate(dateField.text)
             }
         }
         TextField {

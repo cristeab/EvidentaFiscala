@@ -31,7 +31,7 @@ static const QStringList RO_TABLE_HEADER{"Data", "Venituri prin Banca", "Venitur
                                         "Numar Factura", "Observatii"};
 
 TableModel::TableModel(UiController* controller) :
-    QAbstractTableModel(this),
+    QAbstractTableModel(controller),
     _tableHeader({tr("Date"),
                   tr("Bank Income"),
                   tr("Cash Income"),
