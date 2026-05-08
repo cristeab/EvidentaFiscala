@@ -9,8 +9,6 @@ Dialog {
     readonly property real selectFolderWidth: control.width * 2 / 3
     readonly property real editWidth: control.selectFolderWidth / 3
 
-    property list<int> invisibleColumns
-
     title: qsTr("Settings")
     implicitWidth: winApp.width * 0.75
     implicitHeight: winApp.height * 0.9
@@ -36,14 +34,20 @@ Dialog {
         settings.csvHeaderIndex = csvLanguage.currentIndex
         settings.enableRowNumber = enableRowNumber.checked
 
-        tableModel.setInvisibleColumns(control.invisibleColumns)
-        control.invisibleColumns = []
+        let invisibleColumns = []
+        for (let i = 0; i < (columnRepeater.count - 1); ++i) {
+            const it = columnRepeater.itemAt(i)
+            if (!it.checked) {
+                invisibleColumns.push(i)
+            }
+        }
+        tableModel.setInvisibleColumns(invisibleColumns)
+
         settings.save()
         settingsLoader.active = false
     }
     onRejected: {
         settingsLoader.active = false
-        control.invisibleColumns = []
     }
 
     TabBar {
@@ -132,18 +136,12 @@ Dialog {
                 id: leftCol
                 spacing: Theme.verticalMargin
                 Repeater {
+                    id: columnRepeater
                     model: tableModel.tableHeader.length
                     delegate: CheckBox {
                         enabled: (tableModel.tableHeader.length - 1) !== index
                         text: tableModel.tableHeader[index]
                         checked: tableModel.isColumnVisible(index)
-                        onCheckedChanged: {
-                            if (checked) {
-                                control.invisibleColumns.splice(index, 1)
-                            } else {
-                                control.invisibleColumns.push(index)
-                            }
-                        }
                     }
                 }
             }
