@@ -13,14 +13,14 @@ class TableModel : public QAbstractTableModel
     Q_OBJECT
 
     QML_CONSTANT_PROPERTY(QStringList, tableHeader, {})
+
     QML_CONSTANT_PROPERTY(QStringList, currencyModel, {})
     QML_WRITABLE_PROPERTY(int, currencyModelIndex, setCurrencyModelIndex, 0)
 
+    QML_READABLE_PROPERTY(QStringList, transactionTypeModel, setTransactionTypeModel, {})
+    QML_READABLE_PROPERTY(int, defaultTransactionTypeModelIndex, setDefaultTransactionTypeModelIndex, 2)
+
     QML_READABLE_PROPERTY(int, suggestionMaxLength, setSuggestionMaxLength, 0)
-
-    QML_READABLE_PROPERTY(QStringList, typeModel, setTypeModel, {})
-    QML_READABLE_PROPERTY(int, defaultTypeModelIndex, setDefaultTypeModelIndex, 2)
-
     QML_READABLE_PROPERTY(QString, errorMessage, setErrorMessage, {})
 
 public:

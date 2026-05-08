@@ -42,7 +42,7 @@ TableModel::TableModel(UiController* controller) :
       _currencyModel({"RON",
                       "USD",
                       "EUR"}),
-      _typeModel(_tableHeader.mid(TRANSACTION_START_INDEX, TRANSACTION_ARRAY_LENGTH)),
+      _transactionTypeModel(_tableHeader.mid(TRANSACTION_START_INDEX, TRANSACTION_ARRAY_LENGTH)),
     _controller(controller)
 {
 	setObjectName("tableModel");
@@ -156,7 +156,7 @@ bool TableModel::add(const QString &date, int typeIndex, qreal amount,
     QStringList row(COLUMN_COUNT);
     row[DATE_INDEX] = date;
     for (int i = TRANSACTION_START_INDEX; i <= TRANSACTION_ARRAY_LENGTH; ++i) {
-        if (_typeModel.at(typeIndex) == _tableHeader.at(i)) {
+        if (_transactionTypeModel.at(typeIndex) == _tableHeader.at(i)) {
             row[i] = computeActualAmount(amount, currencyIndex, rate);
             break;
 		}
@@ -383,16 +383,16 @@ void TableModel::updateTypeModel()
 	static constexpr int defaultTableHeaderIndex{3};
 
 	// update combobox
-	_typeModel.clear();
+    _transactionTypeModel.clear();
     for (int i = 1; i < (COLUMN_COUNT - 2); ++i) {
 		if (isColumnVisible(i)) {
-			_typeModel.append(_tableHeader.at(i));
+            _transactionTypeModel.append(_tableHeader.at(i));
 		}
 	}
-	emit typeModelChanged();
+    emit transactionTypeModelChanged();
 
 	// update default index in combobox
-	setDefaultTypeModelIndex(static_cast<int>(_typeModel.indexOf(_tableHeader.at(defaultTableHeaderIndex))));
+    setDefaultTransactionTypeModelIndex(static_cast<int>(_transactionTypeModel.indexOf(_tableHeader.at(defaultTableHeaderIndex))));
 }
 
 void TableModel::setInvisibleColumns(const QList<int> &indexList)
@@ -416,7 +416,7 @@ bool TableModel::isColumnVisible(int index) const {
 
 bool TableModel::isIncome(int typeIndex) const
 {
-    const auto& transactionName = _typeModel.at(typeIndex);
+    const auto& transactionName = _transactionTypeModel.at(typeIndex);
     return std::ranges::any_of(INCOME_INDICES,
                        [&](int idx) { return transactionName == _tableHeader.at(idx); });
 }

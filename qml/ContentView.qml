@@ -43,8 +43,8 @@ Item {
         ComboBox {
             id: typeCombo
             Layout.preferredWidth: 1.75*dateField.width
-            model: tableModel.typeModel
-            currentIndex: tableModel.defaultTypeModelIndex
+            model: tableModel.transactionTypeModel
+            currentIndex: tableModel.defaultTransactionTypeModelIndex
         }
         TextField {
             id: amountField
