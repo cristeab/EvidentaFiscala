@@ -11,7 +11,7 @@ Item {
     readonly property var locale: Qt.locale()
 
     Component.onCompleted: {
-        dateField.text = Qt.formatDate(new Date(), tableModel.dateFormat)
+        dateField.text = Qt.formatDate(new Date(), controller.dateFormat)
         tableModel.updateCurrencyRate(dateField.text)
     }
 
@@ -88,7 +88,7 @@ Item {
             left: dateFieldRow.left
         }
         onClicked: (date) => {
-            dateField.text = Qt.formatDate(date, tableModel.dateFormat)
+            dateField.text = Qt.formatDate(date, controller.dateFormat)
             calendar.visible = false
             tableModel.updateCurrencyRate(dateField.text)
         }

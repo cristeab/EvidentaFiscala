@@ -1,3 +1,4 @@
+#include "ui_controller.h"
 #include "table_model.h"
 #include <QGuiApplication>
 #include <QQmlApplicationEngine>
@@ -42,15 +43,19 @@ int main(int argc, char *argv[])
     qSetMessagePattern("%{appname} [%{threadid}] [%{type}] %{message} (%{file}:%{line})");
 
     QQmlApplicationEngine engine;
+    qmlRegisterType<UiController>("UiController", 1, 0, "UiController");
     qmlRegisterType<TableModel>("TableModel", 1, 0, "TableModel");
 
     QTranslator translator;
 
     QQmlContext *context = engine.rootContext();
     if (nullptr != context) {
-        auto tableModel = QPointer(new TableModel());
+        auto controller = QPointer(new UiController());
+        context->setContextProperty(controller->objectName(), controller);
+
+        auto* tableModel = controller->tableModel();
         context->setContextProperty(tableModel->objectName(), tableModel);
-        auto* settings = tableModel->settings();
+        auto* settings = controller->settings();
         context->setContextProperty(settings->objectName(), settings);
 
         // load translator from settings

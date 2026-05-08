@@ -1,5 +1,6 @@
 #include "table_model.h"
-#include "rest_client.h"
+#include "settings.h"
+#include "ui_controller.h"
 #include "similarity_score.h"
 #include "qtcsv/stringdata.h"
 #include "qtcsv/reader.h"
@@ -10,12 +11,7 @@
 #include <QDebug>
 #include <QCoreApplication>
 #include <QRegularExpression>
-#include <QTextDocument>
-#include <QTextDocumentWriter>
-#include <QDesktopServices>
 #include <QFileInfo>
-#include <QXYSeries>
-#include <QDir>
 
 const QLocale TableModel::_locale;
 
@@ -31,8 +27,8 @@ static const QStringList RO_TABLE_HEADER{"Data", "Venituri prin Banca", "Venitur
                                         "Cheltuieli prin Banca", "Cheltuieli Lichide",
                                         "Numar Factura", "Observatii"};
 
-TableModel::TableModel() :
-    _settings{new Settings(this)},
+TableModel::TableModel(UiController* controller) :
+    QAbstractTableModel(this),
     _tableHeader({tr("Date"), tr("Bank Income"), tr("Cash Income"),
         tr("Bank Expenses"), tr("Cash Expenses"),
 		 tr("Invoice Number"), tr("Comments")}),
@@ -40,22 +36,9 @@ TableModel::TableModel() :
       _typeModel(_tableHeader.mid(TRANSACTION_START_INDEX, TRANSACTION_ARRAY_LENGTH)),
 	  _csvSeparator(";"),
       _dateFormats({"dd/MM/yyyy", "dd.MM.yyyy"}),
-    _restClient(new RestClient(this))
+    _controller(controller)
 {
 	setObjectName("tableModel");
-
-    _chartSeries.fill(nullptr);
-
-	connect(_settings, &Settings::minIncomeChanged, this, &TableModel::resetMinIncome);
-    connect(_settings, &Settings::useBarsChanged, this, &TableModel::initGraph);
-
-    connect(_restClient, &RestClient::conversionRateReady, this, [this](double value, QString const& currency) {
-        if (0 == _currencyModel.at(_currencyModelIndex).compare(currency, Qt::CaseInsensitive)) {
-            setConversionRate(value);
-        } else {
-            qWarning() << "Ignoring conversion rate" << value << "for" << currency;
-        }
-    }, Qt::QueuedConnection);
 
 	QTimer::singleShot(0, this, &TableModel::init);
 }
@@ -64,7 +47,7 @@ void TableModel::init()
 {
 	updateTypeModel();
 
-	const auto& ledgerFilePath = _settings->ledgerFilePath();
+    const auto& ledgerFilePath = _controller->settings()->ledgerFilePath();
 	if (ledgerFilePath.isEmpty()) {
 	    emit error(tr("CSV file name is empty"), true);
 	    return;
@@ -99,7 +82,7 @@ void TableModel::init()
         }
 	}
 
-    initGraph();
+    _controller->initGraph();
 	initInvoiceNumber();
 }
 
@@ -110,11 +93,6 @@ QString TableModel::computeActualAmount(qreal amount, int currencyIndex, qreal r
 		actualAmount *= rate;
 	}
 	return _currencyModel.at(0) + " " + toString(actualAmount);
-}
-
-QString TableModel::toString(qreal num)
-{
-	return _locale.toString(num, 'f', 4);
 }
 
 QVariant TableModel::data(const QModelIndex &index, int role) const
@@ -205,7 +183,7 @@ bool TableModel::add(const QString &date, int typeIndex, qreal amount,
 	QtCSV::StringData strData;
 	strData.addRow(row);
 
-	const auto& ledgerFilePath = _settings->ledgerFilePath();
+    const auto& ledgerFilePath = _controller->settings()->ledgerFilePath();
 	bool rc = ensureLastCharIsNewLine(ledgerFilePath);
 	if (!rc) {
 		return false;
@@ -214,7 +192,7 @@ bool TableModel::add(const QString &date, int typeIndex, qreal amount,
 				  QtCSV::Writer::WriteMode::APPEND);
 	if (rc) {
 		_readData.append(row);
-        updateGraph(static_cast<int>(_readData.size()) - 1);
+        _controller->updateGraph(static_cast<int>(_readData.size()) - 1);
     } else {
         setErrorMessage(tr("Cannot write CSV file {}").arg(ledgerFilePath));
     }
@@ -248,13 +226,6 @@ void TableModel::initInvoiceNumber()
         _invoiceNumber = nums.at(0);
     }
     qInfo() << "Last invoice number" << _invoiceNumber;
-}
-
-void TableModel::setChartSeries(int index, QAbstractSeries *series)
-{
-	if (0 <= index && CURVE_COUNT > index) {
-		_chartSeries[index] = static_cast<QXYSeries *>(series);
-	}
 }
 
 bool TableModel::parseRow(int rowIndex, QDateTime &key, qreal &income,
@@ -343,7 +314,7 @@ void TableModel::initMonthlyData()
         if (parseRow(i, key, income, expense)) {
             _monthlyData[key].income += income;
             _monthlyData[key].expense += expense;
-            updateXAxis(key);
+            _controller->updateXAxis(key);
         }
     }
 }
@@ -358,91 +329,7 @@ void TableModel::updateMonthlyData(int rowIndex)
     }
     _monthlyData[key].income += income;
     _monthlyData[key].expense += expense;
-    updateXAxis(key);
-}
-
-void TableModel::initGraph()
-{
-    initMonthlyData();
-	sortRows();
-    _settings->useBars() ? resetGraphBars() : resetGraphLines();
-}
-
-void TableModel::updateGraph(int rowIndex)
-{
-    updateMonthlyData(rowIndex);
-	sortRows();
-    _settings->useBars() ? resetGraphBars() : resetGraphLines();
-}
-
-void TableModel::resetGraphBars()
-{
-    _barMonths.clear();
-    _barRevenue.clear();
-    _barNetIncome.clear();
-
-    for (auto const& [date, monthlyData]: _monthlyData.asKeyValueRange()) {
-        _barMonths << QLocale().toString(date, "MMM yyyy");
-        _barRevenue << monthlyData.income;
-        updateYAxis(monthlyData.income);
-        const auto netIncome = monthlyData.income - monthlyData.expense;
-        _barNetIncome << netIncome;
-        updateYAxis(netIncome);
-    }
-
-    emit barMonthsChanged();
-    emit barRevenueChanged();
-    emit barNetIncomeChanged();
-}
-
-void TableModel::resetGraphLines()
-{
-    std::ranges::for_each(_chartSeries, [](auto* elem) {
-        if (elem) elem->clear();
-    });
-
-    if (_monthlyData.isEmpty()) {
-        return;
-    }
-
-    auto appendToCurve = [&](int curveIndex, qint64 timeVal, qreal amount) {
-        if (nullptr != _chartSeries[curveIndex]) {
-            _chartSeries[curveIndex]->append(static_cast<qreal>(timeVal),
-                                             amount);
-            updateYAxis(amount);
-        }
-    };
-
-    for (auto const& [date, monthlyData]: _monthlyData.asKeyValueRange()) {
-        const qint64 timeVal = date.toMSecsSinceEpoch();
-        appendToCurve(GROSS_INCOME_CURVE, timeVal, monthlyData.income);
-        appendToCurve(EXPENSE_CURVE, timeVal, monthlyData.expense);
-        appendToCurve(NET_INCOME_CURVE, timeVal,
-                      monthlyData.income - monthlyData.expense);
-    }
-
-    setXAxisTickCount(static_cast<int>(_monthlyData.size()));
-    resetMinIncome();
-}
-
-void TableModel::updateXAxis(const QDateTime &val)
-{
-    if (!_xAxisMin.isValid() || _xAxisMin > val) {
-        setXAxisMin(val);
-    }
-    if (!_xAxisMax.isValid() || _xAxisMax < val) {
-        setXAxisMax(val);
-    }
-}
-
-void TableModel::updateYAxis(qreal amount)
-{
-    if (_yAxisMin > amount) {
-        setYAxisMin(amount);
-    }
-    if (_yAxisMax < amount) {
-        setYAxisMax(amount);
-    }
+    _controller->updateXAxis(key);
 }
 
 bool TableModel::ensureLastCharIsNewLine(const QString& filePath)
@@ -478,72 +365,10 @@ bool TableModel::ensureLastCharIsNewLine(const QString& filePath)
 	return rc;
 }
 
-void TableModel::generateRegistry()
+void TableModel::openLedger(const QString &fileName)
 {
-	if (_monthlyData.isEmpty()) {
-		return;
-	}
-
-    auto const total = std::ranges::fold_left(_monthlyData, MonthlyData{},
-                    [](auto const& left, auto const& right) {
-        return MonthlyData{.income = left.income + right.income,
-                           .expense = left.expense + right.expense};
-    });
-
-    qInfo() << "Gross income" << total.income;
-    qInfo() << "Expenses" << total.expense;
-    qInfo() << "Net income" << total.income - total.expense;
-
-	//generate HTML document
-	const QString year = _monthlyData.keyBegin()->toString("yyyy");
-    QString content = "<br><p>Anul " + year + "</p>";
-    content += "<p>Rectificare</p>";
-    content += "<p>Activit&#259;&#355;i de consultan&#355;&#259; &#238;n tehnologia informa&#355;iei</p>";
-	content += "<br>";
-	content += "<table>";
-    content += "<tr><th>Nr. crt.</th><th>"
-               "Elemente de calcul pentru stabilirea venitului net anual/pierderii nete anuale</th><th>"
-               "Valoare<br>- lei -</th></tr>";
-    content += "<tr><td align=\"center\">1</td><td>&nbsp;Venit brut</td><td align=\"center\">" +
-               toString(total.income) + "</td></tr>";
-    content += "<tr><td align=\"center\">2</td><td>&nbsp;Cheltuieli</td><td align=\"center\">" +
-               toString(total.expense) + "</td></tr>";
-	content += "</table>";
-	QTextDocument doc;
-    doc.setMetaInformation(QTextDocument::DocumentTitle, "Registru de Evidenta Fiscala");
-	doc.setHtml(content);
-
-	QDir dir(_settings->workingFolderPath());
-	const auto fileName = "RegistruEvidentaFiscala_" + year + ".odt";
-	QTextDocumentWriter docWriter(dir.filePath(fileName), "odf");
-	const bool rc = docWriter.write(&doc);
-	if (rc) {
-		QDesktopServices::openUrl("file://" + docWriter.fileName());
-	} else {
-		const QString msg = tr("Cannot write to ") + docWriter.fileName();
-		qCritical() << msg;
-		emit error(msg, false);
-	}
-}
-
-void TableModel::openLedger(const QUrl &url)
-{
-	_settings->setLedgerFilePath(url.toLocalFile());
+    _controller->settings()->setLedgerFilePath(fileName);
 	QTimer::singleShot(0, this, &TableModel::init);
-}
-
-void TableModel::resetMinIncome()
-{
-	if ((nullptr != _chartSeries[THRESHOLD_CURVE]) &&
-	    (nullptr != _chartSeries[GROSS_INCOME_CURVE])) {
-		const auto* series = _chartSeries[GROSS_INCOME_CURVE];
-		const auto minIncome = _settings->minIncome();
-		_chartSeries[THRESHOLD_CURVE]->clear();
-		_chartSeries[THRESHOLD_CURVE]->append(series->at(0).x(), minIncome);
-		_chartSeries[THRESHOLD_CURVE]->append(series->at(series->count() - 1).x(), minIncome);
-	} else {
-		qWarning() << "Cannot reset minimum income";
-	}
 }
 
 void TableModel::updateTypeModel()
@@ -572,10 +397,14 @@ void TableModel::setInvisibleColumns(const QList<int> &indexList)
 	for (auto index: indexList) {
 		newInvisibleColumns.emplace(index);
 	}
-	if (_settings->_invisibleColumns != newInvisibleColumns) {
-		_settings->_invisibleColumns = newInvisibleColumns;
+    if (_controller->settings()->invisibleColumns() != newInvisibleColumns) {
+        _controller->settings()->setInvisibleColumns(newInvisibleColumns);
 		emit error(tr("Restart the application to apply changes"), false);
 	}
+}
+
+bool TableModel::isColumnVisible(int index) const {
+    return 0 == _controller->settings()->invisibleColumns().count(index);
 }
 
 bool TableModel::isIncome(int typeIndex) const
@@ -704,11 +533,21 @@ QStringList TableModel::suggestions(QString input)
     return res;
 }
 
-void TableModel::updateCurrencyRate(QString const& date)
+TableModel::MonthlyData TableModel::total() const
 {
-    if (0 == _currencyModelIndex || date.isEmpty() || !_restClient) {
-        return;
-    }
-    _restClient->requestConversionRate(_currencyModel.at(_currencyModelIndex),
-                                       QDate::fromString(date, _dateFormat));
+    return std::ranges::fold_left(_monthlyData, MonthlyData{},
+                                  [](auto const& left, auto const& right) {
+                                      return MonthlyData{.income = left.income + right.income,
+                                                         .expense = left.expense + right.expense};
+                                  });
+}
+
+QString TableModel::year() const
+{
+    return _monthlyData.isEmpty() ? "" : _monthlyData.keyBegin()->toString("yyyy");
+}
+
+QString TableModel::toString(qreal num)
+{
+    return _locale.toString(num, 'f', 4);
 }
