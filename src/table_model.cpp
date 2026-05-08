@@ -129,9 +129,11 @@ QVariant TableModel::data(const QModelIndex &index, int role) const
 	case TableModel::InvoiceNumber:
         col = INVOICE_NUMBER_INDEX;
 		break;
-    case TableModel::Comments:
-        col = COMMENTS_INDEX;
-		break;
+    case TableModel::Comments: {
+        QString comment = rowData.at(COMMENTS_INDEX);
+        comment.replace(QRegularExpression("[\r\n]+"), ". ");
+        return comment;
+    }
 	default:
 		qCritical() << "Unknown role";
         return {};
