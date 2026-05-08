@@ -113,10 +113,11 @@ private:
     std::expected<void,QString> isValidRow(QStringList const& row);
 
     const static QLocale _locale;
+    const static QString _csvSeparator;
+    const static QStringList _dateFormats;
+
     uint32_t _invoiceNumber{};
     QList<QStringList> _readData;
-    const QString _csvSeparator;
     QMap<QDateTime, MonthlyData> _monthlyData;
-    const QStringList _dateFormats;
     UiController* _controller{};
 };

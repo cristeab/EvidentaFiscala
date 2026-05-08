@@ -14,6 +14,9 @@
 #include <QFileInfo>
 
 const QLocale TableModel::_locale;
+const QString TableModel::_csvSeparator{";"};
+const QStringList TableModel::_dateFormats{"dd/MM/yyyy",
+                               "dd.MM.yyyy"};
 
 static constexpr int RO_CURRENCY_INDEX = 0;
 
@@ -29,13 +32,17 @@ static const QStringList RO_TABLE_HEADER{"Data", "Venituri prin Banca", "Venitur
 
 TableModel::TableModel(UiController* controller) :
     QAbstractTableModel(this),
-    _tableHeader({tr("Date"), tr("Bank Income"), tr("Cash Income"),
-        tr("Bank Expenses"), tr("Cash Expenses"),
-		 tr("Invoice Number"), tr("Comments")}),
-	  _currencyModel({"RON", "USD", "EUR"}),
+    _tableHeader({tr("Date"),
+                  tr("Bank Income"),
+                  tr("Cash Income"),
+                  tr("Bank Expenses"),
+                  tr("Cash Expenses"),
+                  tr("Invoice Number"),
+                  tr("Comments")}),
+      _currencyModel({"RON",
+                      "USD",
+                      "EUR"}),
       _typeModel(_tableHeader.mid(TRANSACTION_START_INDEX, TRANSACTION_ARRAY_LENGTH)),
-	  _csvSeparator(";"),
-      _dateFormats({"dd/MM/yyyy", "dd.MM.yyyy"}),
     _controller(controller)
 {
 	setObjectName("tableModel");
