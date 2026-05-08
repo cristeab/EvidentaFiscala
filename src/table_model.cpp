@@ -129,9 +129,11 @@ QVariant TableModel::data(const QModelIndex &index, int role) const
 	case TableModel::InvoiceNumber:
         col = INVOICE_NUMBER_INDEX;
 		break;
-    case TableModel::Comments:
-        col = COMMENTS_INDEX;
-		break;
+    case TableModel::Comments: {
+        QString comment = rowData.at(COMMENTS_INDEX);
+        comment.replace(QRegularExpression("[\r\n]+"), ". ");
+        return comment;
+    }
 	default:
 		qCritical() << "Unknown role";
         return {};
@@ -404,8 +406,9 @@ void TableModel::setInvisibleColumns(const QList<int> &indexList)
 	for (auto index: indexList) {
 		newInvisibleColumns.emplace(index);
 	}
-    if (_controller->settings()->invisibleColumns() != newInvisibleColumns) {
-        _controller->settings()->setInvisibleColumns(newInvisibleColumns);
+
+    if (auto* settings = _controller->settings(); settings->invisibleColumns() != newInvisibleColumns) {
+        settings->setInvisibleColumns(newInvisibleColumns);
 		emit error(tr("Restart the application to apply changes"), false);
 	}
 }

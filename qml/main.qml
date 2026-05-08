@@ -30,6 +30,15 @@ ApplicationWindow {
                 }
             }
             ToolButton {
+                icon.source: "qrc:/img/FileExport.svg"
+                onClicked: tableModel.generateRegistry()
+                enabled: 0 < tableTab.count
+                ToolTip {
+                    text: qsTr("Generate Fiscal Records Register")
+                    visible: parent.hovered
+                }
+            }
+            ToolButton {
                 icon.source: "qrc:/img/Settings.svg"
                 onClicked: {
                     settingsLoader.active = true
@@ -37,15 +46,6 @@ ApplicationWindow {
                 }
                 ToolTip {
                     text: qsTr("Settings...")
-                    visible: parent.hovered
-                }
-            }
-            ToolButton {
-                icon.source: "qrc:/img/FileExport.svg"
-                onClicked: tableModel.generateRegistry()
-                enabled: 0 < tableTab.count
-                ToolTip {
-                    text: qsTr("Generate Fiscal Records Register")
                     visible: parent.hovered
                 }
             }
