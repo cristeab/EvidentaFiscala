@@ -11,8 +11,8 @@ Item {
     readonly property var locale: Qt.locale()
 
     Component.onCompleted: {
-        dateField.text = Qt.formatDate(new Date(), tableModel.dateFormat)
-        tableModel.updateCurrencyRate(dateField.text)
+        dateField.text = Qt.formatDate(new Date(), controller.dateFormat)
+        controller.updateCurrencyRate(dateField.text)
     }
 
     clip: true
@@ -61,12 +61,12 @@ Item {
             currentIndex: tableModel.currencyModelIndex
             onCurrentIndexChanged: {
                 tableModel.currencyModelIndex = currentIndex
-                tableModel.updateCurrencyRate(dateField.text)
+                controller.updateCurrencyRate(dateField.text)
             }
         }
         TextField {
             id: rateField
-            text: control.locale.toString(Number(tableModel.conversionRate), 'f', 4)
+            text: control.locale.toString(Number(controller.conversionRate), 'f', 4)
             visible: 0 !== currencyCombo.currentIndex
             horizontalAlignment: Text.AlignHCenter
             placeholderText: qsTr("Exchange Rate")
@@ -88,7 +88,7 @@ Item {
             left: dateFieldRow.left
         }
         onClicked: (date) => {
-            dateField.text = Qt.formatDate(date, tableModel.dateFormat)
+            dateField.text = Qt.formatDate(date, controller.dateFormat)
             calendar.visible = false
             tableModel.updateCurrencyRate(dateField.text)
         }

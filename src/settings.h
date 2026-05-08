@@ -5,7 +5,7 @@
 #include <QSettings>
 #include <unordered_set>
 
-class TableModel;
+class UiController;
 
 class Settings : public QObject {
 Q_OBJECT
@@ -27,8 +27,13 @@ public:
     Q_INVOKABLE void load();
     Q_INVOKABLE void save();
 
+    constexpr auto const& invisibleColumns() const { return _invisibleColumns; }
+    void setInvisibleColumns(std::unordered_set<int> const& invisibleColumns) {
+        _invisibleColumns = invisibleColumns;
+    }
+
 private:
     QSettings _settings;
     std::unordered_set<int> _invisibleColumns;
-    friend TableModel;
+    friend UiController;
 };
