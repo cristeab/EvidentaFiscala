@@ -66,7 +66,7 @@ Item {
         }
         TextField {
             id: rateField
-            text: control.locale.toString(Number(tableModel.conversionRate), 'f', 4)
+            text: control.locale.toString(Number(controller.conversionRate), 'f', 4)
             visible: 0 !== currencyCombo.currentIndex
             horizontalAlignment: Text.AlignHCenter
             placeholderText: qsTr("Exchange Rate")
