@@ -394,7 +394,7 @@ void TableModel::updateTypeModel()
     setDefaultTransactionTypeModelIndex(static_cast<int>(_transactionTypeModel.indexOf(_tableHeader.at(defaultTableHeaderIndex))));
 }
 
-void TableModel::setInvisibleColumns(const QList<int> &indexList)
+bool TableModel::updateInvisibleColumns(const QList<int> &indexList)
 {
 	qDebug() << "Invisible cols" << indexList;
 
@@ -406,8 +406,10 @@ void TableModel::setInvisibleColumns(const QList<int> &indexList)
 
     if (auto* settings = _controller->settings(); settings->invisibleColumns() != newInvisibleColumns) {
         settings->setInvisibleColumns(newInvisibleColumns);
-		emit error(tr("Restart the application to apply changes"), false);
+        return true;
 	}
+
+    return false;
 }
 
 bool TableModel::isColumnVisible(int index) const {

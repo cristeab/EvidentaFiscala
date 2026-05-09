@@ -41,7 +41,9 @@ Dialog {
                 invisibleColumns.push(i)
             }
         }
-        tableModel.setInvisibleColumns(invisibleColumns)
+        if (tableModel.updateInvisibleColumns(invisibleColumns)) {
+            errMsg.show(qsTr("Restart the application to apply changes"), false)
+        }
 
         settings.save()
         settingsLoader.active = false
