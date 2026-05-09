@@ -5,13 +5,10 @@
 #include "qtcsv/stringdata.h"
 #include "qtcsv/reader.h"
 #include "qtcsv/writer.h"
-#include <QStandardPaths>
 #include <QFile>
 #include <QTimer>
 #include <QDebug>
-#include <QCoreApplication>
 #include <QRegularExpression>
-#include <QFileInfo>
 
 const QLocale TableModel::_locale;
 const QString TableModel::_csvSeparator{";"};
