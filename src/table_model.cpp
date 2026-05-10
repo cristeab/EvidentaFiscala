@@ -404,7 +404,8 @@ bool TableModel::updateInvisibleColumns(const QList<int> &indexList)
 		newInvisibleColumns.emplace(index);
 	}
 
-    if (auto* settings = _controller->settings(); settings->invisibleColumns() != newInvisibleColumns) {
+    if (auto* settings = _controller->settings();
+        settings->invisibleColumns() != newInvisibleColumns) {
         settings->setInvisibleColumns(newInvisibleColumns);
         return true;
 	}
