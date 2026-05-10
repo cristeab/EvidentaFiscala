@@ -182,7 +182,7 @@ Item {
             if (tableModel.add(dateField.text, typeCombo.currentIndex, amount,
                            currencyCombo.currentIndex, rate, obsField.text)) {
                 dateField.text = ""
-                typeCombo.currentIndex = tableModel.defaultTypeModelIndex
+                typeCombo.currentIndex = tableModel.defaultTransactionTypeModelIndex
                 amountField.text = ""
                 currencyCombo.currentIndex = 0
                 rateField.text = ""
