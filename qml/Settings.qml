@@ -45,9 +45,12 @@ Dialog {
         }
 
         settings.save()
+
+        control.close()
         settingsLoader.active = false
     }
     onRejected: {
+        control.close()
         settingsLoader.active = false
     }
 
