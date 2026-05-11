@@ -58,6 +58,7 @@ ExternalProject_Add(libgit2
   LIST_SEPARATOR |
   CMAKE_ARGS ${ADDITIONAL_CMAKE_ARGS} -DCMAKE_OSX_DEPLOYMENT_TARGET=${CMAKE_OSX_DEPLOYMENT_TARGET} -DCMAKE_BUILD_TYPE=${CMAKE_BUILD_TYPE} -DCMAKE_PREFIX_PATH=${CMAKE_PREFIX_PATH} -DBUILD_CLI=OFF -DBUILD_SHARED_LIBS=OFF -DBUILD_TESTS=OFF -DCMAKE_INSTALL_PREFIX=${CMAKE_BINARY_DIR}/libgit2_install
   STEP_TARGETS   build)
+find_package(ZLIB)
 
 file(GLOB SRCS src/*.cpp)
 target_sources(${PROJECT_NAME} PRIVATE ${SRCS})
@@ -99,7 +100,11 @@ target_link_directories(${PROJECT_NAME} PRIVATE
     ${CMAKE_BINARY_DIR}/qtcsv_install/lib
     ${CMAKE_BINARY_DIR}/libgit2_install/lib)
 target_link_libraries(${PROJECT_NAME} PRIVATE
-    -lqtcsv -lgit2)
+    -lqtcsv
+    -lgit2
+    ZLIB::ZLIB
+    -liconv
+    "$<LINK_LIBRARY:FRAMEWORK,Security>")
 
 target_compile_definitions(${PROJECT_NAME} PRIVATE $<$<OR:$<CONFIG:Debug>,$<CONFIG:RelWithDebInfo>>:QT_QML_DEBUG>)
 
