@@ -1,5 +1,3 @@
-target_link_libraries(${PROJECT_NAME} PRIVATE -lqtcsv)
-
 if (CMAKE_BUILD_TYPE MATCHES "^[Rr]el")
 
     set(CPACK_GENERATOR "DEB")
