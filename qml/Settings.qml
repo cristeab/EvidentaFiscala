@@ -22,7 +22,6 @@ Dialog {
         if (!venitMin.acceptableInput || !invoiceStartNum.acceptableInput) {
             errMsg.show(qsTr("Invalid Settings"), false)
             settingsLoader.active = true
-            settingsLoader.item.visible = true
             return
         }
 

@@ -42,7 +42,6 @@ ApplicationWindow {
                 icon.source: "qrc:/img/Settings.svg"
                 onClicked: {
                     settingsLoader.active = true
-                    settingsLoader.item.visible = true
                 }
                 ToolTip {
                     text: qsTr("Settings...")
@@ -200,5 +199,6 @@ ApplicationWindow {
         id: settingsLoader
         active: false
         source: "qrc:/qml/Settings.qml"
+        asynchronous: true
     }
 }
