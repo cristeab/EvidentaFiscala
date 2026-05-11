@@ -22,7 +22,6 @@ Dialog {
         if (!venitMin.acceptableInput || !invoiceStartNum.acceptableInput) {
             errMsg.show(qsTr("Invalid Settings"), false)
             settingsLoader.active = true
-            settingsLoader.item.visible = true
             return
         }
 
@@ -41,12 +40,17 @@ Dialog {
                 invisibleColumns.push(i)
             }
         }
-        tableModel.setInvisibleColumns(invisibleColumns)
+        if (tableModel.updateInvisibleColumns(invisibleColumns)) {
+            errMsg.show(qsTr("Restart the application to apply changes"), false)
+        }
 
         settings.save()
+
+        control.close()
         settingsLoader.active = false
     }
     onRejected: {
+        control.close()
         settingsLoader.active = false
     }
 

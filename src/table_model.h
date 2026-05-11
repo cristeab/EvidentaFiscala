@@ -55,7 +55,7 @@ public:
     Q_INVOKABLE bool add(const QString &date, int typeIndex, qreal amount,
                          int currencyIndex, qreal rate, const QString &obs);
 
-    Q_INVOKABLE void setInvisibleColumns(const QList<int> &indexList);
+    Q_INVOKABLE bool updateInvisibleColumns(const QList<int> &indexList);
     Q_INVOKABLE bool isColumnVisible(int index) const;
 
     Q_INVOKABLE QStringList suggestions(QString input);

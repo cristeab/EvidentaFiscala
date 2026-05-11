@@ -5,13 +5,10 @@
 #include "qtcsv/stringdata.h"
 #include "qtcsv/reader.h"
 #include "qtcsv/writer.h"
-#include <QStandardPaths>
 #include <QFile>
 #include <QTimer>
 #include <QDebug>
-#include <QCoreApplication>
 #include <QRegularExpression>
-#include <QFileInfo>
 
 const QLocale TableModel::_locale;
 const QString TableModel::_csvSeparator{";"};
@@ -397,7 +394,7 @@ void TableModel::updateTypeModel()
     setDefaultTransactionTypeModelIndex(static_cast<int>(_transactionTypeModel.indexOf(_tableHeader.at(defaultTableHeaderIndex))));
 }
 
-void TableModel::setInvisibleColumns(const QList<int> &indexList)
+bool TableModel::updateInvisibleColumns(const QList<int> &indexList)
 {
 	qDebug() << "Invisible cols" << indexList;
 
@@ -407,10 +404,13 @@ void TableModel::setInvisibleColumns(const QList<int> &indexList)
 		newInvisibleColumns.emplace(index);
 	}
 
-    if (auto* settings = _controller->settings(); settings->invisibleColumns() != newInvisibleColumns) {
+    if (auto* settings = _controller->settings();
+        settings->invisibleColumns() != newInvisibleColumns) {
         settings->setInvisibleColumns(newInvisibleColumns);
-		emit error(tr("Restart the application to apply changes"), false);
+        return true;
 	}
+
+    return false;
 }
 
 bool TableModel::isColumnVisible(int index) const {
