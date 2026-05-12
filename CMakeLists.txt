@@ -92,7 +92,6 @@ qt_add_qml_module(${PROJECT_NAME}
     QML_FILES ${QML_FILES}
     RESOURCES qml/qmldir qtquickcontrols2.conf ${IMG_FILES})
 
-add_dependencies(${PROJECT_NAME} qtcsv)
 target_include_directories(${PROJECT_NAME} PRIVATE
     src
     ${CMAKE_BINARY_DIR}
