@@ -51,14 +51,16 @@ ExternalProject_Add(qtcsv
   CMAKE_ARGS ${ADDITIONAL_CMAKE_ARGS} -DCMAKE_OSX_DEPLOYMENT_TARGET=${CMAKE_OSX_DEPLOYMENT_TARGET} -DCMAKE_POLICY_VERSION_MINIMUM=3.5 -DCMAKE_BUILD_TYPE=${CMAKE_BUILD_TYPE} -DCMAKE_PREFIX_PATH=${CMAKE_PREFIX_PATH} -DSTATIC_LIB=ON -DBUILD_TESTS=OFF -DCMAKE_INSTALL_PREFIX=${CMAKE_BINARY_DIR}/qtcsv_install
   STEP_TARGETS   build)
 
-ExternalProject_Add(libgit2
+include(FetchContent)
+
+set(BUILD_SHARED_LIBS OFF CACHE BOOL "Build static" FORCE)
+set(BUILD_CLI OFF CACHE BOOL "Disable CLI" FORCE)
+set(BUILD_TESTS OFF CACHE BOOL "Disable tests" FORCE)
+FetchContent_Declare(libgit2
   GIT_REPOSITORY https://github.com/libgit2/libgit2.git
   GIT_TAG        v1.9.3
-  SOURCE_DIR    ${CMAKE_BINARY_DIR}/libgit2_src
-  LIST_SEPARATOR |
-  CMAKE_ARGS ${ADDITIONAL_CMAKE_ARGS} -DCMAKE_OSX_DEPLOYMENT_TARGET=${CMAKE_OSX_DEPLOYMENT_TARGET} -DCMAKE_BUILD_TYPE=${CMAKE_BUILD_TYPE} -DCMAKE_PREFIX_PATH=${CMAKE_PREFIX_PATH} -DBUILD_CLI=OFF -DBUILD_SHARED_LIBS=OFF -DBUILD_TESTS=OFF -DCMAKE_INSTALL_PREFIX=${CMAKE_BINARY_DIR}/libgit2_install
-  STEP_TARGETS   build)
-find_package(ZLIB)
+  OVERRIDE_FIND_PACKAGE)
+FetchContent_MakeAvailable(libgit2)
 
 file(GLOB SRCS src/*.cpp)
 target_sources(${PROJECT_NAME} PRIVATE ${SRCS})
@@ -90,21 +92,17 @@ qt_add_qml_module(${PROJECT_NAME}
     QML_FILES ${QML_FILES}
     RESOURCES qml/qmldir qtquickcontrols2.conf ${IMG_FILES})
 
-add_dependencies(${PROJECT_NAME} qtcsv libgit2)
+add_dependencies(${PROJECT_NAME} qtcsv)
 target_include_directories(${PROJECT_NAME} PRIVATE
     src
     ${CMAKE_BINARY_DIR}
     ${CMAKE_BINARY_DIR}/qtcsv_install/include
-    ${CMAKE_BINARY_DIR}/libgit2_install/include)
+    ${libgit2_SOURCE_DIR}/include)
 target_link_directories(${PROJECT_NAME} PRIVATE
-    ${CMAKE_BINARY_DIR}/qtcsv_install/lib
-    ${CMAKE_BINARY_DIR}/libgit2_install/lib)
+    ${CMAKE_BINARY_DIR}/qtcsv_install/lib)
 target_link_libraries(${PROJECT_NAME} PRIVATE
     -lqtcsv
-    -lgit2
-    ZLIB::ZLIB
-    -liconv
-    "$<LINK_LIBRARY:FRAMEWORK,Security>")
+    libgit2package)
 
 target_compile_definitions(${PROJECT_NAME} PRIVATE $<$<OR:$<CONFIG:Debug>,$<CONFIG:RelWithDebInfo>>:QT_QML_DEBUG>)
 
