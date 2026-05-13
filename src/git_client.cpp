@@ -1,4 +1,5 @@
 #include "git_client.h"
+#include "settings.h"
 #include "git2.h"
 #include <QDebug>
 
@@ -20,8 +21,8 @@ private:
     T* _d{};
 };
 
-GitClient::GitClient(const QString &repoPath, QObject *parent)
-    : QObject{parent}
+GitClient::GitClient(QString const& repoPath, Settings const& settings)
+    : _settings{settings}
 {
     git_libgit2_init();
     auto error = git_repository_open(&_repo, repoPath.toStdString().c_str());
@@ -138,7 +139,10 @@ bool GitClient::stageAndCommit(QString const& filePath, QString const& commitMes
 
     // Create an author and committer signature using current time
     Proxy<git_signature,git_signature_free> signature{};
-    if (git_signature_now(signature, "John Doe", "john.doe@example.com") != 0) {
+    if (git_signature_now(signature,
+                          _settings.userName().toStdString().c_str(),
+                          _settings.userEmail().toStdString().c_str()
+                          ) != 0) {
         return false;
     }
 

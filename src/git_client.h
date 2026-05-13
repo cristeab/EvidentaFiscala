@@ -1,16 +1,15 @@
 #pragma once
 
-#include <QObject>
 #include <QStringList>
 
 struct git_repository;
 class GitClient;
+class Settings;
 
 void appendToFileList(GitClient* self, const QString& path, int status);
 
-class GitClient : public QObject
+class GitClient
 {
-    Q_OBJECT
 public:
     enum class FileStatus {
         Added = (1 << 0),
@@ -20,16 +19,16 @@ public:
         Untracked = (1 << 4)
     };
 
-    explicit GitClient(const QString& repoPath, QObject *parent = nullptr);
+    GitClient(QString const& repoPath, Settings const& settings);
     ~GitClient();
 
     QStringList const& filesWithStatus(FileStatus status);
     bool stageAndCommit(QString const& filePath, QString const& commitMessage);
 
 private:
+    Settings const& _settings;
     QStringList _files;
     FileStatus _fileStatus{};
-
     git_repository* _repo{};
 
     friend
