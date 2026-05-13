@@ -48,19 +48,19 @@ int eachFileCb(const git_diff_delta *delta, float /*progress*/, void *payload)
 
     switch (delta->status) {
     case GIT_DELTA_ADDED:
-        client->tryAppendToFileList(path, FileStatus::Added);
+        client->appendToFileList(path, GitClient::FileStatus::Added);
         break;
     case GIT_DELTA_DELETED:
-        client->tryAppendToFileList(path, FileStatus::Deleted);
+        client->appendToFileList(path, GitClient::FileStatus::Deleted);
         break;
     case GIT_DELTA_MODIFIED:
-        client->tryAppendToFileList(path, FileStatus::Modified);
+        client->appendToFileList(path, GitClient::FileStatus::Modified);
         break;
     case GIT_DELTA_RENAMED:
-        client->tryAppendToFileList(path, FileStatus::Renamed);
+        client->appendToFileList(path, GitClient::FileStatus::Renamed);
         break;
     case GIT_DELTA_UNTRACKED:
-        client->tryAppendToFileList(path, FileStatus::Untracked);
+        client->appendToFileList(path, GitClient::FileStatus::Untracked);
         break;
     default:;
     }
@@ -68,7 +68,7 @@ int eachFileCb(const git_diff_delta *delta, float /*progress*/, void *payload)
     return 0;
 }
 
-QStringList const& GitClient::files(FileStatus status)
+QStringList const& GitClient::filesWithStatus(FileStatus status)
 {
     _files.clear();
     if (!_repo) {
