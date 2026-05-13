@@ -119,5 +119,5 @@ private:
     uint32_t _invoiceNumber{};
     QList<QStringList> _readData;
     QMap<QDateTime, MonthlyData> _monthlyData;
-    UiController* _controller{};
+    UiController& _controller;
 };
