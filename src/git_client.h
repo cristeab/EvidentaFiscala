@@ -4,6 +4,9 @@
 #include <QStringList>
 
 struct git_repository;
+class GitClient;
+
+void appendToFileList(GitClient* self, const QString& path, int status);
 
 class GitClient : public QObject
 {
@@ -17,21 +20,18 @@ public:
         Untracked = (1 << 4)
     };
 
-    explicit GitClient(const QString& path, QObject *parent = nullptr);
+    explicit GitClient(const QString& repoPath, QObject *parent = nullptr);
     ~GitClient();
 
     QStringList const& filesWithStatus(FileStatus status);
     bool stageAndCommit(QString const& filePath, QString const& commitMessage);
-
-    void appendToFileList(const QString& path, FileStatus status) {
-        if (status == _fileStatus) {
-            _files.append(path);
-        }
-    }
 
 private:
     QStringList _files;
     FileStatus _fileStatus{};
 
     git_repository* _repo{};
+
+    friend
+    void appendToFileList(GitClient* self, const QString& path, int status);
 };

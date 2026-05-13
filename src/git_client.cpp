@@ -20,11 +20,11 @@ private:
     T* _d{};
 };
 
-GitClient::GitClient(const QString &path, QObject *parent)
+GitClient::GitClient(const QString &repoPath, QObject *parent)
     : QObject{parent}
 {
     git_libgit2_init();
-    auto error = git_repository_open(&_repo, path.toStdString().c_str());
+    auto error = git_repository_open(&_repo, repoPath.toStdString().c_str());
     if (0 > error) {
         git_repository_free(_repo);
         _repo = nullptr;
@@ -38,6 +38,13 @@ GitClient::~GitClient()
     git_libgit2_shutdown();
 }
 
+void appendToFileList(GitClient* self, const QString& path, int status)
+{
+    if (static_cast<GitClient::FileStatus>(status) == self->_fileStatus) {
+        self->_files.append(path);
+    }
+}
+
 static
 int eachFileCb(const git_diff_delta *delta, float /*progress*/, void *payload)
 {
@@ -48,19 +55,19 @@ int eachFileCb(const git_diff_delta *delta, float /*progress*/, void *payload)
 
     switch (delta->status) {
     case GIT_DELTA_ADDED:
-        client->appendToFileList(path, GitClient::FileStatus::Added);
+        appendToFileList(client, path, static_cast<int>(GitClient::FileStatus::Added));
         break;
     case GIT_DELTA_DELETED:
-        client->appendToFileList(path, GitClient::FileStatus::Deleted);
+        appendToFileList(client, path, static_cast<int>(GitClient::FileStatus::Deleted));
         break;
     case GIT_DELTA_MODIFIED:
-        client->appendToFileList(path, GitClient::FileStatus::Modified);
+        appendToFileList(client, path, static_cast<int>(GitClient::FileStatus::Modified));
         break;
     case GIT_DELTA_RENAMED:
-        client->appendToFileList(path, GitClient::FileStatus::Renamed);
+        appendToFileList(client, path, static_cast<int>(GitClient::FileStatus::Renamed));
         break;
     case GIT_DELTA_UNTRACKED:
-        client->appendToFileList(path, GitClient::FileStatus::Untracked);
+        appendToFileList(client, path, static_cast<int>(GitClient::FileStatus::Untracked));
         break;
     default:;
     }
