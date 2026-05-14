@@ -50,6 +50,7 @@ public:
 
     constexpr Settings* settings() const { return _settings; }
     constexpr TableModel* tableModel() const { return _tableModel; }
+    constexpr GitClient& gitClient() const { return *_gitClient; }
 
     void initGraph();
     void updateGraph(int rowIndex);
