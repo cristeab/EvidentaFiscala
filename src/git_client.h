@@ -1,6 +1,7 @@
 #pragma once
 
 #include <QStringList>
+#include <expected>
 
 struct git_repository;
 class GitClient;
@@ -19,11 +20,18 @@ public:
         Untracked = (1 << 4)
     };
 
-    GitClient(QString const& repoPath, Settings const& settings);
+    enum class RepoStatus {
+        Created,
+        AlreadyCreated,
+    };
+
+    explicit GitClient(Settings const& settings);
     ~GitClient();
 
+    std::expected<RepoStatus,QString> initRepo();
+    std::expected<void,QString> openRepo();
     QStringList const& filesWithStatus(FileStatus status);
-    bool stageAndCommit(QString const& filePath, QString const& commitMessage);
+    std::expected<void,QString> stageAndCommit(QString const& filePath, QString const& commitMessage);
 
 private:
     Settings const& _settings;

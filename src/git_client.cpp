@@ -21,22 +21,64 @@ private:
     T* _d{};
 };
 
-GitClient::GitClient(QString const& repoPath, Settings const& settings)
+static
+constexpr QString gitError(QString const& prefix) {
+    auto const* err = git_error_last();
+    return prefix + ": " + (err ? err->message : "Unknown error");
+}
+
+GitClient::GitClient(Settings const& settings)
     : _settings{settings}
 {
     git_libgit2_init();
-    auto error = git_repository_open(&_repo, repoPath.toStdString().c_str());
-    if (0 > error) {
-        git_repository_free(_repo);
-        _repo = nullptr;
-        return;
-    }
 }
 
 GitClient::~GitClient()
 {
-    git_repository_free(_repo);
+    if (_repo) {
+        git_repository_free(_repo);
+    }
     git_libgit2_shutdown();
+}
+
+std::expected<GitClient::RepoStatus,QString> GitClient::initRepo()
+{
+    auto const& repoPath = _settings.workingFolderPath().toStdString();
+    auto error = git_repository_open_ext(
+        NULL,
+        repoPath.c_str(),
+        GIT_REPOSITORY_OPEN_NO_SEARCH,
+        NULL
+        );
+    switch (error) {
+    case 0:
+        return RepoStatus::AlreadyCreated;
+    case GIT_ENOTFOUND:
+        qDebug() << "No Git repository found. Initializing a new one";
+        error = git_repository_init(&_repo, repoPath.c_str(), 0);
+        if (0 != error) {
+            return std::unexpected(gitError("Failed to init repository"));
+        }
+        return RepoStatus::Created;
+    default:;
+    }
+    return std::unexpected(gitError("Error during repository detection"));
+}
+
+std::expected<void, QString> GitClient::openRepo()
+{
+    auto const& repoPath = _settings.workingFolderPath();
+    if (repoPath.isEmpty()) {
+        return std::unexpected("Repository path is empty");
+    }
+
+    auto error = git_repository_open(&_repo, repoPath.toStdString().c_str());
+    if (0 > error) {
+        git_repository_free(_repo);
+        _repo = nullptr;
+        return std::unexpected(gitError("Failed to init repository"));
+    }
+    return {};
 }
 
 void appendToFileList(GitClient* self, const QString& path, int status)
@@ -86,6 +128,7 @@ QStringList const& GitClient::filesWithStatus(FileStatus status)
 
     Proxy<git_diff, git_diff_free> diff;
     if (git_diff_index_to_workdir(diff, _repo, NULL, NULL) < 0) {
+        qCritical() << gitError("Cannot retrieve files from repo");
         return _files;
     }
 
@@ -94,37 +137,37 @@ QStringList const& GitClient::filesWithStatus(FileStatus status)
     return _files;
 }
 
-bool GitClient::stageAndCommit(QString const& filePath, QString const& commitMessage)
+std::expected<void,QString> GitClient::stageAndCommit(QString const& filePath, QString const& commitMessage)
 {
     if (!_repo) {
-        return false;
+        return std::unexpected("Repository not init");
     }
 
     // Open the repository index (staging area)
     Proxy<git_index,git_index_free> index;
     if (git_repository_index(index, _repo) != 0) {
-        return false;
+        return std::unexpected(gitError("Cannot open the repo index"));
     }
 
     // Stage the modified file
     if (git_index_add_bypath(index, filePath.toStdString().c_str()) != 0) {
-        return false;
+        return std::unexpected(gitError("Cannot stage the modified file"));
     }
 
     // Write index changes back to disk
     if (git_index_write(index) != 0) {
-        return false;
+        return std::unexpected(gitError("Cannot write index"));
     }
 
     // Write the current index state into a structural tree object
     git_oid treeId;
     if (git_index_write_tree(&treeId, index) != 0) {
-        return false;
+        return std::unexpected(gitError("Cannot write the index state"));
     }
 
     Proxy<git_tree,git_tree_free> tree;
     if (git_tree_lookup(tree, _repo, &treeId) != 0) {
-        return false;
+        return std::unexpected(gitError("Cannot lookup into tree"));
     }
 
     // Get the current HEAD commit to use as the parent object
@@ -143,7 +186,7 @@ bool GitClient::stageAndCommit(QString const& filePath, QString const& commitMes
                           _settings.userName().toStdString().c_str(),
                           _settings.userEmail().toStdString().c_str()
                           ) != 0) {
-        return false;
+        return std::unexpected(gitError("Cannot create commit signature"));
     }
 
     // Create the commit pointing to the new tree and parent
@@ -161,9 +204,9 @@ bool GitClient::stageAndCommit(QString const& filePath, QString const& commitMes
             hasParent,        // Number of parent commits (0 for root commit)
             parents            // Array of parent commit pointers
             ) != 0) {
-        return false;
+        return std::unexpected(gitError("Cannot create commit"));
     }
 
     qInfo() << "Successfully staged and committed! ID:" << git_oid_tostr_s(&commitId);
-    return true;
+    return {};
 }
