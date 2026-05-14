@@ -19,7 +19,7 @@ Dialog {
 
     Component.onCompleted: control.visible = true
     onAccepted: {
-        if (!venitMin.acceptableInput || !invoiceStartNum.acceptableInput) {
+        if (!minIncome.acceptableInput || !invoiceStartNum.acceptableInput) {
             errMsg.show(qsTr("Invalid Settings"), false)
             settingsLoader.active = true
             return
@@ -196,14 +196,14 @@ Dialog {
                 LabelTextField {
                     id: userName
                     enabled: gitBackup.checked
-                    width: control.editWidth
+                    width: 3 * control.editWidth
                     text: qsTr("Username")
                     editText: settings.userName
                 }
                 LabelTextField {
                     id: userEmail
                     enabled: gitBackup.checked
-                    width: control.editWidth
+                    width: 3 * control.editWidth
                     text: qsTr("User Email")
                     editText: settings.userEmail
                     inputMethodHints: Qt.ImhEmailCharactersOnly

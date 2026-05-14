@@ -31,7 +31,7 @@ GitClient::GitClient(const Settings *settings)
     : _settings{settings}
 {
     auto const error = git_libgit2_init();
-    if (0 != error) {
+    if (0 >= error) {
         qCritical() << gitError("Cannot init libgit2");
         return;
     }
