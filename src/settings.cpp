@@ -48,6 +48,10 @@ void Settings::load()
 
     setUseBars(GET_SETTING(useBars).toBool());
     setEnableRowNumber(GET_SETTING(enableRowNumber).toBool());
+
+    setEnableBackup(GET_SETTING(enableBackup).toBool());
+    setUserName(GET_SETTING(userName).toString());
+    setUserEmail(GET_SETTING(userEmail).toString());
 }
 
 void Settings::save()
@@ -66,4 +70,8 @@ void Settings::save()
 
     SET_SETTING(useBars);
     SET_SETTING(enableRowNumber);
+
+    SET_SETTING(enableBackup);
+    SET_SETTING(userName);
+    SET_SETTING(userEmail);
 }
