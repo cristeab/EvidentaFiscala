@@ -27,7 +27,7 @@ constexpr QString gitError(QString const& prefix) {
     return prefix + ": " + (err ? err->message : "Unknown error");
 }
 
-GitClient::GitClient(Settings const& settings)
+GitClient::GitClient(const Settings *settings)
     : _settings{settings}
 {
     git_libgit2_init();
@@ -43,7 +43,11 @@ GitClient::~GitClient()
 
 std::expected<GitClient::RepoStatus,QString> GitClient::initRepo()
 {
-    auto const& repoPath = _settings.workingFolderPath().toStdString();
+    if (_settings.isNull()) {
+        return std::unexpected("Invalid settings object");
+    }
+
+    auto const& repoPath = _settings->workingFolderPath().toStdString();
     auto error = git_repository_open_ext(
         NULL,
         repoPath.c_str(),
@@ -67,7 +71,11 @@ std::expected<GitClient::RepoStatus,QString> GitClient::initRepo()
 
 std::expected<void, QString> GitClient::openRepo()
 {
-    auto const& repoPath = _settings.workingFolderPath();
+    if (_settings.isNull()) {
+        return std::unexpected("Invalid settings object");
+    }
+
+    auto const& repoPath = _settings->workingFolderPath();
     if (repoPath.isEmpty()) {
         return std::unexpected("Repository path is empty");
     }
@@ -142,6 +150,9 @@ std::expected<void,QString> GitClient::stageAndCommit(QString const& filePath, Q
     if (!_repo) {
         return std::unexpected("Repository not init");
     }
+    if (_settings.isNull()) {
+        return std::unexpected("Invalid settings object");
+    }
 
     // Open the repository index (staging area)
     Proxy<git_index,git_index_free> index;
@@ -183,8 +194,8 @@ std::expected<void,QString> GitClient::stageAndCommit(QString const& filePath, Q
     // Create an author and committer signature using current time
     Proxy<git_signature,git_signature_free> signature{};
     if (git_signature_now(signature,
-                          _settings.userName().toStdString().c_str(),
-                          _settings.userEmail().toStdString().c_str()
+                          _settings->userName().toStdString().c_str(),
+                          _settings->userEmail().toStdString().c_str()
                           ) != 0) {
         return std::unexpected(gitError("Cannot create commit signature"));
     }

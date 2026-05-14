@@ -1,6 +1,7 @@
 #pragma once
 
 #include <QStringList>
+#include <QPointer>
 #include <expected>
 
 struct git_repository;
@@ -25,7 +26,7 @@ public:
         AlreadyCreated,
     };
 
-    explicit GitClient(Settings const& settings);
+    explicit GitClient(Settings const* settings);
     ~GitClient();
 
     std::expected<RepoStatus,QString> initRepo();
@@ -34,7 +35,7 @@ public:
     std::expected<void,QString> stageAndCommit(QString const& filePath, QString const& commitMessage);
 
 private:
-    Settings const& _settings;
+    QPointer<Settings const> const  _settings;
     QStringList _files;
     FileStatus _fileStatus{};
     git_repository* _repo{};
