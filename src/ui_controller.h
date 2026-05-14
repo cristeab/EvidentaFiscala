@@ -1,13 +1,14 @@
 #pragma once
 
+#include "git_client.h"
 #include "settings.h"
 #include <QDateTime>
+#include <memory>
 
 class QAbstractSeries;
 class QXYSeries;
 class RestClient;
 class TableModel;
-class GitClient;
 
 class UiController : public QObject
 {
@@ -58,8 +59,9 @@ signals:
     void error(const QString &msg, bool fatal);
 
 private:
-    void updateYAxis(qreal amount);
+    void initBackup();
 
+    void updateYAxis(qreal amount);
     void resetGraphLines();
     void resetGraphBars();
 
@@ -69,5 +71,5 @@ private:
     Settings* _settings{};
     RestClient* _restClient{};
     TableModel* _tableModel{};
-    GitClient* _gitClient{};
+    std::unique_ptr<GitClient> _gitClient;
 };

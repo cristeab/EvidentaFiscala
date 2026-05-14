@@ -10,7 +10,7 @@ class Settings;
 
 void appendToFileList(GitClient* self, const QString& path, int status);
 
-class GitClient
+class GitClient final
 {
 public:
     enum class FileStatus {

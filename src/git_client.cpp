@@ -77,6 +77,10 @@ std::expected<GitClient::RepoStatus,QString> GitClient::initRepo()
 
 std::expected<void, QString> GitClient::openRepo()
 {
+    if (_repo) {
+        qDebug() << "Repo already open";
+        return {};
+    }
     if (_settings.isNull()) {
         return std::unexpected("Invalid settings object");
     }
@@ -136,6 +140,7 @@ QStringList const& GitClient::filesWithStatus(FileStatus status)
 {
     _files.clear();
     if (!_repo) {
+        qCritical() << "Repository not open";
         return _files;
     }
     _fileStatus = status;
@@ -154,7 +159,7 @@ QStringList const& GitClient::filesWithStatus(FileStatus status)
 std::expected<void,QString> GitClient::stageAndCommit(QString const& filePath, QString const& commitMessage)
 {
     if (!_repo) {
-        return std::unexpected("Repository not init");
+        return std::unexpected("Repository not open");
     }
     if (_settings.isNull()) {
         return std::unexpected("Invalid settings object");

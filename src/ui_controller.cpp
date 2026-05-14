@@ -1,7 +1,6 @@
 #include "ui_controller.h"
 #include "rest_client.h"
 #include "table_model.h"
-#include "git_client.h"
 #include <QXYSeries>
 #include <QTextDocument>
 #include <QTextDocumentWriter>
@@ -31,13 +30,8 @@ UiController::UiController(QObject *parent)
 
     connect(_tableModel, &TableModel::error, this, &UiController::error);
 
-    if (_settings->enableBackup()) {
-        _gitClient = new GitClient(_settings);
-    }
-    connect(_settings, &Settings::enableBackupChanged, this, [this]() {
-        delete _gitClient;
-        _gitClient = _settings->enableBackup() ? new GitClient(_settings) : nullptr;
-    }, Qt::QueuedConnection);
+    initBackup();
+    connect(_settings, &Settings::enableBackupChanged, this, &UiController::initBackup);
 }
 
 void UiController::setChartSeries(int index, QAbstractSeries *series)
@@ -201,4 +195,17 @@ void UiController::updateCurrencyRate(QString const& date)
     }
     _restClient->requestConversionRate(_tableModel->currencyModel().at(ci),
                                        QDate::fromString(date, _dateFormat));
+}
+
+void UiController::initBackup()
+{
+    _gitClient.reset();
+    if (!_settings->enableBackup()) {
+        return;
+    }
+    _gitClient = std::make_unique<GitClient>(_settings);
+
+    auto res = _gitClient->initRepo().and_then([this](GitClient::RepoStatus /*repoStatus*/) {
+        return _gitClient->openRepo();
+    });
 }
