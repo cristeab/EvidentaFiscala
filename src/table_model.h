@@ -3,6 +3,7 @@
 #include "qmlhelpers.h"
 #include <QAbstractTableModel>
 #include <QStringList>
+#include <QPointer>
 #include <expected>
 
 class Settings;
@@ -119,5 +120,5 @@ private:
     uint32_t _invoiceNumber{};
     QList<QStringList> _readData;
     QMap<QDateTime, MonthlyData> _monthlyData;
-    UiController& _controller;
+    QPointer<UiController> const _controller;
 };

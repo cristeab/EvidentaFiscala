@@ -40,7 +40,7 @@ TableModel::TableModel(UiController* controller) :
                       "USD",
                       "EUR"}),
       _transactionTypeModel(_tableHeader.mid(TRANSACTION_START_INDEX, TRANSACTION_ARRAY_LENGTH)),
-    _controller(*controller)
+    _controller(controller)
 {
 	setObjectName("tableModel");
 
@@ -51,7 +51,7 @@ void TableModel::init()
 {
 	updateTypeModel();
 
-    const auto& ledgerFilePath = _controller.settings()->ledgerFilePath();
+    const auto& ledgerFilePath = _controller->settings()->ledgerFilePath();
 	if (ledgerFilePath.isEmpty()) {
 	    emit error(tr("CSV file name is empty"), true);
 	    return;
@@ -86,7 +86,7 @@ void TableModel::init()
         }
 	}
 
-    _controller.initGraph();
+    _controller->initGraph();
 	initInvoiceNumber();
 }
 
@@ -189,7 +189,7 @@ bool TableModel::add(const QString &date, int typeIndex, qreal amount,
 	QtCSV::StringData strData;
 	strData.addRow(row);
 
-    const auto& ledgerFilePath = _controller.settings()->ledgerFilePath();
+    const auto& ledgerFilePath = _controller->settings()->ledgerFilePath();
 	bool rc = ensureLastCharIsNewLine(ledgerFilePath);
 	if (!rc) {
 		return false;
@@ -198,7 +198,7 @@ bool TableModel::add(const QString &date, int typeIndex, qreal amount,
 				  QtCSV::Writer::WriteMode::APPEND);
 	if (rc) {
 		_readData.append(row);
-        _controller.updateGraph(static_cast<int>(_readData.size()) - 1);
+        _controller->updateGraph(static_cast<int>(_readData.size()) - 1);
     } else {
         setErrorMessage(tr("Cannot write CSV file {}").arg(ledgerFilePath));
     }
@@ -320,7 +320,7 @@ void TableModel::initMonthlyData()
         if (parseRow(i, key, income, expense)) {
             _monthlyData[key].income += income;
             _monthlyData[key].expense += expense;
-            _controller.updateXAxis(key);
+            _controller->updateXAxis(key);
         }
     }
 }
@@ -335,7 +335,7 @@ void TableModel::updateMonthlyData(int rowIndex)
     }
     _monthlyData[key].income += income;
     _monthlyData[key].expense += expense;
-    _controller.updateXAxis(key);
+    _controller->updateXAxis(key);
 }
 
 bool TableModel::ensureLastCharIsNewLine(const QString& filePath)
@@ -373,7 +373,7 @@ bool TableModel::ensureLastCharIsNewLine(const QString& filePath)
 
 void TableModel::openLedger(const QString &fileName)
 {
-    _controller.settings()->setLedgerFilePath(fileName);
+    _controller->settings()->setLedgerFilePath(fileName);
 	QTimer::singleShot(0, this, &TableModel::init);
 }
 
@@ -404,7 +404,7 @@ bool TableModel::updateInvisibleColumns(const QList<int> &indexList)
 		newInvisibleColumns.emplace(index);
 	}
 
-    if (auto* settings = _controller.settings();
+    if (auto* settings = _controller->settings();
         settings->invisibleColumns() != newInvisibleColumns) {
         settings->setInvisibleColumns(newInvisibleColumns);
         return true;
@@ -414,7 +414,7 @@ bool TableModel::updateInvisibleColumns(const QList<int> &indexList)
 }
 
 bool TableModel::isColumnVisible(int index) const {
-    return 0 == _controller.settings()->invisibleColumns().count(index);
+    return 0 == _controller->settings()->invisibleColumns().count(index);
 }
 
 bool TableModel::isIncome(int typeIndex) const
