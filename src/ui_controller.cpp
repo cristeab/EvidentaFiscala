@@ -6,6 +6,7 @@
 #include <QTextDocumentWriter>
 #include <QDir>
 #include <QDesktopServices>
+#include <QFileInfo>
 
 UiController::UiController(QObject *parent)
     : QObject{parent},
@@ -208,4 +209,26 @@ void UiController::initBackup()
     auto res = _gitClient->initRepo().and_then([this](GitClient::RepoStatus /*repoStatus*/) {
         return _gitClient->openRepo();
     });
+}
+
+void UiController::backup(QString const& filePath)
+{
+    if (!_gitClient) {
+        qDebug() << "Git client is not enabled";
+        return;
+    }
+
+    QFileInfo const fileInfo(filePath);
+    QString const timestamp = QDateTime::currentDateTimeUtc().toString(Qt::ISODate);
+    QString const commitMsg = QString(
+                                  "%1: auto-save local changes, Timestamp: %2, Generated-By: %3 v%4"
+                                  ).arg(filePath).arg(timestamp).arg(APP_NAME).arg(APP_VERSION);
+
+    auto const res = _gitClient->stageAndCommit(fileInfo.fileName(), commitMsg);
+    if (!res) {
+        qWarning() << res.error();
+        emit error(res.error(), false);
+        return;
+    }
+    qInfo() << "Successfully backed up" << fileInfo.fileName();
 }

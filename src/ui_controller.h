@@ -50,11 +50,12 @@ public:
 
     constexpr Settings* settings() const { return _settings; }
     constexpr TableModel* tableModel() const { return _tableModel; }
-    constexpr GitClient& gitClient() const { return *_gitClient; }
 
     void initGraph();
     void updateGraph(int rowIndex);
     void updateXAxis(const QDateTime &val);
+
+    void backup(QString const& filePath);
 
 signals:
     void error(const QString &msg, bool fatal);
