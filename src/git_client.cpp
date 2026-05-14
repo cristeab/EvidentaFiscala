@@ -232,3 +232,20 @@ std::expected<void,QString> GitClient::stageAndCommit(QString const& filePath, Q
     qInfo() << "Successfully staged and committed! ID:" << git_oid_tostr_s(&commitId);
     return {};
 }
+
+QString GitClient::toString(FileStatus status)
+{
+    switch (status) {
+    case FileStatus::Added:
+        return "added";
+    case FileStatus::Deleted:
+        return "deleted";
+    case FileStatus::Modified:
+        return "modified";
+    case FileStatus::Renamed:
+        return "renamed";
+    case FileStatus::Untracked:
+        return "untracked";
+    }
+    return "unknown";
+}

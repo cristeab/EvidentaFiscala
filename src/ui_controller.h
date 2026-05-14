@@ -55,6 +55,7 @@ public:
     void updateGraph(int rowIndex);
     void updateXAxis(const QDateTime &val);
 
+    void tryBackup(QString const& filePath);
     void backup(QString const& filePath);
 
 signals:

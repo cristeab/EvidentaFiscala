@@ -88,6 +88,7 @@ void TableModel::init()
 
     _controller->initGraph();
 	initInvoiceNumber();
+    _controller->tryBackup(ledgerFilePath);
 }
 
 QString TableModel::computeActualAmount(qreal amount, int currencyIndex, qreal rate) const

@@ -211,6 +211,30 @@ void UiController::initBackup()
     });
 }
 
+void UiController::tryBackup(QString const& filePath)
+{
+    if (!_gitClient) {
+        qDebug() << "Git client is not enabled";
+        return;
+    }
+
+    QFileInfo const fileInfo(filePath);
+    QString const& fileName = fileInfo.fileName();
+
+    std::vector<GitClient::FileStatus> statusVec{GitClient::FileStatus::Added,
+                                                 GitClient::FileStatus::Modified,
+                                                 GitClient::FileStatus::Renamed,
+                                                 GitClient::FileStatus::Untracked};
+    for (auto status: statusVec) {
+        auto const gitFiles = _gitClient->filesWithStatus(status);
+        if (gitFiles.contains(fileName)) {
+            qInfo() << "Detected" << GitClient::toString(status) << "file" << filePath;
+            backup(filePath);
+            break;
+        }
+    }
+}
+
 void UiController::backup(QString const& filePath)
 {
     if (!_gitClient) {
@@ -219,16 +243,17 @@ void UiController::backup(QString const& filePath)
     }
 
     QFileInfo const fileInfo(filePath);
-    QString const timestamp = QDateTime::currentDateTimeUtc().toString(Qt::ISODate);
-    QString const commitMsg = QString(
+    QString const& fileName = fileInfo.fileName();
+    QString const& timestamp = QDateTime::currentDateTimeUtc().toString(Qt::ISODate);
+    QString const& commitMsg = QString(
                                   "%1: auto-save local changes, Timestamp: %2, Generated-By: %3 v%4"
-                                  ).arg(filePath).arg(timestamp).arg(APP_NAME).arg(APP_VERSION);
+                                  ).arg(fileName).arg(timestamp).arg(APP_NAME).arg(APP_VERSION);
 
-    auto const res = _gitClient->stageAndCommit(fileInfo.fileName(), commitMsg);
+    auto const res = _gitClient->stageAndCommit(fileName, commitMsg);
     if (!res) {
         qWarning() << res.error();
         emit error(res.error(), false);
         return;
     }
-    qInfo() << "Successfully backed up" << fileInfo.fileName();
+    qInfo() << "Successfully backed up" << fileName;
 }

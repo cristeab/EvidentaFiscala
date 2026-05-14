@@ -14,11 +14,11 @@ class GitClient final
 {
 public:
     enum class FileStatus {
-        Added = (1 << 0),
-        Deleted = (1 << 1),
-        Modified = (1 << 2),
-        Renamed = (1 << 3),
-        Untracked = (1 << 4)
+        Added,
+        Deleted,
+        Modified,
+        Renamed,
+        Untracked
     };
 
     enum class RepoStatus {
@@ -34,6 +34,7 @@ public:
     QStringList const& filesWithStatus(FileStatus status);
     std::expected<void,QString> stageAndCommit(QString const& filePath, QString const& commitMessage);
 
+    static QString toString(FileStatus status);
 private:
     QPointer<Settings const> const  _settings;
     QStringList _files;
