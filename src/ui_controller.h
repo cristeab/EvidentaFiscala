@@ -7,6 +7,7 @@ class QAbstractSeries;
 class QXYSeries;
 class RestClient;
 class TableModel;
+class GitClient;
 
 class UiController : public QObject
 {
@@ -68,4 +69,5 @@ private:
     Settings* _settings{};
     RestClient* _restClient{};
     TableModel* _tableModel{};
+    GitClient* _gitClient{};
 };

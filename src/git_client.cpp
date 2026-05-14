@@ -30,7 +30,12 @@ constexpr QString gitError(QString const& prefix) {
 GitClient::GitClient(const Settings *settings)
     : _settings{settings}
 {
-    git_libgit2_init();
+    auto const error = git_libgit2_init();
+    if (0 != error) {
+        qCritical() << gitError("Cannot init libgit2");
+        return;
+    }
+    qDebug() << "libgit2 initialized";
 }
 
 GitClient::~GitClient()
@@ -39,6 +44,7 @@ GitClient::~GitClient()
         git_repository_free(_repo);
     }
     git_libgit2_shutdown();
+    qDebug() << "libgit2 shutdown";
 }
 
 std::expected<GitClient::RepoStatus,QString> GitClient::initRepo()

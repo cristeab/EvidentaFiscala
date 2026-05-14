@@ -25,24 +25,9 @@ Dialog {
             return
         }
 
-        settings.minIncome = parseFloat(venitMin.editText)
-        settings.useBars = 0 === displayMode.currentIndex
-        settings.workingFolderPath = workingFolder.editText
-        settings.invoiceNumberStart = parseInt(invoiceStartNum.editText)
-        settings.languageIndex = uiLanguage.currentIndex
-        settings.csvHeaderIndex = csvLanguage.currentIndex
-        settings.enableRowNumber = enableRowNumber.checked
-
-        let invisibleColumns = []
-        for (let i = 0; i < (columnRepeater.count - 1); ++i) {
-            const it = columnRepeater.itemAt(i)
-            if (!it.checked) {
-                invisibleColumns.push(i)
-            }
-        }
-        if (tableModel.updateInvisibleColumns(invisibleColumns)) {
-            errMsg.show(qsTr("Restart the application to apply changes"), false)
-        }
+        generalSettings.save()
+        advancedSettings.save()
+        backupSettings.save()
 
         settings.save()
 
@@ -64,6 +49,9 @@ Dialog {
         TabButton {
             text: qsTr("Visible Columns")
         }
+        TabButton {
+            text: qsTr("Backup")
+        }
     }
 
     StackLayout {
@@ -78,15 +66,25 @@ Dialog {
         // general settings tab
         Item {
             id: generalSettings
+
+            function save() {
+                settings.minIncome = parseFloat(minIncome.editText)
+                settings.useBars = 0 === displayMode.currentIndex
+                settings.workingFolderPath = workingFolder.editText
+                settings.invoiceNumberStart = parseInt(invoiceStartNum.editText)
+                settings.languageIndex = uiLanguage.currentIndex
+                settings.csvHeaderIndex = csvLanguage.currentIndex
+            }
+
             Column {
                 anchors.fill: parent
                 anchors.margins: Theme.horizontalMargin
                 spacing: 2 * Theme.verticalMargin
                 Row {
                     id: grossIncomeRow
-                    spacing: parent.width - venitMin.width - displayMode.width
+                    spacing: parent.width - minIncome.width - displayMode.width
                     LabelTextField {
-                        id: venitMin
+                        id: minIncome
                         width: control.editWidth
                         text: qsTr("Minimum Gross Income")
                         editText: settings.minIncome
@@ -136,6 +134,22 @@ Dialog {
         // advanced settings tab
         Item {
             id: advancedSettings
+
+            function save() {
+                settings.enableRowNumber = enableRowNumber.checked
+
+                let invisibleColumns = []
+                for (let i = 0; i < (columnRepeater.count - 1); ++i) {
+                    const it = columnRepeater.itemAt(i)
+                    if (!it.checked) {
+                        invisibleColumns.push(i)
+                    }
+                }
+                if (tableModel.updateInvisibleColumns(invisibleColumns)) {
+                    errMsg.show(qsTr("Restart the application to apply changes"), false)
+                }
+            }
+
             ColumnLayout {
                 id: leftCol
                 spacing: Theme.verticalMargin
@@ -160,5 +174,44 @@ Dialog {
                 checked: settings.enableRowNumber
             }
         } // advanced settings tab
+
+        // backup tab
+        Item {
+            id: backupSettings
+
+            function save() {
+                settings.enableBackup = gitBackup.checked
+                settings.userName = userName.text
+                settings.userEmail = userEmail.text
+            }
+
+            Column {
+                anchors.fill: parent
+                anchors.margins: Theme.horizontalMargin
+                spacing: 2 * Theme.verticalMargin
+                CheckBox {
+                    id: gitBackup
+                    text: qsTr("Git Backup")
+                }
+                LabelTextField {
+                    id: userName
+                    enabled: gitBackup.checked
+                    width: control.editWidth
+                    text: qsTr("Username")
+                    editText: settings.userName
+                }
+                LabelTextField {
+                    id: userEmail
+                    enabled: gitBackup.checked
+                    width: control.editWidth
+                    text: qsTr("User Email")
+                    editText: settings.userEmail
+                    inputMethodHints: Qt.ImhEmailCharactersOnly
+                    validator: RegularExpressionValidator {
+                        regularExpression: /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/
+                    }
+                }
+            }
+        } // backup tab
     } // StackLayout
 }

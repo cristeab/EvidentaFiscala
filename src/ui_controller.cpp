@@ -1,12 +1,12 @@
 #include "ui_controller.h"
 #include "rest_client.h"
 #include "table_model.h"
+#include "git_client.h"
 #include <QXYSeries>
 #include <QTextDocument>
 #include <QTextDocumentWriter>
 #include <QDir>
 #include <QDesktopServices>
-
 
 UiController::UiController(QObject *parent)
     : QObject{parent},
@@ -30,6 +30,14 @@ UiController::UiController(QObject *parent)
     }, Qt::QueuedConnection);
 
     connect(_tableModel, &TableModel::error, this, &UiController::error);
+
+    if (_settings->enableBackup()) {
+        _gitClient = new GitClient(_settings);
+    }
+    connect(_settings, &Settings::enableBackupChanged, this, [this]() {
+        delete _gitClient;
+        _gitClient = _settings->enableBackup() ? new GitClient(_settings) : nullptr;
+    }, Qt::QueuedConnection);
 }
 
 void UiController::setChartSeries(int index, QAbstractSeries *series)
