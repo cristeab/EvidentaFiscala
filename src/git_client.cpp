@@ -53,7 +53,11 @@ std::expected<GitClient::RepoStatus,QString> GitClient::initRepo()
         return std::unexpected("Invalid settings object");
     }
 
-    auto const& repoPath = _settings->workingFolderPath().toStdString();
+    auto const& repoPath = _settings->backupFolderPath().toStdString();
+    if (repoPath.empty()) {
+        return std::unexpected("Repository path is empty");
+    }
+
     auto error = git_repository_open_ext(
         NULL,
         repoPath.c_str(),
@@ -62,7 +66,7 @@ std::expected<GitClient::RepoStatus,QString> GitClient::initRepo()
         );
     switch (error) {
     case 0:
-        qDebug() << "Found repo" << repoPath;
+        qDebug() << "Found existing repo" << repoPath;
         return RepoStatus::AlreadyCreated;
     case GIT_ENOTFOUND:
         qDebug() << "No Git repository found. Initializing a new one";
@@ -86,7 +90,7 @@ std::expected<void, QString> GitClient::openRepo()
         return std::unexpected("Invalid settings object");
     }
 
-    auto const& repoPath = _settings->workingFolderPath();
+    auto const& repoPath = _settings->backupFolderPath();
     if (repoPath.isEmpty()) {
         return std::unexpected("Repository path is empty");
     }
@@ -117,7 +121,6 @@ int eachFileCb(const git_diff_delta *delta, float /*progress*/, void *payload)
 
     // Access the path of the 'new' file in the diff
     const char *path = delta->new_file.path;
-    qDebug() << "New diff file" << path;
 
     switch (delta->status) {
     case GIT_DELTA_ADDED:

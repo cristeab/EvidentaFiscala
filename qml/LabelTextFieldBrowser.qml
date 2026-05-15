@@ -8,6 +8,8 @@ Column {
     property alias text: controlLabel.text
     property alias editText: controlTextField.text
 
+    signal pathChanged(string path)
+
     spacing: Theme.verticalMargin
 
     Label {
@@ -33,10 +35,11 @@ Column {
             width: height
             icon.source: "qrc:/img/FolderOpen.svg"
             display: AbstractButton.IconOnly
-            onClicked: {
-                folderDialogLoader.active = true
-                folderDialogLoader.item.visible = true
-            }
+            onClicked: folderDialogLoader.show(qsTr("Select ") + control.text,
+                                               control.editText,
+                                               (path) => {
+                                                control.pathChanged(path)
+                                               })
         }
     }
 }

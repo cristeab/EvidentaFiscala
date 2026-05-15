@@ -24,6 +24,11 @@ Dialog {
             settingsLoader.active = true
             return
         }
+        if (gitBackup.checked && "" === backupFolder.editText) {
+            errMsg.show(qsTr("Backup folder path cannot be empty"), false)
+            settingsLoader.active = true
+            return
+        }
 
         generalSettings.save()
         advancedSettings.save()
@@ -103,6 +108,9 @@ Dialog {
                     width: control.selectFolderWidth
                     text: qsTr("Working Directory")
                     editText: settings.workingFolderPath
+                    onPathChanged: (path) => {
+                                       settings.workingFolderPath = path
+                                   }
                 }
                 LabelTextField {
                     id: invoiceStartNum
@@ -181,6 +189,7 @@ Dialog {
 
             function save() {
                 settings.enableBackup = gitBackup.checked
+                settings.backupFolderPath = backupFolder.editText
                 settings.userName = userName.editText
                 settings.userEmail = userEmail.editText
             }
@@ -193,6 +202,15 @@ Dialog {
                     id: gitBackup
                     text: qsTr("Git Backup")
                     checked: settings.enableBackup
+                }
+                LabelTextFieldBrowser {
+                    id: backupFolder
+                    width: control.selectFolderWidth
+                    text: qsTr("Backup Directory")
+                    editText: settings.backupFolderPath
+                    onPathChanged: (path) => {
+                                       settings.backupFolderPath = path
+                                   }
                 }
                 LabelTextField {
                     id: userName

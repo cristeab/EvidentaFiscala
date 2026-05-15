@@ -2,6 +2,7 @@ import QtQuick
 import QtQuick.Window
 import QtQuick.Controls
 import QtQuick.Dialogs
+import QtCore
 
 ApplicationWindow {
     id: winApp
@@ -181,15 +182,29 @@ ApplicationWindow {
 
     Component {
         id: folderDialogComp
+
         FolderDialog {
-            title: qsTr("Select Working Directory")
-            currentFolder: settings.workingFolderPath
-            onAccepted: settings.workingFolderPath = selectedFolder.toString().replace("file://", "")
+            property var callback
+
             Component.onCompleted: visible = true
+            onAccepted: {
+                if (callback) {
+                    callback(selectedFolder.toString().replace("file://", ""))
+                }
+            }
         }
     }
     Loader {
         id: folderDialogLoader
+
+        function show(title, currentFolder, callback) {
+            folderDialogLoader.active = true
+
+            folderDialogLoader.item.title = title
+            folderDialogLoader.item.currentFolder = ("" !== currentFolder) ? currentFolder : StandardPaths.standardLocations(StandardPaths.HomeLocation)[0]
+            folderDialogLoader.item.callback = callback
+        }
+
         active: false
         anchors.centerIn: parent
         sourceComponent: folderDialogComp

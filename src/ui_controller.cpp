@@ -209,6 +209,10 @@ void UiController::initBackup()
     auto res = _gitClient->initRepo().and_then([this](GitClient::RepoStatus /*repoStatus*/) {
         return _gitClient->openRepo();
     });
+    if (!res) {
+        qWarning() << res.error();
+        emit error(res.error(), false);
+    }
 }
 
 void UiController::tryBackup(QString const& filePath)

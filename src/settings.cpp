@@ -50,6 +50,7 @@ void Settings::load()
     setEnableRowNumber(GET_SETTING(enableRowNumber).toBool());
 
     setEnableBackup(GET_SETTING(enableBackup).toBool());
+    setBackupFolderPath(GET_SETTING(backupFolderPath).toString());
     setUserName(GET_SETTING(userName).toString());
     setUserEmail(GET_SETTING(userEmail).toString());
 }
@@ -72,6 +73,7 @@ void Settings::save()
     SET_SETTING(enableRowNumber);
 
     SET_SETTING(enableBackup);
+    SET_SETTING(backupFolderPath);
     SET_SETTING(userName);
     SET_SETTING(userEmail);
 }
