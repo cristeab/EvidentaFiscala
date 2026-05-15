@@ -245,7 +245,7 @@ void UiController::backup(QString const& filePath)
 
     QFileInfo const fileInfo(filePath);
     QString const& fileName = fileInfo.fileName();
-    QString const& timestamp = QDateTime::currentDateTimeUtc().toString(Qt::ISODate);
+    QString const& timestamp = QDateTime::currentDateTime().toString(Qt::ISODate);
     QString const& commitMsg = QString(
                                   "%1: auto-save local changes, Timestamp: %2, Generated-By: %3 v%4"
                                   ).arg(fileName).arg(timestamp).arg(APP_NAME).arg(APP_VERSION);
