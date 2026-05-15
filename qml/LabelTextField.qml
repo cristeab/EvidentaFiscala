@@ -10,8 +10,7 @@ Column {
     property alias validator: controlTextField.validator
     property alias echoMode: controlTextField.echoMode
     property alias acceptableInput: controlTextField.acceptableInput
-
-    signal editingFinished()
+    property alias inputMethodHints: controlTextField.inputMethodHints
 
     spacing: 5
 
@@ -26,6 +25,5 @@ Column {
     TextField {
         id: controlTextField
         width: parent.width
-        onEditingFinished: control.editingFinished()
     }
 }

@@ -165,7 +165,7 @@ ApplicationWindow {
         id: fileDialogComp
         FileDialog {
             title: qsTr("Select File")
-            currentFolder: settings.workingFolderPath
+            currentFolder: controller.fromLocalFile(settings.workingFolderPath)
             fileMode: FileDialog.OpenFile
             nameFilters: [ "CSV files (*.csv)", "All files (*)" ]
             onAccepted: tableModel.openLedger(selectedFile)
@@ -181,15 +181,31 @@ ApplicationWindow {
 
     Component {
         id: folderDialogComp
+
         FolderDialog {
-            title: qsTr("Select Working Directory")
-            currentFolder: settings.workingFolderPath
-            onAccepted: settings.workingFolderPath = selectedFolder.toString().replace("file://", "")
+            property var callback
+
             Component.onCompleted: visible = true
+            onAccepted: {
+                if (callback) {
+                    callback(controller.toLocalFile(selectedFolder.toString()))
+                }
+            }
         }
     }
     Loader {
         id: folderDialogLoader
+
+        function show(title, currentFolder, callback) {
+            folderDialogLoader.active = true
+
+            folderDialogLoader.item.title = title
+            folderDialogLoader.item.currentFolder = controller.fromLocalFile(currentFolder)
+            folderDialogLoader.item.callback = callback
+
+            folderDialogLoader.item.visible = true
+        }
+
         active: false
         anchors.centerIn: parent
         sourceComponent: folderDialogComp

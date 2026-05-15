@@ -6,7 +6,7 @@
 #include <QTextDocumentWriter>
 #include <QDir>
 #include <QDesktopServices>
-
+#include <QFileInfo>
 
 UiController::UiController(QObject *parent)
     : QObject{parent},
@@ -30,6 +30,9 @@ UiController::UiController(QObject *parent)
     }, Qt::QueuedConnection);
 
     connect(_tableModel, &TableModel::error, this, &UiController::error);
+
+    initBackup();
+    connect(_settings, &Settings::enableBackupChanged, this, &UiController::initBackup);
 }
 
 void UiController::setChartSeries(int index, QAbstractSeries *series)
@@ -193,4 +196,78 @@ void UiController::updateCurrencyRate(QString const& date)
     }
     _restClient->requestConversionRate(_tableModel->currencyModel().at(ci),
                                        QDate::fromString(date, _dateFormat));
+}
+
+void UiController::initBackup()
+{
+    _gitClient.reset();
+    if (!_settings->enableBackup()) {
+        return;
+    }
+    _gitClient = std::make_unique<GitClient>(_settings);
+
+    auto res = _gitClient->initRepo().and_then([this](GitClient::RepoStatus /*repoStatus*/) {
+        return _gitClient->openRepo();
+    });
+    if (!res) {
+        qWarning() << res.error();
+        emit error(res.error(), false);
+    }
+}
+
+void UiController::tryBackup(QString const& filePath)
+{
+    if (!_gitClient) {
+        qDebug() << "Git client is not enabled";
+        return;
+    }
+
+    QFileInfo const fileInfo(filePath);
+    QString const& fileName = fileInfo.fileName();
+
+    auto const gitFiles = _gitClient->filesWithStatus(GitClient::FileStatus::Added |
+                                                      GitClient::FileStatus::Modified |
+                                                      GitClient::FileStatus::Renamed |
+                                                      GitClient::FileStatus::Untracked);
+    if (gitFiles.contains(fileName)) {
+        qInfo() << "Detected changes" << "file" << filePath;
+        backup(filePath);
+    }
+    qDebug() << "No changes detected to" << filePath << gitFiles;
+}
+
+void UiController::backup(QString const& filePath)
+{
+    if (!_gitClient) {
+        qDebug() << "Git client is not enabled";
+        return;
+    }
+
+    QFileInfo const fileInfo(filePath);
+    QString const& fileName = fileInfo.fileName();
+    QString const& timestamp = QDateTime::currentDateTime().toString(Qt::ISODate);
+    QString const& commitMsg = QString(
+                                  "%1: auto-save local changes, Timestamp: %2, Generated-By: %3 v%4"
+                                  ).arg(fileName).arg(timestamp).arg(APP_NAME).arg(APP_VERSION);
+
+    auto const res = _gitClient->stageAndCommit(fileName, commitMsg);
+    if (!res) {
+        qWarning() << res.error();
+        emit error(res.error(), false);
+        return;
+    }
+    qInfo() << "Successfully backed up" << fileName;
+}
+
+QUrl UiController::fromLocalFile(QString const& local)
+{
+    if (local.isEmpty()) {
+        return QDir::homePath();
+    }
+    return QUrl::fromLocalFile(local);
+}
+
+QString UiController::toLocalFile(QUrl const& url)
+{
+    return url.toLocalFile();
 }

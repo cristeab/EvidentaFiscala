@@ -1,7 +1,10 @@
 #pragma once
 
+#include "git_client.h"
 #include "settings.h"
 #include <QDateTime>
+#include <QUrl>
+#include <memory>
 
 class QAbstractSeries;
 class QXYSeries;
@@ -46,6 +49,9 @@ public:
 
     Q_INVOKABLE void updateCurrencyRate(QString const& date);
 
+    Q_INVOKABLE QUrl fromLocalFile(QString const& local);
+    Q_INVOKABLE QString toLocalFile(QUrl const& url);
+
     constexpr Settings* settings() const { return _settings; }
     constexpr TableModel* tableModel() const { return _tableModel; }
 
@@ -53,12 +59,16 @@ public:
     void updateGraph(int rowIndex);
     void updateXAxis(const QDateTime &val);
 
+    void tryBackup(QString const& filePath);
+    void backup(QString const& filePath);
+
 signals:
     void error(const QString &msg, bool fatal);
 
 private:
-    void updateYAxis(qreal amount);
+    void initBackup();
 
+    void updateYAxis(qreal amount);
     void resetGraphLines();
     void resetGraphBars();
 
@@ -68,4 +78,5 @@ private:
     Settings* _settings{};
     RestClient* _restClient{};
     TableModel* _tableModel{};
+    std::unique_ptr<GitClient> _gitClient;
 };

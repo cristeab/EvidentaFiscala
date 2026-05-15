@@ -18,9 +18,6 @@ set_target_properties(${PROJECT_NAME} PROPERTIES
     MACOSX_BUNDLE_COPYRIGHT "Copyright 2023, Bogdan Cristea. All rights reserved"
     MACOSX_BUNDLE_INFO_PLIST ${CMAKE_CURRENT_SOURCE_DIR}/Info.plist)
 
-target_link_libraries(${PROJECT_NAME} PRIVATE
-    -lqtcsv)
-
 if (CMAKE_BUILD_TYPE MATCHES "^[Rr]el")
     find_program(MACDEPLOYQT macdeployqt HINTS "${_qt_bin_dir}")
     add_custom_command(TARGET ${PROJECT_NAME} POST_BUILD

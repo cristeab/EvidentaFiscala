@@ -21,6 +21,11 @@ public:
     QML_WRITABLE_PROPERTY(bool, useBars, setUseBars, true)
     QML_WRITABLE_PROPERTY(bool, enableRowNumber, setEnableRowNumber, true)
 
+    QML_WRITABLE_PROPERTY(bool, enableBackup, setEnableBackup, false)
+    QML_WRITABLE_PROPERTY(QString, backupFolderPath, setBackupFolderPath, {})
+    QML_WRITABLE_PROPERTY(QString, userName, setUserName, {})
+    QML_WRITABLE_PROPERTY(QString, userEmail, setUserEmail, {})
+
 public:
     explicit Settings(QObject *parent = nullptr);
 

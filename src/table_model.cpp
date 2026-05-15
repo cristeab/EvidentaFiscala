@@ -88,6 +88,7 @@ void TableModel::init()
 
     _controller->initGraph();
 	initInvoiceNumber();
+    _controller->tryBackup(ledgerFilePath);
 }
 
 QString TableModel::computeActualAmount(qreal amount, int currencyIndex, qreal rate) const
@@ -199,6 +200,7 @@ bool TableModel::add(const QString &date, int typeIndex, qreal amount,
 	if (rc) {
 		_readData.append(row);
         _controller->updateGraph(static_cast<int>(_readData.size()) - 1);
+        _controller->backup(ledgerFilePath);
     } else {
         setErrorMessage(tr("Cannot write CSV file {}").arg(ledgerFilePath));
     }
