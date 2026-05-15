@@ -8,17 +8,17 @@ struct git_repository;
 class GitClient;
 class Settings;
 
-void appendToFileList(GitClient* self, const QString& path, int status);
+void appendToFileList(GitClient* self, const QString& path, uint8_t status);
 
 class GitClient final
 {
 public:
-    enum class FileStatus {
-        Added,
-        Deleted,
-        Modified,
-        Renamed,
-        Untracked
+    enum FileStatus : uint8_t {
+        Added = 1,
+        Deleted = 1 << 1,
+        Modified = 1 << 2,
+        Renamed = 1 << 3,
+        Untracked = 1 << 4
     };
 
     enum class RepoStatus {
@@ -31,16 +31,16 @@ public:
 
     std::expected<RepoStatus,QString> initRepo();
     std::expected<void,QString> openRepo();
-    QStringList const& filesWithStatus(FileStatus status);
+    QStringList const& filesWithStatus(uint8_t status);
     std::expected<void,QString> stageAndCommit(QString const& filePath, QString const& commitMessage);
 
-    static QString toString(FileStatus status);
+    static QString toString(uint8_t status);
 private:
     QPointer<Settings const> const  _settings;
     QStringList _files;
-    FileStatus _fileStatus{};
+    uint8_t _fileStatus{};
     git_repository* _repo{};
 
     friend
-    void appendToFileList(GitClient* self, const QString& path, int status);
+    void appendToFileList(GitClient* self, const QString& path, uint8_t status);
 };

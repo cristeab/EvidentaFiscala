@@ -181,8 +181,8 @@ Dialog {
 
             function save() {
                 settings.enableBackup = gitBackup.checked
-                settings.userName = userName.text
-                settings.userEmail = userEmail.text
+                settings.userName = userName.editText
+                settings.userEmail = userEmail.editText
             }
 
             Column {
@@ -192,6 +192,7 @@ Dialog {
                 CheckBox {
                     id: gitBackup
                     text: qsTr("Git Backup")
+                    checked: settings.enableBackup
                 }
                 LabelTextField {
                     id: userName

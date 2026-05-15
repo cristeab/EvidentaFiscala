@@ -62,6 +62,7 @@ std::expected<GitClient::RepoStatus,QString> GitClient::initRepo()
         );
     switch (error) {
     case 0:
+        qDebug() << "Found repo" << repoPath;
         return RepoStatus::AlreadyCreated;
     case GIT_ENOTFOUND:
         qDebug() << "No Git repository found. Initializing a new one";
@@ -96,13 +97,16 @@ std::expected<void, QString> GitClient::openRepo()
         _repo = nullptr;
         return std::unexpected(gitError("Failed to init repository"));
     }
+
+    qDebug() << "Opened repo" << repoPath;
     return {};
 }
 
-void appendToFileList(GitClient* self, const QString& path, int status)
+void appendToFileList(GitClient* self, const QString& path, uint8_t status)
 {
-    if (static_cast<GitClient::FileStatus>(status) == self->_fileStatus) {
+    if (status == ( status & self->_fileStatus)) {
         self->_files.append(path);
+        qDebug() << "Detected" << GitClient::toString(status) << "file" << path;
     }
 }
 
@@ -113,6 +117,7 @@ int eachFileCb(const git_diff_delta *delta, float /*progress*/, void *payload)
 
     // Access the path of the 'new' file in the diff
     const char *path = delta->new_file.path;
+    qDebug() << "New diff file" << path;
 
     switch (delta->status) {
     case GIT_DELTA_ADDED:
@@ -136,7 +141,7 @@ int eachFileCb(const git_diff_delta *delta, float /*progress*/, void *payload)
     return 0;
 }
 
-QStringList const& GitClient::filesWithStatus(FileStatus status)
+QStringList const& GitClient::filesWithStatus(uint8_t status)
 {
     _files.clear();
     if (!_repo) {
@@ -233,7 +238,7 @@ std::expected<void,QString> GitClient::stageAndCommit(QString const& filePath, Q
     return {};
 }
 
-QString GitClient::toString(FileStatus status)
+QString GitClient::toString(uint8_t status)
 {
     switch (status) {
     case FileStatus::Added:

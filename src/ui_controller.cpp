@@ -221,18 +221,15 @@ void UiController::tryBackup(QString const& filePath)
     QFileInfo const fileInfo(filePath);
     QString const& fileName = fileInfo.fileName();
 
-    std::vector<GitClient::FileStatus> statusVec{GitClient::FileStatus::Added,
-                                                 GitClient::FileStatus::Modified,
-                                                 GitClient::FileStatus::Renamed,
-                                                 GitClient::FileStatus::Untracked};
-    for (auto status: statusVec) {
-        auto const gitFiles = _gitClient->filesWithStatus(status);
-        if (gitFiles.contains(fileName)) {
-            qInfo() << "Detected" << GitClient::toString(status) << "file" << filePath;
-            backup(filePath);
-            break;
-        }
+    auto const gitFiles = _gitClient->filesWithStatus(GitClient::FileStatus::Added |
+                                                      GitClient::FileStatus::Modified |
+                                                      GitClient::FileStatus::Renamed |
+                                                      GitClient::FileStatus::Untracked);
+    if (gitFiles.contains(fileName)) {
+        qInfo() << "Detected changes" << "file" << filePath;
+        backup(filePath);
     }
+    qDebug() << "No changes detected to" << filePath << gitFiles;
 }
 
 void UiController::backup(QString const& filePath)
