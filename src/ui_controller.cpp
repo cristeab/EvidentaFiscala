@@ -258,3 +258,16 @@ void UiController::backup(QString const& filePath)
     }
     qInfo() << "Successfully backed up" << fileName;
 }
+
+QUrl UiController::fromLocalFile(QString const& local)
+{
+    if (local.isEmpty()) {
+        return QDir::homePath();
+    }
+    return QUrl::fromLocalFile(local);
+}
+
+QString UiController::toLocalFile(QUrl const& url)
+{
+    return url.toLocalFile();
+}

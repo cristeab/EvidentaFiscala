@@ -3,6 +3,7 @@
 #include "git_client.h"
 #include "settings.h"
 #include <QDateTime>
+#include <QUrl>
 #include <memory>
 
 class QAbstractSeries;
@@ -47,6 +48,9 @@ public:
     }
 
     Q_INVOKABLE void updateCurrencyRate(QString const& date);
+
+    Q_INVOKABLE QUrl fromLocalFile(QString const& local);
+    Q_INVOKABLE QString toLocalFile(QUrl const& url);
 
     constexpr Settings* settings() const { return _settings; }
     constexpr TableModel* tableModel() const { return _tableModel; }

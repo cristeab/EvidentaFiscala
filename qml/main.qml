@@ -2,7 +2,6 @@ import QtQuick
 import QtQuick.Window
 import QtQuick.Controls
 import QtQuick.Dialogs
-import QtCore
 
 ApplicationWindow {
     id: winApp
@@ -166,7 +165,7 @@ ApplicationWindow {
         id: fileDialogComp
         FileDialog {
             title: qsTr("Select File")
-            currentFolder: settings.workingFolderPath
+            currentFolder: controller.fromLocalFile(settings.workingFolderPath)
             fileMode: FileDialog.OpenFile
             nameFilters: [ "CSV files (*.csv)", "All files (*)" ]
             onAccepted: tableModel.openLedger(selectedFile)
@@ -189,7 +188,7 @@ ApplicationWindow {
             Component.onCompleted: visible = true
             onAccepted: {
                 if (callback) {
-                    callback(selectedFolder.toString().replace("file://", ""))
+                    callback(controller.toLocalFile(selectedFolder.toString()))
                 }
             }
         }
@@ -201,12 +200,10 @@ ApplicationWindow {
             folderDialogLoader.active = true
 
             folderDialogLoader.item.title = title
-            if ("" !== currentFolder) {
-                folderDialogLoader.item.currentFolder = currentFolder
-            } else {
-                folderDialogLoader.item.currentFolder = StandardPaths.standardLocations(StandardPaths.HomeLocation)[0]
-            }
+            folderDialogLoader.item.currentFolder = controller.fromLocalFile(currentFolder)
             folderDialogLoader.item.callback = callback
+
+            folderDialogLoader.item.visible = true
         }
 
         active: false
