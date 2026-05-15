@@ -205,6 +205,7 @@ Dialog {
                 }
                 LabelTextFieldBrowser {
                     id: backupFolder
+                    enabled: gitBackup.checked
                     width: control.selectFolderWidth
                     text: qsTr("Backup Directory")
                     editText: settings.backupFolderPath
