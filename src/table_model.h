@@ -55,6 +55,7 @@ public:
     QHash<int, QByteArray> roleNames() const override;
     Q_INVOKABLE bool add(const QString &date, int typeIndex, qreal amount,
                          int currencyIndex, qreal rate, const QString &obs);
+    Q_INVOKABLE bool remove(int rowIndex);
 
     Q_INVOKABLE bool updateInvisibleColumns(const QList<int> &indexList);
     Q_INVOKABLE bool isColumnVisible(int index) const;
