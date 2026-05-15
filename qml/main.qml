@@ -201,7 +201,11 @@ ApplicationWindow {
             folderDialogLoader.active = true
 
             folderDialogLoader.item.title = title
-            folderDialogLoader.item.currentFolder = ("" !== currentFolder) ? currentFolder : StandardPaths.standardLocations(StandardPaths.HomeLocation)[0]
+            if ("" !== currentFolder) {
+                folderDialogLoader.item.currentFolder = currentFolder
+            } else {
+                folderDialogLoader.item.currentFolder = StandardPaths.standardLocations(StandardPaths.HomeLocation)[0]
+            }
             folderDialogLoader.item.callback = callback
         }
 
