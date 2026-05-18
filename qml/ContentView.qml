@@ -246,6 +246,7 @@ Item {
         alternatingRows: true
         delegate: RowLayout {
             id: tableRow
+            required property int row
             spacing: 0
             Label {
                 visible: settings.enableRowNumber
@@ -270,6 +271,12 @@ Item {
                         id: rowLabelMouseArea
                         anchors.fill: parent
                         hoverEnabled: true
+                        acceptedButtons: Qt.LeftButton | Qt.RightButton
+                        onPressed: (mouse) => {
+                                       if (Qt.RightButton === mouse.button) {
+                                           console.log('Delete index ' + tableRow.row)
+                                       }
+                                   }
                     }
                     ToolTip {
                         id: rowLabelTooltip
@@ -278,6 +285,6 @@ Item {
                     }
                 }
             }
-        }
-    }
+        } // RowLayout
+    } // TableView
 }
