@@ -19,10 +19,12 @@ Menu {
         text: qsTr("Delete row ") + contextMenu.currentRow + " ..."
 
         width: parent.width
-        topPadding: 0
-        bottomPadding: 0
-        leftPadding: 8
-        rightPadding: 8
+        implicitHeight: fontMetrics.height + 8
+
+        FontMetrics {
+            id: fontMetrics
+            font: menuItem.font
+        }
 
         onTriggered: {
             //TODO: show confirmation dialog
