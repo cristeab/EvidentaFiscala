@@ -274,7 +274,7 @@ Item {
                         acceptedButtons: Qt.LeftButton | Qt.RightButton
                         onPressed: (mouse) => {
                                        if (Qt.RightButton === mouse.button) {
-                                           console.log('Delete index ' + tableRow.row)
+                                           contextMenuLoader.open(tableRow.row)
                                        }
                                    }
                     }

@@ -217,4 +217,17 @@ ApplicationWindow {
         source: "qrc:/qml/Settings.qml"
         asynchronous: true
     }
+
+    Loader {
+        id: contextMenuLoader
+
+        function open(index) {
+            console.log('Opening ' + index)
+            contextMenuLoader.active = true
+            contextMenuLoader.item.currentRow = index
+            contextMenuLoader.item.show()
+        }
+        active: false
+        source: "qrc:/qml/ContextMenu.qml"
+    }
 }
