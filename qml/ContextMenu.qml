@@ -11,11 +11,11 @@ Menu {
     TextMetrics {
         id: textMetrics
         font.pixelSize: 14  // match your app font
-        text: menuItem.text
+        text: deleteItem.text
     }
 
     MenuItem {
-        id: menuItem
+        id: deleteItem
         text: qsTr("Delete row ") + contextMenu.currentRow + " ..."
 
         width: parent.width
@@ -23,7 +23,7 @@ Menu {
 
         FontMetrics {
             id: fontMetrics
-            font: menuItem.font
+            font: deleteItem.font
         }
 
         onTriggered: {
