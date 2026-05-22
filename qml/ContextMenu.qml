@@ -1,25 +1,26 @@
 import QtQuick
 import QtQuick.Controls
 
-Item {
-    id: control
+Menu {
+    id: contextMenu
 
     property int currentRow
 
-    function show() {
-        contextMenu.popup()
+    implicitWidth: textMetrics.boundingRect.width + 40
+    TextMetrics {
+        id: textMetrics
+        font.pixelSize: 14  // match your app font
+        text: menuItem.text
     }
 
-    Menu {
-        id: contextMenu
-
-        MenuItem {
-            text: "Delete row " + control.currentRow
-            onTriggered: {
-                //TODO: show confirmation dialog
-                //tableModel.remove(control.currentRow)
-                contextMenu.close()
-            }
+    MenuItem {
+        id: menuItem
+        text: qsTr("Delete row ") + contextMenu.currentRow + " ..."
+        width: parent.width
+        onTriggered: {
+            //TODO: show confirmation dialog
+            //tableModel.remove(contextMenu.currentRow)
+            contextMenu.close()
         }
     }
 }

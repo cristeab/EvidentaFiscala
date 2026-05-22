@@ -222,10 +222,9 @@ ApplicationWindow {
         id: contextMenuLoader
 
         function open(index) {
-            console.log('Opening ' + index)
             contextMenuLoader.active = true
             contextMenuLoader.item.currentRow = index
-            contextMenuLoader.item.show()
+            contextMenuLoader.item.popup()
         }
         active: false
         source: "qrc:/qml/ContextMenu.qml"
