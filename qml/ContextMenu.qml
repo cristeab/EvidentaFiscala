@@ -6,17 +6,17 @@ Menu {
 
     property int currentRow
 
-    implicitWidth: textMetrics.boundingRect.width + 40
+    implicitWidth: textMetrics.boundingRect.width + 50
 
     TextMetrics {
         id: textMetrics
-        font.pixelSize: 14  // match your app font
+        font.pixelSize: 14
         text: deleteItem.text
     }
 
     MenuItem {
         id: deleteItem
-        text: qsTr("Delete row ") + contextMenu.currentRow + " ..."
+        text: qsTr("Delete row #") + contextMenu.currentRow + " ..."
 
         width: parent.width
         implicitHeight: fontMetrics.height + 8
@@ -27,8 +27,10 @@ Menu {
         }
 
         onTriggered: {
-            //TODO: show confirmation dialog
-            //tableModel.remove(contextMenu.currentRow)
+            dialogLoader.show(qsTr("Question"),
+                              qsTr("Are you sure you want to delete row #") + contextMenu.currentRow + " ?",
+                              contextMenu.currentRow,
+                              tableModel.remove)
             contextMenu.close()
         }
     }

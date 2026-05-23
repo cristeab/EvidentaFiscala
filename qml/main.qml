@@ -142,6 +142,7 @@ ApplicationWindow {
             errMsg.show(msg, fatal)
         }
     }
+
     Component {
         id: errMsgComp
         MessageDialog {
@@ -152,13 +153,49 @@ ApplicationWindow {
         id: errMsg
         function show(msg, fatal) {
             errMsg.active = true
-            errMsg.item.title = fatal ? qsTr("Error") : qsTr("Warning")
-            errMsg.item.text = msg
+            errMsg.item.text = fatal ? qsTr("Error") : qsTr("Warning")
+            errMsg.item.informativeText = msg
             errMsg.item.visible = true
         }
         active: false
         anchors.centerIn: parent
         sourceComponent: errMsgComp
+    }
+
+    Component {
+        id: dialogComp
+
+        MessageDialog {
+            id: msgDialog
+
+            property int index: -1
+            property var callback: null
+
+            buttons: MessageDialog.Ok | MessageDialog.Cancel
+            onAccepted: {
+                if (msgDialog.callback) {
+                    msgDialog.callback(msgDialog.index)
+                }
+            }
+        }
+    }
+    Loader {
+        id: dialogLoader
+
+        function show(title, text, index, callback) {
+            dialogLoader.active = true
+
+            dialogLoader.item.text = title
+            dialogLoader.item.informativeText = text
+            dialogLoader.item.index = index
+            dialogLoader.item.callback = callback
+
+            dialogLoader.item.visible = true
+        }
+
+        active: false
+        anchors.centerIn: parent
+        sourceComponent: dialogComp
     }
 
     Component {
