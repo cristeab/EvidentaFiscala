@@ -32,6 +32,10 @@ Menu {
                               contextMenu.currentRow,
                               (index) => {
                                   tableModel.remove(index)
+                                  tableTab.deselectRow(index)
+                              },
+                              (index) => {
+                                  tableTab.deselectRow(index)
                               })
             contextMenu.close()
         }

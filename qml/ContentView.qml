@@ -10,6 +10,10 @@ Item {
     property alias count: tableView.rows
     readonly property var locale: Qt.locale()
 
+    function deselectRow(index) {
+        tableView.deselectRow(index)
+    }
+
     Component.onCompleted: {
         dateField.text = Qt.formatDate(new Date(), controller.dateFormat)
         controller.updateCurrencyRate(dateField.text)
@@ -195,6 +199,11 @@ Item {
 
     TableView {
         id: tableView
+
+        function deselectRow(index) {
+            const targetIndex = tableView.model.index(index, 0)
+            tableView.selectionModel.select(targetIndex, ItemSelectionModel.Deselect | ItemSelectionModel.Rows)
+        }
 
         function customColumnWidth(column) {
             if (!tableModel.isColumnVisible(column)) {

@@ -169,12 +169,18 @@ ApplicationWindow {
             id: msgDialog
 
             property int index: -1
-            property var callback: null
+            property var callbackAccept: null
+            property var callbackReject: null
 
             buttons: MessageDialog.Ok | MessageDialog.Cancel
             onAccepted: {
-                if (msgDialog.callback) {
-                    msgDialog.callback(msgDialog.index)
+                if (msgDialog.callbackAccept) {
+                    msgDialog.callbackAccept(msgDialog.index)
+                }
+            }
+            onRejected: {
+                if (msgDialog.callbackReject) {
+                    msgDialog.callbackReject(msgDialog.index)
                 }
             }
         }
@@ -182,13 +188,14 @@ ApplicationWindow {
     Loader {
         id: dialogLoader
 
-        function show(title, text, index, callback) {
+        function show(title, text, index, callbackAccept, callbackReject) {
             dialogLoader.active = true
 
             dialogLoader.item.text = title
             dialogLoader.item.informativeText = text
             dialogLoader.item.index = index
-            dialogLoader.item.callback = callback
+            dialogLoader.item.callbackAccept = callbackAccept
+            dialogLoader.item.callbackReject = callbackReject
 
             dialogLoader.item.visible = true
         }
