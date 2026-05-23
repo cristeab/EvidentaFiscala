@@ -244,47 +244,76 @@ Item {
         interactive: true
         flickableDirection: Flickable.VerticalFlick
         alternatingRows: true
-        delegate: RowLayout {
-            id: tableRow
+        selectionModel: ItemSelectionModel {}
+        delegate: Item {
+            id: tableRowFrame
+
             required property int row
-            spacing: 0
-            Label {
-                visible: settings.enableRowNumber
-                text: (0 != index) ? String(index).padStart(2, ' ') : "  "
-                rightPadding: 3
-                font.bold: true
-                color: "gray"
-            }
-            Repeater {
-                model: [date, bankIncome, cashIncome,
-                    bankExpenses, cashExpenses, invoiceNumber, comments]
-                delegate: Label {
-                    id: rowLabel
-                    Layout.preferredWidth: tableView.customColumnWidth(index)
-                    Layout.minimumWidth: Theme.minimumColumnWidth
-                    text: modelData
-                    elide: Text.ElideRight
-                    horizontalAlignment: Text.AlignLeft
-                    clip: true
-                    visible: tableModel.isColumnVisible(index)
-                    MouseArea {
-                        id: rowLabelMouseArea
-                        anchors.fill: parent
-                        hoverEnabled: true
-                        acceptedButtons: Qt.LeftButton | Qt.RightButton
-                        onPressed: (mouse) => {
-                                       if (Qt.RightButton === mouse.button) {
-                                           contextMenuLoader.open(tableRow.row)
-                                       }
-                                   }
-                    }
-                    ToolTip {
-                        id: rowLabelTooltip
-                        visible: rowLabelMouseArea.containsMouse && ("" !== rowLabel.text) && rowLabel.truncated
-                        text: rowLabel.text
-                    }
+            required property bool current
+            required property bool selected
+
+            implicitHeight: tableRow.implicitHeight
+            implicitWidth: tableView.width
+
+            Rectangle {
+                z: -1
+                anchors.fill: parent
+                color: "transparent"
+                border {
+                    width: current ? 2 : 0
+                    color: selected ? "red" : palette.base
                 }
             }
-        } // RowLayout
+
+            RowLayout {
+                id: tableRow
+
+                anchors.fill: parent
+                spacing: 0
+
+                Label {
+                    visible: settings.enableRowNumber
+                    text: (0 != index) ? String(index).padStart(2, ' ') : "  "
+                    rightPadding: 3
+                    font.bold: true
+                    color: "gray"
+                }
+                Repeater {
+                    model: [date, bankIncome, cashIncome,
+                        bankExpenses, cashExpenses, invoiceNumber, comments]
+                    delegate: Label {
+                        id: rowLabel
+                        Layout.preferredWidth: tableView.customColumnWidth(index)
+                        Layout.minimumWidth: Theme.minimumColumnWidth
+                        text: modelData
+                        elide: Text.ElideRight
+                        horizontalAlignment: Text.AlignLeft
+                        clip: true
+                        visible: tableModel.isColumnVisible(index)
+                        MouseArea {
+                            id: rowLabelMouseArea
+                            anchors.fill: parent
+                            hoverEnabled: true
+                            acceptedButtons: Qt.LeftButton | Qt.RightButton
+                            onPressed: (mouse) => {
+                                           if (Qt.RightButton === mouse.button) {
+                                               const idx = tableView.model.index(tableRowFrame.row, 0)
+                                               tableView.selectionModel.setCurrentIndex(idx, ItemSelectionModel.ClearAndSelect | ItemSelectionModel.Rows)
+                                               contextMenuLoader.open(tableRowFrame.row)
+                                           }
+                                       }
+                        }
+                        ToolTip {
+                            id: rowLabelTooltip
+                            visible: rowLabelMouseArea.containsMouse && ("" !== rowLabel.text) && rowLabel.truncated
+                            text: rowLabel.text
+                        }
+                    }
+                }
+            } // RowLayout
+        } // Item
     } // TableView
+    SelectionRectangle {
+        target: tableView
+    }
 }

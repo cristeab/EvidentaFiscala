@@ -31,7 +31,7 @@ Menu {
                               qsTr("Are you sure you want to delete row #") + contextMenu.currentRow + " ?",
                               contextMenu.currentRow,
                               (index) => {
-                                tableModel.remove(index)
+                                  tableModel.remove(index)
                               })
             contextMenu.close()
         }
