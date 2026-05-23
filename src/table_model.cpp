@@ -207,6 +207,31 @@ bool TableModel::add(const QString &date, int typeIndex, qreal amount,
 	return rc;
 }
 
+bool TableModel::remove(int rowIndex)
+{
+    QtCSV::StringData strData;
+    for (size_t i = 0; i < _readData.size(); ++i) {
+        if (i == rowIndex) continue;
+        strData.addRow(_readData.at(i));
+    }
+
+    const auto& ledgerFilePath = _controller->settings()->ledgerFilePath();
+    bool rc = ensureLastCharIsNewLine(ledgerFilePath);
+    if (!rc) {
+        return false;
+    }
+    rc = QtCSV::Writer::write(ledgerFilePath, strData, _csvSeparator, QString("\""),
+                              QtCSV::Writer::WriteMode::REWRITE);
+    if (rc) {
+        _readData.remove(rowIndex);
+        _controller->updateGraph(static_cast<int>(_readData.size()) - 1);
+        _controller->backup(ledgerFilePath);
+    } else {
+        setErrorMessage(tr("Cannot write CSV file {}").arg(ledgerFilePath));
+    }
+    return rc;
+}
+
 void TableModel::initInvoiceNumber()
 {
     // assumes that the rows are already sorted after the date, the most recent first

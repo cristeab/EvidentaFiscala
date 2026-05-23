@@ -142,6 +142,7 @@ ApplicationWindow {
             errMsg.show(msg, fatal)
         }
     }
+
     Component {
         id: errMsgComp
         MessageDialog {
@@ -152,13 +153,56 @@ ApplicationWindow {
         id: errMsg
         function show(msg, fatal) {
             errMsg.active = true
-            errMsg.item.title = fatal ? qsTr("Error") : qsTr("Warning")
-            errMsg.item.text = msg
+            errMsg.item.text = fatal ? qsTr("Error") : qsTr("Warning")
+            errMsg.item.informativeText = msg
             errMsg.item.visible = true
         }
         active: false
         anchors.centerIn: parent
         sourceComponent: errMsgComp
+    }
+
+    Component {
+        id: dialogComp
+
+        MessageDialog {
+            id: msgDialog
+
+            property int index: -1
+            property var callbackAccept: null
+            property var callbackReject: null
+
+            buttons: MessageDialog.Ok | MessageDialog.Cancel
+            onAccepted: {
+                if (msgDialog.callbackAccept) {
+                    msgDialog.callbackAccept(msgDialog.index)
+                }
+            }
+            onRejected: {
+                if (msgDialog.callbackReject) {
+                    msgDialog.callbackReject(msgDialog.index)
+                }
+            }
+        }
+    }
+    Loader {
+        id: dialogLoader
+
+        function show(title, text, index, callbackAccept, callbackReject) {
+            dialogLoader.active = true
+
+            dialogLoader.item.text = title
+            dialogLoader.item.informativeText = text
+            dialogLoader.item.index = index
+            dialogLoader.item.callbackAccept = callbackAccept
+            dialogLoader.item.callbackReject = callbackReject
+
+            dialogLoader.item.visible = true
+        }
+
+        active: false
+        anchors.centerIn: parent
+        sourceComponent: dialogComp
     }
 
     Component {
@@ -216,5 +260,17 @@ ApplicationWindow {
         active: false
         source: "qrc:/qml/Settings.qml"
         asynchronous: true
+    }
+
+    Loader {
+        id: contextMenuLoader
+
+        function open(index) {
+            contextMenuLoader.active = true
+            contextMenuLoader.item.currentRow = index
+            contextMenuLoader.item.popup()
+        }
+        active: false
+        source: "qrc:/qml/ContextMenu.qml"
     }
 }
