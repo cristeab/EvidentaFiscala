@@ -30,11 +30,13 @@ Menu {
             dialogLoader.show(qsTr("Question"),
                               qsTr("Are you sure you want to delete row #") + contextMenu.currentRow + " ?",
                               contextMenu.currentRow,
-                              (index) => {
+                              (arg) => {
+                                  const index = parseInt(arg)
                                   tableModel.remove(index)
                                   tableTab.deselectRow(index)
                               },
-                              (index) => {
+                              (arg) => {
+                                  const index = parseInt(arg)
                                   tableTab.deselectRow(index)
                               })
             contextMenu.close()

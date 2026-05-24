@@ -15,9 +15,14 @@ ApplicationWindow {
         id: toolBar
         spacing: Theme.horizontalMargin
         width: parent.width
+        height: newFileBtn.height
         background: Item {}
         Row {
-            anchors.fill: parent
+            anchors {
+                top: parent.top
+                left: parent.left
+                right: newFileBtn.left
+            }
             ToolButton {
                 icon.source: "qrc:/img/FileCsv.svg"
                 onClicked: {
@@ -47,6 +52,31 @@ ApplicationWindow {
                     text: qsTr("Settings...")
                     visible: parent.hovered
                 }
+            }
+        } // Row
+        ToolButton {
+            id: newFileBtn
+            anchors {
+                top: parent.top
+                right: parent.right
+            }
+            icon.source: "qrc:/img/NewFile.svg"
+            onClicked: {
+                const filePath = controller.createFileName()
+                if ("" !== filePath) {
+                    dialogLoader.show(qsTr("Question"),
+                                      qsTr("Create new ledger ") + filePath + " ?",
+                                      filePath,
+                                      (arg) => {
+                                        controller.openLedger(controller.fromLocalFile(arg))
+                                      },
+                                      null)
+                }
+            }
+
+            ToolTip {
+                text: qsTr("New CSV File...")
+                visible: parent.hovered
             }
         }
     }
@@ -168,19 +198,19 @@ ApplicationWindow {
         MessageDialog {
             id: msgDialog
 
-            property int index: -1
+            property var arg: null
             property var callbackAccept: null
             property var callbackReject: null
 
             buttons: MessageDialog.Ok | MessageDialog.Cancel
             onAccepted: {
                 if (msgDialog.callbackAccept) {
-                    msgDialog.callbackAccept(msgDialog.index)
+                    msgDialog.callbackAccept(msgDialog.arg)
                 }
             }
             onRejected: {
                 if (msgDialog.callbackReject) {
-                    msgDialog.callbackReject(msgDialog.index)
+                    msgDialog.callbackReject(msgDialog.arg)
                 }
             }
         }
@@ -188,12 +218,12 @@ ApplicationWindow {
     Loader {
         id: dialogLoader
 
-        function show(title, text, index, callbackAccept, callbackReject) {
+        function show(title, text, arg, callbackAccept, callbackReject) {
             dialogLoader.active = true
 
             dialogLoader.item.text = title
             dialogLoader.item.informativeText = text
-            dialogLoader.item.index = index
+            dialogLoader.item.arg = arg
             dialogLoader.item.callbackAccept = callbackAccept
             dialogLoader.item.callbackReject = callbackReject
 
@@ -212,7 +242,7 @@ ApplicationWindow {
             currentFolder: controller.fromLocalFile(settings.workingFolderPath)
             fileMode: FileDialog.OpenFile
             nameFilters: [ "CSV files (*.csv)", "All files (*)" ]
-            onAccepted: tableModel.openLedger(selectedFile)
+            onAccepted: controller.openLedger(selectedFile)
             Component.onCompleted: visible = true
         }
     }

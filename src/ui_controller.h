@@ -52,6 +52,8 @@ public:
     Q_INVOKABLE QUrl fromLocalFile(QString const& local);
     Q_INVOKABLE QString toLocalFile(QUrl const& url);
 
+    Q_INVOKABLE QString createFileName();
+
     constexpr Settings* settings() const { return _settings; }
     constexpr TableModel* tableModel() const { return _tableModel; }
 
