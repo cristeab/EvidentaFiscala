@@ -271,3 +271,30 @@ QString UiController::toLocalFile(QUrl const& url)
 {
     return url.toLocalFile();
 }
+
+QString UiController::createFileName()
+{
+    static constexpr int MAX_COUNT{100};
+
+    auto const& path = _settings->workingFolderPath();
+    auto const year = QDate::currentDate().year();
+    auto const fileNamePrefix("ledger_pfa_");
+
+    auto fileName = fileNamePrefix + QString("%1.csv").arg(year);
+    auto filePath = QDir(path).filePath(fileName);
+    if (!QFile::exists(filePath)) {
+        return filePath;
+    }
+
+    int count{};
+    while (count < MAX_COUNT) {
+        fileName = fileNamePrefix + QString("%1_%2.csv").arg(year).arg(count++);
+        filePath = QDir(path).filePath(fileName);
+        if (!QFile::exists(filePath)) {
+            return filePath;
+        }
+    }
+    qCritical() << "Cannot create a new file name" << filePath;
+    emit error(tr("Cannot create a new file name %1").arg(filePath), true);
+    return {};
+}

@@ -76,7 +76,8 @@ qt_add_translations(TARGETS ${PROJECT_NAME}
 set(IMG_FILES img/FolderOpen.svg
               img/FileCsv.svg
               img/Settings.svg
-              img/FileExport.svg)
+              img/FileExport.svg
+              img/NewFile.svg)
 
 # Enable the Qt Quick Compiler
 file(GLOB_RECURSE QML_FILES
