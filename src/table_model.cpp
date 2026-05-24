@@ -65,7 +65,10 @@ void TableModel::init()
 			return;
 		}
 	}
+    beginResetModel();
 	_readData = QtCSV::Reader::readToList(ledgerFilePath, _csvSeparator);
+    endResetModel();
+
 	if (!_readData.isEmpty()) {
 		//check column names
         if (!std::ranges::equal(RO_TABLE_HEADER, _readData.at(0))) {
