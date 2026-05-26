@@ -1,56 +1,36 @@
 # FiscalRecords
 
 Application used to keep fiscal records in CSV files.
+The main reason for writing this application is to have an improved method
+to keep fiscal records than normal CSV files for a self-employed person.
+
 Supported languages: Romanian, English, French.
 
-Paragraph.
+The following features are supported:
 
-## Second Level Heading
+* record income and generate automaticaly the registration numbers for the receipts
+(generated separately)
 
-Paragraph.
+* record expenses
 
-- bullet
-+ other bullet
-* another bullet
-    * child bullet
+* show graphically the monthly gross income, expenses and the net income. There are 2
+possible graphical representations: with lines and with bars.
 
-1. ordered
-2. next ordered
+* generate automatically a fiscal records register in ODF format with the total gross income and
+expenses
 
-### Third Level Heading
+* create a new ledger with the expected columns (one per year is needed usually)
 
-Some *italic* and **bold** text and `inline code`.
-
-An empty line starts a new paragraph.
-
-Use two spaces at the end  
-to force a line break.
-
-A horizontal ruler follows:
-
----
-
-Add links inline like [this link to the Qt homepage](https://www.qt.io),
-or with a reference like [this other link to the Qt homepage][1].
-
-    Add code blocks with
-    four spaces at the front.
-
-> A blockquote
-> starts with >
->
-> and has the same paragraph rules as normal text.
-
-First Level Heading in Alternate Style
-======================================
-
-Paragraph.
-
-Second Level Heading in Alternate Style
----------------------------------------
+* backup the ledger in a local git repository (the git repository must be manually created)
 
 # Screenshots
 
 ![table](screenshots/table.png?raw=true "Records Table")
 
 ![graph](screenshots/graph.png?raw=true "Records Graph")
+
+![general](screenshots/settings_general.png?raw=true "Settings - General Tab")
+
+![general](screenshots/settings_visible.png?raw=true "Settings - Visible Columns Tab")
+
+![general](screenshots/settings_backup.png?raw=true "Settings - Backup Tab")
