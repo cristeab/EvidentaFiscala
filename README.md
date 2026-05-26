@@ -1,38 +1,51 @@
-# FiscalRecords
+# First Level Heading
 
-Application used to keep fiscal records in CSV files.
-Supported languages: Romanian, English, French.
+Paragraph.
 
-# External dependences:
+## Second Level Heading
 
-- Qt v6.7
+Paragraph.
 
-- cmake v3.18
+- bullet
++ other bullet
+* another bullet
+    * child bullet
 
-- qtcsv v1.7 (https://github.com/iamantony/qtcsv.git)
+1. ordered
+2. next ordered
 
-# Target Platforms
+### Third Level Heading
 
-- macOS
+Some *italic* and **bold** text and `inline code`.
 
-- Windows
+An empty line starts a new paragraph.
 
-- Linux (planned)
+Use two spaces at the end  
+to force a line break.
 
-# Installer Generation
+A horizontal ruler follows:
 
-- use the provided script to compile and generate the installer:
+---
 
-On macOS:
+Add links inline like [this link to the Qt homepage](https://www.qt.io),
+or with a reference like [this other link to the Qt homepage][1].
 
-    ./build-macos-release.sh
+    Add code blocks with
+    four spaces at the front.
 
-On Windows:
+> A blockquote
+> starts with >
+>
+> and has the same paragraph rules as normal text.
 
-    build-win-release.bat
+First Level Heading in Alternate Style
+======================================
 
-# Screenshots
+Paragraph.
 
-![table](screenshots/table.png?raw=true "Records Table")
+Second Level Heading in Alternate Style
+---------------------------------------
 
-![graph](screenshots/graph.png?raw=true "Records Graph")
+Paragraph.
+
+[1]: https://www.qt.io
