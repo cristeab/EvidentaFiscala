@@ -1,27 +1,45 @@
 # FiscalRecords
 
-Application used to keep fiscal records in CSV files.
-The main reason for writing this application is to have an improved method
-to keep fiscal records than normal CSV files for a self-employed person.
+FiscalRecords is a lightweight, efficient application designed for self-employed individuals to manage their fiscal records seamlessly. While it leverages the simplicity and portability of CSV files for data storage, it eliminates the manual errors and friction of editing spreadsheets directly.
 
-Supported languages: Romanian, English, French.
+# Multi-Language Support
 
-The following features are supported:
+The application is fully localized and supports:
 
-* record income and generate automaticaly the registration numbers for the receipts
-(generated separately)
+🇷🇴 Romanian
 
-* record expenses
+🇬🇧 English
 
-* show graphically the monthly gross income, expenses and the net income. There are 2
-possible graphical representations: with lines and with bars.
+🇫🇷 French
 
-* generate automatically a fiscal records register in ODF format with the total gross income and
-expenses
+# Key Features
 
-* create a new ledger with the expected columns (one per year is needed usually)
+## Automated Income Tracking
 
-* backup the ledger in a local git repository (the git repository must be manually created)
+Record income effortlessly. The application automatically generates sequential registration numbers for your receipts.
+
+## Expense Management
+
+Log and categorize business expenses quickly.
+
+## Data Visualization
+
+Built-in charting to monitor financial health. Visualize your monthly gross income, expenses, and net income using either line charts or bar graphs.
+
+## Compliance Reporting
+
+Automatically generate a formalized Fiscal Records Register in ODF format, complete with aggregated gross income and expense totals.
+
+## Ledger Management
+
+Easily initialize new ledgers with all required columns (typically structured on a per-year basis).
+
+## Local Backups via Git
+
+Secure your data by backing up your ledger to a local Git repository (requires manual initialization of the Git repository).
+
+# Why FiscalRecords?
+Managing finances as a freelancer or sole proprietor using raw CSV files or standard spreadsheets often leads to formatting inconsistencies and manual tracking headaches. FiscalRecords provides a structured interface that maintains the transparency of CSV data while automating the tedious parts of bookkeeping—like tracking receipt numbers and generating compliant reports.
 
 # Screenshots
 
