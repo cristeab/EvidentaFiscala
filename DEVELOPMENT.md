@@ -1,23 +1,24 @@
-# FiscalRecords
+# General Instructions
 
-Application used to keep fiscal records in CSV files.
-Supported languages: Romanian, English, French.
+To compile a C++ compiler supporting C++23 standard is needed.
 
-# External dependences:
-
-- Qt v6.7
-
-- cmake v3.18
-
-- qtcsv v1.7 (https://github.com/iamantony/qtcsv.git)
-
-# Target Platforms
+Supported platforms:
 
 - macOS
 
 - Windows
 
 - Linux (planned)
+
+# External dependences:
+
+- Qt v6.11.1
+
+- cmake v3.27
+
+- qtcsv v1.7 (https://github.com/iamantony/qtcsv.git)
+
+- libgit2 v1.9.3 (https://github.com/libgit2/libgit2.git)
 
 # Installer Generation
 
@@ -30,9 +31,3 @@ On macOS:
 On Windows:
 
     build-win-release.bat
-
-# Screenshots
-
-![table](screenshots/table.png?raw=true "Records Table")
-
-![graph](screenshots/graph.png?raw=true "Records Graph")

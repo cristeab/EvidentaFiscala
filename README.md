@@ -1,4 +1,7 @@
-# First Level Heading
+# FiscalRecords
+
+Application used to keep fiscal records in CSV files.
+Supported languages: Romanian, English, French.
 
 Paragraph.
 
@@ -46,6 +49,8 @@ Paragraph.
 Second Level Heading in Alternate Style
 ---------------------------------------
 
-Paragraph.
+# Screenshots
 
-[1]: https://www.qt.io
+![table](screenshots/table.png?raw=true "Records Table")
+
+![graph](screenshots/graph.png?raw=true "Records Graph")
