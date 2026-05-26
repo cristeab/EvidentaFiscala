@@ -1,8 +1,9 @@
-# General Instructions
+# Getting Started
 
-To compile a C++ compiler supporting C++23 standard is needed.
+To compile a C++ compiler supporting C++23 standard is needed. The compilation is
+managed by cmake such that the external libraries (qtcsv, libgit2) are handled by cmake.
 
-Supported platforms:
+# Supported Platforms
 
 - macOS
 
@@ -10,7 +11,7 @@ Supported platforms:
 
 - Linux (planned)
 
-# External dependences:
+# External Dependences:
 
 - Qt v6.11.1
 
