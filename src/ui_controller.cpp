@@ -11,7 +11,6 @@
 UiController::UiController(QObject *parent)
     : QObject{parent},
     _settings(new Settings(this)),
-    _restClient(new RestClient(this)),
     _tableModel(new TableModel(this))
 {
     setObjectName("controller");
@@ -21,13 +20,8 @@ UiController::UiController(QObject *parent)
     connect(_settings, &Settings::minIncomeChanged, this, &UiController::resetMinIncome);
     connect(_settings, &Settings::useBarsChanged, this, &UiController::initGraph);
 
-    connect(_restClient, &RestClient::conversionRateReady, this, [this](double value, QString const& currency) {
-        if (0 == _tableModel->currentCurrency().compare(currency, Qt::CaseInsensitive)) {
-            setConversionRate(value);
-        } else {
-            qWarning() << "Ignoring conversion rate" << value << "for" << currency;
-        }
-    }, Qt::QueuedConnection);
+    initRestClient();
+    connect(_settings, &Settings::enableCurrencyConversionChanged, this, &UiController::initRestClient);
 
     connect(_tableModel, &TableModel::error, this, &UiController::error);
 
@@ -194,8 +188,36 @@ void UiController::updateCurrencyRate(QString const& date)
     if (0 == ci || date.isEmpty() || !_restClient) {
         return;
     }
+    _currentDate = date;
     _restClient->requestConversionRate(_tableModel->currencyModel().at(ci),
                                        QDate::fromString(date, _dateFormat));
+}
+
+void UiController::initRestClient()
+{
+    static QMetaObject::Connection conn;
+
+    if (_restClient) {
+        disconnect(conn);
+        delete _restClient;
+    }
+
+    if (!_settings->enableCurrencyConversion()) {
+        _restClient = nullptr;
+        return;
+    }
+
+    _restClient = new RestClient(this);
+    conn = connect(_restClient, &RestClient::conversionRateReady, this, [this](double value, QString const& currency) {
+        if (0 == _tableModel->currentCurrency().compare(currency, Qt::CaseInsensitive)) {
+            setConversionRate(value);
+        } else {
+            qWarning() << "Ignoring conversion rate" << value << "for" << currency;
+        }
+    }, Qt::QueuedConnection);
+
+    //update currency conversion rate
+    updateCurrencyRate(_currentDate);
 }
 
 void UiController::initBackup()

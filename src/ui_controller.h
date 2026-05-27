@@ -68,6 +68,7 @@ signals:
     void error(const QString &msg, bool fatal);
 
 private:
+    void initRestClient();
     void initBackup();
 
     void updateYAxis(qreal amount);
@@ -81,4 +82,5 @@ private:
     RestClient* _restClient{};
     TableModel* _tableModel{};
     std::unique_ptr<GitClient> _gitClient;
+    QString _currentDate;
 };

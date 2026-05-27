@@ -8,7 +8,7 @@
 
 // https://www.cursbnr.ro/api/doc.html
 
-static const QString SERVER_URL{"https://www.cursbnr.ro/api/json.php"};
+static const QString BNR_SERVER_URL{"https://www.cursbnr.ro/api/json.php"};
 
 static constexpr char DATE_FIELD[]{"date"};
 static constexpr char CURRENCY_FIELD[]{"currency"};
@@ -27,7 +27,7 @@ void RestClient::requestConversionRate(QString const& currency, QDate const& dat
     if (date.isValid()) {
         urlQuery.addQueryItem("date", date.toString("yyyy-MM-dd"));
     }
-    QUrl url(SERVER_URL);
+    QUrl url(BNR_SERVER_URL);
     url.setQuery(urlQuery);
     QNetworkRequest netReq(url);
 

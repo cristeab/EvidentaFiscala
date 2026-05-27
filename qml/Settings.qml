@@ -59,7 +59,7 @@ Dialog {
             text: qsTr("Backup")
         }
         TabButton {
-            text: qsTr("Currency Converter")
+            text: qsTr("Currency")
         }
     }
 
@@ -256,9 +256,9 @@ Dialog {
                 }
                 LabelComboBox {
                     id: exchangeRateProvider
-                    width: control.editWidth
+                    width: 2 * control.editWidth
                     text: qsTr("Exchange Rate Provider")
-                    model: ["BNR"]
+                    model: [qsTr("National Bank of Romania")]
                     currentIndex: 0
                 }
             }
