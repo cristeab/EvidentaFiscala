@@ -94,7 +94,7 @@ Item {
         onClicked: (date) => {
             dateField.text = Qt.formatDate(date, controller.dateFormat)
             calendar.visible = false
-            tableModel.updateCurrencyRate(dateField.text)
+            controller.updateCurrencyRate(dateField.text)
         }
     }
     MouseArea {

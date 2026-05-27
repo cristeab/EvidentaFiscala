@@ -31,7 +31,7 @@ void Settings::load()
 
     setLedgerFilePath(GET_SETTING(ledgerFilePath).toString());
     if (_ledgerFilePath.isEmpty()) {
-        const auto ledgerFileName = QString("ledger_pfa_%1.csv").arg(QDate::currentDate().year());
+        const auto ledgerFileName = LEDGER_FILENAME_PREFIX + QString("%1.csv").arg(QDate::currentDate().year());
         QDir dir(_workingFolderPath);
         setLedgerFilePath(dir.filePath(ledgerFileName));
     }
@@ -53,6 +53,8 @@ void Settings::load()
     setBackupFolderPath(GET_SETTING(backupFolderPath).toString());
     setUserName(GET_SETTING(userName).toString());
     setUserEmail(GET_SETTING(userEmail).toString());
+
+    setEnableCurrencyConversion(GET_SETTING(enableCurrencyConversion).toBool());
 }
 
 void Settings::save()
@@ -76,4 +78,6 @@ void Settings::save()
     SET_SETTING(backupFolderPath);
     SET_SETTING(userName);
     SET_SETTING(userEmail);
+
+    SET_SETTING(enableCurrencyConversion);
 }

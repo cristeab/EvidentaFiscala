@@ -1,7 +1,9 @@
 # Getting Started
 
-To compile a C++ compiler supporting C++23 standard is needed. The compilation is
-managed by cmake such that the external libraries (qtcsv, libgit2) are handled by cmake.
+Building the project requires a C++ compiler with C++23 support.
+
+The build system is based on CMake, which automatically manages the required 
+third-party dependencies: QtCSV and libgit2.
 
 # Supported Platforms
 
@@ -9,26 +11,30 @@ managed by cmake such that the external libraries (qtcsv, libgit2) are handled b
 
 - Windows
 
-- Linux (planned)
+Linux support is planned for a future release.
 
-# External Dependences:
+# External Dependences
 
 - Qt v6.11.1
 
-- cmake v3.27
+- CMake v3.27
 
-- qtcsv v1.7 (https://github.com/iamantony/qtcsv.git)
+- [QtCSV](https://github.com/iamantony/qtcsv.git) v1.7
 
-- libgit2 v1.9.3 (https://github.com/libgit2/libgit2.git)
+- [libgit2](https://github.com/libgit2/libgit2.git) v1.9.3
 
 # Installer Generation
 
-- use the provided script to compile and generate the installer:
+Release builds and installer packages can be generated using the provided platform-specific scripts.
 
-On macOS:
+## macOS
 
-    ./build-macos-release.sh
+```bash
+./build-macos-release.sh
+```
 
-On Windows:
+## Windows
 
-    build-win-release.bat
+```bash
+build-win-release.bat
+```

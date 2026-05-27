@@ -1,6 +1,8 @@
 # FiscalRecords
 
-FiscalRecords is a lightweight, efficient application designed for self-employed individuals to manage their fiscal records seamlessly. While it leverages the simplicity and portability of CSV files for data storage, it eliminates the manual errors and friction of editing spreadsheets directly.
+FiscalRecords is a lightweight and efficient desktop application designed for self-employed professionals and freelancers to manage their fiscal records with ease.
+
+The application combines the simplicity and portability of CSV-based storage with a structured interface that eliminates the friction and errors commonly associated with manual spreadsheet editing.
 
 # Multi-Language Support
 
@@ -30,16 +32,21 @@ Built-in charting to monitor financial health. Visualize your monthly gross inco
 
 Automatically generate a formalized Fiscal Records Register in ODF format, complete with aggregated gross income and expense totals.
 
+## Currency Conversion
+
+Automatically convert monetary values using official exchange rates to ensure consistent and accurate financial reporting across currencies.
+
 ## Ledger Management
 
 Easily initialize new ledgers with all required columns (typically structured on a per-year basis).
 
-## Local Backups via Git
+## Local Git Backups
 
 Secure your data by backing up your ledger to a local Git repository (requires manual initialization of the Git repository).
 
-# Why FiscalRecords?
-Managing finances as a freelancer or sole proprietor using raw CSV files or standard spreadsheets often leads to formatting inconsistencies and manual tracking headaches. FiscalRecords provides a structured interface that maintains the transparency of CSV data while automating the tedious parts of bookkeeping—like tracking receipt numbers and generating compliant reports.
+# Development
+
+Build instructions, platform requirements, external dependencies, and installer generation steps are documented in [`DEVELOPMENT.md`](DEVELOPMENT.md).
 
 # Screenshots
 
