@@ -33,6 +33,7 @@ Dialog {
         generalSettings.save()
         advancedSettings.save()
         backupSettings.save()
+        currencyConversion.save()
 
         settings.save()
 
@@ -56,6 +57,9 @@ Dialog {
         }
         TabButton {
             text: qsTr("Backup")
+        }
+        TabButton {
+            text: qsTr("Currency Converter")
         }
     }
 
@@ -233,5 +237,31 @@ Dialog {
                 }
             }
         } // backup tab
+
+        Item {
+            id: currencyConversion
+
+            function save() {
+                settings.enableCurrencyConversion = enableCurrencyConversion.checked
+            }
+
+            Column {
+                anchors.fill: parent
+                anchors.margins: Theme.horizontalMargin
+                spacing: 2 * Theme.verticalMargin
+                CheckBox {
+                    id: enableCurrencyConversion
+                    text: qsTr("Currency Conversion")
+                    checked: settings.enableCurrencyConversion
+                }
+                LabelComboBox {
+                    id: exchangeRateProvider
+                    width: control.editWidth
+                    text: qsTr("Exchange Rate Provider")
+                    model: ["BNR"]
+                    currentIndex: 0
+                }
+            }
+        } // Currency Conversion
     } // StackLayout
 }

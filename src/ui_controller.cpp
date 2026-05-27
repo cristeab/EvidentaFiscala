@@ -278,9 +278,8 @@ QString UiController::createFileName()
 
     auto const& path = _settings->workingFolderPath();
     auto const year = QDate::currentDate().year();
-    auto const fileNamePrefix("ledger_pfa_");
 
-    auto fileName = fileNamePrefix + QString("%1.csv").arg(year);
+    auto fileName = Settings::LEDGER_FILENAME_PREFIX + QString("%1.csv").arg(year);
     auto filePath = QDir(path).filePath(fileName);
     if (!QFile::exists(filePath)) {
         return filePath;
@@ -288,7 +287,7 @@ QString UiController::createFileName()
 
     int count{};
     while (count < MAX_COUNT) {
-        fileName = fileNamePrefix + QString("%1_%2.csv").arg(year).arg(count++);
+        fileName = Settings::LEDGER_FILENAME_PREFIX + QString("%1_%2.csv").arg(year).arg(count++);
         filePath = QDir(path).filePath(fileName);
         if (!QFile::exists(filePath)) {
             return filePath;

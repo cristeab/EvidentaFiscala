@@ -26,6 +26,8 @@ public:
     QML_WRITABLE_PROPERTY(QString, userName, setUserName, {})
     QML_WRITABLE_PROPERTY(QString, userEmail, setUserEmail, {})
 
+    QML_WRITABLE_PROPERTY(bool, enableCurrencyConversion, setEnableCurrencyConversion, false)
+
 public:
     explicit Settings(QObject *parent = nullptr);
 
@@ -36,6 +38,8 @@ public:
     void setInvisibleColumns(std::unordered_set<int> const& invisibleColumns) {
         _invisibleColumns = invisibleColumns;
     }
+
+    static constexpr char LEDGER_FILENAME_PREFIX[]{"ledger_pfa_"};
 
 private:
     QSettings _settings;
