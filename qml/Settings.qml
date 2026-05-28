@@ -51,15 +51,19 @@ Dialog {
         background: Item {}
         TabButton {
             text: qsTr("General")
+            Component.onCompleted: implicitHeight = implicitHeight * winApp.tabScale
         }
         TabButton {
             text: qsTr("Visible Columns")
+            Component.onCompleted: implicitHeight = implicitHeight * winApp.tabScale
         }
         TabButton {
             text: qsTr("Backup")
+            Component.onCompleted: implicitHeight = implicitHeight * winApp.tabScale
         }
         TabButton {
             text: qsTr("Currency")
+            Component.onCompleted: implicitHeight = implicitHeight * winApp.tabScale
         }
     }
 

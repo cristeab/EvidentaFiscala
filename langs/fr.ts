@@ -33,27 +33,27 @@
         <translation>Ajouter</translation>
     </message>
     <message>
-        <location filename="../qml/ContentView.qml" line="165"/>
+        <location filename="../qml/ContentView.qml" line="169"/>
         <source>Date must be specified</source>
         <translation>La date doit être précisée</translation>
     </message>
     <message>
-        <location filename="../qml/ContentView.qml" line="170"/>
+        <location filename="../qml/ContentView.qml" line="174"/>
         <source>Amount must be specified</source>
         <translation>Le montant doit être précisé</translation>
     </message>
     <message>
-        <location filename="../qml/ContentView.qml" line="175"/>
+        <location filename="../qml/ContentView.qml" line="179"/>
         <source>Exchange rate must be specified</source>
         <translation>Le taux de change doit être précisé</translation>
     </message>
     <message>
-        <location filename="../qml/ContentView.qml" line="180"/>
+        <location filename="../qml/ContentView.qml" line="184"/>
         <source>Observations must be specified</source>
         <translation>Les observations doivent être précisées</translation>
     </message>
     <message>
-        <location filename="../qml/ContentView.qml" line="195"/>
+        <location filename="../qml/ContentView.qml" line="199"/>
         <source>Cannot add a new row</source>
         <translation>Impossible d&apos;ajouter une nouvelle ligne</translation>
     </message>
@@ -408,32 +408,32 @@ Dépenses : %3</translation>
         <translation>Nouveau fichier CSV…</translation>
     </message>
     <message>
-        <location filename="../qml/main.qml" line="95"/>
+        <location filename="../qml/main.qml" line="96"/>
         <source>Table</source>
         <translation>Tableau</translation>
     </message>
     <message>
-        <location filename="../qml/main.qml" line="98"/>
+        <location filename="../qml/main.qml" line="100"/>
         <source>Chart</source>
         <translation>Graphique</translation>
     </message>
     <message>
-        <location filename="../qml/main.qml" line="164"/>
+        <location filename="../qml/main.qml" line="167"/>
         <source>Click to Open in Default Editor</source>
         <translation>Cliquez pour ouvrir dans l&apos;éditeur par défaut</translation>
     </message>
     <message>
-        <location filename="../qml/main.qml" line="186"/>
+        <location filename="../qml/main.qml" line="189"/>
         <source>Error</source>
         <translation>Erreur</translation>
     </message>
     <message>
-        <location filename="../qml/main.qml" line="186"/>
+        <location filename="../qml/main.qml" line="189"/>
         <source>Warning</source>
         <translation>Avertissement</translation>
     </message>
     <message>
-        <location filename="../qml/main.qml" line="241"/>
+        <location filename="../qml/main.qml" line="244"/>
         <source>Select File</source>
         <translation>Sélectionner le fichier</translation>
     </message>

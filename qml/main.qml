@@ -5,6 +5,9 @@ import QtQuick.Dialogs
 
 ApplicationWindow {
     id: winApp
+
+    readonly property real tabScale: 0.6
+
     visible: true
     width: 800
     minimumWidth: 800
@@ -83,7 +86,6 @@ ApplicationWindow {
 
     TabBar {
         id: bar
-        readonly property real tabScale: 0.6
         anchors {
             top: toolBar.bottom
             topMargin: -Theme.verticalMargin
@@ -94,11 +96,11 @@ ApplicationWindow {
         }
         TabButton {
             text: qsTr("Table")
-            Component.onCompleted: implicitHeight = implicitHeight * bar.tabScale
+            Component.onCompleted: implicitHeight = implicitHeight * winApp.tabScale
         }
         TabButton {
             text: qsTr("Chart")
-            Component.onCompleted: implicitHeight = implicitHeight * bar.tabScale
+            Component.onCompleted: implicitHeight = implicitHeight * winApp.tabScale
         }
     }
     SwipeView {

@@ -33,27 +33,27 @@
         <translation>Adaugă</translation>
     </message>
     <message>
-        <location filename="../qml/ContentView.qml" line="165"/>
+        <location filename="../qml/ContentView.qml" line="169"/>
         <source>Date must be specified</source>
         <translation>Data trebuie specificată</translation>
     </message>
     <message>
-        <location filename="../qml/ContentView.qml" line="170"/>
+        <location filename="../qml/ContentView.qml" line="174"/>
         <source>Amount must be specified</source>
         <translation>Suma trebuie specificată</translation>
     </message>
     <message>
-        <location filename="../qml/ContentView.qml" line="175"/>
+        <location filename="../qml/ContentView.qml" line="179"/>
         <source>Exchange rate must be specified</source>
         <translation>Rata de schimb trebuie specificată</translation>
     </message>
     <message>
-        <location filename="../qml/ContentView.qml" line="180"/>
+        <location filename="../qml/ContentView.qml" line="184"/>
         <source>Observations must be specified</source>
         <translation>Observațiile trebuie specificate</translation>
     </message>
     <message>
-        <location filename="../qml/ContentView.qml" line="195"/>
+        <location filename="../qml/ContentView.qml" line="199"/>
         <source>Cannot add a new row</source>
         <translation>Nu se poate adăuga un rând nou</translation>
     </message>
@@ -404,32 +404,32 @@ Cheltuieli: %3</translation>
         <translation>Fișier CSV nou…</translation>
     </message>
     <message>
-        <location filename="../qml/main.qml" line="95"/>
+        <location filename="../qml/main.qml" line="96"/>
         <source>Table</source>
         <translation>Tabel</translation>
     </message>
     <message>
-        <location filename="../qml/main.qml" line="98"/>
+        <location filename="../qml/main.qml" line="100"/>
         <source>Chart</source>
         <translation>Grafic</translation>
     </message>
     <message>
-        <location filename="../qml/main.qml" line="164"/>
+        <location filename="../qml/main.qml" line="167"/>
         <source>Click to Open in Default Editor</source>
         <translation>Faceți clic pentru a deschide în editorul implicit</translation>
     </message>
     <message>
-        <location filename="../qml/main.qml" line="186"/>
+        <location filename="../qml/main.qml" line="189"/>
         <source>Error</source>
         <translation>Eroare</translation>
     </message>
     <message>
-        <location filename="../qml/main.qml" line="186"/>
+        <location filename="../qml/main.qml" line="189"/>
         <source>Warning</source>
         <translation>Avertisment</translation>
     </message>
     <message>
-        <location filename="../qml/main.qml" line="241"/>
+        <location filename="../qml/main.qml" line="244"/>
         <source>Select File</source>
         <translation>Selectează fișierul</translation>
     </message>
