@@ -83,9 +83,10 @@ ApplicationWindow {
 
     TabBar {
         id: bar
+        readonly property real tabScale: 0.6
         anchors {
             top: toolBar.bottom
-            topMargin: Theme.verticalMargin
+            topMargin: -Theme.verticalMargin
             left: parent.left
             leftMargin: Theme.horizontalMargin
             right: parent.right
@@ -93,9 +94,11 @@ ApplicationWindow {
         }
         TabButton {
             text: qsTr("Table")
+            Component.onCompleted: implicitHeight = implicitHeight * bar.tabScale
         }
         TabButton {
             text: qsTr("Chart")
+            Component.onCompleted: implicitHeight = implicitHeight * bar.tabScale
         }
     }
     SwipeView {
