@@ -155,11 +155,15 @@ Item {
     Button {
         id: okButton
         text: qsTr("Add")
+        height: 40
+        width: 45
+        leftPadding: 0
+        rightPadding: 0
         anchors {
             top: obsField.bottom
-            topMargin: Theme.verticalMargin
-            horizontalCenter: parent.horizontalCenter
+            right: parent.right
         }
+
         onClicked: {
             if ("" === dateField.text) {
                 errMsg.show(qsTr("Date must be specified"))
@@ -240,8 +244,8 @@ Item {
         }
 
         anchors {
-            top: okButton.bottom
-            topMargin: Theme.verticalMargin
+            top: obsField.bottom
+            topMargin: 2 * Theme.verticalMargin
             bottom: parent.bottom
         }
         width: parent.width
