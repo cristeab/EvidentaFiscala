@@ -98,6 +98,9 @@ target_include_directories(${PROJECT_NAME} PRIVATE
     ${CMAKE_BINARY_DIR}
     ${qtcsv_SOURCE_DIR}/include
     ${libgit2_SOURCE_DIR}/include)
+target_link_directories(${PROJECT_NAME} PRIVATE
+    ${qtcsv_BINARY_DIR}
+    ${libgit2_BINARY_DIR})
 target_link_libraries(${PROJECT_NAME} PRIVATE
     qtcsv
     libgit2package)
