@@ -1,6 +1,6 @@
 # Getting Started
 
-Building the project requires a C++ compiler with C++23 support.
+Building the project requires a C++ compiler with C++23 standard support.
 
 The build system is based on CMake, which automatically manages the required 
 third-party dependencies: QtCSV and libgit2.
