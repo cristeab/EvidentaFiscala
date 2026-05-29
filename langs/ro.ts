@@ -160,102 +160,102 @@ Cheltuieli: %3</translation>
         <translation>General</translation>
     </message>
     <message>
-        <location filename="../qml/Settings.qml" line="56"/>
+        <location filename="../qml/Settings.qml" line="57"/>
         <source>Visible Columns</source>
         <translation>Coloane vizibile</translation>
     </message>
     <message>
-        <location filename="../qml/Settings.qml" line="59"/>
+        <location filename="../qml/Settings.qml" line="61"/>
         <source>Backup</source>
         <translation>Backup</translation>
     </message>
     <message>
-        <location filename="../qml/Settings.qml" line="62"/>
+        <location filename="../qml/Settings.qml" line="65"/>
         <source>Currency</source>
         <translation>Monedă</translation>
     </message>
     <message>
-        <location filename="../qml/Settings.qml" line="98"/>
+        <location filename="../qml/Settings.qml" line="102"/>
         <source>Minimum Gross Income</source>
         <translation>Venitul brut minim</translation>
     </message>
     <message>
-        <location filename="../qml/Settings.qml" line="105"/>
+        <location filename="../qml/Settings.qml" line="109"/>
         <source>Graphic Representation</source>
         <translation>Reprezentare grafică</translation>
     </message>
     <message>
-        <location filename="../qml/Settings.qml" line="106"/>
+        <location filename="../qml/Settings.qml" line="110"/>
         <source>Bars</source>
         <translation>Bare</translation>
     </message>
     <message>
-        <location filename="../qml/Settings.qml" line="106"/>
+        <location filename="../qml/Settings.qml" line="110"/>
         <source>Lines</source>
         <translation>Linii</translation>
     </message>
     <message>
-        <location filename="../qml/Settings.qml" line="113"/>
+        <location filename="../qml/Settings.qml" line="117"/>
         <source>Working Directory</source>
         <translation>Director de lucru</translation>
     </message>
     <message>
-        <location filename="../qml/Settings.qml" line="122"/>
+        <location filename="../qml/Settings.qml" line="126"/>
         <source>Starting Number for Receipts</source>
         <translation>Număr de pornire pentru chitanțe</translation>
     </message>
     <message>
-        <location filename="../qml/Settings.qml" line="131"/>
+        <location filename="../qml/Settings.qml" line="135"/>
         <source>Interface Language</source>
         <translation>Limba interfeței</translation>
     </message>
     <message>
-        <location filename="../qml/Settings.qml" line="138"/>
+        <location filename="../qml/Settings.qml" line="142"/>
         <source>CSV Header Language</source>
         <translation>Limba antetului CSV</translation>
     </message>
     <message>
-        <location filename="../qml/Settings.qml" line="161"/>
+        <location filename="../qml/Settings.qml" line="165"/>
         <source>Restart the application to apply changes</source>
         <translation>Reporniți aplicația pentru a aplica modificările</translation>
     </message>
     <message>
-        <location filename="../qml/Settings.qml" line="185"/>
+        <location filename="../qml/Settings.qml" line="189"/>
         <source>Enable Row Numbers</source>
         <translation>Activare numerotare rânduri</translation>
     </message>
     <message>
-        <location filename="../qml/Settings.qml" line="207"/>
+        <location filename="../qml/Settings.qml" line="211"/>
         <source>Git Backup</source>
         <translation>Backup Git</translation>
     </message>
     <message>
-        <location filename="../qml/Settings.qml" line="214"/>
+        <location filename="../qml/Settings.qml" line="218"/>
         <source>Backup Directory</source>
         <translation>Director de backup</translation>
     </message>
     <message>
-        <location filename="../qml/Settings.qml" line="224"/>
+        <location filename="../qml/Settings.qml" line="228"/>
         <source>Username</source>
         <translation>Nume utilizator</translation>
     </message>
     <message>
-        <location filename="../qml/Settings.qml" line="231"/>
+        <location filename="../qml/Settings.qml" line="235"/>
         <source>User Email</source>
         <translation>E-mail utilizator</translation>
     </message>
     <message>
-        <location filename="../qml/Settings.qml" line="254"/>
+        <location filename="../qml/Settings.qml" line="258"/>
         <source>Currency Conversion</source>
         <translation>Conversie valutară</translation>
     </message>
     <message>
-        <location filename="../qml/Settings.qml" line="260"/>
+        <location filename="../qml/Settings.qml" line="264"/>
         <source>Exchange Rate Provider</source>
         <translation>Furnizor de curs valutar</translation>
     </message>
     <message>
-        <location filename="../qml/Settings.qml" line="261"/>
+        <location filename="../qml/Settings.qml" line="265"/>
         <source>National Bank of Romania</source>
         <translation>Banca Națională a României</translation>
     </message>
@@ -369,67 +369,67 @@ Cheltuieli: %3</translation>
 <context>
     <name>main</name>
     <message>
-        <location filename="../qml/main.qml" line="12"/>
+        <location filename="../qml/main.qml" line="15"/>
         <source>Fiscal Records</source>
         <translation>Înregistrări fiscale</translation>
     </message>
     <message>
-        <location filename="../qml/main.qml" line="33"/>
+        <location filename="../qml/main.qml" line="36"/>
         <source>Open...</source>
         <translation>Deschide...</translation>
     </message>
     <message>
-        <location filename="../qml/main.qml" line="52"/>
+        <location filename="../qml/main.qml" line="55"/>
         <source>Settings...</source>
         <translation>Setări...</translation>
     </message>
     <message>
-        <location filename="../qml/main.qml" line="42"/>
+        <location filename="../qml/main.qml" line="45"/>
         <source>Generate Fiscal Records Register</source>
         <translation>Generează registrul fiscal</translation>
     </message>
     <message>
-        <location filename="../qml/main.qml" line="67"/>
+        <location filename="../qml/main.qml" line="70"/>
         <source>Question</source>
         <translation>Întrebare</translation>
     </message>
     <message>
-        <location filename="../qml/main.qml" line="68"/>
+        <location filename="../qml/main.qml" line="71"/>
         <source>Create new ledger </source>
         <translation>Creează un registru nou </translation>
     </message>
     <message>
-        <location filename="../qml/main.qml" line="78"/>
+        <location filename="../qml/main.qml" line="81"/>
         <source>New CSV File...</source>
         <translation>Fișier CSV nou…</translation>
     </message>
     <message>
-        <location filename="../qml/main.qml" line="96"/>
+        <location filename="../qml/main.qml" line="98"/>
         <source>Table</source>
         <translation>Tabel</translation>
     </message>
     <message>
-        <location filename="../qml/main.qml" line="100"/>
+        <location filename="../qml/main.qml" line="102"/>
         <source>Chart</source>
         <translation>Grafic</translation>
     </message>
     <message>
-        <location filename="../qml/main.qml" line="167"/>
+        <location filename="../qml/main.qml" line="169"/>
         <source>Click to Open in Default Editor</source>
         <translation>Faceți clic pentru a deschide în editorul implicit</translation>
     </message>
     <message>
-        <location filename="../qml/main.qml" line="189"/>
+        <location filename="../qml/main.qml" line="191"/>
         <source>Error</source>
         <translation>Eroare</translation>
     </message>
     <message>
-        <location filename="../qml/main.qml" line="189"/>
+        <location filename="../qml/main.qml" line="191"/>
         <source>Warning</source>
         <translation>Avertisment</translation>
     </message>
     <message>
-        <location filename="../qml/main.qml" line="244"/>
+        <location filename="../qml/main.qml" line="246"/>
         <source>Select File</source>
         <translation>Selectează fișierul</translation>
     </message>

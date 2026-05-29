@@ -1,10 +1,10 @@
 @echo OFF
 setlocal
 
-set QT_PATH="C:/Qt/6.9.1/msvc2022_64"
-set VS_PATH="C:\Program Files\Microsoft Visual Studio\2022\Community\VC\Auxiliary\Build"
-set CMAKE_PATH="C:\Qt\Tools\CMake_64\bin"
-set NINJA_PATH="C:\Qt\Tools\Ninja"
+set QT_PATH="E:/Qt/6.11.1/msvc2022_64"
+set VS_PATH="E:\Program Files\Microsoft Visual Studio\2022\Community\VC\Auxiliary\Build"
+set CMAKE_PATH="E:\Qt\Tools\CMake_64\bin"
+set NINJA_PATH="E:\Qt\Tools\Ninja"
 set BUILD_DIR="build"
 
 set PATH=%PATH%;%CMAKE_PATH%;%NINJA_PATH%

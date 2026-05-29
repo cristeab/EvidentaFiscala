@@ -160,102 +160,102 @@ Dépenses : %3</translation>
         <translation>Général</translation>
     </message>
     <message>
-        <location filename="../qml/Settings.qml" line="56"/>
+        <location filename="../qml/Settings.qml" line="57"/>
         <source>Visible Columns</source>
         <translation>Colonnes visibles</translation>
     </message>
     <message>
-        <location filename="../qml/Settings.qml" line="59"/>
+        <location filename="../qml/Settings.qml" line="61"/>
         <source>Backup</source>
         <translation>Sauvegarde</translation>
     </message>
     <message>
-        <location filename="../qml/Settings.qml" line="62"/>
+        <location filename="../qml/Settings.qml" line="65"/>
         <source>Currency</source>
         <translation>Devise</translation>
     </message>
     <message>
-        <location filename="../qml/Settings.qml" line="98"/>
+        <location filename="../qml/Settings.qml" line="102"/>
         <source>Minimum Gross Income</source>
         <translation>Revenu brut minimum</translation>
     </message>
     <message>
-        <location filename="../qml/Settings.qml" line="105"/>
+        <location filename="../qml/Settings.qml" line="109"/>
         <source>Graphic Representation</source>
         <translation>Représentation graphique</translation>
     </message>
     <message>
-        <location filename="../qml/Settings.qml" line="106"/>
+        <location filename="../qml/Settings.qml" line="110"/>
         <source>Bars</source>
         <translation>Barres</translation>
     </message>
     <message>
-        <location filename="../qml/Settings.qml" line="106"/>
+        <location filename="../qml/Settings.qml" line="110"/>
         <source>Lines</source>
         <translation>Lignes</translation>
     </message>
     <message>
-        <location filename="../qml/Settings.qml" line="113"/>
+        <location filename="../qml/Settings.qml" line="117"/>
         <source>Working Directory</source>
         <translation>Répertoire de travail</translation>
     </message>
     <message>
-        <location filename="../qml/Settings.qml" line="122"/>
+        <location filename="../qml/Settings.qml" line="126"/>
         <source>Starting Number for Receipts</source>
         <translation>Numéro de départ pour les reçus</translation>
     </message>
     <message>
-        <location filename="../qml/Settings.qml" line="131"/>
+        <location filename="../qml/Settings.qml" line="135"/>
         <source>Interface Language</source>
         <translation>Langue de l&apos;interface</translation>
     </message>
     <message>
-        <location filename="../qml/Settings.qml" line="138"/>
+        <location filename="../qml/Settings.qml" line="142"/>
         <source>CSV Header Language</source>
         <translation>Langue de l&apos;en-tête CSV</translation>
     </message>
     <message>
-        <location filename="../qml/Settings.qml" line="161"/>
+        <location filename="../qml/Settings.qml" line="165"/>
         <source>Restart the application to apply changes</source>
         <translation>Redémarrez l&apos;application pour appliquer les changements</translation>
     </message>
     <message>
-        <location filename="../qml/Settings.qml" line="185"/>
+        <location filename="../qml/Settings.qml" line="189"/>
         <source>Enable Row Numbers</source>
         <translation>Activer la numérotation des lignes</translation>
     </message>
     <message>
-        <location filename="../qml/Settings.qml" line="207"/>
+        <location filename="../qml/Settings.qml" line="211"/>
         <source>Git Backup</source>
         <translation>Sauvegarde Git</translation>
     </message>
     <message>
-        <location filename="../qml/Settings.qml" line="214"/>
+        <location filename="../qml/Settings.qml" line="218"/>
         <source>Backup Directory</source>
         <translation>Répertoire de sauvegarde</translation>
     </message>
     <message>
-        <location filename="../qml/Settings.qml" line="224"/>
+        <location filename="../qml/Settings.qml" line="228"/>
         <source>Username</source>
         <translation>Nom d’utilisateur</translation>
     </message>
     <message>
-        <location filename="../qml/Settings.qml" line="231"/>
+        <location filename="../qml/Settings.qml" line="235"/>
         <source>User Email</source>
         <translation>Adresse e-mail de l’utilisateur</translation>
     </message>
     <message>
-        <location filename="../qml/Settings.qml" line="254"/>
+        <location filename="../qml/Settings.qml" line="258"/>
         <source>Currency Conversion</source>
         <translation>Conversion de devises</translation>
     </message>
     <message>
-        <location filename="../qml/Settings.qml" line="260"/>
+        <location filename="../qml/Settings.qml" line="264"/>
         <source>Exchange Rate Provider</source>
         <translation>Fournisseur de taux de change</translation>
     </message>
     <message>
-        <location filename="../qml/Settings.qml" line="261"/>
+        <location filename="../qml/Settings.qml" line="265"/>
         <source>National Bank of Romania</source>
         <translation>Banque nationale de Roumanie</translation>
     </message>
@@ -373,67 +373,67 @@ Dépenses : %3</translation>
 <context>
     <name>main</name>
     <message>
-        <location filename="../qml/main.qml" line="12"/>
+        <location filename="../qml/main.qml" line="15"/>
         <source>Fiscal Records</source>
         <translation>Registre fiscal</translation>
     </message>
     <message>
-        <location filename="../qml/main.qml" line="33"/>
+        <location filename="../qml/main.qml" line="36"/>
         <source>Open...</source>
         <translation>Ouvrir...</translation>
     </message>
     <message>
-        <location filename="../qml/main.qml" line="52"/>
+        <location filename="../qml/main.qml" line="55"/>
         <source>Settings...</source>
         <translation>Paramètres...</translation>
     </message>
     <message>
-        <location filename="../qml/main.qml" line="42"/>
+        <location filename="../qml/main.qml" line="45"/>
         <source>Generate Fiscal Records Register</source>
         <translation>Générer le registre des écritures fiscales</translation>
     </message>
     <message>
-        <location filename="../qml/main.qml" line="67"/>
+        <location filename="../qml/main.qml" line="70"/>
         <source>Question</source>
         <translation>Question</translation>
     </message>
     <message>
-        <location filename="../qml/main.qml" line="68"/>
+        <location filename="../qml/main.qml" line="71"/>
         <source>Create new ledger </source>
         <translation>Créer un nouveau registre </translation>
     </message>
     <message>
-        <location filename="../qml/main.qml" line="78"/>
+        <location filename="../qml/main.qml" line="81"/>
         <source>New CSV File...</source>
         <translation>Nouveau fichier CSV…</translation>
     </message>
     <message>
-        <location filename="../qml/main.qml" line="96"/>
+        <location filename="../qml/main.qml" line="98"/>
         <source>Table</source>
         <translation>Tableau</translation>
     </message>
     <message>
-        <location filename="../qml/main.qml" line="100"/>
+        <location filename="../qml/main.qml" line="102"/>
         <source>Chart</source>
         <translation>Graphique</translation>
     </message>
     <message>
-        <location filename="../qml/main.qml" line="167"/>
+        <location filename="../qml/main.qml" line="169"/>
         <source>Click to Open in Default Editor</source>
         <translation>Cliquez pour ouvrir dans l&apos;éditeur par défaut</translation>
     </message>
     <message>
-        <location filename="../qml/main.qml" line="189"/>
+        <location filename="../qml/main.qml" line="191"/>
         <source>Error</source>
         <translation>Erreur</translation>
     </message>
     <message>
-        <location filename="../qml/main.qml" line="189"/>
+        <location filename="../qml/main.qml" line="191"/>
         <source>Warning</source>
         <translation>Avertissement</translation>
     </message>
     <message>
-        <location filename="../qml/main.qml" line="244"/>
+        <location filename="../qml/main.qml" line="246"/>
         <source>Select File</source>
         <translation>Sélectionner le fichier</translation>
     </message>
