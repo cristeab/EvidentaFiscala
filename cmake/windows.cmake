@@ -30,9 +30,6 @@ if (CMAKE_BUILD_TYPE MATCHES "^[Rr]el")
     install(FILES ${CMAKE_SOURCE_DIR}/img/logo.ico
             DESTINATION .
             COMPONENT ${PROJECT_NAME})
-    install(FILES ${CMAKE_BINARY_DIR}/qtcsv_install/bin/qtcsv.dll
-            DESTINATION .
-            COMPONENT ${PROJECT_NAME})
 
     find_program(WINDEPLOYQT windeployqt PATHS ${CMAKE_PREFIX_PATH}/bin/)
     add_custom_command(TARGET ${PROJECT_NAME} POST_BUILD
