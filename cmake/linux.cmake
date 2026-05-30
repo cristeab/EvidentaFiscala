@@ -20,8 +20,7 @@ if (CMAKE_BUILD_TYPE MATCHES "^[Rr]el")
     set(QT_ICU_LIB_MAJOR "73")
     set(QT_ICU_LIB_MINOR "2")
 
-    set(QT_LIBS Charts ChartsQml
-        DataVisualization DataVisualizationQml
+    set(QT_LIBS
         EglFSDeviceIntegration EglFsKmsGbmSupport EglFsKmsSupport
         Graphs MultimediaQuick
         OpenGL OpenGLWidgets
@@ -33,7 +32,8 @@ if (CMAKE_BUILD_TYPE MATCHES "^[Rr]el")
         QuickControls2MaterialStyleImpl QuickControls2Universal QuickControls2UniversalStyleImpl
         QuickEffects QuickLayouts QuickShapes QuickTemplates2
         ShaderTools
-        WaylandClient WaylandEglClientHwIntegration
+        WaylandClient WaylandCompositorIviapplication WaylandCompositorPresentationTime
+        WaylandCompositor WaylandCompositorWLShell WaylandCompositorXdgShell WaylandEglCompositorHwIntegration
         Widgets XcbQpa
     )
     foreach(LIB IN LISTS QT_LIBS)
