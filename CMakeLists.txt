@@ -14,7 +14,7 @@ if(APPLE)
 elseif (LINUX)
     # set RUNPATH of the binary to find the Qt libs
     set(CMAKE_SKIP_INSTALL_RPATH FALSE)
-    set(CMAKE_INSTALL_RPATH_USE_LINK_PATH TRUE)
+    set(CMAKE_INSTALL_RPATH_USE_LINK_PATH FALSE)
     set(CMAKE_INSTALL_RPATH "$ORIGIN/../lib")
 endif()
 
