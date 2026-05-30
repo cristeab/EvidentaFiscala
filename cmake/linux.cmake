@@ -55,7 +55,6 @@ if (CMAKE_BUILD_TYPE MATCHES "^[Rr]el")
 
     set (QML_DIRS
         QML
-        QtDataVisualization
         QtGraphs
         QtMultimedia
         QtQml
