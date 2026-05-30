@@ -130,13 +130,18 @@ target_link_libraries(${PROJECT_NAME} PRIVATE
 target_compile_definitions(${PROJECT_NAME} PRIVATE $<$<OR:$<CONFIG:Debug>,$<CONFIG:RelWithDebInfo>>:QT_QML_DEBUG>)
 
 if (CMAKE_BUILD_TYPE MATCHES "^[Rr]el")
-    if (APPLE OR WIN32)
-        install(TARGETS ${PROJECT_NAME}
-            BUNDLE DESTINATION .
-            RUNTIME DESTINATION .
-            COMPONENT ${PROJECT_NAME}
-        )
+    if (LINUX)
+        set(CUSTOM_RUNTIME_DEST bin)
+    else()
+        set(CUSTOM_RUNTIME_DEST .)
     endif()
+
+    install(TARGETS ${PROJECT_NAME}
+        BUNDLE DESTINATION .
+        RUNTIME DESTINATION ${CUSTOM_RUNTIME_DEST}
+        COMPONENT ${PROJECT_NAME}
+    )
+
 
     include(CPack)
     # workaround for generating the pkg installer
