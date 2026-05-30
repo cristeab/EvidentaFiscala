@@ -11,6 +11,11 @@ if(APPLE)
     # universal binary for macOS
     set(CMAKE_OSX_ARCHITECTURES "x86_64;arm64")
     set(ADDITIONAL_CMAKE_ARGS -DCMAKE_OSX_ARCHITECTURES:STRING=x86_64|arm64)
+elseif (LINUX)
+    # set RUNPATH of the binary to find the Qt libs
+    set(CMAKE_SKIP_INSTALL_RPATH FALSE)
+    set(CMAKE_INSTALL_RPATH_USE_LINK_PATH TRUE)
+    set(CMAKE_INSTALL_RPATH "$ORIGIN/../lib")
 endif()
 
 add_executable(${PROJECT_NAME})
