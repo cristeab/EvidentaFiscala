@@ -11,10 +11,13 @@ BUILD_DIR=build
 QT_DIR=$HOME/Qt
 QT_ROOT=$QT_DIR/$QT_VER/gcc_64
 NINJA_ROOT=$QT_DIR/Tools/Ninja
+CMAKE_ROOT=$QT_DIR/Tools/CMake/bin
 
 echo "QT version $QT_VER"
 
 rm -rf $BUILD_DIR
+
+export PATH=$CMAKE_ROOT:$NINJA_ROOT:$PATH
 
 cmake -B $BUILD_DIR -S . -G Ninja --fresh \
         -DCMAKE_BUILD_TYPE=Release \
