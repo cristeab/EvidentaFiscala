@@ -254,7 +254,7 @@ void TableModel::initInvoiceNumber()
                 }
             });
             std::ranges::sort(subArr, [](int l, int r) { return l > r; });
-            nums.append_range(subArr);
+            nums.insert(nums.end(), subArr.begin(), subArr.end());
         }
     });
     if (!nums.empty() &&
