@@ -55,7 +55,6 @@ FetchContent_Declare(qtcsv
 set(BUILD_SHARED_LIBS OFF CACHE BOOL "Build static" FORCE)
 set(BUILD_CLI OFF CACHE BOOL "Disable CLI" FORCE)
 set(BUILD_TESTS OFF CACHE BOOL "Disable tests" FORCE)
-set(GIT_USE_NSEC OFF CACHE BOOL "" FORCE)
 FetchContent_Declare(libgit2
   GIT_REPOSITORY https://github.com/libgit2/libgit2.git
   GIT_TAG        v1.9.3
