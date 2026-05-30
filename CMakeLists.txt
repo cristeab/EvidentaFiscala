@@ -33,6 +33,23 @@ target_link_libraries(${PROJECT_NAME} PRIVATE
 # Set up the project with Qt standard configurations
 qt_standard_project_setup()
 
+# Setup installer variables to be available for platform installers
+if (CMAKE_BUILD_TYPE MATCHES "^[Rr]el")
+    # make sure the resource files have the right extension
+    configure_file("${CMAKE_SOURCE_DIR}/LICENSE" "${CMAKE_BINARY_DIR}/LICENSE.txt" COPYONLY)
+    configure_file("${CMAKE_SOURCE_DIR}/README.md" "${CMAKE_BINARY_DIR}/README.txt" COPYONLY)
+
+    set(CPACK_PACKAGE_NAME ${PROJECT_NAME})
+    set(CPACK_PACKAGE_DESCRIPTION_SUMMARY "Application for Keeping Fiscal Records")
+    set(CPACK_PACKAGE_DESCRIPTION_FILE ${CMAKE_BINARY_DIR}/README.txt)
+    set(CPACK_PACKAGE_VERSION ${SW_VERSION})
+    set(CPACK_RESOURCE_FILE_README ${CMAKE_BINARY_DIR}/README.txt)
+    set(CPACK_RESOURCE_FILE_LICENSE ${CMAKE_BINARY_DIR}/LICENSE.txt)
+    set(CPACK_PACKAGE_CONTACT "cristeab@gmail.com")
+    set(CPACK_PACKAGE_VENDOR "Bogdan Cristea")
+    set(CPACK_STRIP_FILES ${PROJECT_NAME})
+endif()
+
 # platform specific code
 if(APPLE)
   include(cmake/macos.cmake)
@@ -113,20 +130,6 @@ if (CMAKE_BUILD_TYPE MATCHES "^[Rr]el")
         RUNTIME DESTINATION .
         COMPONENT ${PROJECT_NAME}
     )
-
-    # make sure the resource files have the right extension
-    configure_file("${CMAKE_SOURCE_DIR}/LICENSE" "${CMAKE_BINARY_DIR}/LICENSE.txt" COPYONLY)
-    configure_file("${CMAKE_SOURCE_DIR}/README.md" "${CMAKE_BINARY_DIR}/README.txt" COPYONLY)
-
-    set(CPACK_PACKAGE_NAME ${PROJECT_NAME})
-    set(CPACK_PACKAGE_DESCRIPTION_SUMMARY "Application for Keeping Fiscal Records")
-    set(CPACK_PACKAGE_DESCRIPTION_FILE ${CMAKE_BINARY_DIR}/README.txt)
-    set(CPACK_PACKAGE_VERSION ${SW_VERSION})
-    set(CPACK_RESOURCE_FILE_README ${CMAKE_BINARY_DIR}/README.txt)
-    set(CPACK_RESOURCE_FILE_LICENSE ${CMAKE_BINARY_DIR}/LICENSE.txt)
-    set(CPACK_PACKAGE_CONTACT "cristeab@gmail.com")
-    set(CPACK_PACKAGE_VENDOR "Bogdan Cristea")
-    set(CPACK_STRIP_FILES ${PROJECT_NAME})
 
     include(CPack)
     # workaround for generating the pkg installer
