@@ -25,7 +25,7 @@ if (CMAKE_BUILD_TYPE MATCHES "^[Rr]el")
         Graphs MultimediaQuick
         OpenGL OpenGLWidgets
         Qml QmlMeta QmlModels QmlWorkerScript
-        Quick Quick3D Quick3DRuntimeRender Quick3DUtils QuickControls2
+        Quick Quick3D Quick3DRuntimeRender Quick3DUtils QuickControls2 QuickDialogs2
         QuickControls2Basic QuickControls2BasicStyleImpl QuickControls2FluentWinUI3StyleImpl
         QuickControls2Fusion QuickControls2FusionStyleImpl QuickControls2Imagine
         QuickControls2ImagineStyleImpl QuickControls2Impl QuickControls2Material
