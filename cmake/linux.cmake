@@ -128,10 +128,11 @@ if (CMAKE_BUILD_TYPE MATCHES "^[Rr]el")
 
     # create desktop entries (should go in /usr/ or /usr/local/)
     set(DESKTOP_FILE FiscalRecords.desktop)
+    set(DESKTOP_ENTRIES_DIR /usr/local/share)
     configure_file(${CMAKE_SOURCE_DIR}/debian/${DESKTOP_FILE}.cmake ${CMAKE_BINARY_DIR}/${CPACK_PACKAGE_NAME}.desktop)
     install(FILES ${CMAKE_BINARY_DIR}/${CPACK_PACKAGE_NAME}.desktop
-        DESTINATION /usr/share/applications RENAME ${CPACK_PACKAGE_NAME}.desktop)
-    install(DIRECTORY ${CMAKE_SOURCE_DIR}/debian/icons DESTINATION /usr/share)
+        DESTINATION ${DESKTOP_ENTRIES_DIR}/applications RENAME ${CPACK_PACKAGE_NAME}.desktop)
+    install(DIRECTORY ${CMAKE_SOURCE_DIR}/debian/icons DESTINATION ${DESKTOP_ENTRIES_DIR})
     install(FILES ${CMAKE_SOURCE_DIR}/img/logo.png DESTINATION ${CPACK_INSTALL_PREFIX}/${CPACK_PACKAGE_NAME}.png)
 
 endif()
