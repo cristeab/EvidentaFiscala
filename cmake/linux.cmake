@@ -130,8 +130,8 @@ if (CMAKE_BUILD_TYPE MATCHES "^[Rr]el")
     set(DESKTOP_FILE FiscalRecords.desktop)
     configure_file(${CMAKE_SOURCE_DIR}/debian/${DESKTOP_FILE}.cmake ${CMAKE_BINARY_DIR}/${CPACK_PACKAGE_NAME}.desktop)
     install(FILES ${CMAKE_BINARY_DIR}/${CPACK_PACKAGE_NAME}.desktop
-        DESTINATION share/applications RENAME ${CPACK_PACKAGE_NAME}.desktop)
-    install(DIRECTORY ${CMAKE_SOURCE_DIR}/debian/icons DESTINATION share)
+        DESTINATION /usr/share/applications RENAME ${CPACK_PACKAGE_NAME}.desktop)
+    install(DIRECTORY ${CMAKE_SOURCE_DIR}/debian/icons DESTINATION /usr/share)
     install(FILES ${CMAKE_SOURCE_DIR}/img/logo.png DESTINATION ${CPACK_INSTALL_PREFIX}/${CPACK_PACKAGE_NAME}.png)
 
 endif()
