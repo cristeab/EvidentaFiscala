@@ -36,8 +36,6 @@ if (CMAKE_BUILD_TYPE MATCHES "^[Rr]el")
         message(FATAL_ERROR "Only Ubuntu Linux is supported")
     endif()
 
-    set(CPACK_PACKAGE_FILE_NAME "${CPACK_PACKAGE_NAME}-${CPACK_PACKAGE_VERSION}-Ubuntu${DETECTED_UBUNTU_VERSION}")
-
     set(QT_LIB_PATH "${CMAKE_PREFIX_PATH}/lib")
     set(QT_PLUGIN_PATH "${CMAKE_PREFIX_PATH}/plugins")
     set(QT_QML_PATH "${CMAKE_PREFIX_PATH}/qml")
