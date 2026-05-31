@@ -18,17 +18,20 @@ if (CMAKE_BUILD_TYPE MATCHES "^[Rr]el")
         set(CPACK_DEBIAN_PACKAGE_ARCHITECTURE "${CMAKE_SYSTEM_PROCESSOR}")
     endif()
 
+    string(TOLOWER "${PROJECT_NAME}" CPACK_PACKAGE_NAME)
+    set(CPACK_INSTALL_PREFIX "/opt/${CPACK_PACKAGE_NAME}")
+    set(CPACK_PACKAGING_INSTALL_PREFIX "${CPACK_INSTALL_PREFIX}")
+    set(CPACK_INCLUDE_TOPLEVEL_DIRECTORY OFF)
+
     # This dynamically discovers system libraries (like glibc, libstdc++) your app needs
     set(CPACK_DEBIAN_PACKAGE_SHLIBDEPS ON)
+    # Prevent CPack from generating dependencies for bundled Qt6 libs
+    set(CPACK_DEBIAN_PACKAGE_SHLIBDEPS_PRIVATE_DIRS "${CPACK_INSTALL_PREFIX}/lib")
 
     set(CPACK_DEBIAN_PACKAGE_CONTROL_EXTRA
         "${CMAKE_SOURCE_DIR}/debian/postinst"
         "${CMAKE_SOURCE_DIR}/debian/postrm"
     )
-
-    set(CPACK_INSTALL_PREFIX "/opt/${CPACK_PACKAGE_NAME}")
-    set(CPACK_PACKAGING_INSTALL_PREFIX "${CPACK_INSTALL_PREFIX}")
-    set(CPACK_INCLUDE_TOPLEVEL_DIRECTORY OFF)
 
     include(cmake/linux-utils.cmake)
     get_ubuntu_version(DETECTED_UBUNTU_VERSION)
@@ -120,9 +123,10 @@ if (CMAKE_BUILD_TYPE MATCHES "^[Rr]el")
 
     # create desktop entries (should go in /usr/ or /usr/local/)
     set(DESKTOP_FILE FiscalRecords.desktop)
-    configure_file(${CMAKE_SOURCE_DIR}/debian/${DESKTOP_FILE}.cmake ${CMAKE_BINARY_DIR}/${DESKTOP_FILE})
-    install(FILES ${CMAKE_BINARY_DIR}/${DESKTOP_FILE} DESTINATION share/applications RENAME ${PROJECT_NAME}.desktop)
+    configure_file(${CMAKE_SOURCE_DIR}/debian/${DESKTOP_FILE}.cmake ${CMAKE_BINARY_DIR}/${CPACK_PACKAGE_NAME}.desktop)
+    install(FILES ${CMAKE_BINARY_DIR}/${CPACK_PACKAGE_NAME}.desktop
+        DESTINATION share/applications RENAME ${CPACK_PACKAGE_NAME}.desktop)
     install(DIRECTORY ${CMAKE_SOURCE_DIR}/debian/icons DESTINATION share)
-    install(FILES ${CMAKE_SOURCE_DIR}/img/logo.png DESTINATION ${CPACK_INSTALL_PREFIX})
+    install(FILES ${CMAKE_SOURCE_DIR}/img/logo.png DESTINATION ${CPACK_INSTALL_PREFIX}/${CPACK_PACKAGE_NAME}.png)
 
 endif()
