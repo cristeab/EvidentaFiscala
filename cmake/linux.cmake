@@ -102,6 +102,7 @@ if (CMAKE_BUILD_TYPE MATCHES "^[Rr]el")
     install(DIRECTORY ${CMAKE_PREFIX_PATH}/translations DESTINATION ${CPACK_INSTALL_PREFIX})
 
     # create desktop entries (should go in /usr/ or /usr/local/)
+    set(CPACK_PACKAGING_INSTALL_PREFIX "/usr/local")
     set(DESKTOP_FILE FiscalRecords.desktop)
     configure_file(${CMAKE_SOURCE_DIR}/debian/${DESKTOP_FILE}.cmake ${CMAKE_BINARY_DIR}/${DESKTOP_FILE})
     install(FILES ${CMAKE_BINARY_DIR}/${DESKTOP_FILE} DESTINATION /usr/local/share/applications RENAME ${PROJECT_NAME}.desktop)
