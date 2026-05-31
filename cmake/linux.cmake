@@ -3,9 +3,28 @@ set(CMAKE_REQUIRED_DEFINITIONS "-D_GNU_SOURCE")
 if (CMAKE_BUILD_TYPE MATCHES "^[Rr]el")
 
     set(CPACK_GENERATOR "DEB")
+    set(CPACK_DEBIAN_PACKAGE_MAINTAINER "${CPACK_PACKAGE_CONTACT}")
     set(CPACK_DEBIAN_PACKAGE_SECTION "finance")  # or appropriate section
     set(CPACK_DEBIAN_PACKAGE_PRIORITY "optional")
-    set(CPACK_DEBIAN_ARCHITECTURE ${CMAKE_SYSTEM_PROCESSOR})
+    set(CPACK_DEBIAN_FILE_NAME DEB-DEFAULT)
+
+    if(CMAKE_SYSTEM_PROCESSOR MATCHES "x86_64|amd64")
+        set(CPACK_DEBIAN_PACKAGE_ARCHITECTURE "amd64")
+    elseif(CMAKE_SYSTEM_PROCESSOR MATCHES "i386|i686")
+        set(CPACK_DEBIAN_PACKAGE_ARCHITECTURE "i386")
+    elseif(CMAKE_SYSTEM_PROCESSOR MATCHES "aarch64|arm64")
+        set(CPACK_DEBIAN_PACKAGE_ARCHITECTURE "arm64")
+    else()
+        set(CPACK_DEBIAN_PACKAGE_ARCHITECTURE "${CMAKE_SYSTEM_PROCESSOR}")
+    endif()
+
+    # This dynamically discovers system libraries (like glibc, libstdc++) your app needs
+    set(CPACK_DEBIAN_PACKAGE_SHLIBDEPS ON)
+
+    set(CPACK_DEBIAN_PACKAGE_CONTROL_EXTRA
+        "${CMAKE_SOURCE_DIR}/debian/postinst"
+        "${CMAKE_SOURCE_DIR}/debian/postrm"
+    )
 
     set(CPACK_INSTALL_PREFIX "/opt/${CPACK_PACKAGE_NAME}")
     set(CPACK_PACKAGING_INSTALL_PREFIX "${CPACK_INSTALL_PREFIX}")
@@ -102,11 +121,10 @@ if (CMAKE_BUILD_TYPE MATCHES "^[Rr]el")
     install(DIRECTORY ${CMAKE_PREFIX_PATH}/translations DESTINATION ${CPACK_INSTALL_PREFIX})
 
     # create desktop entries (should go in /usr/ or /usr/local/)
-    set(CPACK_PACKAGING_INSTALL_PREFIX "/usr/local")
     set(DESKTOP_FILE FiscalRecords.desktop)
     configure_file(${CMAKE_SOURCE_DIR}/debian/${DESKTOP_FILE}.cmake ${CMAKE_BINARY_DIR}/${DESKTOP_FILE})
-    install(FILES ${CMAKE_BINARY_DIR}/${DESKTOP_FILE} DESTINATION /usr/local/share/applications RENAME ${PROJECT_NAME}.desktop)
-    install(DIRECTORY ${CMAKE_SOURCE_DIR}/debian/icons DESTINATION /usr/local/share)
+    install(FILES ${CMAKE_BINARY_DIR}/${DESKTOP_FILE} DESTINATION share/applications RENAME ${PROJECT_NAME}.desktop)
+    install(DIRECTORY ${CMAKE_SOURCE_DIR}/debian/icons DESTINATION share)
     install(FILES ${CMAKE_SOURCE_DIR}/img/logo.png DESTINATION ${CPACK_INSTALL_PREFIX})
 
 endif()
