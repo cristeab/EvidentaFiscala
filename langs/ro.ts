@@ -33,27 +33,27 @@
         <translation>Adaugă</translation>
     </message>
     <message>
-        <location filename="../qml/ContentView.qml" line="169"/>
+        <location filename="../qml/ContentView.qml" line="170"/>
         <source>Date must be specified</source>
         <translation>Data trebuie specificată</translation>
     </message>
     <message>
-        <location filename="../qml/ContentView.qml" line="174"/>
+        <location filename="../qml/ContentView.qml" line="175"/>
         <source>Amount must be specified</source>
         <translation>Suma trebuie specificată</translation>
     </message>
     <message>
-        <location filename="../qml/ContentView.qml" line="179"/>
+        <location filename="../qml/ContentView.qml" line="180"/>
         <source>Exchange rate must be specified</source>
         <translation>Rata de schimb trebuie specificată</translation>
     </message>
     <message>
-        <location filename="../qml/ContentView.qml" line="184"/>
+        <location filename="../qml/ContentView.qml" line="185"/>
         <source>Observations must be specified</source>
         <translation>Observațiile trebuie specificate</translation>
     </message>
     <message>
-        <location filename="../qml/ContentView.qml" line="199"/>
+        <location filename="../qml/ContentView.qml" line="200"/>
         <source>Cannot add a new row</source>
         <translation>Nu se poate adăuga un rând nou</translation>
     </message>

@@ -33,27 +33,27 @@
         <translation>Ajouter</translation>
     </message>
     <message>
-        <location filename="../qml/ContentView.qml" line="169"/>
+        <location filename="../qml/ContentView.qml" line="170"/>
         <source>Date must be specified</source>
         <translation>La date doit être précisée</translation>
     </message>
     <message>
-        <location filename="../qml/ContentView.qml" line="174"/>
+        <location filename="../qml/ContentView.qml" line="175"/>
         <source>Amount must be specified</source>
         <translation>Le montant doit être précisé</translation>
     </message>
     <message>
-        <location filename="../qml/ContentView.qml" line="179"/>
+        <location filename="../qml/ContentView.qml" line="180"/>
         <source>Exchange rate must be specified</source>
         <translation>Le taux de change doit être précisé</translation>
     </message>
     <message>
-        <location filename="../qml/ContentView.qml" line="184"/>
+        <location filename="../qml/ContentView.qml" line="185"/>
         <source>Observations must be specified</source>
         <translation>Les observations doivent être précisées</translation>
     </message>
     <message>
-        <location filename="../qml/ContentView.qml" line="199"/>
+        <location filename="../qml/ContentView.qml" line="200"/>
         <source>Cannot add a new row</source>
         <translation>Impossible d&apos;ajouter une nouvelle ligne</translation>
     </message>
