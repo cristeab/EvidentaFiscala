@@ -1,16 +1,44 @@
 set(CMAKE_REQUIRED_DEFINITIONS "-D_GNU_SOURCE")
+
 if (CMAKE_BUILD_TYPE MATCHES "^[Rr]el")
 
     set(CPACK_GENERATOR "DEB")
+    set(CPACK_DEBIAN_PACKAGE_MAINTAINER "${CPACK_PACKAGE_CONTACT}")
     set(CPACK_DEBIAN_PACKAGE_SECTION "finance")  # or appropriate section
     set(CPACK_DEBIAN_PACKAGE_PRIORITY "optional")
-    set(CPACK_DEBIAN_ARCHITECTURE ${CMAKE_SYSTEM_PROCESSOR})
+    set(CPACK_DEBIAN_FILE_NAME DEB-DEFAULT)
 
+    if(CMAKE_SYSTEM_PROCESSOR MATCHES "x86_64|amd64")
+        set(CPACK_DEBIAN_PACKAGE_ARCHITECTURE "amd64")
+    elseif(CMAKE_SYSTEM_PROCESSOR MATCHES "i386|i686")
+        set(CPACK_DEBIAN_PACKAGE_ARCHITECTURE "i386")
+    elseif(CMAKE_SYSTEM_PROCESSOR MATCHES "aarch64|arm64")
+        set(CPACK_DEBIAN_PACKAGE_ARCHITECTURE "arm64")
+    else()
+        set(CPACK_DEBIAN_PACKAGE_ARCHITECTURE "${CMAKE_SYSTEM_PROCESSOR}")
+    endif()
+
+    string(TOLOWER "${PROJECT_NAME}" CPACK_PACKAGE_NAME)
     set(CPACK_INSTALL_PREFIX "/opt/${CPACK_PACKAGE_NAME}")
     set(CPACK_PACKAGING_INSTALL_PREFIX "${CPACK_INSTALL_PREFIX}")
     set(CPACK_INCLUDE_TOPLEVEL_DIRECTORY OFF)
 
-    set(CPACK_PACKAGE_FILE_NAME "${CPACK_PACKAGE_NAME}-${CPACK_PACKAGE_VERSION}-Ubuntu")
+    # This dynamically discovers system libraries (like glibc, libstdc++) your app needs
+    set(CPACK_DEBIAN_PACKAGE_SHLIBDEPS ON)
+    # Prevent CPack from generating dependencies for bundled Qt6 libs
+    set(CPACK_DEBIAN_PACKAGE_SHLIBDEPS_PRIVATE_DIRS "${CPACK_INSTALL_PREFIX}/lib")
+    set(CPACK_PRE_BUILD_SCRIPTS "${CMAKE_SOURCE_DIR}/debian/cleanup_qt.cmake")
+
+    set(CPACK_DEBIAN_PACKAGE_CONTROL_EXTRA
+        "${CMAKE_SOURCE_DIR}/debian/postinst"
+        "${CMAKE_SOURCE_DIR}/debian/postrm"
+    )
+
+    include(cmake/linux-utils.cmake)
+    get_ubuntu_version(DETECTED_UBUNTU_VERSION)
+    if(NOT DETECTED_UBUNTU_VERSION)
+        message(FATAL_ERROR "Only Ubuntu Linux is supported")
+    endif()
 
     set(QT_LIB_PATH "${CMAKE_PREFIX_PATH}/lib")
     set(QT_PLUGIN_PATH "${CMAKE_PREFIX_PATH}/plugins")
@@ -24,7 +52,7 @@ if (CMAKE_BUILD_TYPE MATCHES "^[Rr]el")
         OpenGL OpenGLWidgets
         Qml QmlMeta QmlModels QmlWorkerScript
         Quick Quick3D Quick3DRuntimeRender Quick3DUtils QuickControls2
-        QuickDialogs2 QuickDialogs2QuickImpl
+        QuickDialogs2 QuickDialogs2QuickImpl QuickDialogs2Utils
         QuickControls2Basic QuickControls2BasicStyleImpl QuickControls2FluentWinUI3StyleImpl
         QuickControls2Fusion QuickControls2FusionStyleImpl QuickControls2Imagine
         QuickControls2ImagineStyleImpl QuickControls2Impl QuickControls2Material
@@ -34,6 +62,10 @@ if (CMAKE_BUILD_TYPE MATCHES "^[Rr]el")
         WaylandClient WaylandCompositorIviapplication WaylandCompositorPresentationTime
         WaylandCompositor WaylandCompositorWLShell WaylandCompositorXdgShell WaylandEglCompositorHwIntegration
         Widgets XcbQpa
+        VirtualKeyboard VirtualKeyboardSettings VirtualKeyboardQml QmlLocalStorage QuickParticles
+        Quick3DHelpers Quick3DHelpersImpl Quick3DEffects QuickShapesDesignHelpers
+        Quick3DPhysicsHelpers QuickTimeline QuickVectorImage SpatialAudio Quick3DSpatialAudio
+        Quick3DAssetImport QuickVectorImageHelpers Quick3DPhysics QuickVectorImageHelpers QuickVectorImageGenerator
     )
     foreach(LIB IN LISTS QT_LIBS)
         install(FILES ${QT_LIB_PATH}/libQt6${LIB}.so.6 DESTINATION ${CPACK_INSTALL_PREFIX}/lib)
@@ -93,5 +125,13 @@ if (CMAKE_BUILD_TYPE MATCHES "^[Rr]el")
     endforeach()
 
     install(DIRECTORY ${CMAKE_PREFIX_PATH}/translations DESTINATION ${CPACK_INSTALL_PREFIX})
+
+    # create desktop entries (should go in /usr/ or /usr/local/)
+    set(DESKTOP_FILE FiscalRecords.desktop)
+    set(DESKTOP_ENTRIES_DIR /usr/local/share)
+    configure_file(${CMAKE_SOURCE_DIR}/debian/${DESKTOP_FILE}.cmake ${CMAKE_BINARY_DIR}/${CPACK_PACKAGE_NAME}.desktop)
+    install(FILES ${CMAKE_BINARY_DIR}/${CPACK_PACKAGE_NAME}.desktop
+        DESTINATION ${DESKTOP_ENTRIES_DIR}/applications RENAME ${CPACK_PACKAGE_NAME}.desktop)
+    install(DIRECTORY ${CMAKE_SOURCE_DIR}/debian/icons DESTINATION ${DESKTOP_ENTRIES_DIR})
 
 endif()

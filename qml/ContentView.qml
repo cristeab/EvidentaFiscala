@@ -155,6 +155,7 @@ Item {
     Button {
         id: okButton
         text: qsTr("Add")
+        z: 10
         height: 40
         width: 45
         leftPadding: 0
