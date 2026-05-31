@@ -7,6 +7,8 @@ set(STAGING_DIR "${CPACK_TEMPORARY_DIRECTORY}/opt/fiscalrecords")
 # Physically delete the problematic directories
 file(REMOVE_RECURSE "${STAGING_DIR}/plugins/sqldrivers")
 file(REMOVE_RECURSE "${STAGING_DIR}/qml/QtQml/StateMachine")
+file(REMOVE_RECURSE "${STAGING_DIR}/qml/QtQml/XmlListModel")
+file(REMOVE_RECURSE "${STAGING_DIR}/qml/QtQuick/Timeline")
 file(REMOVE_RECURSE "${STAGING_DIR}/qml/QtQuick3D")
 file(REMOVE_RECURSE "${STAGING_DIR}/plugins/multimedia")
-
+file(REMOVE_RECURSE "${STAGING_DIR}/plugins/imageformats")

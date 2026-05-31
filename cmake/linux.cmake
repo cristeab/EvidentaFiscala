@@ -65,7 +65,7 @@ if (CMAKE_BUILD_TYPE MATCHES "^[Rr]el")
         VirtualKeyboard VirtualKeyboardSettings VirtualKeyboardQml QmlLocalStorage QuickParticles
         Quick3DHelpers Quick3DHelpersImpl Quick3DEffects QuickShapesDesignHelpers
         Quick3DPhysicsHelpers QuickTimeline QuickVectorImage SpatialAudio Quick3DSpatialAudio
-        Quick3DAssetImport QuickVectorImageHelpers
+        Quick3DAssetImport QuickVectorImageHelpers Quick3DPhysics QuickVectorImageHelpers QuickVectorImageGenerator
     )
     foreach(LIB IN LISTS QT_LIBS)
         install(FILES ${QT_LIB_PATH}/libQt6${LIB}.so.6 DESTINATION ${CPACK_INSTALL_PREFIX}/lib)
