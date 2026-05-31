@@ -106,6 +106,6 @@ if (CMAKE_BUILD_TYPE MATCHES "^[Rr]el")
     configure_file(${CMAKE_SOURCE_DIR}/debian/${DESKTOP_FILE}.cmake ${CMAKE_BINARY_DIR}/${DESKTOP_FILE})
     install(FILES ${CMAKE_BINARY_DIR}/${DESKTOP_FILE} DESTINATION /usr/local/share/applications RENAME ${PROJECT_NAME}.desktop)
     install(DIRECTORY ${CMAKE_SOURCE_DIR}/debian/icons DESTINATION /usr/local/share)
-    install(FILES ${CMAKE_SOURCE_DIR}/img/epu.png DESTINATION ${CPACK_INSTALL_PREFIX})
+    install(FILES ${CMAKE_SOURCE_DIR}/img/logo.png DESTINATION ${CPACK_INSTALL_PREFIX})
 
 endif()
