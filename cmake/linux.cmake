@@ -27,6 +27,7 @@ if (CMAKE_BUILD_TYPE MATCHES "^[Rr]el")
     set(CPACK_DEBIAN_PACKAGE_SHLIBDEPS ON)
     # Prevent CPack from generating dependencies for bundled Qt6 libs
     set(CPACK_DEBIAN_PACKAGE_SHLIBDEPS_PRIVATE_DIRS "${CPACK_INSTALL_PREFIX}/lib")
+    set(CPACK_DEBIAN_PACKAGE_SHLIBDEPS_IGNORE_PATTERN ".*plugins/.*|.*sqldrivers/.*")
 
     set(CPACK_DEBIAN_PACKAGE_CONTROL_EXTRA
         "${CMAKE_SOURCE_DIR}/debian/postinst"
@@ -61,8 +62,8 @@ if (CMAKE_BUILD_TYPE MATCHES "^[Rr]el")
         WaylandClient WaylandCompositorIviapplication WaylandCompositorPresentationTime
         WaylandCompositor WaylandCompositorWLShell WaylandCompositorXdgShell WaylandEglCompositorHwIntegration
         Widgets XcbQpa
-        VirtualKeyboard VirtualKeyboardSettings QmlLocalStorage QuickParticles Quick3DHelpersImpl
-        Quick3DEffects QuickShapesDesignHelpers
+        VirtualKeyboard VirtualKeyboardSettings VirtualKeyboardQml QmlLocalStorage QuickParticles
+        Quick3DHelpers Quick3DHelpersImpl Quick3DEffects QuickShapesDesignHelpers
         Quick3DPhysicsHelpers QuickTimeline QuickVectorImage SpatialAudio Quick3DSpatialAudio
         Quick3DAssetImport
     )
