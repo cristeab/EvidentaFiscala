@@ -27,13 +27,7 @@ if (CMAKE_BUILD_TYPE MATCHES "^[Rr]el")
     set(CPACK_DEBIAN_PACKAGE_SHLIBDEPS ON)
     # Prevent CPack from generating dependencies for bundled Qt6 libs
     set(CPACK_DEBIAN_PACKAGE_SHLIBDEPS_PRIVATE_DIRS "${CPACK_INSTALL_PREFIX}/lib")
-    install(CODE "
-      message(STATUS \"Physically cleaning up unused Qt directories before deb generation...\")
-      file(REMOVE_RECURSE \"\${CMAKE_INSTALL_PREFIX}/plugins/sqldrivers\")
-      file(REMOVE_RECURSE \"\${CMAKE_INSTALL_PREFIX}/qml/QtQml/StateMachine\")
-      file(REMOVE_RECURSE \"\${CMAKE_INSTALL_PREFIX}/qml/QtQuick3D\")
-      file(REMOVE_RECURSE \"\${CMAKE_INSTALL_PREFIX}/plugins/multimedia\")
-    ")
+    set(CPACK_PRE_BUILD_SCRIPTS "${CMAKE_SOURCE_DIR}/debian/cleanup_qt.cmake")
 
     set(CPACK_DEBIAN_PACKAGE_CONTROL_EXTRA
         "${CMAKE_SOURCE_DIR}/debian/postinst"
