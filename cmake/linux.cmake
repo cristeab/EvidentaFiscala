@@ -1,4 +1,5 @@
 set(CMAKE_REQUIRED_DEFINITIONS "-D_GNU_SOURCE")
+
 if (CMAKE_BUILD_TYPE MATCHES "^[Rr]el")
 
     set(CPACK_GENERATOR "DEB")
@@ -10,7 +11,13 @@ if (CMAKE_BUILD_TYPE MATCHES "^[Rr]el")
     set(CPACK_PACKAGING_INSTALL_PREFIX "${CPACK_INSTALL_PREFIX}")
     set(CPACK_INCLUDE_TOPLEVEL_DIRECTORY OFF)
 
-    set(CPACK_PACKAGE_FILE_NAME "${CPACK_PACKAGE_NAME}-${CPACK_PACKAGE_VERSION}-Ubuntu")
+    include(cmake/linux-utils.cmake)
+    get_ubuntu_version(DETECTED_UBUNTU_VERSION)
+    if(NOT DETECTED_UBUNTU_VERSION)
+        message(FATAL_ERROR "Only Ubuntu Linux is supported")
+    endif()
+
+    set(CPACK_PACKAGE_FILE_NAME "${CPACK_PACKAGE_NAME}-${CPACK_PACKAGE_VERSION}-Ubuntu${DETECTED_UBUNTU_VERSION}")
 
     set(QT_LIB_PATH "${CMAKE_PREFIX_PATH}/lib")
     set(QT_PLUGIN_PATH "${CMAKE_PREFIX_PATH}/plugins")
@@ -93,5 +100,12 @@ if (CMAKE_BUILD_TYPE MATCHES "^[Rr]el")
     endforeach()
 
     install(DIRECTORY ${CMAKE_PREFIX_PATH}/translations DESTINATION ${CPACK_INSTALL_PREFIX})
+
+    # create desktop entries (should go in /usr/ or /usr/local/)
+    set(DESKTOP_FILE FiscalRecords.desktop)
+    configure_file(${CMAKE_SOURCE_DIR}/debian/${DESKTOP_FILE}.cmake ${CMAKE_BINARY_DIR}/${DESKTOP_FILE})
+    install(FILES ${CMAKE_BINARY_DIR}/${DESKTOP_FILE} DESTINATION /usr/local/share/applications RENAME ${PROJECT_NAME}.desktop)
+    install(DIRECTORY ${CMAKE_SOURCE_DIR}/debian/icons DESTINATION /usr/local/share)
+    install(FILES ${CMAKE_SOURCE_DIR}/img/epu.png DESTINATION ${CPACK_INSTALL_PREFIX})
 
 endif()
