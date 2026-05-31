@@ -27,7 +27,8 @@ if (CMAKE_BUILD_TYPE MATCHES "^[Rr]el")
     set(CPACK_DEBIAN_PACKAGE_SHLIBDEPS ON)
     # Prevent CPack from generating dependencies for bundled Qt6 libs
     set(CPACK_DEBIAN_PACKAGE_SHLIBDEPS_PRIVATE_DIRS "${CPACK_INSTALL_PREFIX}/lib")
-    set(CPACK_DEBIAN_PACKAGE_SHLIBDEPS_IGNORE_PATTERN ".*plugins/.*|.*sqldrivers/.*")
+    set(CPACK_DEBIAN_PACKAGE_SHLIBDEPS_IGNORE_PATTERN
+        ".*plugins/sqldrivers/.*|.*qml/QtQml/StateMachine/.*|.*qml/QtQuick3D/.*|.*plugins/multimedia/.*")
 
     set(CPACK_DEBIAN_PACKAGE_CONTROL_EXTRA
         "${CMAKE_SOURCE_DIR}/debian/postinst"
@@ -65,7 +66,7 @@ if (CMAKE_BUILD_TYPE MATCHES "^[Rr]el")
         VirtualKeyboard VirtualKeyboardSettings VirtualKeyboardQml QmlLocalStorage QuickParticles
         Quick3DHelpers Quick3DHelpersImpl Quick3DEffects QuickShapesDesignHelpers
         Quick3DPhysicsHelpers QuickTimeline QuickVectorImage SpatialAudio Quick3DSpatialAudio
-        Quick3DAssetImport
+        Quick3DAssetImport QuickVectorImageHelpers
     )
     foreach(LIB IN LISTS QT_LIBS)
         install(FILES ${QT_LIB_PATH}/libQt6${LIB}.so.6 DESTINATION ${CPACK_INSTALL_PREFIX}/lib)
