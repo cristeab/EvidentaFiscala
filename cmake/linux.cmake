@@ -61,6 +61,10 @@ if (CMAKE_BUILD_TYPE MATCHES "^[Rr]el")
         WaylandClient WaylandCompositorIviapplication WaylandCompositorPresentationTime
         WaylandCompositor WaylandCompositorWLShell WaylandCompositorXdgShell WaylandEglCompositorHwIntegration
         Widgets XcbQpa
+        VirtualKeyboard VirtualKeyboardSettings QmlLocalStorage QuickParticles Quick3DHelpersImpl
+        Quick3DEffects QuickShapesDesignHelpers
+        Quick3DPhysicsHelpers QuickTimeline QuickVectorImage SpatialAudio Quick3DSpatialAudio
+        Quick3DAssetImport
     )
     foreach(LIB IN LISTS QT_LIBS)
         install(FILES ${QT_LIB_PATH}/libQt6${LIB}.so.6 DESTINATION ${CPACK_INSTALL_PREFIX}/lib)
