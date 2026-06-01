@@ -11,7 +11,7 @@ third-party dependencies: QtCSV and libgit2.
 
 - Windows
 
-Linux support is planned for a future release.
+- Linux
 
 # External Dependences
 
