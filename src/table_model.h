@@ -87,6 +87,7 @@ public:
 
 signals:
     void error(const QString &msg, bool fatal);
+    void columnVisibilityChanged();
 
 private:
     enum ColumnNames {

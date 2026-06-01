@@ -202,52 +202,61 @@ Item {
         }
     }
 
+    Connections {
+        target: tableModel
+        // Emit this signal from C++ when column visibility changes
+        function onColumnVisibilityChanged() {
+            tableView.forceLayout()
+        }
+    }
+
     TableView {
         id: tableView
+
+        // Relative weight for each column
+        readonly property var columnWeights: ({
+                                                  [TableModel.DATE_INDEX]:           1.0,
+                                                  [TableModel.BANK_INCOME_INDEX]:    1.6,
+                                                  [TableModel.CASH_INCOME_INDEX]:    1.6,
+                                                  [TableModel.BANK_EXPENSES_INDEX]:  1.6,
+                                                  [TableModel.CASH_EXPENSES_INDEX]:  1.6,
+                                                  [TableModel.INVOICE_NUMBER_INDEX]: 1.25,
+                                                  [TableModel.COMMENTS_INDEX]:       2.5   // gets more space
+                                              })
+        readonly property real rowNumberWidth: settings.enableRowNumber ? 28 : 0
 
         function deselectRow(index) {
             const targetIndex = tableView.model.index(index, 0)
             tableView.selectionModel.select(targetIndex, ItemSelectionModel.Deselect | ItemSelectionModel.Rows)
         }
 
+        function totalVisibleWeight() {
+            let total = 0
+            for (let c = 0; c < tableView.columns; c++) {
+                if (tableModel.isColumnVisible(c)) {
+                    total += columnWeights[c] ?? 1.0
+                }
+            }
+            return total
+        }
+
         function customColumnWidth(column) {
             if (!tableModel.isColumnVisible(column)) {
                 return 0
             }
-            let columnWidth = 0
-            switch (column) {
-            case TableModel.DATE_INDEX:
-                columnWidth = Theme.minimumColumnWidth
-                break
-            case TableModel.BANK_INCOME_INDEX:
-                columnWidth = 1.6 * Theme.minimumColumnWidth
-                break
-            case TableModel.CASH_INCOME_INDEX:
-                columnWidth = 1.6 * Theme.minimumColumnWidth
-                break
-            case TableModel.BANK_EXPENSES_INDEX:
-                columnWidth = 1.6 * Theme.minimumColumnWidth
-                break
-            case TableModel.CASH_EXPENSES_INDEX:
-                columnWidth = 1.6 * Theme.minimumColumnWidth
-                break
-            case TableModel.INVOICE_NUMBER_INDEX:
-                columnWidth = 1.25 * Theme.minimumColumnWidth
-                break
-            case TableModel.COMMENTS_INDEX:
-                columnWidth = tableView.width
-                for (let c = 0; c < (tableView.columns - 1); c += 1) {
-                    columnWidth -= tableView.customColumnWidth(c)
-                }
-                break
-            }
-            return columnWidth
+            const weight = columnWeights[column] ?? 1.0
+            // Subtract row-number label width if visible
+            const availableWidth = tableView.width - (settings.enableRowNumber ? tableView.rowNumberWidth : 0)
+            return Math.floor((weight / totalVisibleWeight()) * availableWidth)
         }
 
         anchors {
             top: obsField.bottom
             topMargin: 2 * Theme.verticalMargin
             bottom: parent.bottom
+        }
+        columnWidthProvider: function(column) {
+            return column === 0 ? tableView.width : 0
         }
         width: parent.width
         onWidthChanged: tableView.forceLayout()
@@ -266,7 +275,7 @@ Item {
             required property bool current
             required property bool selected
 
-            implicitHeight: tableRow.implicitHeight
+            implicitHeight: visible ? tableRow.implicitHeight : 0
             implicitWidth: tableView.width
 
             Rectangle {
@@ -293,17 +302,27 @@ Item {
                     color: "gray"
                 }
                 Repeater {
-                    model: [date, bankIncome, cashIncome,
-                        bankExpenses, cashExpenses, invoiceNumber, comments]
+                    model: [
+                        { value: date,          col: TableModel.DATE_INDEX },
+                        { value: bankIncome,    col: TableModel.BANK_INCOME_INDEX },
+                        { value: cashIncome,    col: TableModel.CASH_INCOME_INDEX },
+                        { value: bankExpenses,  col: TableModel.BANK_EXPENSES_INDEX },
+                        { value: cashExpenses,  col: TableModel.CASH_EXPENSES_INDEX },
+                        { value: invoiceNumber, col: TableModel.INVOICE_NUMBER_INDEX },
+                        { value: comments,      col: TableModel.COMMENTS_INDEX }
+                    ]
+
                     delegate: Label {
                         id: rowLabel
-                        Layout.preferredWidth: tableView.customColumnWidth(index)
-                        Layout.minimumWidth: Theme.minimumColumnWidth
-                        text: modelData
+
+                        readonly property bool colVisible: tableModel.isColumnVisible(modelData.col)
+
+                        visible: colVisible
+                        Layout.preferredWidth: colVisible ? tableView.customColumnWidth(modelData.col) : 0
+                        text: modelData.value
                         elide: Text.ElideRight
                         horizontalAlignment: Text.AlignLeft
                         clip: true
-                        visible: tableModel.isColumnVisible(index)
                         MouseArea {
                             id: rowLabelMouseArea
                             anchors.fill: parent
