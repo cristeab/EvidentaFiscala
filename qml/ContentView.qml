@@ -202,14 +202,6 @@ Item {
         }
     }
 
-    Connections {
-        target: tableModel
-        // Emit this signal from C++ when column visibility changes
-        function onColumnVisibilityChanged() {
-            tableView.forceLayout()
-        }
-    }
-
     TableView {
         id: tableView
 

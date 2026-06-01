@@ -437,7 +437,6 @@ bool TableModel::updateInvisibleColumns(const QList<int> &indexList)
     if (auto* settings = _controller->settings();
         settings->invisibleColumns() != newInvisibleColumns) {
         settings->setInvisibleColumns(newInvisibleColumns);
-        emit columnVisibilityChanged();
         return true;
 	}
 
