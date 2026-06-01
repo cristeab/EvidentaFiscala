@@ -56,6 +56,16 @@ ApplicationWindow {
                     visible: parent.hovered
                 }
             }
+            ToolButton {
+                icon.source: "qrc:/img/about.svg"
+                onClicked: {
+                    aboutDialogLoader.active = true
+                }
+                ToolTip {
+                    text: qsTr("About...")
+                    visible: parent.hovered
+                }
+            }
         } // Row
         ToolButton {
             id: newFileBtn
@@ -307,5 +317,11 @@ ApplicationWindow {
         }
         active: false
         source: "qrc:/qml/ContextMenu.qml"
+    }
+
+    Loader {
+        id: aboutDialogLoader
+        active: false
+        source: "qrc:/qml/AboutDialog.qml"
     }
 }

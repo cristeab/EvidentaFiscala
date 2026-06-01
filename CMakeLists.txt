@@ -99,7 +99,9 @@ set(IMG_FILES img/FolderOpen.svg
               img/FileCsv.svg
               img/Settings.svg
               img/FileExport.svg
-              img/NewFile.svg)
+              img/NewFile.svg
+              img/about.svg
+              img/logo.png)
 
 # Enable the Qt Quick Compiler
 file(GLOB_RECURSE QML_FILES
@@ -113,7 +115,8 @@ qt_add_qml_module(${PROJECT_NAME}
     NO_RESOURCE_TARGET_PATH
     VERSION 1.0
     QML_FILES ${QML_FILES}
-    RESOURCES qml/qmldir qtquickcontrols2.conf ${IMG_FILES})
+    RESOURCES qml/qmldir qtquickcontrols2.conf ${IMG_FILES}
+    QML_FILES)
 
 target_include_directories(${PROJECT_NAME} PRIVATE
     src
