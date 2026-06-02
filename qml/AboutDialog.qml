@@ -3,7 +3,7 @@ import QtQuick.Controls
 import QtQuick.Layouts
 
 Dialog {
-    id: aboutDialog
+    id: control
 
     title: qsTr("About FiscalRecords")
     modal: true
@@ -14,7 +14,11 @@ Dialog {
     x: (winApp.width-width)/2
     y: (winApp.height-height)/2
 
-    Component.onCompleted: visible = true
+    Component.onCompleted: control.visible = true
+    onClosed: {
+        control.close()
+        aboutDialogLoader.active = false
+    }
 
     ScrollView {
         anchors.fill: parent
