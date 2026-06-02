@@ -96,6 +96,7 @@ qt_add_translations(TARGETS ${PROJECT_NAME}
 
 # images
 set(IMG_FILES img/FolderOpen.svg
+              img/OpenExternal.svg
               img/FileCsv.svg
               img/Settings.svg
               img/FileExport.svg

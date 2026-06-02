@@ -12,7 +12,7 @@ ApplicationWindow {
     width: 800
     minimumWidth: 800
     height: 600
-    title: qsTr("Fiscal Records") + " v" + settings.swVersion
+    title: qsTr("Fiscal Records") + " - " + settings.ledgerFilePath
 
     ToolBar {
         id: toolBar
@@ -34,6 +34,14 @@ ApplicationWindow {
                 }
                 ToolTip {
                     text: qsTr("Open...")
+                    visible: parent.hovered
+                }
+            }
+            ToolButton {
+                icon.source: "qrc:/img/OpenExternal.svg"
+                onClicked: Qt.openUrlExternally("file://"+ settings.ledgerFilePath)
+                ToolTip {
+                    text: qsTr("Open in Default Editor")
                     visible: parent.hovered
                 }
             }
@@ -148,36 +156,6 @@ ApplicationWindow {
                 IncomeViewWithBars {
                 }
             }
-        }
-    }
-
-    footer: Label {
-        id: footerLabel
-        width: parent.width
-        text: settings.ledgerFilePath
-        horizontalAlignment: Text.AlignRight
-        rightPadding: 5
-        bottomPadding: 5
-        MouseArea {
-            id: control
-            property var prevCursorShape: null
-            anchors.fill: parent
-            hoverEnabled: true
-            onEntered: {
-                control.prevCursorShape = control.cursorShape
-                control.cursorShape = Qt.PointingHandCursor
-            }
-            onExited: {
-                if (null !== control.prevCursorShape) {
-                    control.cursorShape = control.prevCursorShape
-                    control.prevCursorShape = null
-                }
-            }
-            onClicked: Qt.openUrlExternally("file://"+ footerLabel.text)
-        }
-        ToolTip {
-            text: qsTr("Click to Open in Default Editor")
-            visible: control.containsMouse
         }
     }
 
