@@ -61,3 +61,5 @@ Build instructions, platform requirements, external dependencies, and installer 
 ![general](screenshots/settings_backup.png?raw=true "Settings - Backup Tab")
 
 ![general](screenshots/settings_currency.png?raw=true "Settings - Currency Tab")
+
+![about](screenshots/about.png?raw=true "About")
