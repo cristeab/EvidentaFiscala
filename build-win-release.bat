@@ -14,6 +14,8 @@ if %errorlevel% neq 0 (
     exit /b %errorlevel%
 )
 
+rmdir /s /q %BUILD_DIR%
+
 cmake.exe -B %BUILD_DIR% -S . -G "Ninja" --fresh -DCMAKE_BUILD_TYPE=Release -DCMAKE_PREFIX_PATH=%QT_PATH%
 if %errorlevel% neq 0 (
     exit /b %errorlevel%
