@@ -9,82 +9,82 @@
         <translation>À propos de FiscalRecords</translation>
     </message>
     <message>
-        <location filename="../qml/AboutDialog.qml" line="50"/>
+        <location filename="../qml/AboutDialog.qml" line="54"/>
         <source>Version %1</source>
         <translation>Version %1</translation>
     </message>
     <message>
-        <location filename="../qml/AboutDialog.qml" line="59"/>
+        <location filename="../qml/AboutDialog.qml" line="63"/>
         <source>Lightweight fiscal records management for self-employed professionals and freelancers.</source>
         <translation>Gestion légère des registres fiscaux pour les travailleurs indépendants et les freelances.</translation>
     </message>
     <message>
-        <location filename="../qml/AboutDialog.qml" line="71"/>
+        <location filename="../qml/AboutDialog.qml" line="75"/>
         <source>Key Features</source>
         <translation>Fonctionnalités principales</translation>
     </message>
     <message>
-        <location filename="../qml/AboutDialog.qml" line="77"/>
+        <location filename="../qml/AboutDialog.qml" line="81"/>
         <source>Automated receipt numbering and expense tracking</source>
         <translation>Numérotation automatique des reçus et suivi des dépenses</translation>
     </message>
     <message>
-        <location filename="../qml/AboutDialog.qml" line="78"/>
+        <location filename="../qml/AboutDialog.qml" line="82"/>
         <source>Monthly income/expense charts (line &amp; bar)</source>
         <translation>Graphiques mensuels des revenus et dépenses (courbes et histogrammes)</translation>
     </message>
     <message>
-        <location filename="../qml/AboutDialog.qml" line="79"/>
+        <location filename="../qml/AboutDialog.qml" line="83"/>
         <source>ODF Fiscal Register report generation</source>
         <translation>Génération de rapports de registre fiscal au format ODF</translation>
     </message>
     <message>
-        <location filename="../qml/AboutDialog.qml" line="80"/>
+        <location filename="../qml/AboutDialog.qml" line="84"/>
         <source>Multi-currency support with official exchange rates</source>
         <translation>Prise en charge multidevise avec taux de change officiels</translation>
     </message>
     <message>
-        <location filename="../qml/AboutDialog.qml" line="81"/>
+        <location filename="../qml/AboutDialog.qml" line="85"/>
         <source>Local Git backups</source>
         <translation>Sauvegardes Git locales</translation>
     </message>
     <message>
-        <location filename="../qml/AboutDialog.qml" line="82"/>
+        <location filename="../qml/AboutDialog.qml" line="86"/>
         <source>Available in Romanian, English and French</source>
         <translation>Disponible en roumain, anglais et français</translation>
     </message>
     <message>
-        <location filename="../qml/AboutDialog.qml" line="99"/>
+        <location filename="../qml/AboutDialog.qml" line="103"/>
         <source>Author</source>
         <translation>Auteur</translation>
     </message>
     <message>
-        <location filename="../qml/AboutDialog.qml" line="106"/>
+        <location filename="../qml/AboutDialog.qml" line="110"/>
         <source>Source Code</source>
         <translation>Code source</translation>
     </message>
     <message>
-        <location filename="../qml/AboutDialog.qml" line="140"/>
+        <location filename="../qml/AboutDialog.qml" line="144"/>
         <source>Claude Tax Assistant</source>
         <translation>Assistant fiscal Claude</translation>
     </message>
     <message>
-        <location filename="../qml/AboutDialog.qml" line="144"/>
+        <location filename="../qml/AboutDialog.qml" line="148"/>
         <source>(coming soon)</source>
         <translation>(bientôt disponible)</translation>
     </message>
     <message>
-        <location filename="../qml/AboutDialog.qml" line="153"/>
+        <location filename="../qml/AboutDialog.qml" line="157"/>
         <source>Connect your FiscalRecords ledger to a Claude AI skill to automatically estimate your taxes, spot deductions, and generate a tax preparation summary.</source>
         <translation>Connectez votre registre FiscalRecords à une compétence IA Claude pour estimer automatiquement vos impôts, détecter les déductions et générer un résumé de préparation fiscale.</translation>
     </message>
     <message>
-        <location filename="../qml/AboutDialog.qml" line="158"/>
+        <location filename="../qml/AboutDialog.qml" line="162"/>
         <source>Learn more</source>
         <translation>En savoir plus</translation>
     </message>
     <message>
-        <location filename="../qml/AboutDialog.qml" line="168"/>
+        <location filename="../qml/AboutDialog.qml" line="172"/>
         <source>Released under the LGPL License</source>
         <translation>Publié sous licence LGPL</translation>
     </message>
