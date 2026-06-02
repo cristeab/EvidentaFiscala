@@ -38,6 +38,7 @@ ApplicationWindow {
                 }
             }
             ToolButton {
+                enabled: "" !== settings.ledgerFilePath
                 icon.source: "qrc:/img/OpenExternal.svg"
                 onClicked: Qt.openUrlExternally("file://"+ settings.ledgerFilePath)
                 ToolTip {

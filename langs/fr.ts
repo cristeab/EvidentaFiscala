@@ -2,6 +2,94 @@
 <!DOCTYPE TS>
 <TS version="2.1" language="fr_FR" sourcelanguage="en_US">
 <context>
+    <name>AboutDialog</name>
+    <message>
+        <location filename="../qml/AboutDialog.qml" line="8"/>
+        <source>About FiscalRecords</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../qml/AboutDialog.qml" line="50"/>
+        <source>Version %1</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../qml/AboutDialog.qml" line="59"/>
+        <source>Lightweight fiscal records management for self-employed professionals and freelancers.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../qml/AboutDialog.qml" line="71"/>
+        <source>Key Features</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../qml/AboutDialog.qml" line="77"/>
+        <source>Automated receipt numbering and expense tracking</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../qml/AboutDialog.qml" line="78"/>
+        <source>Monthly income/expense charts (line &amp; bar)</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../qml/AboutDialog.qml" line="79"/>
+        <source>ODF Fiscal Register report generation</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../qml/AboutDialog.qml" line="80"/>
+        <source>Multi-currency support with official exchange rates</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../qml/AboutDialog.qml" line="81"/>
+        <source>Local Git backups</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../qml/AboutDialog.qml" line="82"/>
+        <source>Available in Romanian, English and French</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../qml/AboutDialog.qml" line="99"/>
+        <source>Author</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../qml/AboutDialog.qml" line="106"/>
+        <source>Source Code</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../qml/AboutDialog.qml" line="140"/>
+        <source>Claude Tax Assistant</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../qml/AboutDialog.qml" line="144"/>
+        <source>(coming soon)</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../qml/AboutDialog.qml" line="153"/>
+        <source>Connect your FiscalRecords ledger to a Claude AI skill to automatically estimate your taxes, spot deductions, and generate a tax preparation summary.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../qml/AboutDialog.qml" line="158"/>
+        <source>Learn more</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../qml/AboutDialog.qml" line="168"/>
+        <source>Released under the LGPL License</source>
+        <translation type="unfinished"></translation>
+    </message>
+</context>
+<context>
     <name>ContentView</name>
     <message>
         <location filename="../qml/ContentView.qml" line="45"/>
@@ -383,57 +471,66 @@ Dépenses : %3</translation>
         <translation>Ouvrir...</translation>
     </message>
     <message>
-        <location filename="../qml/main.qml" line="55"/>
+        <location filename="../qml/main.qml" line="63"/>
         <source>Settings...</source>
         <translation>Paramètres...</translation>
     </message>
     <message>
-        <location filename="../qml/main.qml" line="45"/>
+        <location filename="../qml/main.qml" line="53"/>
         <source>Generate Fiscal Records Register</source>
         <translation>Générer le registre des écritures fiscales</translation>
     </message>
     <message>
-        <location filename="../qml/main.qml" line="70"/>
+        <location filename="../qml/main.qml" line="44"/>
+        <source>Open in Default Editor</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../qml/main.qml" line="73"/>
+        <source>About...</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../qml/main.qml" line="88"/>
         <source>Question</source>
         <translation>Question</translation>
     </message>
     <message>
-        <location filename="../qml/main.qml" line="71"/>
+        <location filename="../qml/main.qml" line="89"/>
         <source>Create new ledger </source>
         <translation>Créer un nouveau registre </translation>
     </message>
     <message>
-        <location filename="../qml/main.qml" line="81"/>
+        <location filename="../qml/main.qml" line="99"/>
         <source>New CSV File...</source>
         <translation>Nouveau fichier CSV…</translation>
     </message>
     <message>
-        <location filename="../qml/main.qml" line="98"/>
+        <location filename="../qml/main.qml" line="116"/>
         <source>Table</source>
         <translation>Tableau</translation>
     </message>
     <message>
-        <location filename="../qml/main.qml" line="102"/>
+        <location filename="../qml/main.qml" line="120"/>
         <source>Chart</source>
         <translation>Graphique</translation>
     </message>
     <message>
-        <location filename="../qml/main.qml" line="169"/>
         <source>Click to Open in Default Editor</source>
-        <translation>Cliquez pour ouvrir dans l&apos;éditeur par défaut</translation>
+        <translation type="vanished">Cliquez pour ouvrir dans l&apos;éditeur par défaut</translation>
     </message>
     <message>
-        <location filename="../qml/main.qml" line="191"/>
+        <location filename="../qml/main.qml" line="179"/>
         <source>Error</source>
         <translation>Erreur</translation>
     </message>
     <message>
-        <location filename="../qml/main.qml" line="191"/>
+        <location filename="../qml/main.qml" line="179"/>
         <source>Warning</source>
         <translation>Avertissement</translation>
     </message>
     <message>
-        <location filename="../qml/main.qml" line="246"/>
+        <location filename="../qml/main.qml" line="234"/>
         <source>Select File</source>
         <translation>Sélectionner le fichier</translation>
     </message>
