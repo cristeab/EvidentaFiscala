@@ -6,87 +6,87 @@
     <message>
         <location filename="../qml/AboutDialog.qml" line="8"/>
         <source>About FiscalRecords</source>
-        <translation type="unfinished"></translation>
+        <translation>Despre FiscalRecords</translation>
     </message>
     <message>
         <location filename="../qml/AboutDialog.qml" line="50"/>
         <source>Version %1</source>
-        <translation type="unfinished"></translation>
+        <translation>Versiunea %1</translation>
     </message>
     <message>
         <location filename="../qml/AboutDialog.qml" line="59"/>
         <source>Lightweight fiscal records management for self-employed professionals and freelancers.</source>
-        <translation type="unfinished"></translation>
+        <translation>Gestionare simplificată a registrelor fiscale pentru profesioniști independenți și freelanceri.</translation>
     </message>
     <message>
         <location filename="../qml/AboutDialog.qml" line="71"/>
         <source>Key Features</source>
-        <translation type="unfinished"></translation>
+        <translation>Funcționalități principale</translation>
     </message>
     <message>
         <location filename="../qml/AboutDialog.qml" line="77"/>
         <source>Automated receipt numbering and expense tracking</source>
-        <translation type="unfinished"></translation>
+        <translation>Numerotare automată a chitanțelor și urmărirea cheltuielilor</translation>
     </message>
     <message>
         <location filename="../qml/AboutDialog.qml" line="78"/>
         <source>Monthly income/expense charts (line &amp; bar)</source>
-        <translation type="unfinished"></translation>
+        <translation>Grafice lunare de venituri și cheltuieli (linie și bară)</translation>
     </message>
     <message>
         <location filename="../qml/AboutDialog.qml" line="79"/>
         <source>ODF Fiscal Register report generation</source>
-        <translation type="unfinished"></translation>
+        <translation>Generarea registrului fiscal în format ODF</translation>
     </message>
     <message>
         <location filename="../qml/AboutDialog.qml" line="80"/>
         <source>Multi-currency support with official exchange rates</source>
-        <translation type="unfinished"></translation>
+        <translation>Suport multi-valutar cu rate de schimb oficiale</translation>
     </message>
     <message>
         <location filename="../qml/AboutDialog.qml" line="81"/>
         <source>Local Git backups</source>
-        <translation type="unfinished"></translation>
+        <translation>Backup-uri locale Git</translation>
     </message>
     <message>
         <location filename="../qml/AboutDialog.qml" line="82"/>
         <source>Available in Romanian, English and French</source>
-        <translation type="unfinished"></translation>
+        <translation>Disponibil în română, engleză și franceză</translation>
     </message>
     <message>
         <location filename="../qml/AboutDialog.qml" line="99"/>
         <source>Author</source>
-        <translation type="unfinished"></translation>
+        <translation>Autor</translation>
     </message>
     <message>
         <location filename="../qml/AboutDialog.qml" line="106"/>
         <source>Source Code</source>
-        <translation type="unfinished"></translation>
+        <translation>Cod sursă</translation>
     </message>
     <message>
         <location filename="../qml/AboutDialog.qml" line="140"/>
         <source>Claude Tax Assistant</source>
-        <translation type="unfinished"></translation>
+        <translation>Asistent fiscal Claude</translation>
     </message>
     <message>
         <location filename="../qml/AboutDialog.qml" line="144"/>
         <source>(coming soon)</source>
-        <translation type="unfinished"></translation>
+        <translation>(disponibil în curând)</translation>
     </message>
     <message>
         <location filename="../qml/AboutDialog.qml" line="153"/>
         <source>Connect your FiscalRecords ledger to a Claude AI skill to automatically estimate your taxes, spot deductions, and generate a tax preparation summary.</source>
-        <translation type="unfinished"></translation>
+        <translation>Conectează registrul FiscalRecords la o funcție Claude AI pentru a estima automat impozitele, a identifica deduceri și a genera un rezumat pentru pregătirea declarației fiscale.</translation>
     </message>
     <message>
         <location filename="../qml/AboutDialog.qml" line="158"/>
         <source>Learn more</source>
-        <translation type="unfinished"></translation>
+        <translation>Află mai multe</translation>
     </message>
     <message>
         <location filename="../qml/AboutDialog.qml" line="168"/>
         <source>Released under the LGPL License</source>
-        <translation type="unfinished"></translation>
+        <translation>Publicat sub licența LGPL</translation>
     </message>
 </context>
 <context>
@@ -467,47 +467,47 @@ Cheltuieli: %3</translation>
         <translation>Deschide...</translation>
     </message>
     <message>
-        <location filename="../qml/main.qml" line="63"/>
+        <location filename="../qml/main.qml" line="64"/>
         <source>Settings...</source>
         <translation>Setări...</translation>
     </message>
     <message>
-        <location filename="../qml/main.qml" line="53"/>
+        <location filename="../qml/main.qml" line="54"/>
         <source>Generate Fiscal Records Register</source>
         <translation>Generează registrul fiscal</translation>
     </message>
     <message>
-        <location filename="../qml/main.qml" line="44"/>
+        <location filename="../qml/main.qml" line="45"/>
         <source>Open in Default Editor</source>
-        <translation type="unfinished"></translation>
+        <translation>Apasă pentru a deschide în editorul implicit</translation>
     </message>
     <message>
-        <location filename="../qml/main.qml" line="73"/>
+        <location filename="../qml/main.qml" line="74"/>
         <source>About...</source>
-        <translation type="unfinished"></translation>
+        <translation>Despre…</translation>
     </message>
     <message>
-        <location filename="../qml/main.qml" line="88"/>
+        <location filename="../qml/main.qml" line="89"/>
         <source>Question</source>
         <translation>Întrebare</translation>
     </message>
     <message>
-        <location filename="../qml/main.qml" line="89"/>
+        <location filename="../qml/main.qml" line="90"/>
         <source>Create new ledger </source>
         <translation>Creează un registru nou </translation>
     </message>
     <message>
-        <location filename="../qml/main.qml" line="99"/>
+        <location filename="../qml/main.qml" line="100"/>
         <source>New CSV File...</source>
         <translation>Fișier CSV nou…</translation>
     </message>
     <message>
-        <location filename="../qml/main.qml" line="116"/>
+        <location filename="../qml/main.qml" line="117"/>
         <source>Table</source>
         <translation>Tabel</translation>
     </message>
     <message>
-        <location filename="../qml/main.qml" line="120"/>
+        <location filename="../qml/main.qml" line="121"/>
         <source>Chart</source>
         <translation>Grafic</translation>
     </message>
@@ -516,17 +516,17 @@ Cheltuieli: %3</translation>
         <translation type="vanished">Faceți clic pentru a deschide în editorul implicit</translation>
     </message>
     <message>
-        <location filename="../qml/main.qml" line="179"/>
+        <location filename="../qml/main.qml" line="180"/>
         <source>Error</source>
         <translation>Eroare</translation>
     </message>
     <message>
-        <location filename="../qml/main.qml" line="179"/>
+        <location filename="../qml/main.qml" line="180"/>
         <source>Warning</source>
         <translation>Avertisment</translation>
     </message>
     <message>
-        <location filename="../qml/main.qml" line="234"/>
+        <location filename="../qml/main.qml" line="235"/>
         <source>Select File</source>
         <translation>Selectează fișierul</translation>
     </message>
