@@ -166,9 +166,17 @@ Dialog {
                 }
             }
 
-            ColumnLayout {
-                id: leftCol
-                spacing: Theme.verticalMargin
+            GridLayout {
+                columns: 2
+                rowSpacing: Theme.verticalMargin
+                columnSpacing: 4 * Theme.horizontalMargin
+
+                CheckBox {
+                    id: enableRowNumber
+                    text: qsTr("Row Numbers")
+                    checked: settings.enableRowNumber
+                }
+
                 Repeater {
                     id: columnRepeater
                     model: tableModel.tableHeader.length
@@ -178,16 +186,6 @@ Dialog {
                         checked: tableModel.isColumnVisible(index)
                     }
                 }
-            }
-            CheckBox {
-                id: enableRowNumber
-                anchors {
-                    top: leftCol.top
-                    left: leftCol.right
-                    leftMargin: 4 * Theme.horizontalMargin
-                }
-                text: qsTr("Enable Row Numbers")
-                checked: settings.enableRowNumber
             }
         } // advanced settings tab
 
