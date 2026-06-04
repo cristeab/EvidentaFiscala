@@ -42,7 +42,7 @@ Easily initialize new ledgers with all required columns (typically structured on
 
 ## Local Git Backups
 
-Secure your data by backing up your ledger to a local Git repository (requires manual initialization of the Git repository).
+Secure your data by backing up your ledger to a local Git repository.
 
 # Development
 
