@@ -308,42 +308,46 @@ Dépenses : %3</translation>
         <translation>Redémarrez l&apos;application pour appliquer les changements</translation>
     </message>
     <message>
-        <location filename="../qml/Settings.qml" line="189"/>
-        <source>Enable Row Numbers</source>
-        <translation>Activer la numérotation des lignes</translation>
+        <location filename="../qml/Settings.qml" line="176"/>
+        <source>Row Numbers</source>
+        <translation>Numérotation des lignes</translation>
     </message>
     <message>
-        <location filename="../qml/Settings.qml" line="211"/>
+        <source>Enable Row Numbers</source>
+        <translation type="vanished">Activer la numérotation des lignes</translation>
+    </message>
+    <message>
+        <location filename="../qml/Settings.qml" line="209"/>
         <source>Git Backup</source>
         <translation>Sauvegarde Git</translation>
     </message>
     <message>
-        <location filename="../qml/Settings.qml" line="218"/>
+        <location filename="../qml/Settings.qml" line="216"/>
         <source>Backup Directory</source>
         <translation>Répertoire de sauvegarde</translation>
     </message>
     <message>
-        <location filename="../qml/Settings.qml" line="228"/>
+        <location filename="../qml/Settings.qml" line="226"/>
         <source>Username</source>
         <translation>Nom d’utilisateur</translation>
     </message>
     <message>
-        <location filename="../qml/Settings.qml" line="235"/>
+        <location filename="../qml/Settings.qml" line="233"/>
         <source>User Email</source>
         <translation>Adresse e-mail de l’utilisateur</translation>
     </message>
     <message>
-        <location filename="../qml/Settings.qml" line="258"/>
+        <location filename="../qml/Settings.qml" line="256"/>
         <source>Currency Conversion</source>
         <translation>Conversion de devises</translation>
     </message>
     <message>
-        <location filename="../qml/Settings.qml" line="264"/>
+        <location filename="../qml/Settings.qml" line="262"/>
         <source>Exchange Rate Provider</source>
         <translation>Fournisseur de taux de change</translation>
     </message>
     <message>
-        <location filename="../qml/Settings.qml" line="265"/>
+        <location filename="../qml/Settings.qml" line="263"/>
         <source>National Bank of Romania</source>
         <translation>Banque nationale de Roumanie</translation>
     </message>

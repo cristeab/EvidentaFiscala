@@ -308,42 +308,46 @@ Cheltuieli: %3</translation>
         <translation>Reporniți aplicația pentru a aplica modificările</translation>
     </message>
     <message>
-        <location filename="../qml/Settings.qml" line="189"/>
-        <source>Enable Row Numbers</source>
-        <translation>Activare numerotare rânduri</translation>
+        <location filename="../qml/Settings.qml" line="176"/>
+        <source>Row Numbers</source>
+        <translation>Numerotare rânduri</translation>
     </message>
     <message>
-        <location filename="../qml/Settings.qml" line="211"/>
+        <source>Enable Row Numbers</source>
+        <translation type="vanished">Activare numerotare rânduri</translation>
+    </message>
+    <message>
+        <location filename="../qml/Settings.qml" line="209"/>
         <source>Git Backup</source>
         <translation>Backup Git</translation>
     </message>
     <message>
-        <location filename="../qml/Settings.qml" line="218"/>
+        <location filename="../qml/Settings.qml" line="216"/>
         <source>Backup Directory</source>
         <translation>Director de backup</translation>
     </message>
     <message>
-        <location filename="../qml/Settings.qml" line="228"/>
+        <location filename="../qml/Settings.qml" line="226"/>
         <source>Username</source>
         <translation>Nume utilizator</translation>
     </message>
     <message>
-        <location filename="../qml/Settings.qml" line="235"/>
+        <location filename="../qml/Settings.qml" line="233"/>
         <source>User Email</source>
         <translation>E-mail utilizator</translation>
     </message>
     <message>
-        <location filename="../qml/Settings.qml" line="258"/>
+        <location filename="../qml/Settings.qml" line="256"/>
         <source>Currency Conversion</source>
         <translation>Conversie valutară</translation>
     </message>
     <message>
-        <location filename="../qml/Settings.qml" line="264"/>
+        <location filename="../qml/Settings.qml" line="262"/>
         <source>Exchange Rate Provider</source>
         <translation>Furnizor de curs valutar</translation>
     </message>
     <message>
-        <location filename="../qml/Settings.qml" line="265"/>
+        <location filename="../qml/Settings.qml" line="263"/>
         <source>National Bank of Romania</source>
         <translation>Banca Națională a României</translation>
     </message>
