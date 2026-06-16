@@ -488,7 +488,7 @@ Cheltuieli: %3</translation>
     <message>
         <location filename="../qml/main.qml" line="75"/>
         <source>Rows Sort Order</source>
-        <translation type="unfinished"></translation>
+        <translation>Ordinea Liniilor</translation>
     </message>
     <message>
         <location filename="../qml/main.qml" line="85"/>

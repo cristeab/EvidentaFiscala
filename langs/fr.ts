@@ -492,7 +492,7 @@ Dépenses : %3</translation>
     <message>
         <location filename="../qml/main.qml" line="75"/>
         <source>Rows Sort Order</source>
-        <translation type="unfinished"></translation>
+        <translation>Ordre de tri des lignes</translation>
     </message>
     <message>
         <location filename="../qml/main.qml" line="85"/>
