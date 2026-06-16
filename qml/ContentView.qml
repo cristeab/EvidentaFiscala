@@ -283,12 +283,14 @@ Item {
             RowLayout {
                 id: tableRow
 
+                readonly property int visibleRowIndex: settings.sortDescendingOrder ? (tableView.rows - index) : index
+
                 anchors.fill: parent
                 spacing: 0
 
                 Label {
                     visible: settings.enableRowNumber
-                    text: (0 != index) ? String(index).padStart(2, ' ') : "  "
+                    text: (0 != index) ? String(tableRow.visibleRowIndex).padStart(2, ' ') : "  "
                     rightPadding: 3
                     font.bold: true
                     color: "gray"

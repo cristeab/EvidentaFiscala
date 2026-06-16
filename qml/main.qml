@@ -66,6 +66,17 @@ ApplicationWindow {
                 }
             }
             ToolButton {
+                icon.source: settings.sortDescendingOrder ? "qrc:/img/OrderDec.svg" : "qrc:/img/OrderInc.svg"
+                onClicked: {
+                    settings.sortDescendingOrder = !settings.sortDescendingOrder
+                    tableModel.sortRows()
+                }
+                ToolTip {
+                    text: qsTr("Rows Sort Order")
+                    visible: parent.hovered
+                }
+            }
+            ToolButton {
                 icon.source: "qrc:/img/about.svg"
                 onClicked: {
                     aboutDialogLoader.active = true
