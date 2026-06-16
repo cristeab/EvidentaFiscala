@@ -61,6 +61,7 @@ public:
     Q_INVOKABLE bool isColumnVisible(int index) const;
 
     Q_INVOKABLE QStringList suggestions(QString input);
+    Q_INVOKABLE void sortRows();
 
     constexpr QString const& currentCurrency() const {
         return _currencyModel.at(_currencyModelIndex);
@@ -83,7 +84,6 @@ public:
 
     void initMonthlyData();
     void updateMonthlyData(int rowIndex);
-    void sortRows();
 
 signals:
     void error(const QString &msg, bool fatal);

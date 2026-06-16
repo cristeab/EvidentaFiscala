@@ -328,16 +328,17 @@ void TableModel::sortRows()
 {
     if (1 >= _readData.size()) return;
 
-    auto compareRows = [this](const QStringList &left, const QStringList &right) {
-		const QDate dateLeft = QDate::fromString(left.at(0), _dateFormats.at(0));
-		const QDate dateRight = QDate::fromString(right.at(0), _dateFormats.at(0));
-		return dateLeft > dateRight;
-	};
+    auto const desc = _controller->settings()->sortDescendingOrder();
+    auto const compareRows = [this, desc](const QStringList &left, const QStringList &right) {
+        const auto dateLeft = QDate::fromString(left.at(0), _dateFormats.at(0));
+        const auto dateRight = QDate::fromString(right.at(0), _dateFormats.at(0));
+        return desc ? (dateLeft > dateRight) : (dateLeft < dateRight);
+    };
 
-    emit layoutAboutToBeChanged();
+    beginResetModel();
     //skip table header
     std::sort(_readData.begin() + 1, _readData.end(), compareRows);
-    emit layoutChanged();
+    endResetModel();
 }
 
 void TableModel::initMonthlyData()

@@ -55,6 +55,7 @@ void Settings::load()
     setUserEmail(GET_SETTING(userEmail).toString());
 
     setEnableCurrencyConversion(GET_SETTING(enableCurrencyConversion).toBool());
+    setSortDescendingOrder(GET_SETTING(sortDescendingOrder).toBool());
 }
 
 void Settings::save()
@@ -80,4 +81,5 @@ void Settings::save()
     SET_SETTING(userEmail);
 
     SET_SETTING(enableCurrencyConversion);
+    SET_SETTING(sortDescendingOrder);
 }
