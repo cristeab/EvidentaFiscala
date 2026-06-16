@@ -102,6 +102,8 @@ set(IMG_FILES img/FolderOpen.svg
               img/FileExport.svg
               img/NewFile.svg
               img/about.svg
+              img/OrderDec.svg
+              img/OrderInc.svg
               img/logo.png)
 
 # Enable the Qt Quick Compiler
