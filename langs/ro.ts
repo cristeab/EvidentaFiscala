@@ -420,27 +420,27 @@ Cheltuieli: %3</translation>
         <translation type="vanished">Reporniți aplicația pentru a aplica modificările</translation>
     </message>
     <message>
-        <location filename="../src/table_model.cpp" line="463"/>
+        <location filename="../src/table_model.cpp" line="464"/>
         <source>Invalid number of columns in candidate row</source>
         <translation>Număr invalid de coloane în rândul candidat</translation>
     </message>
     <message>
-        <location filename="../src/table_model.cpp" line="495"/>
+        <location filename="../src/table_model.cpp" line="496"/>
         <source>Invalid date in candidate row</source>
         <translation>Dată invalidă în rândul candidat</translation>
     </message>
     <message>
-        <location filename="../src/table_model.cpp" line="509"/>
+        <location filename="../src/table_model.cpp" line="510"/>
         <source>Multiple transactions in candidate row</source>
         <translation>Mai multe tranzacții în rândul candidat</translation>
     </message>
     <message>
-        <location filename="../src/table_model.cpp" line="515"/>
+        <location filename="../src/table_model.cpp" line="516"/>
         <source>No transaction amount in candidate row</source>
         <translation>Nicio sumă de tranzacție în rândul candidat</translation>
     </message>
     <message>
-        <location filename="../src/table_model.cpp" line="549"/>
+        <location filename="../src/table_model.cpp" line="550"/>
         <source>Found possible duplicate row #%1</source>
         <translation>S-a găsit posibil duplicat rândul #%1</translation>
     </message>
@@ -486,32 +486,37 @@ Cheltuieli: %3</translation>
         <translation>Apasă pentru a deschide în editorul implicit</translation>
     </message>
     <message>
-        <location filename="../qml/main.qml" line="74"/>
+        <location filename="../qml/main.qml" line="75"/>
+        <source>Rows Sort Order</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../qml/main.qml" line="85"/>
         <source>About...</source>
         <translation>Despre…</translation>
     </message>
     <message>
-        <location filename="../qml/main.qml" line="89"/>
+        <location filename="../qml/main.qml" line="100"/>
         <source>Question</source>
         <translation>Întrebare</translation>
     </message>
     <message>
-        <location filename="../qml/main.qml" line="90"/>
+        <location filename="../qml/main.qml" line="101"/>
         <source>Create new ledger </source>
         <translation>Creează un registru nou </translation>
     </message>
     <message>
-        <location filename="../qml/main.qml" line="100"/>
+        <location filename="../qml/main.qml" line="111"/>
         <source>New CSV File...</source>
         <translation>Fișier CSV nou…</translation>
     </message>
     <message>
-        <location filename="../qml/main.qml" line="117"/>
+        <location filename="../qml/main.qml" line="128"/>
         <source>Table</source>
         <translation>Tabel</translation>
     </message>
     <message>
-        <location filename="../qml/main.qml" line="121"/>
+        <location filename="../qml/main.qml" line="132"/>
         <source>Chart</source>
         <translation>Grafic</translation>
     </message>
@@ -520,17 +525,17 @@ Cheltuieli: %3</translation>
         <translation type="vanished">Faceți clic pentru a deschide în editorul implicit</translation>
     </message>
     <message>
-        <location filename="../qml/main.qml" line="180"/>
+        <location filename="../qml/main.qml" line="191"/>
         <source>Error</source>
         <translation>Eroare</translation>
     </message>
     <message>
-        <location filename="../qml/main.qml" line="180"/>
+        <location filename="../qml/main.qml" line="191"/>
         <source>Warning</source>
         <translation>Avertisment</translation>
     </message>
     <message>
-        <location filename="../qml/main.qml" line="235"/>
+        <location filename="../qml/main.qml" line="246"/>
         <source>Select File</source>
         <translation>Selectează fișierul</translation>
     </message>

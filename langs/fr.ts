@@ -424,27 +424,27 @@ Dépenses : %3</translation>
         <translation type="vanished">Redémarrez l&apos;application pour appliquer les changements</translation>
     </message>
     <message>
-        <location filename="../src/table_model.cpp" line="463"/>
+        <location filename="../src/table_model.cpp" line="464"/>
         <source>Invalid number of columns in candidate row</source>
         <translation>Nombre de colonnes invalide dans la ligne candidate</translation>
     </message>
     <message>
-        <location filename="../src/table_model.cpp" line="495"/>
+        <location filename="../src/table_model.cpp" line="496"/>
         <source>Invalid date in candidate row</source>
         <translation>Date invalide dans la ligne candidate</translation>
     </message>
     <message>
-        <location filename="../src/table_model.cpp" line="509"/>
+        <location filename="../src/table_model.cpp" line="510"/>
         <source>Multiple transactions in candidate row</source>
         <translation>Plusieurs transactions dans la ligne candidate</translation>
     </message>
     <message>
-        <location filename="../src/table_model.cpp" line="515"/>
+        <location filename="../src/table_model.cpp" line="516"/>
         <source>No transaction amount in candidate row</source>
         <translation>Aucun montant de transaction dans la ligne candidate</translation>
     </message>
     <message>
-        <location filename="../src/table_model.cpp" line="549"/>
+        <location filename="../src/table_model.cpp" line="550"/>
         <source>Found possible duplicate row #%1</source>
         <translation>Doublon possible trouvé à la ligne n°%1</translation>
     </message>
@@ -490,32 +490,37 @@ Dépenses : %3</translation>
         <translation>Ouvrir dans l’éditeur par défaut</translation>
     </message>
     <message>
-        <location filename="../qml/main.qml" line="74"/>
+        <location filename="../qml/main.qml" line="75"/>
+        <source>Rows Sort Order</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../qml/main.qml" line="85"/>
         <source>About...</source>
         <translation>À propos…</translation>
     </message>
     <message>
-        <location filename="../qml/main.qml" line="89"/>
+        <location filename="../qml/main.qml" line="100"/>
         <source>Question</source>
         <translation>Question</translation>
     </message>
     <message>
-        <location filename="../qml/main.qml" line="90"/>
+        <location filename="../qml/main.qml" line="101"/>
         <source>Create new ledger </source>
         <translation>Créer un nouveau registre </translation>
     </message>
     <message>
-        <location filename="../qml/main.qml" line="100"/>
+        <location filename="../qml/main.qml" line="111"/>
         <source>New CSV File...</source>
         <translation>Nouveau fichier CSV…</translation>
     </message>
     <message>
-        <location filename="../qml/main.qml" line="117"/>
+        <location filename="../qml/main.qml" line="128"/>
         <source>Table</source>
         <translation>Tableau</translation>
     </message>
     <message>
-        <location filename="../qml/main.qml" line="121"/>
+        <location filename="../qml/main.qml" line="132"/>
         <source>Chart</source>
         <translation>Graphique</translation>
     </message>
@@ -524,17 +529,17 @@ Dépenses : %3</translation>
         <translation type="vanished">Cliquez pour ouvrir dans l&apos;éditeur par défaut</translation>
     </message>
     <message>
-        <location filename="../qml/main.qml" line="180"/>
+        <location filename="../qml/main.qml" line="191"/>
         <source>Error</source>
         <translation>Erreur</translation>
     </message>
     <message>
-        <location filename="../qml/main.qml" line="180"/>
+        <location filename="../qml/main.qml" line="191"/>
         <source>Warning</source>
         <translation>Avertissement</translation>
     </message>
     <message>
-        <location filename="../qml/main.qml" line="235"/>
+        <location filename="../qml/main.qml" line="246"/>
         <source>Select File</source>
         <translation>Sélectionner le fichier</translation>
     </message>
