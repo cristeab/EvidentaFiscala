@@ -141,24 +141,19 @@ Dialog {
                         spacing: 6
                         Label { text: "🤖"; font.pixelSize: 18 }
                         Label {
-                            text: qsTr("Claude Tax Assistant")
+                            text: qsTr("Claude Tax Assistant Skill")
                             font.bold: true
-                        }
-                        Label {
-                            text: qsTr("(coming soon)")
-                            font.italic: true
-                            font.pixelSize: 11
                         }
                     }
 
                     Label {
                         Layout.fillWidth: true
                         wrapMode: Text.WordWrap
-                        text: qsTr("Connect your FiscalRecords ledger to a Claude AI skill to automatically estimate your taxes, spot deductions, and generate a tax preparation summary.")
+                        text: qsTr("Install the skill in your preferred AI assistant (e.g. Anthropic Claude) to automatically estimate your taxes, spot deductions, and generate a tax preparation summary.")
                     }
 
                     Label {
-                        text: "<a href='https://github.com/cristeab/EvidentaFiscala/wiki/claude-skill'>"
+                        text: "<a href='https://github.com/cristeab/EvidentaFiscala/wiki/Claude-Skill'>"
                               + qsTr("Learn more") + "</a>"
                         onLinkActivated: (link) => Qt.openUrlExternally(link)
                         linkColor: palette.highlight
