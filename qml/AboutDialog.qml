@@ -156,7 +156,7 @@ Dialog {
                         text: "<a href='https://github.com/cristeab/EvidentaFiscala/wiki/Claude-Skill'>"
                               + qsTr("Learn more") + "</a>"
                         onLinkActivated: (link) => Qt.openUrlExternally(link)
-                        linkColor: palette.highlight
+                        linkColor: palette.link
                     }
                 }
             }

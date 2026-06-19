@@ -65,26 +65,33 @@
     </message>
     <message>
         <location filename="../qml/AboutDialog.qml" line="144"/>
-        <source>Claude Tax Assistant</source>
-        <translation>Assistant fiscal Claude</translation>
+        <source>Claude Tax Assistant Skill</source>
+        <translation>Compétence Assistant fiscal Claude</translation>
     </message>
     <message>
-        <location filename="../qml/AboutDialog.qml" line="148"/>
+        <location filename="../qml/AboutDialog.qml" line="152"/>
+        <source>Install the skill in your preferred AI assistant (e.g. Anthropic Claude) to automatically estimate your taxes, spot deductions, and generate a tax preparation summary.</source>
+        <translation>Installez la compétence dans votre assistant IA préféré (par ex. Anthropic Claude) pour estimer automatiquement vos impôts, repérer les déductions et générer un résumé de préparation fiscale.</translation>
+    </message>
+    <message>
+        <source>Claude Tax Assistant</source>
+        <translation type="vanished">Assistant fiscal Claude</translation>
+    </message>
+    <message>
         <source>(coming soon)</source>
-        <translation>(bientôt disponible)</translation>
+        <translation type="vanished">(bientôt disponible)</translation>
+    </message>
+    <message>
+        <source>Connect your FiscalRecords ledger to a Claude AI skill to automatically estimate your taxes, spot deductions, and generate a tax preparation summary.</source>
+        <translation type="vanished">Connectez votre registre FiscalRecords à une compétence IA Claude pour estimer automatiquement vos impôts, détecter les déductions et générer un résumé de préparation fiscale.</translation>
     </message>
     <message>
         <location filename="../qml/AboutDialog.qml" line="157"/>
-        <source>Connect your FiscalRecords ledger to a Claude AI skill to automatically estimate your taxes, spot deductions, and generate a tax preparation summary.</source>
-        <translation>Connectez votre registre FiscalRecords à une compétence IA Claude pour estimer automatiquement vos impôts, détecter les déductions et générer un résumé de préparation fiscale.</translation>
-    </message>
-    <message>
-        <location filename="../qml/AboutDialog.qml" line="162"/>
         <source>Learn more</source>
         <translation>En savoir plus</translation>
     </message>
     <message>
-        <location filename="../qml/AboutDialog.qml" line="172"/>
+        <location filename="../qml/AboutDialog.qml" line="167"/>
         <source>Released under the LGPL License</source>
         <translation>Publié sous licence LGPL</translation>
     </message>

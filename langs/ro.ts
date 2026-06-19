@@ -65,26 +65,33 @@
     </message>
     <message>
         <location filename="../qml/AboutDialog.qml" line="144"/>
-        <source>Claude Tax Assistant</source>
-        <translation>Asistent fiscal Claude</translation>
+        <source>Claude Tax Assistant Skill</source>
+        <translation>Abilitate pentru Asistentul de Taxe Claude</translation>
     </message>
     <message>
-        <location filename="../qml/AboutDialog.qml" line="148"/>
+        <location filename="../qml/AboutDialog.qml" line="152"/>
+        <source>Install the skill in your preferred AI assistant (e.g. Anthropic Claude) to automatically estimate your taxes, spot deductions, and generate a tax preparation summary.</source>
+        <translation>Instalează această abilitate în asistentul tău AI preferat (de ex. Anthropic Claude) pentru a-ți estima automat impozitele, a identifica deducerile și a genera un rezumat pentru pregătirea declarației fiscale.</translation>
+    </message>
+    <message>
+        <source>Claude Tax Assistant</source>
+        <translation type="vanished">Asistent fiscal Claude</translation>
+    </message>
+    <message>
         <source>(coming soon)</source>
-        <translation>(disponibil în curând)</translation>
+        <translation type="vanished">(disponibil în curând)</translation>
+    </message>
+    <message>
+        <source>Connect your FiscalRecords ledger to a Claude AI skill to automatically estimate your taxes, spot deductions, and generate a tax preparation summary.</source>
+        <translation type="vanished">Conectează registrul FiscalRecords la o funcție Claude AI pentru a estima automat impozitele, a identifica deduceri și a genera un rezumat pentru pregătirea declarației fiscale.</translation>
     </message>
     <message>
         <location filename="../qml/AboutDialog.qml" line="157"/>
-        <source>Connect your FiscalRecords ledger to a Claude AI skill to automatically estimate your taxes, spot deductions, and generate a tax preparation summary.</source>
-        <translation>Conectează registrul FiscalRecords la o funcție Claude AI pentru a estima automat impozitele, a identifica deduceri și a genera un rezumat pentru pregătirea declarației fiscale.</translation>
-    </message>
-    <message>
-        <location filename="../qml/AboutDialog.qml" line="162"/>
         <source>Learn more</source>
         <translation>Află mai multe</translation>
     </message>
     <message>
-        <location filename="../qml/AboutDialog.qml" line="172"/>
+        <location filename="../qml/AboutDialog.qml" line="167"/>
         <source>Released under the LGPL License</source>
         <translation>Publicat sub licența LGPL</translation>
     </message>
